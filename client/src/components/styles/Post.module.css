@@ -1,0 +1,10 @@
+.post-container{
+  display:flex;
+  flex-direction:column; 
+}
+
+.button-row,.voting-container{
+  display:flex;
+  flex-direction: row;
+  align-items:start;
+}
