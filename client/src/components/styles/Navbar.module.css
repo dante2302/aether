@@ -1,0 +1,16 @@
+.nav-container{
+  position:fixed;
+  display:flex;
+  width:85%;
+  height: fit-content;
+  padding:1rem;
+  padding-top:4em;
+}
+
+.icon-container{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content: center;
+  gap:8px;
+}
