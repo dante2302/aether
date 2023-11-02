@@ -1,24 +1,24 @@
-import './styles/Modal.css'
+import styles from './styles/Modal.module.css'
 
 const Modal = ({toggleModal}) => {
   return (
 
-    <div className = 'modal'>
-      <div className='overlay' onClick={toggleModal}>
+    <div className = {styles['modal']}>
+      <div className={styles['overlay']} onClick={toggleModal}>
       </div>
-      <div className='content'>
+      <div className={styles['content']}>
         <h2>Log In</h2>
         <p>By continuing you agree to our <a>User Agreement </a>  
          and acknowledge that you understand our <a>Privacy Policy</a>.</p>
         <form>
-          <input type='search' />
-          <input type='password'/>
+          <input type={styles['search']}/>
+          <input type={styles['password']}/>
         </form>
         <button>Continue with Google</button>
         <h6>New to Aether?<span>Sign Up</span></h6>
-        <button type='submit'>Log In</button>
+        <button type={styles['submit']}>Log In</button>
       </div>
-        <button className='close-btn' onClick={toggleModal}>X</button>
+        <button className={styles['close-btn']}onClick={toggleModal}>X</button>
     </div>
 
   )
