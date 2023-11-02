@@ -1,5 +1,4 @@
 import { BookA } from 'lucide-react'
-import LogInButton from './LogInButton'
 import styles from './styles/Navbar.module.css'
 
 const NavBar = ({isLogged, setLogged, toggleModal}) => {
@@ -11,10 +10,9 @@ const NavBar = ({isLogged, setLogged, toggleModal}) => {
         <BookA size={48}/>
       </div>
       {/* search bar */}
-      {!isLogged&&
-        <LogInButton toggleModal={toggleModal}
-        />
-      }
+
+      <button className={styles['.log-in-btn']}onClick={toggleModal}>Log In</button>
+
       {/*isLogged 
         ? 
 

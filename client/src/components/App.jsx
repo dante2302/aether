@@ -1,5 +1,4 @@
 import NavBar from './NavBar'
-import LogInButton from './LogInButton'
 import Modal from './Modal.jsx'
 import { useState } from 'react'
 const App = () => {
