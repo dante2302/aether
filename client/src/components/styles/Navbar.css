@@ -7,10 +7,11 @@
   padding-top:4em;
 }
 
-.icon-container{
+.logo-container{
   display:flex;
   flex-direction:row;
   align-items:center;
   justify-content: center;
   gap:8px;
+  cursor:pointer
 }

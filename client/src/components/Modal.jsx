@@ -2,15 +2,25 @@ import './styles/Modal.css'
 
 const Modal = ({toggleModal}) => {
   return (
+
     <div className = 'modal'>
       <div className='overlay' onClick={toggleModal}>
       </div>
       <div className='content'>
-        <h1>ASD</h1>
-        <p>Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.</p>
-        <button onClick={toggleModal}>X</button>
+        <h2>Log In</h2>
+        <p>By continuing you agree to our <a>User Agreement </a>  
+         and acknowledge that you understand our <a>Privacy Policy</a>.</p>
+        <form>
+          <input type='search' />
+          <input type='password'/>
+        </form>
+        <button>Continue with Google</button>
+        <h6>New to Aether?<span>Sign Up</span></h6>
+        <button type='submit'>Log In</button>
       </div>
+        <button className='close-btn' onClick={toggleModal}>X</button>
     </div>
+
   )
 }
 

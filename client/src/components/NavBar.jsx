@@ -1,13 +1,13 @@
-import styles from './styles/Navbar.module.css'
 import { BookA } from 'lucide-react'
 import LogInButton from './LogInButton'
+import './styles/Navbar.css'
 
 const NavBar = ({isLogged, setLogged, toggleModal}) => {
   
   return(
-    <div className={styles["nav-container"]}>
-      <div className={styles["icon-container"]}>
-        <p>Aether</p>
+    <div className="nav-container">
+      <div className="logo-container">
+        <img src="../../public/images/logo-text.jpeg" alt="aether"/>
         <BookA size={48}/>
       </div>
       {/* search bar */}
