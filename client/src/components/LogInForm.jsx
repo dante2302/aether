@@ -1,18 +1,73 @@
-
-import {useState} from 'react'
+import { useState } from 'react'
+import * as userApi from './apis/userApi.js'
 import styles from './styles/LogInForm.module.css'
 
 const LogInForm = () => {
 
+  const initialFormState = {
+    username: '',
+    password: '',
+  }
+
+  const [formState,setFormState] = useState(initialFormState)
+  const [shownPassword,setShownPassword] = useState(false)
+
+  const changeHandler = (e) => {
+    setFormState(state => ({
+      ...state,[e.target.name]:`${e.target.value}`
+    }))
+  }
+  
+  const submitHandler = async (e,id) => {
+    e.preventDefault()
+    const data = await userApi.getUser(id)
+    console.table(data)
+  }
+  
+  const showPasswordHandler = (e) => {
+  }
   return(
     <>
       <form className={styles['input-form']}>
-        <input className={styles['username']}/>
-        <input className={styles['password']}/>
+        <div className={styles['input-container']}>
+          <input 
+            type='text'
+            id='username'
+            name='username'
+            value={formState.username}
+            onChange={(e) => {
+              changeHandler(e)
+            }}
+            className={styles['username']}
+        />
+          {!formState.username&&<label htmlFor='username'>Username</label>}
+        </div>
+        <div className={styles['input-container']}>
+          <input 
+            type={shownPassword?'text':'password'}
+            id='password'
+            name='password'
+            value={formState.password}
+            onChange={(e) => {
+              e.preventDefault()
+              changeHandler(e)}}
+            className={styles['password']}
+            // onBlur = {validateInout}
+          />
+          {!formState.password
+            ?
+            <label htmlFor='password'>Password</label>
+            :
+            <button type='button' onClick={() => setShownPassword(!shownPassword) }>Show Password</button>
+          }
+          
+        </div>
+        <p className={styles['link']}>Sign Up</p>
 
-        <h6>New to Aether?<span className={styles['link']}>Sign Up</span></h6>
-
-        <button type={styles['submit']} className={styles['log-in-btn']}>Log In</button>
+        <button 
+          className={styles['log-in-btn']}
+          onClick={(e) => submitHandler(e,id)}
+        >Log In</button>
 
       </form>
     </>

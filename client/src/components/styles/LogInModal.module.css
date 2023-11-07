@@ -11,7 +11,7 @@
 }
 
 .content{
-    width:35%;
+    width:45%;
     padding:.8em;
     border-radius:7px;
     position:absolute;
@@ -23,6 +23,12 @@
     align-items:start;
     justify-content:center;
     background: white;
+}
+
+@media(max-width:800px){
+  .content{
+    width:70%;
+  }
 }
 
 .close-btn-wrap{

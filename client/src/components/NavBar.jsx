@@ -1,18 +1,20 @@
 
-import { BookA } from 'lucide-react'
 import styles from './styles/Navbar.module.css'
 import { useState } from 'react'
 import LogInModal from './LogInModal'
+
 const NavBar = ({isLogged,setLogged}) => {
   const [modal,setModal] = useState(false)
+
   const toggleModal = () => {
     setModal(!modal)
   } 
+
   return(
     <div className={styles["nav-container"]}>
       <div className={styles["logo-container"]}>
-        <img src="../../public/images/logo-text.jpeg" alt="aether"/>
-        <BookA size={48}/>
+        {// <img src="../../public/images/logo-text.jpeg" alt="aether"/>
+        }
       </div>
       {/* search bar */}
 

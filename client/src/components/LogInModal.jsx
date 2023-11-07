@@ -1,6 +1,5 @@
 
-import styles from './styles/Modal.module.css'
-import { XIcon } from 'lucide-react'
+import styles from './styles/LogInModal.module.css'
 import LogInForm from './LogInForm.jsx'
 
 const Modal = ({isLogged,setIsLogged,toggleModal}) => {
@@ -12,7 +11,7 @@ const Modal = ({isLogged,setIsLogged,toggleModal}) => {
       <div className={styles['content']}>
         <div className={styles['close-btn-wrap']}>
           <button className={styles['close-btn']}onClick={toggleModal}>
-            <XIcon size={16}/>
+            a
           </button>
         </div>
         <div className={styles['inner-content']}>
