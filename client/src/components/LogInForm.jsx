@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import * as userApi from './apis/userApi.js'
 import styles from './styles/LogInForm.module.css'
 
@@ -8,9 +8,13 @@ const LogInForm = () => {
     username: '',
     password: '',
   }
-
   const [formState,setFormState] = useState(initialFormState)
   const [shownPassword,setShownPassword] = useState(false)
+  const [isDisabled,setDisabled] = useState(true)
+
+  useEffect(() => {
+    (formState.name===''||formState.password==='')?setDisabled(true):setDisabled(false)
+  },[formState])
 
   const changeHandler = (e) => {
     setFormState(state => ({
@@ -19,13 +23,12 @@ const LogInForm = () => {
   }
   
   const submitHandler = async (e,id) => {
+    setDisabled(true)
     e.preventDefault()
     const data = await userApi.getUser(id)
     console.table(data)
   }
   
-  const showPasswordHandler = (e) => {
-  }
   return(
     <>
       <form className={styles['input-form']}>
@@ -63,10 +66,10 @@ const LogInForm = () => {
           
         </div>
         <p className={styles['link']}>Sign Up</p>
-
         <button 
-          className={styles['log-in-btn']}
-          onClick={(e) => submitHandler(e,id)}
+          onClick={(e) => submitHandler(e,123)}
+          disabled={isDisabled}
+          className={`${styles['log-in-btn']} ${!isDisabled && styles['enabled']}`}
         >Log In</button>
 
       </form>

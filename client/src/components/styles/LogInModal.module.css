@@ -11,8 +11,8 @@
 }
 
 .content{
-    width:45%;
-    padding:.8em;
+    width:70%;
+    padding:2em;
     border-radius:7px;
     position:absolute;
     top:50%;
@@ -24,13 +24,11 @@
     justify-content:center;
     background: white;
 }
-
-@media(max-width:800px){
+@media(min-width:800px){
   .content{
-    width:70%;
+    width:45%;
   }
 }
-
 .close-btn-wrap{
   display:flex;
   width:100%;
@@ -52,7 +50,7 @@
     flex-direction:column;
     justify-content:center;
     align-items:center;
-    padding:1.5em;
+    padding:2em;
     padding-top:0;
 }
 
@@ -76,13 +74,15 @@
 }
 
 .google-btn{
+  border-radius:15px;
+  border: 1px solid grey;
   display:flex;
   cursor:pointer;
   padding:.5em;
   flex-direction:row;
   align-items:center;
   justify-content:center;
-  width:80%;
+  width:60%;
   background-color:white;
   color:black;
   margin:1em;

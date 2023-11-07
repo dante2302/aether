@@ -44,8 +44,8 @@
   outline: 1px solid rgb(120,245,250)  
 }
 
-.username,.password,.google-btn,.log-in-btn{
-  border-radius:10px;
+.username,.password,.log-in-btn{
+  border-radius:15px;
 }
 
 .close-btn:hover,
@@ -57,11 +57,11 @@
 .log-in-btn{
   /* font-size:1rem; */
   width:60%;
-  cursor:pointer;
   background-color:rgb(100,245,250);
 }
 
-.log-in-btn:hover{
+.log-in-btn.enabled:hover{
+  cursor:pointer;
   color:rgb(15,15,15);
   background-color:rgb(23,201,231)
 }
