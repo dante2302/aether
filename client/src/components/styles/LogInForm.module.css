@@ -1,0 +1,40 @@
+
+.input-form{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+}
+
+.username,.password,.log-in-btn{
+  margin-bottom:1em;
+  padding:1em;
+  border:none;
+  width:90%;
+  background:rgb(235,235,235)
+}
+
+.username:focus,.password:focus{
+  outline: 1.5px solid rgb(255,23,47) 
+}
+
+.username,.password,.google-btn,.log-in-btn{
+  border-radius:10px;
+}
+
+.close-btn:hover,
+.username:hover,
+.password:hover{
+  background-color:rgb(215,215,215);
+}
+
+.log-in-btn{
+  cursor:pointer;
+  background-color:rgb(100,245,250);
+}
+
+.log-in-btn:hover{
+  color:rgb(15,15,15);
+  background-color:rgb(23,201,231)
+}

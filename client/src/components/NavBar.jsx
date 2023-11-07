@@ -1,8 +1,13 @@
+
 import { BookA } from 'lucide-react'
 import styles from './styles/Navbar.module.css'
-
-const NavBar = ({isLogged, setLogged, toggleModal}) => {
-  
+import { useState } from 'react'
+import LogInModal from './LogInModal'
+const NavBar = ({isLogged,setLogged}) => {
+  const [modal,setModal] = useState(false)
+  const toggleModal = () => {
+    setModal(!modal)
+  } 
   return(
     <div className={styles["nav-container"]}>
       <div className={styles["logo-container"]}>
@@ -22,6 +27,13 @@ const NavBar = ({isLogged, setLogged, toggleModal}) => {
 
         <LogInButton />
       */}
+      {modal&&<LogInModal 
+
+        isLogged={isLogged} 
+        setLogged={setLogged} 
+        toggleModal={toggleModal}
+
+      />}
     </div>
   )
 

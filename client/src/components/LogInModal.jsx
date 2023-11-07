@@ -1,6 +1,9 @@
+
 import styles from './styles/Modal.module.css'
 import { XIcon } from 'lucide-react'
-const Modal = ({toggleModal}) => {
+import LogInForm from './LogInForm.jsx'
+
+const Modal = ({isLogged,setIsLogged,toggleModal}) => {
   return (
 
     <div className = {styles['modal']}>
@@ -24,15 +27,8 @@ const Modal = ({toggleModal}) => {
             <div className={styles['google-text']}>Continue with Google</div>
           </button>
 
-          <form className={styles['input-form']}>
-            <input className={styles['username']}/>
-            <input className={styles['password']}/>
+          <LogInForm isLogged={isLogged} setIsLogged={setIsLogged} />
 
-          <h6>New to Aether?<span className={styles['link']}>Sign Up</span></h6>
-
-          <button type={styles['submit']} className={styles['log-in-btn']}>Log In</button>
-
-          </form>
         </div>
       </div>
     </div>
