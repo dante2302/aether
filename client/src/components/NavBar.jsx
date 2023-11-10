@@ -1,13 +1,13 @@
 
 import styles from './styles/Navbar.module.css'
 import { useState } from 'react'
-import LogInModal from './LogInModal'
+import UserModal from './UserModal/UserModal.jsx'
 
-const NavBar = ({isLogged,setLogged}) => {
-  const [modal,setModal] = useState(false)
+const NavBar = ({userData,setUserData,isLogged,setLogged}) => {
+  const [userModal,setUserModal] = useState(false)
 
-  const toggleModal = () => {
-    setModal(!modal)
+  const toggleUserModal = () => {
+    setUserModal(!userModal)
   } 
 
   return(
@@ -18,22 +18,21 @@ const NavBar = ({isLogged,setLogged}) => {
       </div>
       {/* search bar */}
 
-      <button className={styles['.log-in-btn']}onClick={toggleModal}>Log In</button>
+      {
+        isLogged
+        ?
+        <>
+            <p>{userData.email}</p>
+        </>
+        :
+        <button className={styles['.log-in-btn']}onClick={toggleUserModal}>Log In</button>
+      }
 
-      {/*isLogged 
-        ? 
-
-        <Account /> 
-
-        : 
-
-        <LogInButton />
-      */}
-      {modal&&<LogInModal 
-
-        isLogged={isLogged} 
+      {userModal&&<UserModal
+        setUserData={setUserData}
         setLogged={setLogged} 
-        toggleModal={toggleModal}
+        toggleUserModal={toggleUserModal}
+        modalMode={'logIn'}
 
       />}
     </div>

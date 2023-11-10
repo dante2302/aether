@@ -1,34 +1,38 @@
-const baseUrl = 'http://localhost:3030/users/login'
+const baseUrl = 'http://localhost:3030/users'
 
-export const getUser = async (id) => {
-  const email = 'admin@abv.bg'
-  const password = 'admin'
+export const logIn = async (email,password) => {
   try{
-    let data = await fetch(baseUrl,{
+    let response = await fetch(`${baseUrl}/login`,{
       'method':'POST',
       'body': JSON.stringify({
-      'email': `${email}`,
-      'password': `${password}`})
-    })
-    data = await data.json()
+        email,
+        password
+    })})
+    // if(!response.ok){
+    //   throw(new Error())
+    // }
+    let data = await response.json()
     return data
   }
   catch(err){
-    console.log(err)
+    alert(err)
   }
 }
-export const makeUser = async () => {
+
+export const signUp = async (email,password,username) => {
   try{
-    let data = await fetch(baseUrl,{
-      method: "POST",
-      headers: {
-        "Content-Type": 'application/json',
-        'X-Admin': ''
-      }
-    }
-    )
+    const response = await fetch(`${baseUrl}/register`,{
+      'method': 'POST',
+      'body': JSON.stringify({
+        email,
+        password,
+        username,
+      })})
+    let data = await response.json()
+    return data
   }
-  catch(err){
-    console.log(err)
+  catch(error){
+    alert(error)
   }
 }
+  

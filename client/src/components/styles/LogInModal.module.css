@@ -50,13 +50,14 @@
     flex-direction:column;
     justify-content:center;
     align-items:center;
-    padding:2em;
+    padding:3em;
     padding-top:0;
 }
 
 .user-policy-text{
   margin-top:.5em;
   margin-bottom:1em;
+  text-align:center;
 }
 
 .link{

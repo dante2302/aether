@@ -1,22 +1,29 @@
-
+import { useState } from 'react'
 import styles from './styles/LogInModal.module.css'
 import LogInForm from './LogInForm.jsx'
+import SignUpForm from './SignUpForm'
 
-const Modal = ({isLogged,setIsLogged,toggleModal}) => {
+const Modal = ({setUserData,setLogged,toggleUserModal,modalMode}) => {
+  const [currentMode,setCurrentMode] = useState(modalMode)
   return (
 
     <div className = {styles['modal']}>
-      <div className={styles['overlay']} onClick={toggleModal}>
+      <div className={styles['overlay']} onClick={toggleUserModal}>
       </div>
       <div className={styles['content']}>
         <div className={styles['close-btn-wrap']}>
-          <button className={styles['close-btn']}onClick={toggleModal}>
+          <button className={styles['close-btn']}onClick={toggleUserModal}>
             a
           </button>
         </div>
         <div className={styles['inner-content']}>
 
-          <h2>Log In</h2>
+          {currentMode === 'logIn'&&
+            <h2>Log In </h2>
+          }
+          {currentMode === 'signUp' &&
+            <h2>Sign Up</h2>
+          }
 
           <p className={styles["user-policy-text"]}>By continuing you agree to our <a className={styles['link']}>User Agreement </a>  
             and acknowledge that you understand our <a className={styles['link']}>Privacy Policy</a>.</p>
@@ -26,8 +33,12 @@ const Modal = ({isLogged,setIsLogged,toggleModal}) => {
             <div className={styles['google-text']}>Continue with Google</div>
           </button>
 
-          <LogInForm isLogged={isLogged} setIsLogged={setIsLogged} />
-
+          { currentMode === 'logIn'&&
+            <LogInForm setUserData={setUserData} setLogged={setLogged} toggleUserModal={toggleUserModal} setCurrentMode={setCurrentMode}/>}
+          {
+            currentMode === 'signUp'&&
+            <SignUpForm setUserData={setUserData} setLogged={setLogged} toggleUserModal={toggleUserModal} setCurrentMode={setCurrentMode}/>
+          }
         </div>
       </div>
     </div>

@@ -1,13 +1,15 @@
-import { useState, useRef, useEffect } from 'react'
-import * as userApi from './apis/userApi.js'
-import styles from './styles/LogInForm.module.css'
+import { useState, useEffect } from 'react'
+import * as userApi from '../apis/userApi.js'
+import styles from '../styles/LogInForm.module.css'
+import * as formUtils from '../utils/formUtils.js'
 
-const LogInForm = () => {
+const LogInForm = ({setUserData,toggleUserModal,setLogged,setCurrentMode}) => {
 
   const initialFormState = {
     username: '',
     password: '',
   }
+
   const [formState,setFormState] = useState(initialFormState)
   const [shownPassword,setShownPassword] = useState(false)
   const [isDisabled,setDisabled] = useState(true)
@@ -16,17 +18,20 @@ const LogInForm = () => {
     (formState.name===''||formState.password==='')?setDisabled(true):setDisabled(false)
   },[formState])
 
-  const changeHandler = (e) => {
-    setFormState(state => ({
-      ...state,[e.target.name]:`${e.target.value}`
-    }))
-  }
   
-  const submitHandler = async (e,id) => {
+  const submitHandler = async (e,email,password) => {
     setDisabled(true)
     e.preventDefault()
-    const data = await userApi.getUser(id)
-    console.table(data)
+
+    try{
+      const data = await userApi.logIn(email,password)
+      setUserData(data)
+      setLogged(true)
+      toggleUserModal(false)
+    }
+    catch(error){
+      alert(error)
+    }
   }
   
   return(
@@ -39,12 +44,13 @@ const LogInForm = () => {
             name='username'
             value={formState.username}
             onChange={(e) => {
-              changeHandler(e)
+              formUtils.changeHandler(e,setFormState)
             }}
             className={styles['username']}
         />
           {!formState.username&&<label htmlFor='username'>Username</label>}
         </div>
+
         <div className={styles['input-container']}>
           <input 
             type={shownPassword?'text':'password'}
@@ -53,10 +59,11 @@ const LogInForm = () => {
             value={formState.password}
             onChange={(e) => {
               e.preventDefault()
-              changeHandler(e)}}
+              formUtils.changeHandler(e,setFormState)}}
             className={styles['password']}
             // onBlur = {validateInout}
           />
+
           {!formState.password
             ?
             <label htmlFor='password'>Password</label>
@@ -65,13 +72,15 @@ const LogInForm = () => {
           }
           
         </div>
-        <p className={styles['link']}>Sign Up</p>
+
         <button 
-          onClick={(e) => submitHandler(e,123)}
+          onClick={(e) => submitHandler(e,formState.username,formState.password)}
           disabled={isDisabled}
           className={`${styles['log-in-btn']} ${!isDisabled && styles['enabled']}`}
         >Log In</button>
 
+        <p className={styles['link']}>New to Aether? </p>
+        <button onClick={()=>setCurrentMode('signUp')}>Sign Up</button>
       </form>
     </>
   )
