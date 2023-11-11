@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import styles from '../styles/SignUpForm.module.css'
+import styles from './styles/SignUpForm.module.css'
 import * as userApi from '../apis/userApi.js'
 const SignUpForm = ({setUserData,toggleUserModal,setLogged,setCurrentMode}) => {
 
@@ -70,17 +70,6 @@ const SignUpForm = ({setUserData,toggleUserModal,setLogged,setCurrentMode}) => {
             className={styles['password']}
             // onBlur = {validateInout}
           />
-        </div>
-        <div className={styles['input-container']}>
-          <input 
-            type={shownPassword?'text':'password'}
-            id='password-copy'
-            value={formState.passwordCopy}
-            onChange={(e) => changeHandler(e)}
-            className={styles['password']}
-            // onBlur = {validateInout}
-          />
-
           {!formState.password
             ?
             <label htmlFor='password'>Password</label>
@@ -88,6 +77,18 @@ const SignUpForm = ({setUserData,toggleUserModal,setLogged,setCurrentMode}) => {
             <button type='button' onClick={() => setShownPassword(!shownPassword) }>Show Password</button>
           }
           
+        </div>
+        <div className={styles['input-container']}>
+          <input 
+            type={shownPassword?'text':'password'}
+            id='password-copy'
+            name='passwordCopy'
+            value={formState.passwordCopy}
+            onChange={(e) => changeHandler(e)}
+            className={styles['password']}
+            // onBlur = {validateInout}
+          />
+
         </div>
 
         <button 

@@ -1,19 +1,29 @@
+import { useState } from "react"
+import styles from './styles/ChannelCreationForm.module.css'
+import * as formUtils from '../utils/formUtils.js'
+import * as channelApi from '../apis/channelApi.js'
+import { useNavigate } from "react-router-dom"
 
-const ChannelForm = (userData) => {
-  initialFormState = {
+const ChannelCreationForm = ({userData,toggleChannelModal}) => {
+  const navigate = useNavigate()
+  const initialFormState = {
     'name': '',
-    
+    'description': ''
   }
 
-  const submitHandler = (e,formState,userData) => {
+  const [formState,setFormState] = useState(initialFormState)
+
+  const submitHandler = async (e,formState,userData) => {
     e.preventDefault()
-    channelApi.createChannel({
+    const response = await channelApi.createChannel({
       accessToken: userData.accessToken,
-      id: userData._id,
+      userId: userData._id,
       name: formState.name,
       description: formState.description
     })
+    navigate(`/r/${formState.name}`,{state:{channelName:response.name}})
   }
+
   return (
     <form onSubmit={(e) => submitHandler(e,formState,userData)}>
 
@@ -39,4 +49,4 @@ const ChannelForm = (userData) => {
   )
 }
 
-export default ChannelForm
+export default ChannelCreationForm

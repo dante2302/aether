@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import styles from './styles/LogInModal.module.css'
+import styles from './styles/UserModal.module.css'
 import LogInForm from './LogInForm.jsx'
 import SignUpForm from './SignUpForm'
 
@@ -7,8 +7,8 @@ const Modal = ({setUserData,setLogged,toggleUserModal,modalMode}) => {
   const [currentMode,setCurrentMode] = useState(modalMode)
   return (
 
-    <div className = {styles['modal']}>
-      <div className={styles['overlay']} onClick={toggleUserModal}>
+    <div className='modal'>
+      <div className='overlay' onClick={toggleUserModal}>
       </div>
       <div className={styles['content']}>
         <div className={styles['close-btn-wrap']}>

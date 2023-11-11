@@ -1,24 +1,32 @@
 import NavBar from './NavBar'
 import { useState } from 'react'
-import HomeSidebar from './HomeSidebar'
+import { Routes, Route} from 'react-router-dom'
+import ChannelPage from './Channel/ChannelPage'
+import HomeSidebar from './HomeSidebar.jsx'
 
 const App = () => {
-    
   const [isLogged,setLogged] = useState(false)  
   const [userData,setUserData] = useState({})
-
   return (
     <>
-      <div>
         <NavBar 
           userData={userData}
           setUserData={setUserData}
           isLogged={isLogged} 
           setLogged={setLogged}
         />
-      </div>
-
-      <HomeSidebar />
+        
+      <Routes>
+        <Route path={`r/:name`} element={
+          <ChannelPage 
+            userData={userData} 
+            isLogged={isLogged}
+          />}
+        />
+        <Route path='/' element={
+          isLogged&&
+          <HomeSidebar userData={userData} />}/>
+      </Routes>
     </>
   )
 }

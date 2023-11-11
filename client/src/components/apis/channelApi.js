@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:3030/data/communities'
+const baseUrl = 'http://localhost:3030/data/channels'
 
 export const createChannel = async ({accessToken,userId,name,description}) => {
   try{
@@ -11,19 +11,43 @@ export const createChannel = async ({accessToken,userId,name,description}) => {
       'body':JSON.stringify({
         name,
         description,
-        members:[],
+        creator:userId,
+        members:[userId],
         memberCount: 1,
         posts:[]
-        // recentPosts:[]
       }),
       'mode': 'cors'
     })
-
+    const data = await response
     return data.json() 
   }
   catch(error){
     alert(error)
   }
+}
+
+export const updateChannelData = async ({accessToken,userId}) => {
+
+}
+
+const getChannelData = async (channelId) => {
+  const response = await fetch(`${baseUrl}/${channelId}`,{method: 'GET'}) 
+  return await response.json()
+}
+
+const getChannelCount = async () => {
+  const response = await fetch(`${baseUrl}?count`,{
+    method: 'GET'
+  })
+  return await response.json()
+}
+
+export const getChannelDataByName = async (name) => {
+  const response = await fetch(`${baseUrl}?where=name%3D%22${name}%22`,{
+    method: 'GET'
+  })
+  const data = await response.json()
+  return data
 }
 
 

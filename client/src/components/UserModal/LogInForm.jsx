@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import * as userApi from '../apis/userApi.js'
-import styles from '../styles/LogInForm.module.css'
+import styles from './styles/LogInForm.module.css'
 import * as formUtils from '../utils/formUtils.js'
 
 const LogInForm = ({setUserData,toggleUserModal,setLogged,setCurrentMode}) => {
