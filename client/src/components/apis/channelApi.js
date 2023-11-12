@@ -27,7 +27,7 @@ export const createChannel = async ({accessToken,userId,name,description}) => {
 }
 
 export const updateChannelData = async ({accessToken,userId}) => {
-
+  
 }
 
 const getChannelData = async (channelId) => {

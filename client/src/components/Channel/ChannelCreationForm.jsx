@@ -13,7 +13,7 @@ const ChannelCreationForm = ({userData,toggleChannelModal}) => {
 
   const [formState,setFormState] = useState(initialFormState)
 
-  const submitHandler = async (e,formState,userData) => {
+  const submitHandler = async (e) => {
     e.preventDefault()
     const response = await channelApi.createChannel({
       accessToken: userData.accessToken,
@@ -25,7 +25,7 @@ const ChannelCreationForm = ({userData,toggleChannelModal}) => {
   }
 
   return (
-    <form onSubmit={(e) => submitHandler(e,formState,userData)}>
+    <form onSubmit={(e) => submitHandler(e)}>
 
       <input 
         type='text'

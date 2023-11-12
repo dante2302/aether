@@ -1,17 +1,26 @@
-const baseUrl = 'http://localhost:3030/data/:popular'
+const baseUrl = 'http://localhost:3030/data/posts'
 
-export const createPost = async (accessToken, setPosts) => {
+export const createPost = async ({accessToken,_id},{title,text}) => {
   try{
-    let response = await fetch(baseUrl,{
+    let response = await fetch(`${baseUrl}`,{
+      'method': 'POST',
+      'headers':{
+        'Content-Type': 'application/json',
+        'X-Authorization': accessToken
       },
-        'body':JSON.stringify({
-        'heading':'My Post',
-        'description': 'Descr',
-        'img': 'img.src'
+      'body':JSON.stringify({
+        title,
+        text,
+        creator:_id,
+        likesCount:0,
+        usersLiked:[],
+        comments:[],
+        usersCommented:[],
       }),
       'mode': 'cors'
     })
-    const data = await response.json()
+    const data = await response
+    return data.json() 
   }
   catch(error){
     alert(error)
