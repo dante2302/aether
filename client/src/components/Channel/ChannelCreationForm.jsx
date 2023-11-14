@@ -21,7 +21,8 @@ const ChannelCreationForm = ({userData,toggleChannelModal}) => {
       name: formState.name,
       description: formState.description
     })
-    navigate(`/r/${formState.name}`,{state:{channelName:response.name}})
+    toggleChannelModal(false)
+    navigate(`/c/${formState.name}`)
   }
 
   return (

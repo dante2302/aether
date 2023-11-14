@@ -27,13 +27,13 @@ export const createPost = async ({accessToken,_id},{title,text}) => {
   }
 }
 
-export const getPost = async () => {
+export const getPostData = async (postId) => {
   try{
-    const response = await fetch(baseUrl,{'method': 'GET'})
+    const response = await fetch(`${baseUrl}/${postId}`,{'method': 'GET'})
     return response.json() 
   }
   catch(error){
-   alert(erorr) 
+   alert(error) 
   }
 }
 

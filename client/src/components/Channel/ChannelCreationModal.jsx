@@ -10,6 +10,7 @@ const ChannelCreationModal = ({userData,toggleChannelModal}) => {
           <h6>Community names including capitalization cannot be changed.</h6>
           <ChannelCreationForm 
             userData = {userData}
+            toggleChannelModal={toggleChannelModal}
           />
         </div>
       </div>

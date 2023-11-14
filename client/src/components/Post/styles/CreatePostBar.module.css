@@ -1,0 +1,17 @@
+.container{
+  width:100%;
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
+  align-items:center;
+  background:lightgrey;
+  border-radius:2px;
+  gap:20px;
+}
+.container>*{
+    cursor:pointer;
+  }
+.create-post-link{
+  width:85%;  
+    background:yellow;
+}

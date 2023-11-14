@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
 import styles from './styles/SignUpForm.module.css'
 import * as userApi from '../apis/userApi.js'
-const SignUpForm = ({setUserData,toggleUserModal,setLogged,setCurrentMode}) => {
+import * as formUtils from '../utils/formUtils.js'
+const SignUpForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
 
   const initialFormState = {
     email: '',
@@ -22,12 +23,6 @@ const SignUpForm = ({setUserData,toggleUserModal,setLogged,setCurrentMode}) => {
 
   },[formState])
 
-  const changeHandler = (e) => {
-    e.preventDefault()
-    setFormState(state => ({
-      ...state,[e.target.name]:`${e.target.value}`
-    }))
-  }
   
   const submitHandler = async (e,{email, password}) => {
     e.preventDefault()
@@ -35,7 +30,6 @@ const SignUpForm = ({setUserData,toggleUserModal,setLogged,setCurrentMode}) => {
     try{
       const data = await userApi.signUp(email,password)
       setUserData(data)
-      setLogged(true)
       toggleUserModal(false)
       console.table(data)
     }
@@ -53,7 +47,7 @@ const SignUpForm = ({setUserData,toggleUserModal,setLogged,setCurrentMode}) => {
             name='email'
             value={formState.email}
             onChange={(e) => {
-              changeHandler(e)
+              changeHandler(e,setFormState)
             }}
             className={styles['username']}
         />
@@ -66,7 +60,7 @@ const SignUpForm = ({setUserData,toggleUserModal,setLogged,setCurrentMode}) => {
             id='password'
             name='password'
             value={formState.password}
-            onChange={(e) => changeHandler(e)}
+            onChange={(e) => formUtils.changeHandler(e,setFormState)}
             className={styles['password']}
             // onBlur = {validateInout}
           />
@@ -84,7 +78,7 @@ const SignUpForm = ({setUserData,toggleUserModal,setLogged,setCurrentMode}) => {
             id='password-copy'
             name='passwordCopy'
             value={formState.passwordCopy}
-            onChange={(e) => changeHandler(e)}
+            onChange={(e) => formUtils.changeHandler(e,setFormState)}
             className={styles['password']}
             // onBlur = {validateInout}
           />

@@ -3,16 +3,18 @@ import * as formUtils from '../utils/formUtils.js'
 import * as postApi from '../apis/postApi.js'
 import { useNavigate } from "react-router-dom"
 //
-const PostForm = ({userData,isLogged}) => {
+const PostForm = ({userData}) => {
+  const navigate = useNavigate()
+  useEffect(() => {!userData&&navigate('../')} ,[])
+
   const initialFormState = {
     title: '',
     text: '',
     image: '',
-    link: ''
+    link: '',
+    channel: ''
   }
 
-  const navigate = useNavigate()
-  useEffect(() => {!isLogged&&navigate('/')} ,[])
 
   const [formState,setFormState] = useState(initialFormState)
   
@@ -24,6 +26,13 @@ const PostForm = ({userData,isLogged}) => {
 
   return(
     <form onSubmit={(e) => submitHandler(e)}>
+      <select
+        id='channel'
+        name='channel'
+        onChange={(e) => formUtils.changeHandler(e,setFormState)}
+      >
+        
+      </select>
       <label htmlFor="title">Title</label>
       <input 
         id='title'
