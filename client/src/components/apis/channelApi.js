@@ -33,12 +33,6 @@ const getChannelData = async (channelId) => {
   return await response.json()
 }
 
-export const getPopularChannels = async () => {
-  const response = await fetch(`${baseUrl.substring(0,26)}/popularChannels?pageSize=5?select=_id%2Cname%2memberCount`,
-    {method: 'GET'})
-  return await response.json()
-}
-
 const getChannelCount = async () => {
   const response = await fetch(`${baseUrl}?count`,{
     method: 'GET'
@@ -52,5 +46,11 @@ export const getChannelDataByName = async (name) => {
   })
   const data = await response.json()
   return data
+}
+
+export const getPopularChannels = async () => {
+  const response = await fetch(`${baseUrl.substring(0,26)}/popularChannels?pageSize=5?select=_id%2Cname%2memberCount`,
+    {method: 'GET'})
+  return await response.json()
 }
 

@@ -9,9 +9,9 @@ export const createPost = async ({accessToken,_id},{title,text}) => {
         'X-Authorization': accessToken
       },
       'body':JSON.stringify({
+        // channel,
         title,
         text,
-        creator:_id,
         likesCount:0,
         usersLiked:[],
         comments:[],
