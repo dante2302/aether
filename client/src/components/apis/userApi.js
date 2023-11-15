@@ -1,6 +1,7 @@
 const baseUrl = 'http://localhost:3030/users'
 
 export const logIn = async (email,password) => {
+  console.log(email,password)
   try{
     let response = await fetch(`${baseUrl}/login`,{
       'method':'POST',
@@ -12,6 +13,7 @@ export const logIn = async (email,password) => {
     //   throw(new Error())
     // }
     let data = await response.json()
+    console.log(data)
     return data
   }
   catch(err){

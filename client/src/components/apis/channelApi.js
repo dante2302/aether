@@ -11,7 +11,6 @@ export const createChannel = async ({accessToken,userId,name,description}) => {
       'body':JSON.stringify({
         name,
         description,
-        creator:userId,
         members:[userId],
         memberCount: 1,
         posts:[]

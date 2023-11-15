@@ -17,6 +17,7 @@ const ChannelPage = ({userData}) => {
       .then(val => {
         setChannelData(val[0])
         userData&&setJoined(val[0].members.includes(userData._id))
+        console.log(val[0])
       })
   },[])
 

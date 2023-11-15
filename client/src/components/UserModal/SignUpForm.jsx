@@ -31,7 +31,7 @@ const SignUpForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
       const data = await userApi.signUp(email,password)
       setUserData(data)
       toggleUserModal(false)
-      console.table(data)
+      console.log(data)
     }
     catch(error){
       alert(error)
@@ -47,7 +47,7 @@ const SignUpForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
             name='email'
             value={formState.email}
             onChange={(e) => {
-              changeHandler(e,setFormState)
+              formUtils.changeHandler(e,setFormState)
             }}
             className={styles['username']}
         />
@@ -89,7 +89,7 @@ const SignUpForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
           onClick={(e) => submitHandler(e,formState)}
           disabled={isDisabled}
           className={`${styles['log-in-btn']} ${!isDisabled && styles['enabled']}`}
-        >Log In</button>
+        >Sign Up</button>
 
       <p className={styles['link']}>Already have an account? </p>
       <button onClick={() =>setCurrentMode('logIn')}>Log In</button>
