@@ -4,7 +4,7 @@ import { Routes, Route} from 'react-router-dom'
 import ChannelPage from './Channel/ChannelPage'
 import PostForm from './Post/PostForm.jsx' 
 import HomeGuest from './HomeGuest/HomeGuest.jsx'
-import HomeUser from './HomeUser/HomeUser.jsx'
+import HomeUserPage from './HomeUser/HomeUserPage.jsx'
 import UserModal from './UserModal/UserModal.jsx'
 import CreatePostBar from './Post/CreatePostBar.jsx'
 
@@ -29,11 +29,11 @@ const App = () => {
           </Route>
           <Route path='submit' element={<PostForm userData={userData} />} />
           <Route path='/' element={
-            userData
-              ?
-              <HomeUser userData={userData}/>
-              :
-              <HomeGuest />
+            // userData
+            //   ?
+              <HomeUserPage userData={userData}/>
+              // :
+              // <HomeGuest />
           } />
         </Routes>
       </div>

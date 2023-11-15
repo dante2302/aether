@@ -16,13 +16,15 @@ const HomeSidebar = ({userData}) => {
 
   return(
     <div className={styles['wrapper']}>
-      <UilHouseUser />
+      <div className={styles['header']}>
+      <UilHouseUser size={40}/>
 
       <h3>Home</h3>
-      <p>Your personal Aether frontpage. Come here to check in with your favourite communities</p>
-      <button onClick={toggleChannelModal}>Create Channel</button>
+      </div>
+      <p>Your personal Aether frontpage. Come here to check in with your favourite channels.</p>
+      <button className={styles['create-post-btn']} onClick={() => navigate('/submit')}>Create post</button>
+      <button className={styles['create-channel-btn']} onClick={toggleChannelModal}>Create Channel</button>
       {channelModal&&<ChannelCreationModal userData = {userData} toggleChannelModal={toggleChannelModal}/>}
-      <button onClick={() => navigate('/submit')}>Create post</button>
     </div>
 
   )

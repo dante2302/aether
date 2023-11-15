@@ -1,7 +1,8 @@
 import CreatePostBar from '../Post/CreatePostBar'
+import styles from './styles/HomeFeed.module.css'
 const HomeFeed = ({userData}) => {
   return(
-      <div>
+      <div className={styles['container']}>
         <CreatePostBar />
       </div>
   )
