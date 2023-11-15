@@ -17,3 +17,9 @@
     background-color: rgb(26,26,26);
     opacity:.4;
 }
+.content{
+  background:#b6b6b8;
+  display:grid;
+  grid-template-columns:70% 30%;
+  height:1000px;
+}
