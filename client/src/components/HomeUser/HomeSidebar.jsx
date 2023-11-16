@@ -7,7 +7,6 @@ import styles from './styles/HomeSidebar.module.css'
 
 const HomeSidebar = ({userData}) => {
   const location = useLocation()
-  console.log(location.pathname)
   const [channelModal,setChannelModal] = useState(false)
   const toggleChannelModal = () => {
     setChannelModal(!channelModal)

@@ -17,7 +17,7 @@ const ChannelCreationForm = ({userData,toggleChannelModal}) => {
     e.preventDefault()
     const response = await channelApi.createChannel({
       accessToken: userData.accessToken,
-      userId: userData._id,
+      userId: userData.userId,
       name: formState.name,
       description: formState.description
     })

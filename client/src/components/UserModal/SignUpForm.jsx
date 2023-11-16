@@ -31,7 +31,6 @@ const SignUpForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
       const data = await userApi.signUp(email,password)
       setUserData(data)
       toggleUserModal(false)
-      console.log(data)
     }
     catch(error){
       alert(error)

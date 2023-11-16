@@ -1,6 +1,7 @@
 const baseUrl = 'http://localhost:3030/data/posts'
+import {getUserDataProp as getUserDataProp} from './userApi.js'
 
-export const createPost = async ({accessToken,_id},{title,text}) => {
+export const createPost = async ({accessToken,username},{title,text}) => {
   try{
     let response = await fetch(`${baseUrl}`,{
       'method': 'POST',
@@ -9,9 +10,9 @@ export const createPost = async ({accessToken,_id},{title,text}) => {
         'X-Authorization': accessToken
       },
       'body':JSON.stringify({
-        // channel,
         title,
         text,
+        ownerUsername:username,
         likesCount:0,
         usersLiked:[],
         comments:[],
@@ -55,6 +56,6 @@ export const getPopularPosts = async () => {
   return await response.json()
 }
 
-export const getOwnerData = () => {
-
+export const getPostUsername = async (userId) => {
+  return await getUserDataProp(userId,'username')
 }

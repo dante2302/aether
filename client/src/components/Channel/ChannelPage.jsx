@@ -16,7 +16,7 @@ const ChannelPage = ({userData}) => {
       channelApi.getChannelDataByName(channelName)
       .then(val => {
         setChannelData(val[0])
-        userData&&setJoined(val[0].members.includes(userData._id))
+        userData&&setJoined(val[0].members.includes(userData.userId))
         console.log(val[0])
       })
   },[])

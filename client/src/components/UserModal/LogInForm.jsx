@@ -25,6 +25,7 @@ const LogInForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
 
     try{
       const data = await userApi.logIn(email,password)
+      console.log(data)
       setUserData(data)
       toggleUserModal(false)
     }

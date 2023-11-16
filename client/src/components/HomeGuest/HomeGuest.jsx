@@ -4,8 +4,8 @@ import PopularPosts from './PopularPosts.jsx'
 const HomeGuest = () => {
   return(
     <>
-    <PopularChannels /> 
-    <PopularPosts />
+      <PopularPosts />
+      <PopularChannels /> 
     </>
   
   )
