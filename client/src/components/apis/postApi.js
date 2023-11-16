@@ -49,3 +49,8 @@ export const deletePost = async (accessToken,postId) => {
     alert(error)
   }
 }
+
+export const getPopularPosts = async () => {
+  const response = await fetch(`${baseUrl.substring(0,26)}/popularPosts?pageSize=1`,{method: 'GET'})
+  return await response.json()
+}

@@ -29,11 +29,11 @@ const App = () => {
           </Route>
           <Route path='submit' element={<PostForm userData={userData} />} />
           <Route path='/' element={
-            // userData
-            //   ?
+            userData
+              ?
               <HomeUserPage userData={userData}/>
-              // :
-              // <HomeGuest />
+              :
+              <HomeGuest />
           } />
         </Routes>
       </div>

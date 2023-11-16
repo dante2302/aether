@@ -1,21 +1,20 @@
 import * as channelApi from '../apis/channelApi.js'
 import { useNavigate } from 'react-router-dom'
-import { useEffect,useRef,useState } from 'react'
+import { useEffect,useState } from 'react'
 const PopularChannels = () => {
+  const [popChannelElements,setPopChannelElements] = useState()
   const navigate = useNavigate()
-  const popChannels = useRef()
-  const [popChannelElements,setPopChannelElements] = useState([])
+
   useEffect(() => {
-    async function getChannels(){
-      popChannels.current = await channelApi.getPopularChannels()
-      setPopChannelElements(popChannels.current.map((channel) =>
-        <li key={channel._id} onClick={() => navigate(`/c/${channel.name}`)}>
-          <div> c/{channel.name}</div>
-          <div> {channel.memberCount} members</div>
-        </li>
-    ))}
-    getChannels()
-  },[])
+      channelApi.getPopularChannels()
+      .then(channels => {
+        setPopChannelElements(channels.map((channelData) =>
+         <li key={channelData._id} onClick={() => navigate(`/c/${channelData.name}`)}>
+            <div> c/{channelData.name}</div>
+            <div> {channelData.memberCount} members</div>
+          </li>
+      ))})
+},[])
   return (
     <div>
       <h6>POPULAR CHANNELS</h6>
@@ -26,4 +25,4 @@ const PopularChannels = () => {
   )
 }
 
-export default PopularChannels
+export default PopularChannels 

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import styles from './styles/UserModal.module.css'
 import LogInForm from './LogInForm.jsx'
 import SignUpForm from './SignUpForm.jsx'
+import UilX from '@iconscout/react-unicons/icons/uil-x'
 
 const Modal = ({setUserData,toggleUserModal,modalMode}) => {
   const [currentMode,setCurrentMode] = useState(modalMode)
@@ -12,9 +13,7 @@ const Modal = ({setUserData,toggleUserModal,modalMode}) => {
       </div>
       <div className={styles['content']}>
         <div className={styles['close-btn-wrap']}>
-          <button className={styles['close-btn']}onClick={toggleUserModal}>
-            a
-          </button>
+            <UilX size={30} className={styles['x']} onClick={() => toggleUserModal()} />
         </div>
         <div className={styles['inner-content']}>
 

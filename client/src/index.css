@@ -10,9 +10,11 @@ p{
   white-space:normal;
 }
 
-div{
-  border-radius:5%;
+a:link,a:visited,a:hover,a:active{
+  text-decoration: none;
+  color:black;
 }
+
 .modal, .overlay{
   width:100vw;
   height:100vh;
@@ -28,6 +30,5 @@ div{
   background:#d6d6d6;
   display:flex;
   border-radius:0;
-  height:400px;
   justify-content:center;
 }
