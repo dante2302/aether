@@ -28,7 +28,7 @@ const NavBar = ({userData,setUserData}) => {
       {
         userData
         ?
-            <p>{userData.userId}</p>
+            <p>{userData.username}</p>
         :
         <button className={styles['log-in-btn']} onClick={toggleUserModal}>Log In</button>
       }

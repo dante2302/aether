@@ -14,7 +14,7 @@ export const logIn = async (email,password) => {
     return {...userData,...serverData} 
   }
   catch(err){
-    alert(err)
+    alert("Data is not seeded yed!")
   }
 }
 
