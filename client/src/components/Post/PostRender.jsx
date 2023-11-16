@@ -16,7 +16,7 @@ const PostRender = ({postData}) => {
         <UilArrowDown size={25}/>
       </div>
       <div>
-        <div><span>c/</span> Posted by u\User1 {dateUtils.getTimeDifference(postData._createdOn)}ago</div>
+        <div><span>c/</span> Posted by u\User1 {dateUtils.getTimeDifference(postData._createdOn)} ago</div>
         <h3>{postData.title}</h3>
         <p>{postData.text}</p>
         <div>

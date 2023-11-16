@@ -1,4 +1,5 @@
-const baseUrl = 'http://localhost:3030/users'
+const baseUrl = 'http://localhost:3030/users';
+const dataUrl = 'http://localhost:3030/jsonstore/userData';
 
 export const logIn = async (email,password) => {
   console.log(email,password)
@@ -21,20 +22,39 @@ export const logIn = async (email,password) => {
   }
 }
 
-export const signUp = async (email,password,username) => {
+export const signUp = async (email,password) => {
   try{
     const response = await fetch(`${baseUrl}/register`,{
       'method': 'POST',
       'body': JSON.stringify({
         email,
-        password,
-        username,
+        password
       })})
     let data = await response.json()
-    return data
+    createUserData(data._id)
   }
   catch(error){
     alert(error)
   }
 }
-  
+
+const createUserData = async (_id) => {
+   const response = await fetch(`${dataUrl}`,{
+   'method': 'POST',
+   'body':JSON.stringify({
+    user:_id,
+    posts:[],
+    channels:[],
+    savedPosts:[],
+    likedPosts:[],
+    comments:[],
+    socialLinks:[]
+   }),
+  'mode':'cors'
+  })  
+  console.log(await response.json())
+}
+//
+// const updateUserData = () => {
+//   
+// }

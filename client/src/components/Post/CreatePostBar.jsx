@@ -11,7 +11,7 @@ const CreatePostBar = ({userData}) => {
     <div className={styles['container']}>
       <UilUser size={30} />
       <Link to={`${location.pathname.slice(1)}/submit`} className={styles['create-post-link']}>Create Post</Link>
-      <UilImage size={30} className/>
+      <UilImage size={30} />
       <UilLink size={30} />
     </div>
   )

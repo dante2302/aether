@@ -1,7 +1,7 @@
 
 export const getTimeDifference = (timeOfCreation) => {
   const toc = new Date(timeOfCreation),
-  diff = (Date.now() - toc.valueOf),
+  diff = (Date.now() - toc.valueOf()),
   cd = 24*60*60*1000,
   ch = 60*60*1000
   let days = Math.floor(diff / cd),

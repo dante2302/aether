@@ -6,6 +6,10 @@
   text-decoration:none;
 }
 
+ul{
+  list-style: none;
+}
+
 p{
   white-space:normal;
 }
@@ -26,6 +30,7 @@ a:link,a:visited,a:hover,a:active{
     background-color: rgb(26,26,26);
     opacity:.4;
 }
+
 .content{
   background:#d6d6d6;
   display:flex;
