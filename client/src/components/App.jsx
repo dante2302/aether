@@ -17,7 +17,7 @@ const App = () => {
           userData={userData}
           setUserData={setUserData}
         />
-      <div className='content'>
+      <div className='canvas'>
         <Routes>
           <Route path={`c/:channelName`}>
             <Route index element={<ChannelPage userData={userData} />} />

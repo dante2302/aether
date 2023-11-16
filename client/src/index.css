@@ -31,7 +31,7 @@ a:link,a:visited,a:hover,a:active{
     opacity:.4;
 }
 
-.content{
+.canvas{
   background:#d6d6d6;
   display:flex;
   border-radius:0;
