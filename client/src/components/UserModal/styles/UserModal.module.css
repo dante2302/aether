@@ -13,6 +13,7 @@
     justify-content:center;
     background: white;
 }
+
 @media(min-width:800px){
   .content{
     width:45%;
@@ -24,16 +25,10 @@
   justify-content:end;
 } 
 
-.close-btn{
-  border:none;
-  padding:.7em;
-  display:flex;
-  place-content: center;
-  background-color:rgb(225,225,225);
-  border-radius:50%;
+.x:hover{
+  color:#FF0010;
   cursor:pointer;
 }
-
 .inner-content{
     display:flex;
     flex-direction:column;

@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:3030/data/channels'
+const baseUrl = 'http://localhost:3030/data/popularChannels'
 
 export const createChannel = async ({accessToken,userId,name,description}) => {
   try{
@@ -11,7 +11,6 @@ export const createChannel = async ({accessToken,userId,name,description}) => {
       'body':JSON.stringify({
         name,
         description,
-        creator:userId,
         members:[userId],
         memberCount: 1,
         posts:[]
@@ -27,7 +26,6 @@ export const createChannel = async ({accessToken,userId,name,description}) => {
 }
 
 export const updateChannelData = async ({accessToken,userId}) => {
-  
 }
 
 const getChannelData = async (channelId) => {
@@ -50,4 +48,9 @@ export const getChannelDataByName = async (name) => {
   return data
 }
 
+export const getPopularChannels = async () => {
+  const response = await fetch(`${baseUrl.substring(0,26)}/popularChannels?pageSize=5?select=_id%2Cname%2memberCount`,
+    {method: 'GET'})
+  return await response.json()
+}
 

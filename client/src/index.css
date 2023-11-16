@@ -1,15 +1,22 @@
-#root{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-}
 
 *{
   box-sizing:border-box;
   margin:0;
   padding:0;
   text-decoration:none;
+}
+
+ul{
+  list-style: none;
+}
+
+p{
+  white-space:normal;
+}
+
+a:link,a:visited,a:hover,a:active{
+  text-decoration: none;
+  color:black;
 }
 
 .modal, .overlay{
@@ -22,4 +29,11 @@
 .overlay{
     background-color: rgb(26,26,26);
     opacity:.4;
+}
+
+.canvas{
+  background:#d6d6d6;
+  display:flex;
+  border-radius:0;
+  justify-content:center;
 }

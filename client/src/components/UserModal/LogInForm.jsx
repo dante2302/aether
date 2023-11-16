@@ -3,7 +3,7 @@ import * as userApi from '../apis/userApi.js'
 import styles from './styles/LogInForm.module.css'
 import * as formUtils from '../utils/formUtils.js'
 
-const LogInForm = ({setUserData,toggleUserModal,setLogged,setCurrentMode}) => {
+const LogInForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
 
   const initialFormState = {
     username: '',
@@ -25,8 +25,8 @@ const LogInForm = ({setUserData,toggleUserModal,setLogged,setCurrentMode}) => {
 
     try{
       const data = await userApi.logIn(email,password)
+      console.log(data)
       setUserData(data)
-      setLogged(true)
       toggleUserModal(false)
     }
     catch(error){

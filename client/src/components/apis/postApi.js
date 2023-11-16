@@ -1,6 +1,7 @@
 const baseUrl = 'http://localhost:3030/data/posts'
+import {getUserDataProp as getUserDataProp} from './userApi.js'
 
-export const createPost = async ({accessToken,_id},{title,text}) => {
+export const createPost = async ({accessToken,username},{title,text}) => {
   try{
     let response = await fetch(`${baseUrl}`,{
       'method': 'POST',
@@ -11,7 +12,7 @@ export const createPost = async ({accessToken,_id},{title,text}) => {
       'body':JSON.stringify({
         title,
         text,
-        creator:_id,
+        ownerUsername:username,
         likesCount:0,
         usersLiked:[],
         comments:[],
@@ -27,13 +28,13 @@ export const createPost = async ({accessToken,_id},{title,text}) => {
   }
 }
 
-export const getPost = async () => {
+export const getPostData = async (postId) => {
   try{
-    const response = await fetch(baseUrl,{'method': 'GET'})
+    const response = await fetch(`${baseUrl}/${postId}`,{'method': 'GET'})
     return response.json() 
   }
   catch(error){
-   alert(erorr) 
+   alert(error) 
   }
 }
 
@@ -48,4 +49,13 @@ export const deletePost = async (accessToken,postId) => {
   catch{
     alert(error)
   }
+}
+
+export const getPopularPosts = async () => {
+  const response = await fetch(`${baseUrl.substring(0,26)}/popularPosts?pageSize=1`,{method: 'GET'})
+  return await response.json()
+}
+
+export const getPostUsername = async (userId) => {
+  return await getUserDataProp(userId,'username')
 }
