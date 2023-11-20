@@ -3,7 +3,7 @@ import * as formUtils from '../utils/formUtils.js'
 import * as postApi from '../apis/postApi.js'
 import { useNavigate } from "react-router-dom"
 //
-const PostForm = ({userData}) => {
+const PostForm = () => {
   const navigate = useNavigate()
   useEffect(() => {!userData&&navigate('../')} ,[])
 

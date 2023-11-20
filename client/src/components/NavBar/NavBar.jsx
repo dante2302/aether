@@ -1,16 +1,14 @@
 import  UilSearch from '@iconscout/react-unicons/icons/uil-search.js'
 import styles from './styles/Navbar.module.css'
-import { useState } from 'react'
 import UserModal from '../UserModal/UserModal.jsx'
 import { useNavigate } from 'react-router-dom'
-
-const NavBar = ({userData,setUserData}) => {
+import { useContext } from 'react'
+import UserDataContext from '../contexts/UserDataContext.js'
+import UserModalContext from '../contexts/UserModalContext.js'
+const NavBar = () => {
   const navigate = useNavigate()
-  const [userModal,setUserModal] = useState(false)
-  const toggleUserModal = () => {
-    setUserModal(!userModal)
-  } 
-
+  const { userData } = useContext(UserDataContext)
+  const {toggleUserModal } = useContext(UserModalContext)
   return(
     <div className={styles["nav-container"]}>
         <img className={styles['logo']} src='/images/pegasus.svg' onClick={()=>navigate('/')}/>
@@ -33,11 +31,6 @@ const NavBar = ({userData,setUserData}) => {
         <button className={styles['log-in-btn']} onClick={toggleUserModal}>Log In</button>
       }
 
-      {userModal&&<UserModal
-        setUserData={setUserData}
-        toggleUserModal={toggleUserModal}
-        modalMode={'logIn'}
-      />}
     </div>
   )
 

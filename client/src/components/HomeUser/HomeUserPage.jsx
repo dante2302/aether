@@ -4,7 +4,7 @@ import HomeInfo from "./HomeInfo"
 import styles from './styles/HomeUserPage.module.css'
 import { useWindowSize } from '@uidotdev/usehooks'
 
-const HomeUserPage = ({userData}) => {
+const HomeUserPage = () => {
   const windowSize = useWindowSize()
 
   return(

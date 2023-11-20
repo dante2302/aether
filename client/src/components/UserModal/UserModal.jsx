@@ -3,9 +3,15 @@ import styles from './styles/UserModal.module.css'
 import LogInForm from './LogInForm.jsx'
 import SignUpForm from './SignUpForm.jsx'
 import UilX from '@iconscout/react-unicons/icons/uil-x'
+import { useContext } from 'react'
+import UserModalContext from '../contexts/UserModalContext'
+import UserDataContext from '../contexts/UserDataContext'
 
-const Modal = ({setUserData,toggleUserModal,modalMode}) => {
+const Modal = ({modalMode}) => {
   const [currentMode,setCurrentMode] = useState(modalMode)
+  const { toggleUserModal } = useContext(UserModalContext)
+  const {setUserData} = useContext(UserDataContext)
+
   return (
 
     <div className='modal'>
@@ -27,10 +33,6 @@ const Modal = ({setUserData,toggleUserModal,modalMode}) => {
           <p className={styles["user-policy-text"]}>By continuing you agree to our <a className={styles['link']}>User Agreement </a>  
             and acknowledge that you understand our <a className={styles['link']}>Privacy Policy</a>.</p>
 
-          <button className={styles['google-btn']}>
-            <img src='../../public/images/google_icon.svg' className={styles['google-icon']}/>
-            <div className={styles['google-text']}>Continue with Google</div>
-          </button>
 
           { currentMode === 'logIn'&&
             <LogInForm setUserData={setUserData} toggleUserModal={toggleUserModal} setCurrentMode={setCurrentMode}/>}

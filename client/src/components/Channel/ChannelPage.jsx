@@ -1,12 +1,16 @@
-import { useState,useEffect } from "react"
+import { useState,useEffect, useContext } from "react"
 import { useParams } from "react-router-dom"
 import * as channelApi from '../apis/channelApi.js'
 import * as dateUtils from '../utils/dateUtils.js'
-import styles from './styles/ChannelPage.module.css' 
 import PostRender from '../Post/PostRender.jsx'
+import CreatePostBar from '../Post/CreatePostBar.jsx'
 import * as postApi from '../apis/postApi.js'
+import UserDataContext from "../contexts/UserDataContext.js"
+import styles from './styles/ChannelPage.module.css' 
+import UilHospital from "@iconscout/react-unicons/icons/uil-hospital.js"
 
-const ChannelPage = ({userData}) => {
+const ChannelPage = () => {
+  const {userData} = useContext(UserDataContext)
   const {channelName} = useParams()
   const [channelData,setChannelData] = useState({})
   const [isJoined,setJoined] = useState(false)
@@ -25,14 +29,16 @@ const ChannelPage = ({userData}) => {
     if(channelData.posts){
       posts = channelData.posts.map(postId => <PostRender postData={postApi.getPostData(postId)} />)}
   },[channelData])
-  
+  const joinHandler = () => {
+
+  } 
+
   return(
     <>
       <header className={styles['header']}>
-        <div>
             <h1>{channelData.name}</h1>
             <h6>c/{channelData.name}</h6>
-          <button>
+          <button onClick={joinHandler}>
             {isJoined
               ?
               'Join'
@@ -40,37 +46,20 @@ const ChannelPage = ({userData}) => {
               'Joined'
             }
           </button>
-        </div>
       </header>
       <main className={styles['main']}>
         <div>
-            {// <CreatePostBar />
-            }
-          {channelData.posts?
-            <div>
-              {posts}
-            </div>
-            :
-            <>
-              <h4>There are no posts in this channel</h4>
-              <h6>Be the first to till this fertile land.</h6>
-                {//<button>Create Post</button>
-                }
-            </>
-          }
+          <CreatePostBar />
+          {posts}
         </div>
         <div>
-          {
-            channelData.description&&
-            <div>
-                <h6>Description</h6>
-                <p>{channelData.description}</p>
-            </div>
-          }
-        </div>
-        <div>
-          <a>asd</a>
-          <h6>Created on {dateUtils.getFullDateFormat(channelData._createdOn)}</h6>
+          <h6>About Channel</h6>
+          <div className={styles['date-container']}>
+            <UilHospital size={20}/>
+            <div>Created {dateUtils.getFullDateFormat(channelData._createdOn)}</div>
+          </div>
+          <button>Create Post</button>
+          <p>{channelData.description||'No Description'}</p>
         </div>
       </main>
     </>

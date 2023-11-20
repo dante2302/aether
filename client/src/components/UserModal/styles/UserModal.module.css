@@ -53,34 +53,3 @@
   color:rgb(0,0,150)
 }
 
-.google-icon{
-  place-self:start;
-  width:20px;
-}
-
-.google-btn{
-  border-radius:15px;
-  border: 1px solid grey;
-  display:flex;
-  cursor:pointer;
-  padding:.5em;
-  flex-direction:row;
-  align-items:center;
-  justify-content:center;
-  width:60%;
-  background-color:white;
-  color:black;
-  margin:1em;
-}
-
-.google-btn:hover{
-  background-color:rgb(235,235,235)
-}
-
-.google-btn::after{
-  width:100%;
-  display:block;
-  height:1px;
-
-}
-

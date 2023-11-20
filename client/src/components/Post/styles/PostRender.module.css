@@ -47,7 +47,12 @@
   background:#bfbfbf;
   border-radius:4px 4px 0 0;
 }
+
 .inner-content{
-  padding:.5em;
+  padding:1em;
   padding-bottom:0;
+}
+
+.inner-content>p, .inner-content>h3{
+  padding-block:1em;
 }
