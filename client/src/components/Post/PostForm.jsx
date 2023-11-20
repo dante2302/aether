@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import * as formUtils from '../utils/formUtils.js'
 import * as postApi from '../apis/postApi.js'
 import { useNavigate } from "react-router-dom"
+import UserDataContext from "../contexts/UserDataContext.js"
 //
 const PostForm = () => {
   const navigate = useNavigate()
+  const {userData} = useContext(UserDataContext)
   useEffect(() => {!userData&&navigate('../')} ,[])
 
   const initialFormState = {

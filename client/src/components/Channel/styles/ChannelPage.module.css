@@ -1,3 +1,16 @@
-.main{
-    
+.container{
+    margin-top:30px;
+    width:85%;
+}
+
+@media (min-width:900px){
+  .container{
+      display:grid;
+      grid-template-columns:70% 30%;
+      gap:20px;
+  }
+}
+.header{
+  display:flex;
+  flex-direction:row;
 }

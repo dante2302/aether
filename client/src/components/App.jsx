@@ -18,13 +18,14 @@ const App = () => {
 
   return (
     <>
+
       <UserDataContext.Provider value={{userData, setUserData}}>
         <UserModalContext.Provider value={{userModal, toggleUserModal}}>
         <NavBar />
-      <div className='canvas'>
             {userModal&&<UserModal
               modalMode={'logIn'}
             />}
+        <div className='canvas'>
         <Routes>
           <Route path={`c/:channelName`}>
             <Route index element={<ChannelPage />} />
@@ -39,7 +40,7 @@ const App = () => {
               <HomeGuest />
           } />
         </Routes>
-      </div>
+        </div>
         </UserModalContext.Provider>
       </UserDataContext.Provider>
     </>

@@ -1,5 +1,5 @@
 const baseUrl = 'http://localhost:3030/data/posts'
-import {getUserDataProp as getUserDataProp} from './userApi.js'
+import {getUserDataProp} from './userApi.js'
 
 export const createPost = async ({accessToken,username},{title,text}) => {
   try{
@@ -10,6 +10,7 @@ export const createPost = async ({accessToken,username},{title,text}) => {
         'X-Authorization': accessToken
       },
       'body':JSON.stringify({
+        channel:
         title,
         text,
         ownerUsername:username,

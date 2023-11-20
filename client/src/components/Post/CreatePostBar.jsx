@@ -13,7 +13,7 @@ const CreatePostBar = () => {
   const {toggleUserModal} = useContext(UserModalContext)
   const location = useLocation()
   return(
-    <div className={styles['container']} onClick={!userData&&toggleUserModal}>
+    <div className={styles['container']} onClick={!userData?toggleUserModal:undefined}>
       <UilUser size={30} />
       <Link to={`${location.pathname.slice(1)}/submit`} className={styles['create-post-link']}>Create Post</Link>
       <UilImage size={30} />
