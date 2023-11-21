@@ -32,7 +32,7 @@ export const createPost = async ({accessToken,username},{title,text}) => {
 export const getPostData = async (postId) => {
   try{
     const response = await fetch(`${baseUrl}/${postId}`,{'method': 'GET'})
-    return response.json() 
+    return response.json()
   }
   catch(error){
    alert(error) 
@@ -53,7 +53,7 @@ export const deletePost = async (accessToken,postId) => {
 }
 
 export const getPopularPosts = async () => {
-  const response = await fetch(`${baseUrl.substring(0,26)}/popularPosts?pageSize=1`,{method: 'GET'})
+  const response = await fetch(`${baseUrl}`,{method: 'GET'})
   return await response.json()
 }
 

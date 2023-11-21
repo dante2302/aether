@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import * as dateUtils from '../utils/dateUtils.js'
 import UilArrowUp from '@iconscout/react-unicons/icons/uil-arrow-up'
 import UilArrowDown from '@iconscout/react-unicons/icons/uil-arrow-down'
@@ -9,7 +8,6 @@ import styles from './styles/PostRender.module.css'
 
 
 const PostRender = ({postData}) => {
-  const navigate = useNavigate()
   return(
     <div className={styles['content']}>
       <div className={styles['rating']}>

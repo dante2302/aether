@@ -11,28 +11,60 @@ import UilHospital from "@iconscout/react-unicons/icons/uil-hospital.js"
 import UserModalContext from "../contexts/UserModalContext.js"
 
 const ChannelPage = () => {
-  const {userData} = useContext(UserDataContext)
-  const {toggleUserModal} = useContext(UserModalContext)
-  const navigate = useNavigate()
-  const {channelName} = useParams()
   const [channelData,setChannelData] = useState({})
   const [isJoined,setJoined] = useState(false)
-  const [visiblePosts,setVisiblePosts] = useState(undefined)
+  const [visiblePosts,setVisiblePosts] = useState([])
+  const [visiblePostsCount,setVisiblePostsCount] = useState(0)
+  const [isLoading,setIsLoading] = useState(true)
 
-  useEffect(()=>{
-      channelApi.getChannelDataByName(channelName)
-      .then(val => {
-        setChannelData(val[0])
-        userData&&setJoined(val[0].members.includes(userData.userId))
-        console.log(val[0].posts)
-        val[0].posts.length!=0&&
-         setVisiblePosts(val[0].posts.map(postId => <PostRender postData={postApi.getPostData(postId)} />))
-      })
+  const {userData} = useContext(UserDataContext)
+  const {toggleUserModal} = useContext(UserModalContext)
+
+  const navigate = useNavigate()
+  const {channelName} = useParams()
+
+  useEffect(() => { 
+    window.addEventListener('scroll',scrollHandler)
+    return () => window.removeEventListener('scroll',scrollHandler)
+  },[isLoading])
+
+  useEffect(() => {
+    const asyncFunc = async () => {
+      const channel = await channelApi.getChannelDataByName(channelName)
+      setChannelData(channel)
+      userData && setJoined(channel.members.includes(userData.userId))
+      fetchVisiblePosts(channel.posts)
+    }
+    asyncFunc()
   },[])
 
   const joinHandler = () => {
 
   } 
+
+  const scrollHandler = async () => {
+    const { clientHeight, scrollTop, scrollHeight } = document.documentElement
+    const isBottom = scrollTop + clientHeight >= scrollHeight
+    if(!isBottom || isLoading){
+      return
+    }
+    fetchVisiblePosts(channelData.posts)
+  }
+
+  const fetchVisiblePosts = async (channelPosts) => {
+    setIsLoading(true)
+    let i = visiblePostsCount
+    let newPosts = []
+    while(i<channelPosts.length && i-visiblePostsCount<2){
+      newPosts.push(await postApi.getPostData(channelPosts[i]))
+      i++
+    }
+
+    newPosts = newPosts.map(postData => <li key={postData._id}><PostRender postData={postData} /></li>)
+    setVisiblePostsCount(count => count + 2)
+    setVisiblePosts(visiblePosts => [...visiblePosts,...newPosts])
+    setIsLoading(false)
+  }
 
   const createPostHandler = () => {
     userData
@@ -43,7 +75,7 @@ const ChannelPage = () => {
   }
 
   return(
-    <div className={styles['container']}>
+    <div className={styles['container']} >
       <div className={styles['content']}>
         <header className={styles['header']}>
           <div>
@@ -59,20 +91,21 @@ const ChannelPage = () => {
             }
           </button>
         </header>
-        <main className={styles['main']}>
+        <main className={styles['main']} >
           <CreatePostBar />
           {
-            visiblePosts
-              ?
+            // visiblePosts
+            //   ?
               <ul> 
                 {visiblePosts}
+                {isLoading&&<p>Loading</p>}
               </ul>
-              :
-          <div>
-            <h3>'There are no posts in this channel'</h3>
-            <h6>Be the chosen one</h6>
-            <button onClick={createPostHandler}>Create a Post</button>
-          </div>
+          //     :
+          // <div>
+          //   <h3>'There are no posts in this channel'</h3>
+          //   <h6>Be the chosen one</h6>
+          //   <button onClick={createPostHandler}>Create a Post</button>
+          // </div>
           }
         </main>
       </div>

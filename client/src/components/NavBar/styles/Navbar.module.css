@@ -1,7 +1,9 @@
 .nav-container{
   position:sticky;
+  top:0;
   display:flex;
   width:100%;
+  background:white;
   justify-content:space-evenly;
   place-self:center;
   height: fit-content;

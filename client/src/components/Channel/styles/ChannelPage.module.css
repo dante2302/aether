@@ -10,7 +10,17 @@
       gap:20px;
   }
 }
+
 .header{
   display:flex;
   flex-direction:row;
+}
+
+.main>ul{
+}
+
+.big{
+  height:300px;
+  width:300px;
+  background:red;
 }
