@@ -16,6 +16,7 @@ export const createPost = async ({accessToken,username},{title,text}) => {
         ownerUsername:username,
         likesCount:0,
         usersLiked:[],
+        usersDisliked:[],
         comments:[],
         usersCommented:[],
       }),

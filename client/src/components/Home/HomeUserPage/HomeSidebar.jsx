@@ -1,7 +1,8 @@
+import ChannelCreationModal from '../../Channel/ChannelCreationModal.jsx'
+
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useState } from 'react'
-import ChannelCreationModal from '../Channel/ChannelCreationModal.jsx'
-import { useNavigate } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
+
 import UilHouseUser from '@iconscout/react-unicons/icons/uil-house-user.js'
 import styles from './styles/HomeSidebar.module.css'
 

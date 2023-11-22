@@ -1,49 +1,28 @@
-import { useState } from 'react'
-import { Routes, Route} from 'react-router-dom'
 import NavBar from './NavBar/NavBar.jsx'
-import HomeGuest from './HomeGuest/HomeGuest.jsx'
+import Home from './Home/Home.jsx'
 import ChannelPage from './Channel/ChannelPage'
 import PostForm from './Post/PostForm.jsx' 
-import HomeUserPage from './HomeUser/HomeUserPage.jsx'
-import UserModal from './UserModal/UserModal.jsx'
-import UserDataContext from './contexts/UserDataContext.js' 
-import UserModalContext from './contexts/UserModalContext.js'
+import { Routes, Route} from 'react-router-dom'
+import { UserDataProvider } from './contexts/UserDataContext.jsx'
+import { UserModalProvider } from './contexts/UserModalContext.jsx'
 
 const App = () => {
-  const [userData,setUserData] = useState(undefined)
-  const [userModal,setUserModal] = useState(false)
-  const toggleUserModal = () => {
-    setUserModal(!userModal)
-  } 
-
   return (
-    <>
-
-      <UserDataContext.Provider value={{userData, setUserData}}>
-        <UserModalContext.Provider value={{userModal, toggleUserModal}}>
-        <NavBar />
-            {userModal&&<UserModal
-              modalMode={'logIn'}
-            />}
-        <div className='canvas'>
-        <Routes>
-          <Route path={`c/:channelName`}>
-            <Route index element={<ChannelPage />} />
-            <Route path='submit' element={<PostForm />} />
-          </Route>
-          <Route path='submit' element={<PostForm />} />
-          <Route path='/' element={
-            userData
-              ?
-              <HomeUserPage />
-              :
-              <HomeGuest />
-          } />
-        </Routes>
-        </div>
-        </UserModalContext.Provider>
-      </UserDataContext.Provider>
-    </>
+      <UserDataProvider>
+        <UserModalProvider> 
+          <NavBar />
+          <div className='canvas'>
+            <Routes>
+              <Route path={`c/:channelName`}>
+                <Route index element={<ChannelPage />} />
+                <Route path='submit' element={<PostForm />} />
+              </Route>
+              <Route path='submit' element={<PostForm />} />
+              <Route path='/' element={<Home />}/>
+            </Routes>
+          </div>
+        </ UserModalProvider> 
+      </ UserDataProvider>
   )
 }
 

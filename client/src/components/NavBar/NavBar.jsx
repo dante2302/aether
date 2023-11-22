@@ -1,14 +1,18 @@
-import  UilSearch from '@iconscout/react-unicons/icons/uil-search.js'
-import styles from './styles/Navbar.module.css'
-import UserModal from '../UserModal/UserModal.jsx'
+
 import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
-import UserDataContext from '../contexts/UserDataContext.js'
-import UserModalContext from '../contexts/UserModalContext.js'
+
+import UserDataContext from '../contexts/UserDataContext'
+import UserModalContext from '../contexts/UserModalContext'
+
+import  UilSearch from '@iconscout/react-unicons/icons/uil-search.js'
+import styles from './styles/Navbar.module.css'
+
 const NavBar = () => {
   const navigate = useNavigate()
   const { userData } = useContext(UserDataContext)
   const {toggleUserModal } = useContext(UserModalContext)
+
   return(
     <div className={styles["nav-container"]}>
         <img className={styles['logo']} src='/images/pegasus.svg' onClick={()=>navigate('/')}/>

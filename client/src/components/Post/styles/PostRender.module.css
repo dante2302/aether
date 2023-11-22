@@ -15,14 +15,22 @@
   justify-content:start;
 }
 
-.rating>:first-child:hover{
+.rating>:first-child:hover,
+.likes-count.liked,
+.rating>:first-child.liked{
   color:cyan;
 }
 
-.rating>:last-child:hover{
+.rating>:last-child:hover,
+.likes-count.disliked,
+.rating>:last-child.disliked{
   color:red;
 }
 
+
+.likes-count{
+  font-weight: 500;
+}
 .rating>:first-child:hover,.rating>:last-child:hover{
   background:#bfbfbf;
   border-radius:5px;

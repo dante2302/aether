@@ -1,14 +1,18 @@
-import { useState,useEffect, useContext, useRef } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-import * as channelApi from '../apis/channelApi.js'
-import * as dateUtils from '../utils/dateUtils.js'
 import PostRender from '../Post/PostRender.jsx'
 import CreatePostBar from '../Post/CreatePostBar.jsx'
+
 import * as postApi from '../apis/postApi.js'
-import UserDataContext from "../contexts/UserDataContext.js"
-import styles from './styles/ChannelPage.module.css' 
+import * as channelApi from '../apis/channelApi.js'
+import * as dateUtils from '../utils/dateUtils.js'
+
+import { useState,useEffect, useContext } from "react"
+import { useNavigate, useParams } from "react-router-dom"
+
+import UserModalContext from "../contexts/UserModalContext"
+import UserDataContext from "../contexts/UserDataContext"
+
 import UilHospital from "@iconscout/react-unicons/icons/uil-hospital.js"
-import UserModalContext from "../contexts/UserModalContext.js"
+import styles from './styles/ChannelPage.module.css' 
 
 const ChannelPage = () => {
   const [channelData,setChannelData] = useState({})
@@ -94,18 +98,18 @@ const ChannelPage = () => {
         <main className={styles['main']} >
           <CreatePostBar />
           {
-            // visiblePosts
-            //   ?
+            visiblePosts
+              ?
               <ul> 
                 {visiblePosts}
                 {isLoading&&<p>Loading</p>}
               </ul>
-          //     :
-          // <div>
-          //   <h3>'There are no posts in this channel'</h3>
-          //   <h6>Be the chosen one</h6>
-          //   <button onClick={createPostHandler}>Create a Post</button>
-          // </div>
+              :
+          <div>
+            <h3>'There are no posts in this channel'</h3>
+            <h6>Be the chosen one</h6>
+            <button onClick={createPostHandler}>Create a Post</button>
+          </div>
           }
         </main>
       </div>
