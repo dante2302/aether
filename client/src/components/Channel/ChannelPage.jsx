@@ -1,5 +1,5 @@
 import CreatePostBar from '../Post/CreatePostBar.jsx'
-import InfiniteScrollPosts from './InfiniteScrollPosts.jsx'
+import InfiniteScrollPosts from '../InfiniteScrollPosts/InfiniteScrollPosts.jsx'
 
 import * as channelApi from '../apis/channelApi.js'
 import * as dateUtils from '../utils/dateUtils.js'

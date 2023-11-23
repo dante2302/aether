@@ -13,7 +13,7 @@ import UilBookmark from '@iconscout/react-unicons/icons/uil-bookmark.js'
 import styles from './styles/PostRender.module.css'
 
 const PostRender = ({postData}) => {
-
+  const [likesCount,setLikesCount] = useState(postData.likesCount)
   const [isLiked,setLiked] = useState()
   const [isDisliked,setDisliked] = useState() 
 
@@ -25,19 +25,43 @@ const PostRender = ({postData}) => {
       postData.usersLiked.includes(userData._id) && setLiked(true)
       postData.usersDisliked.includes(userData._id) && setDisliked(true)
     }
+    return (() => {
+      if(isLiked)likePost(userData._id)
+      else if(isDisliked)dislikePost(userData._id)
+    })
   },[])
 
   const likeHandler = (e) => {
     if(!userData){toggleUserModal();return}
-    setLiked(!isLiked)
-    if(isDisliked)setDisliked(false)
+    let diff = 1
+    if(isLiked){
+      setLikesCount(likes => likes - 1)
+      setLiked(false)
+      return
+    }
+    if(isDisliked){
+      setDisliked(false)
+      diff = 2
+    }
+    setLiked(true)
+    setLikesCount(likes => likes + diff)
     e.stopPropagation()
   }
 
   const dislikeHandler = (e) => {
-    if(!userData)toggleUserModal()
-    setDisliked(!isDisliked)
-    if(isLiked)setLiked(false)
+    if(!userData){toggleUserModal();return}
+    let diff = 1
+    if(isDisliked){
+      setLikesCount(likes => likes + 1)
+      setDisliked(false)
+      return
+    }
+    if(isLiked){
+      setLiked(false)
+      diff = 2
+    }
+    setDisliked(true)
+    setLikesCount(likes => likes - diff)
     e.stopPropagation()
   }
 
@@ -49,7 +73,7 @@ const PostRender = ({postData}) => {
         `${styles['likes-count']} 
          ${styles[isDisliked&&'disliked']} 
          ${styles[isLiked&&'liked']}`
-        }>{postData.likesCount}</div>
+        }>{likesCount}</div>
         <UilArrowDown size={35} onClick = {e => dislikeHandler(e)} className={styles[isDisliked&&'disliked']}/>
       </div>
       <div className={styles['inner-content']}>
