@@ -10,7 +10,7 @@ import styles from './styles/Navbar.module.css'
 
 const NavBar = () => {
   const navigate = useNavigate()
-  const { userData } = useContext(UserDataContext)
+  const { userData, setUserData } = useContext(UserDataContext)
   const {toggleUserModal } = useContext(UserModalContext)
 
   return(
@@ -30,7 +30,10 @@ const NavBar = () => {
       {
         userData
         ?
+          <>
             <p>{userData.username}</p>
+            <button onClick={()=>setUserData(undefined)}>Log Out</button>
+          </>
         :
         <button className={styles['log-in-btn']} onClick={toggleUserModal}>Log In</button>
       }
