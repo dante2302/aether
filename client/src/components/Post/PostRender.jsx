@@ -1,9 +1,9 @@
+import * as dateUtils from '../utils/dateUtils.js'
 
 import { useState, useEffect, useContext } from 'react'
 
 import UserDataContext from '../contexts/UserDataContext'
-
-import * as dateUtils from '../utils/dateUtils.js'
+import UserModalContext from '../contexts/UserModalContext'
 
 import UilArrowUp from '@iconscout/react-unicons/icons/uil-arrow-up'
 import UilArrowDown from '@iconscout/react-unicons/icons/uil-arrow-down'
@@ -13,9 +13,12 @@ import UilBookmark from '@iconscout/react-unicons/icons/uil-bookmark.js'
 import styles from './styles/PostRender.module.css'
 
 const PostRender = ({postData}) => {
-  const {userData} = useContext(UserDataContext)
+
   const [isLiked,setLiked] = useState()
   const [isDisliked,setDisliked] = useState() 
+
+  const {userData} = useContext(UserDataContext)
+  const {toggleUserModal} = useContext(UserModalContext)
   
   useEffect(() => {
     if(userData){
@@ -25,13 +28,14 @@ const PostRender = ({postData}) => {
   },[])
 
   const likeHandler = (e) => {
+    if(!userData){toggleUserModal();return}
     setLiked(!isLiked)
     if(isDisliked)setDisliked(false)
     e.stopPropagation()
   }
 
   const dislikeHandler = (e) => {
-    if(!userData)
+    if(!userData)toggleUserModal()
     setDisliked(!isDisliked)
     if(isLiked)setLiked(false)
     e.stopPropagation()

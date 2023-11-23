@@ -15,13 +15,11 @@
   justify-content:start;
 }
 
-.rating>:first-child:hover,
 .likes-count.liked,
 .rating>:first-child.liked{
   color:cyan;
 }
 
-.rating>:last-child:hover,
 .likes-count.disliked,
 .rating>:last-child.disliked{
   color:red;

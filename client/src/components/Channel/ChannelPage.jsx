@@ -15,11 +15,11 @@ import styles from './styles/ChannelPage.module.css'
 
 const ChannelPage = () => {
 
-  const navigate = useNavigate()
-  const {channelName} = useParams()
-
   const [channelData,setChannelData] = useState({})
   const [isJoined,setJoined] = useState(false)
+
+  const navigate = useNavigate()
+  const {channelName} = useParams()
 
   const {userData} = useContext(UserDataContext)
   const {toggleUserModal} = useContext(UserModalContext)
@@ -32,12 +32,17 @@ const ChannelPage = () => {
   },[])
 
   const joinHandler = () => {
-
+    if(!userData){
+      toggleUserModal();
+      return
+    }
+    setJoined(!isJoined)
   } 
 
 
   const createPostHandler = () => {
-    userData ? navigate('./submit') : toggleUserModal()
+    console.log(userData)
+    userData ? navigate('/submit') : toggleUserModal()
   }
 
   return(
