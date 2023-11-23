@@ -1,11 +1,10 @@
-import PostRender from '../Post/PostRender.jsx'
 import CreatePostBar from '../Post/CreatePostBar.jsx'
+import InfiniteScrollPosts from './InfiniteScrollPosts.jsx'
 
-import * as postApi from '../apis/postApi.js'
 import * as channelApi from '../apis/channelApi.js'
 import * as dateUtils from '../utils/dateUtils.js'
 
-import { useState,useEffect, useContext } from "react"
+import { useState, useEffect, useContext } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
 import UserModalContext from "../contexts/UserModalContext"
@@ -15,67 +14,30 @@ import UilHospital from "@iconscout/react-unicons/icons/uil-hospital.js"
 import styles from './styles/ChannelPage.module.css' 
 
 const ChannelPage = () => {
-  const [channelData,setChannelData] = useState({})
-  const [isJoined,setJoined] = useState(false)
-  const [visiblePosts,setVisiblePosts] = useState([])
-  const [visiblePostsCount,setVisiblePostsCount] = useState(0)
-  const [isLoading,setIsLoading] = useState(true)
-
-  const {userData} = useContext(UserDataContext)
-  const {toggleUserModal} = useContext(UserModalContext)
 
   const navigate = useNavigate()
   const {channelName} = useParams()
 
-  useEffect(() => { 
-    window.addEventListener('scroll',scrollHandler)
-    return () => window.removeEventListener('scroll',scrollHandler)
-  },[isLoading])
+  const [channelData,setChannelData] = useState({})
+  const [isJoined,setJoined] = useState(false)
+
+  const {userData} = useContext(UserDataContext)
+  const {toggleUserModal} = useContext(UserModalContext)
 
   useEffect(() => {
-    const asyncFunc = async () => {
-      const channel = await channelApi.getChannelDataByName(channelName)
+    channelApi.getChannelDataByName(channelName).then((channel) => {
       setChannelData(channel)
       userData && setJoined(channel.members.includes(userData.userId))
-      fetchVisiblePosts(channel.posts)
-    }
-    asyncFunc()
+    })
   },[])
 
   const joinHandler = () => {
 
   } 
 
-  const scrollHandler = async () => {
-    const { clientHeight, scrollTop, scrollHeight } = document.documentElement
-    const isBottom = scrollTop + clientHeight >= scrollHeight
-    if(!isBottom || isLoading){
-      return
-    }
-    fetchVisiblePosts(channelData.posts)
-  }
-
-  const fetchVisiblePosts = async (channelPosts) => {
-    setIsLoading(true)
-    let i = visiblePostsCount
-    let newPosts = []
-    while(i<channelPosts.length && i-visiblePostsCount<2){
-      newPosts.push(await postApi.getPostData(channelPosts[i]))
-      i++
-    }
-
-    newPosts = newPosts.map(postData => <li key={postData._id}><PostRender postData={postData} /></li>)
-    setVisiblePostsCount(count => count + 2)
-    setVisiblePosts(visiblePosts => [...visiblePosts,...newPosts])
-    setIsLoading(false)
-  }
 
   const createPostHandler = () => {
-    userData
-    ?
-      navigate('./submit')
-    :
-      toggleUserModal()
+    userData ? navigate('./submit') : toggleUserModal()
   }
 
   return(
@@ -97,20 +59,8 @@ const ChannelPage = () => {
         </header>
         <main className={styles['main']} >
           <CreatePostBar />
-          {
-            visiblePosts
-              ?
-              <ul> 
-                {visiblePosts}
-                {isLoading&&<p>Loading</p>}
-              </ul>
-              :
-          <div>
-            <h3>'There are no posts in this channel'</h3>
-            <h6>Be the chosen one</h6>
-            <button onClick={createPostHandler}>Create a Post</button>
-          </div>
-          }
+          {channelData.posts&&
+          <InfiniteScrollPosts channelPosts={channelData.posts}/>}
         </main>
       </div>
       <div className={styles['side']}>
