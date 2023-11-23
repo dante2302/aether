@@ -1,10 +1,10 @@
 import PostRender from '../Post/PostRender.jsx'
 
-import { getPostData }from '../apis/postApi.js'
+import { getPopularPosts, getPostData }from '../apis/postApi.js'
 
 import { useState, useEffect } from "react"
 
-const InfiniteScrollPosts = ({channelPosts, type}) => {
+const InfiniteScrollPosts = ({channelPosts}) => {
 
   const [visiblePosts,setVisiblePosts] = useState([])
   const [visiblePostsCount,setVisiblePostsCount] = useState(0)
@@ -26,7 +26,7 @@ const InfiniteScrollPosts = ({channelPosts, type}) => {
     let newPosts = []
 
     while(i < channelPosts.length && i - visiblePostsCount < newPostsCount){
-      newPosts.push(await getPostData(channelPosts[i],type))
+      newPosts.push(await getPostData(channelPosts[i]))
       i++
     }
 

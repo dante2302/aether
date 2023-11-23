@@ -1,4 +1,5 @@
 const baseUrl = 'http://localhost:3030/data/posts'
+const popularUrl = 'http://localhost:3030/data/popularPosts'
 import {getUserDataProp} from './userApi.js'
 import {equalSign, quotationMark} from '../utils/encodeUtils.js'
 
@@ -65,7 +66,7 @@ export const deletePost = async (accessToken,postId) => {
 }
 
 export const getPopularPosts = async () => {
-  const response = await fetch(`${baseUrl}`,{method: 'GET'})
+  const response = await fetch(`${popularUrl}`,{method: 'GET'})
   return await response.json()
 }
 

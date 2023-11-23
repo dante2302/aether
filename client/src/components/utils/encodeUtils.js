@@ -1,5 +1,5 @@
 
-export const equalSign = () {
+export const equalSign = () => {
   return "%3D"
 }
 

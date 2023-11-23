@@ -56,6 +56,3 @@ export const getPopularChannels = async (pageSize) => {
   return await response.json()
 }
 
-export const getPostsByPage = () => {
-
-}
