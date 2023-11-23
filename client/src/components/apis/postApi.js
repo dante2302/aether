@@ -1,5 +1,6 @@
 const baseUrl = 'http://localhost:3030/data/posts'
 import {getUserDataProp} from './userApi.js'
+import {equalSign, quotationMark} from '../utils/encodeUtils.js'
 
 export const createPost = async ({accessToken,username},{title,text}) => {
   try{
@@ -33,6 +34,16 @@ export const createPost = async ({accessToken,username},{title,text}) => {
 export const getPostData = async (postId) => {
   try{
     const response = await fetch(`${baseUrl}/${postId}`,{'method': 'GET'})
+    return response.json()
+  }
+  catch(error){
+   alert(error) 
+  }
+}
+
+export const getPersonalPosts = async(postId,userId) => {
+  try{
+    const response = await fetch(`${baseUrl}/${postId}?where=_ownerId${userId}`,{'method': 'GET'})
     return response.json()
   }
   catch(error){

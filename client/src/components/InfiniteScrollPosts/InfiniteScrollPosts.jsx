@@ -4,7 +4,7 @@ import { getPostData }from '../apis/postApi.js'
 
 import { useState, useEffect } from "react"
 
-const InfiniteScrollPosts = ({channelPosts}) => {
+const InfiniteScrollPosts = ({channelPosts, type}) => {
 
   const [visiblePosts,setVisiblePosts] = useState([])
   const [visiblePostsCount,setVisiblePostsCount] = useState(0)
@@ -26,7 +26,7 @@ const InfiniteScrollPosts = ({channelPosts}) => {
     let newPosts = []
 
     while(i < channelPosts.length && i - visiblePostsCount < newPostsCount){
-      newPosts.push(await getPostData(channelPosts[i]))
+      newPosts.push(await getPostData(channelPosts[i],type))
       i++
     }
 

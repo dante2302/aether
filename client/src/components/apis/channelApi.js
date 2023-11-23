@@ -1,4 +1,6 @@
 const baseUrl = 'http://localhost:3030/data/channels'
+const popularUrl = 'http://localhost:3030/data/popularChannels'
+import {equalSign, quotationMark} from '../utils/encodeUtils.js'
 
 export const createChannel = async ({accessToken,userId,name,description}) => {
   try{
@@ -41,16 +43,16 @@ const getChannelCount = async () => {
 }
 
 export const getChannelDataByName = async (name) => {
-  const response = await fetch(`${baseUrl}?where=name%3D%22${name}%22`,{
-    method: 'GET'
-  })
+  const response = await fetch(
+    `${baseUrl}?where${equalSign}name${equalSign}${quotationMark}${name}${quotationMark}`,{
+      method: 'GET'
+    })
   const data = await response.json()
   return data[0]
 }
 
-export const getPopularChannels = async () => {
-  const response = await fetch(`${baseUrl}`,
-    {method: 'GET'})
+export const getPopularChannels = async (pageSize) => {
+  const response = await fetch(`${popularUrl}`,{method: 'GET'})
   return await response.json()
 }
 
