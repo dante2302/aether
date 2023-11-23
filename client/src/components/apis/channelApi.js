@@ -1,5 +1,4 @@
 const baseUrl = 'http://localhost:3030/data/channels'
-const popularUrl = 'http://localhost:3030/data/popularChannels'
 import {equalSign, quotationMark} from '../utils/encodeUtils.js'
 
 export const createChannel = async ({accessToken,userId,name,description}) => {
@@ -30,7 +29,7 @@ export const createChannel = async ({accessToken,userId,name,description}) => {
 export const updateChannelData = async ({accessToken,userId}) => {
 }
 
-const getChannelData = async (channelId) => {
+export const getChannelData = async (channelId) => {
   const response = await fetch(`${baseUrl}/${channelId}`,{method: 'GET'}) 
   return await response.json()
 }
@@ -49,10 +48,5 @@ export const getChannelDataByName = async (name) => {
     })
   const data = await response.json()
   return data[0]
-}
-
-export const getPopularChannels = async (pageSize) => {
-  const response = await fetch(`${popularUrl}`,{method: 'GET'})
-  return await response.json()
 }
 

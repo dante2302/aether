@@ -1,27 +1,36 @@
 
-import { getPopularChannels } from '../../apis/channelApi'
+import { getPopularChannels, getPopularArray } from '../../apis/popularApi'
+import { getChannelData } from '../../apis/channelApi'
 import { useNavigate } from 'react-router-dom'
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const PopularChannels = () => {
-  const [popChannelElements,setPopChannelElements] = useState()
+  const [visibleChannels,setVisibleChannels] = useState()
   const navigate = useNavigate()
-
   useEffect(() => {
-      getPopularChannels()
-      .then(channels => {
-        setPopChannelElements(channels.map((channelData) =>
-         <li key={channelData._id} onClick={() => navigate(`/c/${channelData.name}`)}>
-            <div> c/{channelData.name}</div>
-            <div> {channelData.memberCount} members</div>
+    const asyncFunc = async () => {
+      const channelEntries = await getPopularChannels()
+      const channelIds = getPopularArray(channelEntries)
+      const channelData = []
+      for(let channelId of channelIds){
+        channelData.push(await getChannelData(channelId))
+      }
+      const channelElements = channelData.map(singleChannelData => 
+          <li key={singleChannelData._id} onClick={() => navigate(`/c/${singleChannelData.name}`)}>
+            <div> c/{singleChannelData.name}</div>
+            <div> {singleChannelData.memberCount} members</div>
           </li>
-      ))})
-},[])
+      )
+      setVisibleChannels(channelElements)
+    }
+    asyncFunc()
+  },[])
+
   return (
     <div>
       <h6>POPULAR CHANNELS</h6>
       <ul>
-        {popChannelElements}
+        {visibleChannels}
       </ul>
     </div>
   )

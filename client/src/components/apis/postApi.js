@@ -65,11 +65,7 @@ export const deletePost = async (accessToken,postId) => {
   }
 }
 
-export const getPopularPosts = async () => {
-  const response = await fetch(`${popularUrl}`,{method: 'GET'})
-  return await response.json()
-}
-
 export const getPostUsername = async (userId) => {
   return await getUserDataProp(userId,'username')
 }
+

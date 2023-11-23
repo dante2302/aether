@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react'
 import InfiniteScrollPosts from '../../InfiniteScrollPosts/InfiniteScrollPosts.jsx'
 import PopularChannels from './PopularChannels.jsx'
 import styles from './styles/HomeGuest.module.css'
-import { getPopularPosts } from '../../apis/postApi.js'
+import { getPopularArray, getPopularPosts } from '../../apis/popularApi.js'
 
 const HomeGuest = () => {
   const [posts,setPosts] = useState()
+
   useEffect(() => {
    getPopularPosts().then(
       allPosts => {
-        setPosts(Object.values(allPosts).map((postObject)=>postObject._id))})
+        setPosts(getPopularArray(allPosts))})
   },[])
+
   return(
     <div className={styles['container']}>
       {posts&&

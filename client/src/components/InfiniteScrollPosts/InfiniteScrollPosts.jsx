@@ -1,6 +1,6 @@
 import PostRender from '../Post/PostRender.jsx'
 
-import { getPopularPosts, getPostData }from '../apis/postApi.js'
+import { getPostData } from '../apis/postApi.js'
 
 import { useState, useEffect } from "react"
 
