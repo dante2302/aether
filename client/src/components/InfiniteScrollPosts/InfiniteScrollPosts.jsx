@@ -24,13 +24,10 @@ const InfiniteScrollPosts = ({channelPosts}) => {
     let i = visiblePostsCount
     const newPostsCount = 2
     let newPosts = []
-
     while(i < channelPosts.length && i - visiblePostsCount < newPostsCount){
       newPosts.push(await getPostData(channelPosts[i]))
       i++
     }
-
-    newPosts = newPosts.map(postData => <li key={postData._id}><PostRender postData={postData} /></li>)
     setVisiblePostsCount(count => count + newPostsCount)
     setVisiblePosts(visiblePosts => [...visiblePosts,...newPosts])
     setIsLoading(false)
@@ -50,7 +47,7 @@ const InfiniteScrollPosts = ({channelPosts}) => {
     visiblePosts
       ?
       <ul> 
-        {visiblePosts}
+        {visiblePosts.map(postData => <li key={postData._id}><PostRender postData={postData} /></li>)}
         {isLoading&&<p>Loading</p>}
       </ul>
       :
