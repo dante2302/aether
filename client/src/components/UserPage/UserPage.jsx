@@ -2,7 +2,7 @@ import UserPageSidebar from './UserPageSidebar'
 import { useState, useEffect, useContext } from 'react'
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import UserDataContext from '../contexts/UserDataContext'
-import { getUserDataByUsername, getUserDataProp } from '../apis/userApi'
+import { getUserDataByProp } from '../apis/userApi'
 
 const UserPage = () => {
   const [pageUserData,setPageUserData] = useState({})
@@ -12,7 +12,7 @@ const UserPage = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-      getUserDataByUsername(username).then(response => { 
+      getUserDataByProp('username',username).then(response => { 
         setIsOwner(userData && userData.userId === response.userId)
         const createdOn = getUserDataProp(response.userId,'_createdOn')
         setPageUserData({...response,createdOn})

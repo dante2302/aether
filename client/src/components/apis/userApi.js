@@ -1,5 +1,7 @@
 const baseUrl = 'http://localhost:3030/users';
 const dataUrl = 'http://localhost:3030/data/userData';
+import { equalSign } from '../utils/encodeUtils.js'
+import { quotationMark } from '../utils/encodeUtils.js'
 
 export const logIn = async (email,password) => {
   try{
@@ -10,14 +12,12 @@ export const logIn = async (email,password) => {
         password
     })})
     const serverData = await response.json()
-    const userData = await getUserEntryData(serverData._id)
+    const userData = await getUserDataByProp('_ownerId',serverData._id)
     console.log(userData)
-    console.log(serverData)
-    console.table({...serverData,...userData})
     return {...serverData,...userData} 
   }
   catch(err){
-    alert("Data is not seeded yed!")
+    alert(err)
   }
 }
 
@@ -30,7 +30,7 @@ export const signUp = async ({email,password,username}) => {
         password
     })})
     const serverData = await response.json()
-    const userData = await createUserData(serverData._id,username)
+    const userData = await createUserData(username,serverData.accessToken)
     return {...serverData,...userData} 
 
   }
@@ -40,20 +40,15 @@ export const signUp = async ({email,password,username}) => {
   }
 }
 
-export const getUserDataProp = async(_id,prop) => {
-  const userData = await getUserEntryData(_id)
-  console.log(userData)
-  return userData.prop
-}
 
-const createUserData = async (_id,username) => {
+const createUserData = async (username,accessToken) => {
    const response = await fetch(dataUrl,{
    'method': 'POST',
     'headers':{
+      'X-Authorization': accessToken,
       'Content-type':'application/json'
     },
    'body':JSON.stringify({
-    userId: _id,
     username:username,
     avatar:'',
     banner:'',
@@ -68,33 +63,16 @@ const createUserData = async (_id,username) => {
    }),
   'mode':'cors'
   })  
-  let data = await(response.json())
+  let data = await response.json()
   return data
 }
 
-const getUserEntryData = async (_id) => {
-  const response = await fetch(`${dataUrl}`,{method:'GET'})
-  const allUserData = await response.json()
-  return Object.values(allUserData).find(userEntry => userEntry.userId == _id)
+export const getUserDataByProp = async (prop,value) => {
+  const response = await fetch(`${dataUrl}?where=${prop}${equalSign}${quotationMark}${value}${quotationMark}`,{
+    'method' : 'GET'
+  })
+  let data = await response.json()
+  data = data[0]
+  return data
 }
 
-export const getUserDataByUsername = async (username) => {
-  const response = await fetch(`${dataUrl}`,{method:'GET'})
-  const allUserData = await response.json()
-  return (Object.values(allUserData).find(userEntry => userEntry.username == username))
-}
-
-export const editUserData = async (_id,oldData,newData) => {
-  const response = await fetch(`${dataUrl}/${_id}`,{
-    method:'PATCH',
-    'headers':{
-    'Access-Control-Allow-Methods': ['PATCH'],
-    'Content-type':'application/json'
-    },
-    'body':JSON.stringify({
-      ...oldData,
-      ...newData
-    }),
-    method:'CORS'
-    })
-}

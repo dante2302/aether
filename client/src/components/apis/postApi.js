@@ -1,5 +1,5 @@
 const baseUrl = 'http://localhost:3030/data/posts'
-import {getUserDataProp} from './userApi.js'
+import {getUserDataByProp} from './userApi.js'
 import {equalSign, quotationMark} from '../utils/encodeUtils.js'
 
 export const createPost = async ({accessToken},{title,text,imgUrl}) => {
@@ -64,6 +64,7 @@ export const deletePost = async (accessToken,postId) => {
 }
 
 export const getPostUsername = async (userId) => {
-  return await getUserDataProp(userId,'username')
+  let data = await getPostDataByProp('_ownerId',userId)
+  return data.username 
 }
 
