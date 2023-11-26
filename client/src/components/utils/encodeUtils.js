@@ -1,8 +1,4 @@
 
-export const equalSign = () => {
-  return "%3D"
-}
+export const equalSign = "%3D"
 
-export const quotationMark = () => {
-  return "%22"
-}
+export const quotationMark = "%22" 

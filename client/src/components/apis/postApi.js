@@ -3,7 +3,7 @@ const popularUrl = 'http://localhost:3030/data/popularPosts'
 import {getUserDataProp} from './userApi.js'
 import {equalSign, quotationMark} from '../utils/encodeUtils.js'
 
-export const createPost = async ({accessToken,username},{title,text}) => {
+export const createPost = async ({accessToken},{title,text,imgUrl}) => {
   try{
     let response = await fetch(`${baseUrl}`,{
       'method': 'POST',
@@ -15,7 +15,6 @@ export const createPost = async ({accessToken,username},{title,text}) => {
         channel:
         title,
         text,
-        ownerUsername:username,
         likesCount:0,
         usersLiked:[],
         usersDisliked:[],

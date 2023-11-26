@@ -1,7 +1,7 @@
 const baseUrl = 'http://localhost:3030/data/channels'
 import {equalSign, quotationMark} from '../utils/encodeUtils.js'
 
-export const createChannel = async ({accessToken,userId,name,description}) => {
+export const createChannel = async ({accessToken,userId},{name,description}) => {
   try{
     let response = await fetch(`${baseUrl}`,{
       'method': 'POST',
@@ -43,9 +43,9 @@ const getChannelCount = async () => {
 
 export const getChannelDataByName = async (name) => {
   const response = await fetch(
-    `${baseUrl}?where${equalSign}name${equalSign}${quotationMark}${name}${quotationMark}`,{
+    `${baseUrl}?where=name${equalSign}${quotationMark}${name}${quotationMark}`,{
       method: 'GET'
-    })
+  })
   const data = await response.json()
   return data[0]
 }

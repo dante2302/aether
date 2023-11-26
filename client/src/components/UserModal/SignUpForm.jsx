@@ -27,6 +27,7 @@ const SignUpForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
   const submitHandler = async (e,{email, password}) => {
     e.preventDefault()
     setDisabled(true)
+    setShownPassword(false)
     try{
       const data = await userApi.signUp(email,password)
       setUserData(data)
@@ -61,7 +62,6 @@ const SignUpForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
             value={formState.password}
             onChange={(e) => formUtils.changeHandler(e,setFormState)}
             className={styles['password']}
-            // onBlur = {validateInout}
           />
           {!formState.password
             ?
@@ -79,7 +79,6 @@ const SignUpForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
             value={formState.passwordCopy}
             onChange={(e) => formUtils.changeHandler(e,setFormState)}
             className={styles['password']}
-            // onBlur = {validateInout}
           />
 
         </div>

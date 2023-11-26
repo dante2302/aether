@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import * as userApi from '../apis/userApi.js'
 import styles from './styles/LogInForm.module.css'
 import * as formUtils from '../utils/formUtils.js'
+import UserDataContext from '../contexts/UserDataContext.jsx'
+import UserModalContext from '../contexts/UserModalContext.jsx'
 
-const LogInForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
-
+const LogInForm = ({setCurrentMode}) => {
+  const {setUserData} = useContext(UserDataContext)
+  const { toggleUserModal } = useContext(UserModalContext)
   const initialFormState = {
     username: '',
     password: '',

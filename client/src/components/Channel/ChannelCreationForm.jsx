@@ -15,12 +15,7 @@ const ChannelCreationForm = ({userData,toggleChannelModal}) => {
 
   const submitHandler = async (e) => {
     e.preventDefault()
-    const response = await channelApi.createChannel({
-      accessToken: userData.accessToken,
-      userId: userData.userId,
-      name: formState.name,
-      description: formState.description
-    })
+    const response = await channelApi.createChannel(userData,formState)
     toggleChannelModal(false)
     navigate(`/c/${formState.name}`)
   }
