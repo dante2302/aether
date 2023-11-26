@@ -29,7 +29,7 @@ const App = () => {
               </Route>
               <Route path='submit' element={<PostCreationForm />} />
               <Route path='/' element={<Home />} />
-            <Route path='/user/:username' element={<UserPage />}>
+            <Route path='/u/:username' element={<UserPage />}>
               <Route path='saved' elemnet={<SavedPosts />} />
               <Route path='liked' element={<LikedPosts />} />
               <Route path='disliked' element={<DislikedPosts />} />

@@ -18,7 +18,7 @@ export const logIn = async (email,password) => {
   }
 }
 
-export const signUp = async (email,password,username) => {
+export const signUp = async ({email,password,username}) => {
   try{
     const response = await fetch(`${baseUrl}/register`,{
       'method': 'POST',
@@ -72,7 +72,7 @@ const getUserEntryData = async (_id) => {
 
 export const getUserDataByUsername = async (username) => {
   const response = await fetch(`${dataUrl}`,{method:'GET'})
-  const allUserData = response.json()
-  return Object.values(allUserData).find(userEntry => userEntry.username == username)
+  const allUserData = await response.json()
+  return (Object.values(allUserData).find(userEntry => userEntry.username == username))
 }
 
