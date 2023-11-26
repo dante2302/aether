@@ -3,6 +3,7 @@ import {getUserDataByProp} from './userApi.js'
 import {equalSign, quotationMark} from '../utils/encodeUtils.js'
 
 export const createPost = async ({accessToken},{title,text,imgUrl}) => {
+
   try{
     let response = await fetch(`${baseUrl}`,{
       'method': 'POST',
@@ -15,8 +16,6 @@ export const createPost = async ({accessToken},{title,text,imgUrl}) => {
         title,
         text,
         likesCount:0,
-        usersLiked:[],
-        usersDisliked:[],
         comments:[],
         usersCommented:[],
       }),
@@ -61,6 +60,17 @@ export const deletePost = async (accessToken,postId) => {
   catch{
     alert(error)
   }
+}
+
+export const updatePostData = async (_id,newData) => {
+  let response = await fetch(`${baseUrl}/${_id}`,{
+    method:'PATCH',
+    headers:{
+      'Content-Type':'application/json',
+      'X-Admin':''
+    },
+    'body':JSON.stringify(newData)
+  })
 }
 
 export const getPostUsername = async (userId) => {

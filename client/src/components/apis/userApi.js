@@ -54,7 +54,7 @@ const createUserData = async (username,accessToken) => {
     banner:'',
     posts:[],
     channels:[],
-    savedPosts:["ab1200ba-d7e8-45d5-8fc3-736b85f234af"],
+    savedPosts:[],
     likedPosts:[],
     dislikedPosts:[],
     comments:[],
@@ -76,3 +76,15 @@ export const getUserDataByProp = async (prop,value) => {
   return data
 }
 
+export const updateUserData = async ({_ownerId, accessToken},newData) => {
+  const data = await getUserDataByProp('_ownerId',_ownerId)
+  const response = await fetch(`${dataUrl}/${data._id}`,{
+    method:'PATCH',
+    headers:{
+      'X-Authorization': accessToken,
+      'Content-Type':'application/json'
+    },
+   'body':JSON.stringify(newData)
+  })
+  return await response.json()
+}

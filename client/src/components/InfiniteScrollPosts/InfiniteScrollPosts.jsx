@@ -24,6 +24,7 @@ const InfiniteScrollPosts = ({posts}) => {
     let i = visiblePostsCount
     const newPostsCount = 2
     let newPosts = []
+    
     while(i < posts.length && i - visiblePostsCount < newPostsCount){
       newPosts.push(await getPostData(posts[i]))
       i++

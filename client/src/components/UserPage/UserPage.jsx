@@ -13,9 +13,9 @@ const UserPage = () => {
 
   useEffect(() => {
       getUserDataByProp('username',username).then(response => { 
-        setIsOwner(userData && userData.userId === response.userId)
-        const createdOn = getUserDataProp(response.userId,'_createdOn')
-        setPageUserData({...response,createdOn})
+        setIsOwner(userData && userData._ownerId === response._ownerId)
+        const _createdOn = response._createdOn
+        setPageUserData({...response,_createdOn})
       })
   },[])
 
