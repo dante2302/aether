@@ -40,9 +40,24 @@ const SignUpForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
   
   return(
       <form className={styles['input-form']}>
+
         <div className={styles['input-container']}>
           <input 
             type='text'
+            id='username'
+            name='username'
+            value={formState.username}
+            onChange={(e) => {
+              formUtils.changeHandler(e,setFormState)
+            }}
+            className={styles['username']}
+        />
+          {!formState.username&&<label htmlFor='username'>Username</label>}
+        </div>
+
+        <div className={styles['input-container']}>
+          <input 
+            type='email'
             id='email'
             name='email'
             value={formState.email}
@@ -51,7 +66,7 @@ const SignUpForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
             }}
             className={styles['username']}
         />
-          {!formState.username&&<label htmlFor='email'>Email</label>}
+          {!formState.email&&<label htmlFor='email'>Email</label>}
         </div>
 
         <div className={styles['input-container']}>

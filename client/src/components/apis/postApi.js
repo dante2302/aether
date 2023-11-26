@@ -1,5 +1,4 @@
 const baseUrl = 'http://localhost:3030/data/posts'
-const popularUrl = 'http://localhost:3030/data/popularPosts'
 import {getUserDataProp} from './userApi.js'
 import {equalSign, quotationMark} from '../utils/encodeUtils.js'
 

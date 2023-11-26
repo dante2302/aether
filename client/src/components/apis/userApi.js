@@ -69,3 +69,10 @@ const getUserEntryData = async (_id) => {
   const allUserData = await response.json()
   return Object.values(allUserData).find(userEntry => userEntry.userId == _id)
 }
+
+export const getUserDataByUsername = async (username) => {
+  const response = await fetch(`${dataUrl}`,{method:'GET'})
+  const allUserData = response.json()
+  return Object.values(allUserData).find(userEntry => userEntry.username == username)
+}
+
