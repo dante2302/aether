@@ -11,6 +11,7 @@ import UilComment from '@iconscout/react-unicons/icons/uil-comment.js'
 import UilShare from '@iconscout/react-unicons/icons/uil-share.js'
 import UilBookmark from '@iconscout/react-unicons/icons/uil-bookmark.js'
 import styles from './styles/PostRender.module.css'
+import { editUserData } from '../apis/userApi.js'
 
 const PostRender = ({postData}) => {
   const [likesCount,setLikesCount] = useState(postData.likesCount)
@@ -65,6 +66,9 @@ const PostRender = ({postData}) => {
     e.stopPropagation()
   }
 
+  const saveHandler = (e) => {
+  }
+
   return(
     <div className={styles['content']}>
       <div className={styles['rating']}>
@@ -89,10 +93,15 @@ const PostRender = ({postData}) => {
             <UilShare />
             <span>Share</span>
          </div>
-          <div>
+          {userData&&
+          <div onClick={e => {
+            editUserData(userData._id,userData,{savedPosts:[postData._id]})
+            e.stopPropagation()
+          }}>
             <UilBookmark />
             <span>Save</span>
           </div>
+          }
         </div>
       </div>
     </div>

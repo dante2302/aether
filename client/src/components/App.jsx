@@ -15,6 +15,7 @@ import Page404 from './Page404/Page404.jsx'
 import { Routes, Route} from 'react-router-dom'
 import { UserDataProvider } from './contexts/UserDataContext.jsx'
 import { UserModalProvider } from './contexts/UserModalContext.jsx'
+import HomeGuest from './Home/HomeGuestPage/HomeGuestPage.jsx'
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
               <Route path='disliked' element={<UserPageFeed type='disliked'/>} />
               <Route path='comments' element={<UserCommentsPage />} />
             </Route>
+            <Route path='popular' element={<HomeGuest />} />
             <Route path='/*' element={<Page404 />} />
             </Routes>
           </div>

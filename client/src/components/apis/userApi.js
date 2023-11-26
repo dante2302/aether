@@ -1,5 +1,5 @@
 const baseUrl = 'http://localhost:3030/users';
-const dataUrl = 'http://localhost:3030/jsonstore/userData';
+const dataUrl = 'http://localhost:3030/data/userData';
 
 export const logIn = async (email,password) => {
   try{
@@ -11,7 +11,10 @@ export const logIn = async (email,password) => {
     })})
     const serverData = await response.json()
     const userData = await getUserEntryData(serverData._id)
-    return {...userData,...serverData} 
+    console.log(userData)
+    console.log(serverData)
+    console.table({...serverData,...userData})
+    return {...serverData,...userData} 
   }
   catch(err){
     alert("Data is not seeded yed!")
@@ -28,7 +31,7 @@ export const signUp = async ({email,password,username}) => {
     })})
     const serverData = await response.json()
     const userData = await createUserData(serverData._id,username)
-    return {...userData,...serverData}
+    return {...serverData,...userData} 
 
   }
 
@@ -81,3 +84,17 @@ export const getUserDataByUsername = async (username) => {
   return (Object.values(allUserData).find(userEntry => userEntry.username == username))
 }
 
+export const editUserData = async (_id,oldData,newData) => {
+  const response = await fetch(`${dataUrl}/${_id}`,{
+    method:'PATCH',
+    'headers':{
+    'Access-Control-Allow-Methods': ['PATCH'],
+    'Content-type':'application/json'
+    },
+    'body':JSON.stringify({
+      ...oldData,
+      ...newData
+    }),
+    method:'CORS'
+    })
+}
