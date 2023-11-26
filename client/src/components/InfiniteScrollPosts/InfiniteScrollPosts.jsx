@@ -4,7 +4,7 @@ import { getPostData } from '../apis/postApi.js'
 
 import { useState, useEffect } from "react"
 
-const InfiniteScrollPosts = ({channelPosts}) => {
+const InfiniteScrollPosts = ({posts}) => {
 
   const [visiblePosts,setVisiblePosts] = useState([])
   const [visiblePostsCount,setVisiblePostsCount] = useState(0)
@@ -16,16 +16,16 @@ const InfiniteScrollPosts = ({channelPosts}) => {
     if( !isBottom || isLoading){
       return
     }
-    fetchVisiblePosts(channelPosts)
+    fetchVisiblePosts(posts)
   }
 
-  const fetchVisiblePosts = async (channelPosts) => {
+  const fetchVisiblePosts = async (posts) => {
     setIsLoading(true)
     let i = visiblePostsCount
     const newPostsCount = 2
     let newPosts = []
-    while(i < channelPosts.length && i - visiblePostsCount < newPostsCount){
-      newPosts.push(await getPostData(channelPosts[i]))
+    while(i < posts.length && i - visiblePostsCount < newPostsCount){
+      newPosts.push(await getPostData(posts[i]))
       i++
     }
     setVisiblePostsCount(count => count + newPostsCount)
@@ -39,7 +39,7 @@ const InfiniteScrollPosts = ({channelPosts}) => {
   },[isLoading])
 
   useEffect(() => {
-    fetchVisiblePosts(channelPosts)
+    fetchVisiblePosts(posts)
   },[])
 
   return (

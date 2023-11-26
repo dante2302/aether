@@ -1,8 +1,8 @@
 import UserPageSidebar from './UserPageSidebar'
 import { useState, useEffect, useContext } from 'react'
-import { Outlet, useParams } from 'react-router-dom'
+import { Link, Outlet, useParams } from 'react-router-dom'
 import UserDataContext from '../contexts/UserDataContext'
-import { getUserDataByUsername } from '../apis/userApi'
+import { getUserDataByUsername, getUserDataProp } from '../apis/userApi'
 
 const UserPage = () => {
   const {userData} = useContext(UserDataContext)
@@ -11,19 +11,23 @@ const UserPage = () => {
   const {username} = useParams()
 
   useEffect(() => {
-    const asyncFunc = async () => {
-      const response = await getUserDataByUsername(username) 
-      setIsOwner(userData && userData.userId === response.userId)
-      setPageUserData(response)
-    }
-    asyncFunc()
+      getUserDataByUsername(username).then(response => { 
+        setIsOwner(userData && userData.userId === response.userId)
+        const createdOn = getUserDataProp(response.userId,'_createdOn')
+        setPageUserData({...response,createdOn})
+      })
   },[])
 
   return (
     pageUserData &&
     <div>
       <UserPageSidebar pageUserData={pageUserData} isOwner={isOwner}/>
-      <Outlet context={[isOwner,pageUserData]}/>
+      <div>
+        <Link to='./liked'>LIKED</Link>
+        <Link to='./disliked'>DISLIKED</Link>
+        <Link to='./saved'>SAVED</Link>
+      </div>
+      <Outlet context={[pageUserData,isOwner]}/>
     </div>
   )
 }

@@ -65,7 +65,7 @@ const ChannelPage = () => {
         <main className={styles['main']} >
           <CreatePostBar />
           {channelData.posts&&
-          <InfiniteScrollPosts channelPosts={channelData.posts}/>}
+          <InfiniteScrollPosts posts={channelData.posts}/>}
         </main>
       </div>
       <div className={styles['side']}>

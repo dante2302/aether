@@ -7,10 +7,8 @@ import ChannelPage from './Channel/ChannelPage'
 import PostCreationForm from './Post/PostCreationForm.jsx'
 
 import UserPage from './UserPage/UserPage.jsx'
-import SavedPosts from './UserPage/SavedPosts/SavedPosts.jsx'
-import LikedPosts from './UserPage/LikedPosts/LikedPosts.jsx'
-import DislikedPosts from './UserPage/DislikedPosts/DislikedPosts.jsx'
-import Comments from './UserPage/Comments/Comments.jsx'
+import UserCommentsPage from './UserPage/UserCommentsPage.jsx'
+import UserPageFeed from './UserPage/UserPageFeed.jsx'
 
 import { Routes, Route} from 'react-router-dom'
 import { UserDataProvider } from './contexts/UserDataContext.jsx'
@@ -30,10 +28,11 @@ const App = () => {
               <Route path='submit' element={<PostCreationForm />} />
               <Route path='/' element={<Home />} />
             <Route path='/u/:username' element={<UserPage />}>
-              <Route path='saved' elemnet={<SavedPosts />} />
-              <Route path='liked' element={<LikedPosts />} />
-              <Route path='disliked' element={<DislikedPosts />} />
-              <Route path='comments' element={<Comments />} />
+              <Route path='submitted' element={<UserPageFeed type='posted' />} />
+              <Route path='saved' element={<UserPageFeed type='saved' />} />
+              <Route path='liked' element={<UserPageFeed type='liked'/>} />
+              <Route path='disliked' element={<UserPageFeed type='disliked'/>} />
+              <Route path='comments' element={<UserCommentsPage />} />
             </Route>
             </Routes>
           </div>

@@ -38,7 +38,8 @@ export const signUp = async ({email,password,username}) => {
 }
 
 export const getUserDataProp = async(_id,prop) => {
-  const userData = await getUserEntry(_id)
+  const userData = await getUserEntryData(_id)
+  console.log(userData)
   return userData.prop
 }
 
@@ -55,8 +56,10 @@ const createUserData = async (_id,username) => {
     channels:[],
     savedPosts:[],
     likedPosts:[],
+    dislikedPosts:[],
     comments:[],
-    socialLinks:[]
+    socialLinks:[],
+    _createdOn:Date.now(),
    }),
   'mode':'cors'
   })  

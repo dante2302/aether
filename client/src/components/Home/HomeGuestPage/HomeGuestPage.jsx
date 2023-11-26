@@ -16,7 +16,7 @@ const HomeGuest = () => {
   return(
     <div className={styles['container']}>
       {posts&&
-        <InfiniteScrollPosts channelPosts={posts}/>}
+        <InfiniteScrollPosts posts={posts}/>}
       <PopularChannels /> 
     </div>
   )
