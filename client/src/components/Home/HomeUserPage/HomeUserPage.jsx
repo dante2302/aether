@@ -1,6 +1,5 @@
 import HomeSidebar from "./HomeSidebar"
 import HomeFeed from "./HomeFeed"
-import HomeInfo from "./HomeInfo"
 import styles from './styles/HomeUserPage.module.css'
 import { useWindowSize } from '@uidotdev/usehooks'
 
@@ -13,7 +12,6 @@ const HomeUserPage = () => {
       {windowSize.width>900&&
         <div className={styles['content']}>
           <HomeSidebar />
-          <HomeInfo />
         </div>
       }
     </div>

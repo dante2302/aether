@@ -52,9 +52,11 @@ const createUserData = async (_id,username) => {
    'body':JSON.stringify({
     userId: _id,
     username:username,
+    avatar:'',
+    banner:'',
     posts:[],
     channels:[],
-    savedPosts:[],
+    savedPosts:["ab1200ba-d7e8-45d5-8fc3-736b85f234af"],
     likedPosts:[],
     dislikedPosts:[],
     comments:[],

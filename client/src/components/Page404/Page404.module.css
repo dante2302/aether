@@ -1,0 +1,26 @@
+.container{
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom:5em;
+  gap:20px;
+}
+
+.container>img{
+    width:50vw;
+}
+
+.container>button{
+  padding:1em 2em;
+  font-size:16px;
+  background:white;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+}
+
+.container>button:hover{
+  background-color:#eefeea; 
+  border:1px solid cyan;
+}
