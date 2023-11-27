@@ -5,9 +5,11 @@ import UserDataContext from '../contexts/UserDataContext'
 import UserModalContext from '../contexts/UserModalContext'
 
 import { updatePostData } from '../apis/postApi.js'
+import { updateUserData } from '../apis/userApi'
 
 import UilArrowUp from '@iconscout/react-unicons/icons/uil-arrow-up'
 import UilArrowDown from '@iconscout/react-unicons/icons/uil-arrow-down'
+
 const PostRating = ({postData}) => {
 
   const {userData, setUserData} = useContext(UserDataContext)
@@ -24,7 +26,7 @@ const PostRating = ({postData}) => {
   const checkRating = () => {
     if(!userData)return
     if(userData.likedPosts.includes(postData._id))setLiked(true)
-    else if(userData.dislikedPosts.includes(postData._id))setDisliked(true)
+    if(userData.dislikedPosts.includes(postData._id))setDisliked(true)
   }
 
   useEffect(() => {
@@ -55,8 +57,13 @@ const PostRating = ({postData}) => {
       setLiked(true)
       setLikesCount(likes => likes + 2)
       likedPosts = [...userData.likedPosts,postData._id]
-      dislikedPosts = userData.dislikedPosts.filter((posts) => {posts !== postData._id})
-      updateUserData(userData,{...userData,dislikedPosts,likedPosts}).then(result => setUserData(result))
+      console.log('likedPosts:',likedPosts)
+      dislikedPosts = userData.dislikedPosts.filter((posts) => posts !== postData._id)
+      console.log('filter',postData._id)
+      console.log('userDislikedPosts:',userData.dislikedPosts)
+      console.log('newDislikedPosts;',dislikedPosts)
+      updateUserData(userData,{...userData,dislikedPosts,likedPosts})
+        .then(result => setUserData(result))
     }
 
     else {
@@ -89,8 +96,11 @@ const PostRating = ({postData}) => {
       setDisliked(true)
       setLikesCount(likes => likes - 2)
       dislikedPosts = [...userData.dislikedPosts,postData._id]
-      likedPosts = userData.likedPosts.filter((posts) => {posts !== postData._id})
-      updateUserData(userData,{...userData,dislikedPosts,likedPosts}).then(result => setUserData(result))
+      likedPosts = userData.likedPosts.filter((posts) => posts !== postData._id)
+      console.log('likedPosts:',likedPosts)
+      console.log('dislikedPosts:',dislikedPosts)
+      updateUserData(userData,{...userData,dislikedPosts,likedPosts})
+        .then(result => setUserData(result))
     }
 
     else{

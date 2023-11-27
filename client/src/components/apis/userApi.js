@@ -13,7 +13,6 @@ export const logIn = async (email,password) => {
     })})
     const serverData = await response.json()
     const userData = await getUserDataByProp('_ownerId',serverData._id)
-    console.log(userData)
     return {...serverData,...userData} 
   }
   catch(err){

@@ -33,12 +33,14 @@ const PostRender = ({postData}) => {
 
   const saveHandler = (e) => {
     e.stopPropagation()
+
     const savedPosts =
       isSaved  
         ?
         userData.savedPosts.filter((postId) => postId !== postData._id)
         :
         [...userData.savedPosts,postData._id]
+
     updateUserData(userData,{...userData,savedPosts})
       .then(result => {
         setUserData(result)
