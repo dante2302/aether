@@ -26,8 +26,6 @@ export const createChannel = async ({accessToken,userId},{name,description}) => 
   }
 }
 
-export const updateChannelData = async ({accessToken,userId}) => {
-}
 
 export const getChannelData = async (channelId) => {
   const response = await fetch(`${baseUrl}/${channelId}`,{method: 'GET'}) 
@@ -41,12 +39,38 @@ const getChannelCount = async () => {
   return await response.json()
 }
 
-export const getChannelDataByName = async (name) => {
+export const getChannelDataByProp = async (prop,value) => {
   const response = await fetch(
-    `${baseUrl}?where=name${equalSign}${quotationMark}${name}${quotationMark}`,{
+    `${baseUrl}?where=${prop}${equalSign}${quotationMark}${value}${quotationMark}`,{
       method: 'GET'
   })
   const data = await response.json()
   return data[0]
 }
 
+export const updateChannelData = async ({userId},channelId,newData) => {
+  const response = await fetch(`${baseUrl}/${channelId}`,{
+    method:'PATCH',
+    headers:{
+      'Content-Type':'application/json',
+      'X-Admin':''
+    },
+    'body':JSON.stringify(newData)
+  })
+  const data = await response.json()
+  console.log(data)
+  return data
+}
+
+export const createChannelPost = async ({userId}, channelId, newPost) => {
+  const channelData = await getChannelData(channelId)
+  const currentPosts = channelData.posts
+  const response = await fetch(`${baseUrl}/${channelId}`,{
+    method:'PATCH',
+    headers:{
+      'Content-Type':'application/json',
+      'X-Admin':''
+    },
+    'body':JSON.stringify({posts: [...currentPosts,newPost]})
+  })
+}

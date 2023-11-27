@@ -1,8 +1,8 @@
 import CreatePostBar from '../Post/CreatePostBar.jsx'
 import InfiniteScrollPosts from '../InfiniteScrollPosts/InfiniteScrollPosts.jsx'
 
-import * as channelApi from '../apis/channelApi.js'
-import * as dateUtils from '../utils/dateUtils.js'
+import { updateChannelData, getChannelDataByProp } from '../apis/channelApi.js' 
+import {getFullDateFormat} from '../utils/dateUtils.js'
 
 import { useState, useEffect, useContext } from "react"
 import { useNavigate, useParams } from "react-router-dom"
@@ -12,6 +12,7 @@ import UserDataContext from "../contexts/UserDataContext"
 
 import UilHospital from "@iconscout/react-unicons/icons/uil-hospital.js"
 import styles from './styles/ChannelPage.module.css' 
+import { updateUserData } from '../apis/userApi.js'
 
 const ChannelPage = () => {
 
@@ -21,11 +22,11 @@ const ChannelPage = () => {
   const navigate = useNavigate()
   const {channelName} = useParams()
 
-  const {userData} = useContext(UserDataContext)
+  const {userData,setUserData} = useContext(UserDataContext)
   const {toggleUserModal} = useContext(UserModalContext)
 
   useEffect(() => {
-    channelApi.getChannelDataByName(channelName).then((channel) => {
+    getChannelDataByProp('name',channelName).then((channel) => {
       setChannelData(channel)
       userData && setJoined(channel.members.includes(userData.userId))
     })
@@ -36,12 +37,39 @@ const ChannelPage = () => {
       toggleUserModal();
       return
     }
-    setJoined(!isJoined)
+    let newChannels = []
+    let newMembers = []
+
+    if(isJoined){
+      newChannels = [...userData.channels.filter((channelId) => channelId !== channelData._id )]
+      newMembers = channelData.members.filter((member) => member !== userData._ownerId)
+      updateUserData(userData, {channels:newChannels})
+        .then((data) => {
+        setUserData(data)
+      })
+      updateChannelData(userData,channelData._id,{members: newMembers})
+      .then((data) => {
+          setChannelData(data)
+      })
+      setJoined(false)
+    }
+
+    else{
+      newChannels = [...userData.channels, channelData._id]
+      newMembers = [...channelData.members, userData._ownerId]
+      updateUserData(userData, {channels: newChannels})
+        .then((data) => {
+        setUserData(data)
+      })
+      updateChannelData(userData,channelData._id,{members: newMembers})
+      .then((data) => {
+          setChannelData(data)
+      })
+      setJoined(true)
+    }
   } 
 
-
   const createPostHandler = () => {
-    console.log(userData)
     userData ? navigate('/submit') : toggleUserModal()
   }
 
@@ -72,7 +100,7 @@ const ChannelPage = () => {
         <h6>About Channel</h6>
         <div className={styles['date-container']}>
           <UilHospital size={20}/>
-          <div>Created {dateUtils.getFullDateFormat(channelData._createdOn)}</div>
+          <div>Created {getFullDateFormat(channelData._createdOn)}</div>
         </div>
         <button onClick={createPostHandler}>Create Post</button>
         <p>{channelData.description||'No Description'}</p>

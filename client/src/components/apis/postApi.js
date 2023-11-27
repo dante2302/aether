@@ -1,8 +1,8 @@
 const baseUrl = 'http://localhost:3030/data/posts'
 import {getUserDataByProp} from './userApi.js'
-import {equalSign, quotationMark} from '../utils/encodeUtils.js'
-
-export const createPost = async ({accessToken},{title,text,imgUrl}) => {
+import { equalSign, quotationMark } from '../utils/encodeUtils.js'
+import { updateChannelData, createChannelPost } from './channelApi.js'
+export const createPost = async ({userId,accessToken},{title,text,imgUrl,channelId}) => {
 
   try{
     let response = await fetch(`${baseUrl}`,{
@@ -12,17 +12,20 @@ export const createPost = async ({accessToken},{title,text,imgUrl}) => {
         'X-Authorization': accessToken
       },
       'body':JSON.stringify({
-        channel:
+        channelId,
         title,
         text,
+        imgUrl,
         likesCount:0,
         comments:[],
         usersCommented:[],
       }),
       'mode': 'cors'
     })
-    const data = await response
-    return data.json() 
+    let data = await response
+    data = await data.json() 
+    await createChannelPost({userId,accessToken},channelId,data._id)
+    return data
   }
   catch(error){
     alert(error)

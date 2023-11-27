@@ -19,23 +19,17 @@ const PostRating = ({postData}) => {
   const [isLiked,setLiked] = useState(false)
   const [isDisliked,setDisliked] = useState(false) 
 
-  useEffect(() => {
-    updatePostData(postData._id,{...postData,likesCount})
-  }, [likesCount])
-
   const checkRating = () => {
-    if(!userData)return
-    if(userData.likedPosts.includes(postData._id))setLiked(true)
-    if(userData.dislikedPosts.includes(postData._id))setDisliked(true)
+    if(!userData){setLiked(false) ; setDisliked(false) ; return}
+    if(userData.likedPosts.includes(postData._id))setLiked(true);
+    else if(userData.dislikedPosts.includes(postData._id))setDisliked(true);
   }
 
-  useEffect(() => {
-    checkRating()
-  },[])
+  useEffect(() => {checkRating()},[])
 
-  useEffect(() => {
-    checkRating()
-  },[userModal]) 
+  useEffect(() => {checkRating()},[userData]) 
+
+  useEffect(() => {updatePostData(postData._id,{likesCount})}, [likesCount])
 
   const likeHandler = (e) => {
     e.stopPropagation()
@@ -48,7 +42,7 @@ const PostRating = ({postData}) => {
       setLikesCount(likes => likes - 1)
       setLiked(false)
       likedPosts = userData.likedPosts.filter((_id) => _id !== postData._id)
-      updateUserData(userData,{...userData,likedPosts})
+      updateUserData(userData,{likedPosts})
         .then((result) => {setUserData(result)})
     }
 
@@ -57,12 +51,8 @@ const PostRating = ({postData}) => {
       setLiked(true)
       setLikesCount(likes => likes + 2)
       likedPosts = [...userData.likedPosts,postData._id]
-      console.log('likedPosts:',likedPosts)
       dislikedPosts = userData.dislikedPosts.filter((posts) => posts !== postData._id)
-      console.log('filter',postData._id)
-      console.log('userDislikedPosts:',userData.dislikedPosts)
-      console.log('newDislikedPosts;',dislikedPosts)
-      updateUserData(userData,{...userData,dislikedPosts,likedPosts})
+      updateUserData(userData,{dislikedPosts,likedPosts})
         .then(result => setUserData(result))
     }
 
@@ -70,7 +60,7 @@ const PostRating = ({postData}) => {
       setLiked(true)
       setLikesCount( likes => likes + 1)
       likedPosts = [...userData.likedPosts,postData._id]
-      updateUserData(userData,{...userData,likedPosts})
+      updateUserData(userData,{likedPosts})
         .then((result) => {setUserData(result)})
     }
   
@@ -87,7 +77,7 @@ const PostRating = ({postData}) => {
       setLikesCount(likes => likes + 1)
       setDisliked(false)
       dislikedPosts = userData.dislikedPosts.filter((_id) => _id !== postData._id)
-      updateUserData(userData,{...userData,dislikedPosts})
+      updateUserData(userData,{dislikedPosts})
         .then((result) => {setUserData(result)})
     }
 
@@ -97,9 +87,7 @@ const PostRating = ({postData}) => {
       setLikesCount(likes => likes - 2)
       dislikedPosts = [...userData.dislikedPosts,postData._id]
       likedPosts = userData.likedPosts.filter((posts) => posts !== postData._id)
-      console.log('likedPosts:',likedPosts)
-      console.log('dislikedPosts:',dislikedPosts)
-      updateUserData(userData,{...userData,dislikedPosts,likedPosts})
+      updateUserData(userData,{dislikedPosts,likedPosts})
         .then(result => setUserData(result))
     }
 
@@ -107,7 +95,7 @@ const PostRating = ({postData}) => {
       setDisliked(true)
       setLikesCount(likes => likes - 1)
       dislikedPosts = [...userData.dislikedPosts,postData._id]
-      updateUserData(userData,{...userData,dislikedPosts}).then()
+      updateUserData(userData,{dislikedPosts}).then()
         .then((result) => {setUserData(result)})
     }
   }

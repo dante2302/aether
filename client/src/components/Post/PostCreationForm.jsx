@@ -1,20 +1,40 @@
 import { useContext, useEffect, useState } from "react"
 import * as formUtils from '../utils/formUtils.js'
 import * as postApi from '../apis/postApi.js'
+import {getChannelData} from '../apis/channelApi.js'
 import { useNavigate } from "react-router-dom"
+
 import UserDataContext from "../contexts/UserDataContext"
-//
+
 const PostForm = () => {
+
   const navigate = useNavigate()
+  const [channels,setChannels] = useState([])
+  const [selectedChannel,setSelectedChannel] = useState({})
   const {userData} = useContext(UserDataContext)
-  useEffect(() => {!userData&&navigate('../')} ,[])
+
+  useEffect(() => {
+    if (!userData){navigate('../');return}
+    const asyncFunc = async () => {
+      let availableChannels = []
+      for(const channel of userData.channels){
+        const data = await  getChannelData(channel)
+        availableChannels.push(data)
+      }
+      if(availableChannels.length>0){
+        setChannels(availableChannels)
+        setSelectedChannel(availableChannels[0])
+      }
+      else {alert('You need a channel');navigate('../')}
+    }
+    asyncFunc()
+  },[])
 
   const initialFormState = {
     title: '',
     text: '',
     image: '',
     link: '',
-    channel: ''
   }
 
 
@@ -22,8 +42,9 @@ const PostForm = () => {
   
   const submitHandler = async (e) => {
     e.preventDefault()
-    const response = await postApi.createPost(userData,formState)
-    navigate('../')
+    const response = await postApi.createPost(userData,{...formState , channelId:selectedChannel._id})
+    console.log(response)
+    // navigate('../')
   }
 
   return(
@@ -31,10 +52,15 @@ const PostForm = () => {
       <select
         id='channel'
         name='channel'
-        onChange={(e) => formUtils.changeHandler(e,setFormState)}
+        value={selectedChannel && selectedChannel._id}
+        onChange={(e) => setSelectedChannel(e.target.value)}
       >
-        
+        {channels && 
+          channels.map((channelData) => 
+            <option key={channelData._id} value={channelData._id}>{channelData.name}</option>)
+        }
       </select>
+
       <label htmlFor="title">Title</label>
       <input 
         id='title'
@@ -43,6 +69,7 @@ const PostForm = () => {
         value={formState.title}
         onChange={(e) => formUtils.changeHandler(e,setFormState)} 
       />
+
       <label htmlFor="text">Text</label>
       <textarea
         id='text'
@@ -50,6 +77,7 @@ const PostForm = () => {
         value={formState.text}
         onChange={(e) => formUtils.changeHandler(e,setFormState)}
       />
+
       <button>Post</button>
     </form>
   )
