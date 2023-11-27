@@ -14,6 +14,8 @@ import styles from './styles/PostRender.module.css'
 const PostRender = ({postData}) => {
   const {userData} = useContext(UserDataContext)
 
+  console.log(formatRegex.test('asd.svgsd'))
+
   return(
     <div className={styles['content']}>
       <PostRating postData={postData} />

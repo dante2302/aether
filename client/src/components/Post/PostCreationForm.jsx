@@ -41,15 +41,20 @@ const PostForm = () => {
   const [formState,setFormState] = useState(initialFormState)
 
   const checkImgUrl = async (imgUrl) => {
-    const img = new Image()
-    img.src = imgUrl
-    if(img.complete){
-      return true
+    if(imgUrl === '')return true
+    const httpRegex = new RegExp('^http://|^https://')
+    const formatRegex = new RegExp('(.jpg|.jpeg|.png|.svg|.webp|.gif)$')
+
+    if(httpRegex.test(imgUrl) && formatRegex.test(imgUrl)){
+      try{
+        const response = await fetch(imgUrl)
+        return response.ok
+      }
+      catch(err){
+        console.log(err)
+      }
     }
-    else{
-      img.onload = () => true
-      img.onerror = () => false
-    }
+    return false
   }
 
   const submitHandler = async (e) => {
