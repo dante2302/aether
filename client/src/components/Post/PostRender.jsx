@@ -20,10 +20,12 @@ const PostRender = ({postData}) => {
       <div className={styles['inner-content']}>
         <div>
           <span>c/{postData.channelName}</span> 
-          Posted by u\{postData.ownerUsername} 
-          {getTimeDifference(postData._createdOn)} ago
+          <span>Posted by u\{postData.ownerUsername} </span> 
+          <span>{getTimeDifference(postData._createdOn)} ago</span>
         </div>
         <h3>{postData.title}</h3>
+        {postData.imgUrl && 
+          <img src={postData.imgUrl} alt='Image Not Found!' className={styles['post-image']}/>}
         <p>{postData.text}</p>
         <div className={styles['options-container']}>
           <div>

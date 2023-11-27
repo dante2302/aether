@@ -53,6 +53,7 @@ const createUserData = async (username,accessToken) => {
     banner:'',
     posts:[],
     channels:[],
+    authorChannels:[],
     savedPosts:[],
     likedPosts:[],
     dislikedPosts:[],

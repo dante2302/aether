@@ -27,7 +27,7 @@ const PopularChannels = () => {
         {visibleChannels.map(singleChannelData => 
           <li key={singleChannelData._id} onClick={() => navigate(`/c/${singleChannelData.name}`)}>
             <div> c/{singleChannelData.name}</div>
-            <div> {singleChannelData.memberCount} members</div>
+            <div> {singleChannelData.members.length} members</div>
           </li>)
         }
       </ul>

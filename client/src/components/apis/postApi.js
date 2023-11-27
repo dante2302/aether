@@ -2,7 +2,7 @@ const baseUrl = 'http://localhost:3030/data/posts'
 import {getUserDataByProp} from './userApi.js'
 import { equalSign, quotationMark } from '../utils/encodeUtils.js'
 import { updateChannelData, createChannelPost } from './channelApi.js'
-export const createPost = async ({userId,accessToken},{title,text,imgUrl,channelId}) => {
+export const createPost = async ({username,accessToken},{title,text,imgUrl,channelId}) => {
 
   try{
     let response = await fetch(`${baseUrl}`,{
@@ -13,6 +13,7 @@ export const createPost = async ({userId,accessToken},{title,text,imgUrl,channel
       },
       'body':JSON.stringify({
         channelId,
+        ownerUsername:username,
         title,
         text,
         imgUrl,
@@ -24,14 +25,14 @@ export const createPost = async ({userId,accessToken},{title,text,imgUrl,channel
     })
     let data = await response
     data = await data.json() 
-    await createChannelPost({userId,accessToken},channelId,data._id)
+    await createChannelPost(channelId,data._id)
     return data
   }
   catch(error){
     alert(error)
   }
 }
-
+    
 export const getPostData = async (postId) => {
   try{
     const response = await fetch(`${baseUrl}/${postId}`,{'method': 'GET'})

@@ -1,7 +1,7 @@
 const baseUrl = 'http://localhost:3030/data/channels'
 import {equalSign, quotationMark} from '../utils/encodeUtils.js'
 
-export const createChannel = async ({accessToken,userId},{name,description}) => {
+export const createChannel = async ({accessToken,_ownerId,channels},{name,description}) => {
   try{
     let response = await fetch(`${baseUrl}`,{
       'method': 'POST',
@@ -13,13 +13,12 @@ export const createChannel = async ({accessToken,userId},{name,description}) => 
         name,
         description,
         members:[userId],
-        memberCount: 1,
         posts:[]
       }),
       'mode': 'cors'
     })
-    const data = await response
-    return data.json() 
+    const data = await response.json()
+    updateUserData({userId,accessToken},{channels: [...channels,data._id]})
   }
   catch(error){
     alert(error)
@@ -48,7 +47,7 @@ export const getChannelDataByProp = async (prop,value) => {
   return data[0]
 }
 
-export const updateChannelData = async ({userId},channelId,newData) => {
+export const updateChannelData = async (channelId,newData) => {
   const response = await fetch(`${baseUrl}/${channelId}`,{
     method:'PATCH',
     headers:{
@@ -58,11 +57,10 @@ export const updateChannelData = async ({userId},channelId,newData) => {
     'body':JSON.stringify(newData)
   })
   const data = await response.json()
-  console.log(data)
   return data
 }
 
-export const createChannelPost = async ({userId}, channelId, newPost) => {
+export const createChannelPost = async (channelId, newPost) => {
   const channelData = await getChannelData(channelId)
   const currentPosts = channelData.posts
   const response = await fetch(`${baseUrl}/${channelId}`,{

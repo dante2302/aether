@@ -23,14 +23,19 @@ const ChannelPage = () => {
   const {channelName} = useParams()
 
   const {userData,setUserData} = useContext(UserDataContext)
-  const {toggleUserModal} = useContext(UserModalContext)
+  const {userModal,toggleUserModal} = useContext(UserModalContext)
 
   useEffect(() => {
     getChannelDataByProp('name',channelName).then((channel) => {
       setChannelData(channel)
-      userData && setJoined(channel.members.includes(userData.userId))
     })
   },[])
+
+  useEffect(() => {
+    if(userData&&channelData.members){
+      setJoined(channelData.members.includes(userData._ownerId))
+    }
+  },[channelData,userModal])
 
   const joinHandler = () => {
     if(!userData){
@@ -47,7 +52,7 @@ const ChannelPage = () => {
         .then((data) => {
         setUserData(data)
       })
-      updateChannelData(userData,channelData._id,{members: newMembers})
+      updateChannelData(channelData._id,{members: newMembers})
       .then((data) => {
           setChannelData(data)
       })
@@ -61,7 +66,7 @@ const ChannelPage = () => {
         .then((data) => {
         setUserData(data)
       })
-      updateChannelData(userData,channelData._id,{members: newMembers})
+      updateChannelData(channelData._id,{members: newMembers})
       .then((data) => {
           setChannelData(data)
       })
@@ -93,7 +98,7 @@ const ChannelPage = () => {
         <main className={styles['main']} >
           <CreatePostBar />
           {channelData.posts&&
-          <InfiniteScrollPosts posts={channelData.posts}/>}
+          <InfiniteScrollPosts posts={channelData.posts.reverse()}/>}
         </main>
       </div>
       <div className={styles['side']}>

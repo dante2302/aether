@@ -7,10 +7,16 @@ import { useNavigate } from "react-router-dom"
 import UserDataContext from "../contexts/UserDataContext"
 
 const PostForm = () => {
+  const initialFormState = {
+    title: '',
+    text: '',
+    imgUrl: '',
+    link: '',
+  }
 
   const navigate = useNavigate()
   const [channels,setChannels] = useState([])
-  const [selectedChannel,setSelectedChannel] = useState({})
+  const [selectedChannel,setSelectedChannel] = useState()
   const {userData} = useContext(UserDataContext)
 
   useEffect(() => {
@@ -30,21 +36,28 @@ const PostForm = () => {
     asyncFunc()
   },[])
 
-  const initialFormState = {
-    title: '',
-    text: '',
-    image: '',
-    link: '',
-  }
 
 
   const [formState,setFormState] = useState(initialFormState)
-  
+
+  const checkImgUrl = async (imgUrl) => {
+    const img = new Image()
+    img.src = imgUrl
+    if(img.complete){
+      return true
+    }
+    else{
+      img.onload = () => true
+      img.onerror = () => false
+    }
+  }
+
   const submitHandler = async (e) => {
     e.preventDefault()
-    const response = await postApi.createPost(userData,{...formState , channelId:selectedChannel._id})
-    console.log(response)
-    // navigate('../')
+    if(formState.title && await checkImgUrl(formState.imgUrl)){
+      await postApi.createPost(userData,{...formState , channelId:selectedChannel._id})
+      navigate('../')
+    }
   }
 
   return(
@@ -76,6 +89,14 @@ const PostForm = () => {
         name='text'
         value={formState.text}
         onChange={(e) => formUtils.changeHandler(e,setFormState)}
+      />
+      <label htmlFor="imgUrl">Img:</label>
+      <input 
+        id='imgUrl'
+        name='imgUrl'
+        type='text'
+        value={formState.imgUrl}
+        onChange={(e) => formUtils.changeHandler(e,setFormState)} 
       />
 
       <button>Post</button>

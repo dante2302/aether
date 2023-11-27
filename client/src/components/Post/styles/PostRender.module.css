@@ -6,7 +6,10 @@
   grid-template-columns:5% 95%;
   cursor:pointer;
 }
-
+.post-image{
+  font-size:3rem;
+  font-weight: 600;
+}
 .rating{
   display:flex;
   background:#edf0ef; 
