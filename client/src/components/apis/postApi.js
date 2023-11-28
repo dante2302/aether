@@ -23,6 +23,7 @@ export const createPost = async ({username,accessToken},{title,text,imgUrl,chann
       }),
       'mode': 'cors'
     })
+
     let data = await response
     data = await data.json() 
     await createChannelPost(channelId,data._id)

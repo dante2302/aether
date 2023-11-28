@@ -60,7 +60,8 @@ const PostForm = () => {
   const submitHandler = async (e) => {
     e.preventDefault()
     if(formState.title && await checkImgUrl(formState.imgUrl)){
-      await postApi.createPost(userData,{...formState , channelId:selectedChannel._id})
+      console.log(userData)
+      await postApi.createPost(userData,{...formState , channelId: selectedChannel})
       navigate('../')
     }
   }
@@ -71,7 +72,7 @@ const PostForm = () => {
         id='channel'
         name='channel'
         value={selectedChannel && selectedChannel._id}
-        onChange={(e) => setSelectedChannel(e.target.value)}
+        onChange={(e) => {setSelectedChannel(e.target.value);console.log(e.target.value)}}
       >
         {channels && 
           channels.map((channelData) => 
