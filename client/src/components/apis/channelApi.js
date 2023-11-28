@@ -1,24 +1,24 @@
 const baseUrl = 'http://localhost:3030/data/channels'
 import {equalSign, quotationMark} from '../utils/encodeUtils.js'
 
-export const createChannel = async ({accessToken,_ownerId,channels},{name,description}) => {
+export const createChannel = async (userData,{name,description}) => {
   try{
     let response = await fetch(`${baseUrl}`,{
       'method': 'POST',
       'headers':{
         'Content-Type': 'application/json',
-        'X-Authorization': accessToken
+        'X-Authorization': userData.accessToken
       },
       'body':JSON.stringify({
         name,
         description,
-        members:[userId],
+        members:[userData._ownerId],
         posts:[]
       }),
       'mode': 'cors'
     })
     const data = await response.json()
-    updateUserData({userId,accessToken},{channels: [...channels,data._id]})
+    updateUserData(userData,{channels: [...userData.channels,data._id]})
   }
   catch(error){
     alert(error)

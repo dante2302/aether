@@ -19,3 +19,5 @@ const useDebounce = (delay,callback) => {
   }
   return debounceCallback
 }
+
+export default useDebounce

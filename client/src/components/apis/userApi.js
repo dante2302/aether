@@ -1,3 +1,4 @@
+
 const baseUrl = 'http://localhost:3030/users';
 const dataUrl = 'http://localhost:3030/data/userData';
 import { equalSign } from '../utils/encodeUtils.js'
@@ -76,15 +77,17 @@ export const getUserDataByProp = async (prop,value) => {
   return data
 }
 
-export const updateUserData = async ({_ownerId, accessToken},newData) => {
-  const data = await getUserDataByProp('_ownerId',_ownerId)
-  const response = await fetch(`${dataUrl}/${data._id}`,{
+export const updateUserData = async (userData,newData) => {
+  const response = await fetch(`${dataUrl}/${userData._id}`,{
     method:'PATCH',
     headers:{
-      'X-Authorization': accessToken,
+      'X-Authorization': userData.accessToken,
       'Content-Type':'application/json'
     },
    'body':JSON.stringify(newData)
   })
-  return await response.json()
+  const data = await response.json()
+  if(response){
+    return {...userData,...data}
+  }
 }
