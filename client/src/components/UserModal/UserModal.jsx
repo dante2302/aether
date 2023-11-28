@@ -1,11 +1,14 @@
-import { useState } from 'react'
-import styles from './styles/UserModal.module.css'
 import LogInForm from './LogInForm.jsx'
 import SignUpForm from './SignUpForm.jsx'
-import UilX from '@iconscout/react-unicons/icons/uil-x'
-import { useContext } from 'react'
+import ModalPrototype from '../ModalBlueprint'
+
+import { useState, useContext } from 'react'
+
 import UserModalContext from '../contexts/UserModalContext'
 import UserDataContext from '../contexts/UserDataContext'
+
+import UilX from '@iconscout/react-unicons/icons/uil-x'
+import styles from './styles/UserModal.module.css'
 
 const Modal = ({modalMode}) => {
   const [currentMode,setCurrentMode] = useState(modalMode)
@@ -13,7 +16,7 @@ const Modal = ({modalMode}) => {
   const {setUserData} = useContext(UserDataContext)
 
   return (
-
+    <ModalPrototype toggleModal={toggleUserModal}>
     <div className='modal'>
       <div className='overlay' onClick={toggleUserModal}>
       </div>
@@ -43,7 +46,7 @@ const Modal = ({modalMode}) => {
         </div>
       </div>
     </div>
-
+    </ModalPrototype>
   )
 }
 

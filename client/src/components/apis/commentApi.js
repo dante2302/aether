@@ -1,6 +1,7 @@
 const baseUrl = 'http://localhost:3030/data/comments'
 
 export const createComment = async ({accessToken},{text,repliedUserId,parentComment}) => {
+
   try{
     let response = await fetch(`${baseUrl}`,{
       'method': 'POST',
@@ -12,7 +13,13 @@ export const createComment = async ({accessToken},{text,repliedUserId,parentComm
         text,
         replyTo:repliedUserId,
         parentComment,
-      })
+      }) 
+    }
+  }
+  catch(error){
+    // ErrorHandler
+    console.log(error)
+  }
 }
 
 export const deleteComment = async () => {
