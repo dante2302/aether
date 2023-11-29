@@ -1,8 +1,6 @@
 const baseUrl = 'http://localhost:3030/data/comments'
 
-import { equalSign } from '../utils/encodeUtils.js'
-import { inEncodedQuotes } from  '../utils/encodeUtils.js'
-
+import { equalSign, inEncodedQuotes, whiteSpace } from '../utils/encodeUtils.js'
 export const createComment = async ({accessToken,username},{replyTo,parentCommentId,postId,text}) => {
     let response = await fetch(baseUrl,{
       'method': 'POST',
@@ -24,22 +22,23 @@ export const createComment = async ({accessToken,username},{replyTo,parentCommen
 }
 
 export const getPostComments = async (postId) => {
-  let a = inEncodedQuotes("")
-  let response = await fetch(`
-      ${baseUrl}?where=postId${equalSign}${inEncodedQuotes(postId)} AND replyTo${equalSign}${'%22%22'}`
-    ,{method: 'GET'})
+  const postParam = `postId${equalSign}${postId}`
+  const replyParam = `replyTo${equalSign}${inEncodedQuotes('')}`
+  const url = `${baseUrl}?where=${postParam} AND ${replyParam}`
+
+  let response = await fetch(url, {method: 'GET'})
   let data = await response.json()
-  console.log(data)
-  data = data.filter((comment) => comment.parentCommentId === '' )
+
   return data
 }
 
 export const getCommentReplies = async (commentId,pageSize,offset) => {
-  let response = await fetch(
-    `${baseUrl}?where=parentCommentId${equalSign}${inEncodedQuotes(commentId)}`
-      // &offset=${offset}&pageSize=${pageSize}`
-    ,{method: 'GET'})
+  const parentCommentParam = `parentCommentId${equalSign}${inEncodedQuotes(commentId)}`
+  const url = `${baseUrl}?where=${parentCommentParam}`
+
+  let response = await fetch(url,{method: 'GET'})
   const data = await response.json()
+
   return data
 }
 
@@ -47,6 +46,7 @@ export const getCommentData = async (commentId) => {
   let response = await fetch(`${baseUrl}/${commentId}`)
   return await response.json()
 }
+
 export const updateComment = async () => {
   
 }

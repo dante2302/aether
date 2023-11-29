@@ -32,18 +32,17 @@ export const getChannelData = async (channelId) => {
 }
 
 const getChannelCount = async () => {
-  const response = await fetch(`${baseUrl}?count`,{
-    method: 'GET'
-  })
+  const response = await fetch(`${baseUrl}?count`,{method: 'GET'})
   return await response.json()
 }
 
 export const getChannelDataByProp = async (prop,value) => {
-  const response = await fetch(
-    `${baseUrl}?where=${prop}${equalSign}${inEncodedQuotes(value)}`,{
-      method: 'GET'
-  })
+  const searchParam = `${prop}${equalSign}${inEncodedQuotes(value)}`
+  const url = `${baseUrl}?where=${searchParam}`
+
+  const response = await fetch(url,{method: 'GET'})
   const data = await response.json()
+
   return data[0]
 }
 

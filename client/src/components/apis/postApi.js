@@ -45,8 +45,9 @@ export const getPostData = async (postId) => {
 }
 
 export const getPersonalPosts = async(postId,userId) => {
+  const url = `${baseUrl}/${postId}?where=_ownerId${userId}`
   try{
-    const response = await fetch(`${baseUrl}/${postId}?where=_ownerId${userId}`,{'method': 'GET'})
+    const response = await fetch(url,{'method': 'GET'})
     return response.json()
   }
   catch(error){

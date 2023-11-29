@@ -69,11 +69,13 @@ const createUserData = async (username,accessToken) => {
 }
 
 export const getUserDataByProp = async (prop,value) => {
-  const response = await fetch(`${dataUrl}?where=${prop}${equalSign}${inEncodedQuotes(value)}`,{
-    'method' : 'GET'
-  })
+  const searchParam = `${prop}${equalSign}${inEncodedQuotes(value)}`
+  const url = `${dataUrl}?where=${searchParam}`
+
+  const response = await fetch(url,{method: 'GET'})
   let data = await response.json()
   data = data[0]
+
   return data
 }
 
