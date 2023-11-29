@@ -2,7 +2,7 @@
 const baseUrl = 'http://localhost:3030/users';
 const dataUrl = 'http://localhost:3030/data/userData';
 import { equalSign } from '../utils/encodeUtils.js'
-import { quotationMark } from '../utils/encodeUtils.js'
+import { inEncodedQuotes } from '../utils/encodeUtils.js'
 
 export const logIn = async (email,password) => {
   try{
@@ -69,7 +69,7 @@ const createUserData = async (username,accessToken) => {
 }
 
 export const getUserDataByProp = async (prop,value) => {
-  const response = await fetch(`${dataUrl}?where=${prop}${equalSign}${quotationMark}${value}${quotationMark}`,{
+  const response = await fetch(`${dataUrl}?where=${prop}${equalSign}${inEncodedQuotes(value)}`,{
     'method' : 'GET'
   })
   let data = await response.json()

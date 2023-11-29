@@ -16,6 +16,9 @@ import { Routes, Route} from 'react-router-dom'
 import { UserDataProvider } from './contexts/UserDataContext.jsx'
 import { UserModalProvider } from './contexts/UserModalContext.jsx'
 import HomeGuest from './Home/HomeGuestPage/HomeGuestPage.jsx'
+import CommentForm from './Comment/CommentForm.jsx'
+import CommentRender from './Comment/CommentRender.jsx'
+import PostPage from './Post/PostPage.jsx'
 
 const App = () => {
   return (
@@ -39,6 +42,8 @@ const App = () => {
             </Route>
             <Route path='popular' element={<HomeGuest />} />
             <Route path='/*' element={<Page404 />} />
+            <Route path='comment' element={<CommentForm postId={123} parentCommentId={''} replyTo={''} isReply={false}/>} />
+            <Route path={'asd'} element={<PostPage postId={"7ae63e75-3a7e-4f8c-947a-c0a8f83a9ad3"}/>} />
             </Routes>
           </div>
         </ UserModalProvider> 

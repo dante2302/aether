@@ -27,10 +27,6 @@ const SignUpForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
 
   },[formState])
 
-  const nextStageHandler = () => {
-    setDisabled(true)
-    setDisabled(false)
-  } 
 
   const submitHandler = async (e,{username,email,password}) => {
     e.preventDefault()
@@ -47,7 +43,7 @@ const SignUpForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
   }
   
   return(
-    <form className={styles['input-form']}>
+    <form className={styles['input-form']} onSubmit={(e) => submitHandler(e,formState)}>
       {chooseUsername 
         ?
       <div className={styles['input-container']}>
@@ -117,7 +113,6 @@ const SignUpForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
       {chooseUsername 
         ? 
         <button 
-          onClick={(e) => submitHandler(e,formState)}
           disabled={formState.username===''}
           className={`${styles['log-in-btn']} ${!isDisabled && styles['enabled']}`}
         >Sign Up</button>

@@ -1,5 +1,5 @@
 import CreatePostBar from '../Post/CreatePostBar.jsx'
-import InfiniteScrollPosts from '../InfiniteScrollPosts/InfiniteScrollPosts.jsx'
+import InfiniteScrollPosts from '../InfiniteScroll/InfiniteScrollPosts.jsx'
 import JoinButton from './JoinButton.jsx'
 
 import { getChannelDataByProp } from '../apis/channelApi.js' 

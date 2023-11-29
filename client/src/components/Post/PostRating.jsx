@@ -20,7 +20,6 @@ const PostRating = ({postData}) => {
   const [isDisliked,setDisliked] = useState(false) 
 
   const checkRating = () => {
-    console.log(userData)
     if(!userData || Object.keys(userData).length === 0){setLiked(false) ; setDisliked(false) ; return}
     if(userData.likedPosts.includes(postData._id))setLiked(true);
     else if(userData.dislikedPosts.includes(postData._id))setDisliked(true);

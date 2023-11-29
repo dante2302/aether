@@ -14,7 +14,6 @@ const PostSaving = ({postData}) => {
   const {toggleUserModal} = useContext(UserModalContext)
 
   const checkSaved = () => {
-    console.log(userData)
     if(!userData || Object.keys(userData).length === 0){setSaved(false) ; return}
     if(userData.savedPosts.includes(postData._id))setSaved(true);
   }

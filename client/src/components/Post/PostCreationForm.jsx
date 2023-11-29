@@ -90,6 +90,7 @@ const PostForm = () => {
       />
 
       <label htmlFor="text">Text</label>
+
       <textarea
         id='text'
         name='text'
@@ -97,6 +98,7 @@ const PostForm = () => {
         onChange={(e) => formUtils.changeHandler(e,setFormState)}
       />
       <label htmlFor="imgUrl">Img:</label>
+
       <input 
         id='imgUrl'
         name='imgUrl'

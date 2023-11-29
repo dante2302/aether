@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import InfiniteScrollPosts from '../../InfiniteScrollPosts/InfiniteScrollPosts.jsx'
+import InfiniteScrollPosts from '../../InfiniteScroll/InfiniteScrollPosts.jsx'
 import PopularChannels from './PopularChannels.jsx'
 import styles from './styles/HomeGuest.module.css'
 import { getPopularArray, getPopularPosts } from '../../apis/popularApi.js'

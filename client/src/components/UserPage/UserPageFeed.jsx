@@ -1,5 +1,5 @@
 import { useOutletContext } from "react-router-dom"
-import InfiniteScrollPosts from '../InfiniteScrollPosts/InfiniteScrollPosts'
+import InfiniteScrollPosts from '../InfiniteScroll/InfiniteScrollPosts'
 
 const UserPageFeed = ({type}) => {
   const [pageUserData,isOwner] = useOutletContext()

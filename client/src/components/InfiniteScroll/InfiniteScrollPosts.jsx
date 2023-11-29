@@ -9,7 +9,6 @@ const InfiniteScrollPosts = ({posts}) => {
   const [visiblePosts,setVisiblePosts] = useState([])
   const [visiblePostsCount,setVisiblePostsCount] = useState(0)
   const [isLoading,setIsLoading] = useState(true)
-  useEffect(() => console.log(visiblePostsCount),[visiblePostsCount])
   const scrollHandler = async () => {
     const { clientHeight, scrollTop, scrollHeight } = document.documentElement
     const isBottom = scrollTop + clientHeight >= scrollHeight
@@ -20,7 +19,7 @@ const InfiniteScrollPosts = ({posts}) => {
   }
 
   const fetchVisiblePosts = async (posts) => {
-    const newPostsCount = 2
+    let newPostsCount = 2
     // Number of posts to render
 
     if(newPostsCount > posts[visiblePostsCount]){

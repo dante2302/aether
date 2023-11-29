@@ -1,6 +1,6 @@
 const baseUrl = 'http://localhost:3030/data/posts'
 import {getUserDataByProp} from './userApi.js'
-import { equalSign, quotationMark } from '../utils/encodeUtils.js'
+import { equalSign, inEncodedQuotes } from '../utils/encodeUtils.js'
 import { updateChannelData, createChannelPost } from './channelApi.js'
 export const createPost = async ({username,accessToken},{title,text,imgUrl,channelId}) => {
 
