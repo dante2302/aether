@@ -1,17 +1,12 @@
 const baseUrl = 'http://localhost:3030/data/posts'
-import {getUserDataByProp} from './userApi.js'
-import { equalSign, inEncodedQuotes } from '../utils/encodeUtils.js'
-import { updateChannelData, createChannelPost } from './channelApi.js'
-export const createPost = async ({username,accessToken},{title,text,imgUrl,channelId}) => {
 
+import {getUserDataByProp} from './userApi.js'
+import { updateChannelData, createChannelPost } from './channelApi.js'
+import * as request from './request.js'
+
+export const createPost = async ({username,accessToken},{title,text,imgUrl,channelId}) => {
   try{
-    let response = await fetch(`${baseUrl}`,{
-      'method': 'POST',
-      'headers':{
-        'Content-Type': 'application/json',
-        'X-Authorization': accessToken
-      },
-      'body':JSON.stringify({
+    const bodyData = {
         channelId,
         ownerUsername:username,
         title,
@@ -20,12 +15,8 @@ export const createPost = async ({username,accessToken},{title,text,imgUrl,chann
         likesCount:0,
         comments:[],
         usersCommented:[],
-      }),
-      'mode': 'cors'
-    })
-
-    let data = await response
-    data = await data.json() 
+      }
+    const data = await request.post({url: baseUrl,accessToken,bodyData})
     await createChannelPost(channelId,data._id)
     return data
   }
@@ -35,52 +26,37 @@ export const createPost = async ({username,accessToken},{title,text,imgUrl,chann
 }
     
 export const getPostData = async (postId) => {
-  try{
-    const response = await fetch(`${baseUrl}/${postId}`,{'method': 'GET'})
-    return response.json()
-  }
-  catch(error){
-   alert(error) 
-  }
+  const url = `${baseUrl}/${postId}`
+  const data = await request.read(url)
+  return data
+}
+
+export const getPostDataByProp = async (prop,value) => {
+  const data = await request.search({url:baseUrl,prop,value})
+  return data
 }
 
 export const getPersonalPosts = async(postId,userId) => {
-  const url = `${baseUrl}/${postId}?where=_ownerId${userId}`
-  try{
-    const response = await fetch(url,{'method': 'GET'})
-    return response.json()
-  }
-  catch(error){
-   alert(error) 
-  }
+  const data = await request.search({url:`${baseUrl}/${postId}`, prop:'_ownerId', value:userId})
+  return data
 }
 
-export const deletePost = async (accessToken,postId) => {
-  try{
-    let response = await fetch(`${baseUrl}/${postId}`,{
-      'method': 'DELETE',
-      'headers':{'X-Authorization': accessToken},
-    })
-    return response.json()
-  }
-  catch{
-    alert(error)
-  }
-}
+// export const deletePost = async (accessToken,postId) => {
+//   try{
+//     let response = await fetch(`${baseUrl}/${postId}`,{
+//       'method': 'DELETE',
+//       'headers':{'X-Authorization': accessToken},
+//     })
+//     return response.json()
+//   }
+//   catch{
+//     alert(error)
+//   }
+// }
 
 export const updatePostData = async (_id,newData) => {
-  let response = await fetch(`${baseUrl}/${_id}`,{
-    method:'PATCH',
-    headers:{
-      'Content-Type':'application/json',
-      'X-Admin':''
-    },
-    'body':JSON.stringify(newData)
-  })
-}
-
-export const getPostUsername = async (userId) => {
-  let data = await getPostDataByProp('_ownerId',userId)
-  return data.username 
+  const url = `${baseUrl}/${_id}`
+  const data = await request.patchWithoutAuth({url,newData})
+  return data
 }
 

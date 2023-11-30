@@ -5,10 +5,12 @@ import { getPostData } from "../apis/postApi"
 import { getPostComments } from "../apis/commentApi"
 
 import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
 
-const PostPage = ({postId}) => {
+const PostPage = () => {
   const [postData,setPostData] = useState()
   const [comments,setComments] = useState()
+  const postTitle = useParams()
   useEffect(() => {
 
     const asyncFunc = async () => {

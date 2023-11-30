@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import InfiniteScrollPosts from '../../InfiniteScroll/InfiniteScrollPosts.jsx'
 import PopularChannels from './PopularChannels.jsx'
 import styles from './styles/HomeGuest.module.css'
-import { getPopularArray, getPopularPosts } from '../../apis/popularApi.js'
+import { getPopularPosts } from '../../apis/popularApi.js'
 
 const HomeGuest = () => {
   const [posts,setPosts] = useState()
@@ -10,7 +10,7 @@ const HomeGuest = () => {
   useEffect(() => {
    getPopularPosts().then(
       allPosts => {
-        setPosts(getPopularArray(allPosts))})
+        setPosts(allPosts)})
   },[])
 
   return(

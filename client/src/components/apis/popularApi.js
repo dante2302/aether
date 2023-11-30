@@ -1,17 +1,18 @@
-
 const baseUrl = 'http://localhost:3030/data/popular'
+import * as request from './request.js'
 
-export const getPopularChannels = async (pageSize) => {
-  const response = await fetch(`${baseUrl}Channels`,{method: 'GET'})
-  return await response.json()
+export const getPopularChannels = async () => {
+  const data = await request.read(`${baseUrl}Channels`) 
+  return getPopularArray(data)
 }
 
 export const getPopularPosts = async () => {
-  const response = await fetch(`${baseUrl}Posts`,{method: 'GET'})
-  return await response.json()
+  const data = await request.read(`${baseUrl}Posts`)
+  return getPopularArray(data)
 }
 
-export const getPopularArray = (all) => {
-  return Object.values(all).map((object)=>object._id)
+export const getPopularArray = (objectArray) => {
+  return objectArray.map((object) => object._id)
 }
+
 

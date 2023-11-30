@@ -1,5 +1,5 @@
 
-import { getPopularChannels, getPopularArray } from '../../apis/popularApi'
+import { getPopularChannels } from '../../apis/popularApi'
 import { getChannelData } from '../../apis/channelApi'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
@@ -9,8 +9,7 @@ const PopularChannels = () => {
   const navigate = useNavigate()
   useEffect(() => {
     const asyncFunc = async () => {
-      const channelEntries = await getPopularChannels()
-      const channelIds = getPopularArray(channelEntries)
+      const channelIds = await getPopularChannels()
       const channelData = []
       for(let channelId of channelIds){
         channelData.push(await getChannelData(channelId))
