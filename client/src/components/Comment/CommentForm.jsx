@@ -12,10 +12,8 @@ const CommentForm = ({postId,replyTo,isReply,parentCommentId}) => {
   const changeHandler = (e) => setText(e.target.value)
 
   const submitHandler = async (e,text) => {
-    console.log(replyTo)
     e.preventDefault()
     const result = await createComment(userData,{replyTo,parentCommentId,postId,text})        
-    console.log(result)
   } 
 
   const [disabled,submitHandlerWithDisable] = useDisabled(submitHandler)

@@ -16,14 +16,14 @@ export const createChannel = async (userData,{name,description}) => {
 
 
 export const getChannelData = async (channelId) => {
-  const data = await request.read(`${baseUrl}/${channelId}`)
+  const data = await request.get(`${baseUrl}/${channelId}`)
   return data
 }
 
 
 export const getChannelDataByProp = async (prop,value) => {
   const data = await request.search({url:baseUrl,prop,value})
-  return data
+  return data[0]
 }
 
 export const updateChannelData = async (channelId,newData) => {
@@ -40,4 +40,9 @@ export const createChannelPost = async (channelId, newPost) => {
   const url = `${baseUrl}/${channelId}`
   const data = await request.patchWithoutAuth({url,newData})
   return data
+}
+
+export const searchChannels = async (value,pageSize,offset) => {
+  const data = await request.search({url:baseUrl,prop:'name',value,pageSize:5,offset:0})
+  return data  
 }

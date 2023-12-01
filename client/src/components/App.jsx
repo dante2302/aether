@@ -17,6 +17,7 @@ import { UserDataProvider } from './contexts/UserDataContext.jsx'
 import { UserModalProvider } from './contexts/UserModalContext.jsx'
 import HomeGuest from './Home/HomeGuestPage/HomeGuestPage.jsx'
 import PostPage from './Post/PostPage.jsx'
+import SearchResults from './Search/SearchResults.jsx'
 
 const App = () => {
   return (
@@ -28,7 +29,7 @@ const App = () => {
               <Route path={'c/:channelName'}>
                 <Route index element={<ChannelPage />} />
                 <Route path='submit' element={<PostCreationForm />} />
-                <Route path={':postTitle'} element={<PostPage />} />
+                <Route path={':postId'} element={<PostPage />} />
               </Route>
               <Route path='submit' element={<PostCreationForm />} />
               <Route path='/' element={<Home />} />
@@ -41,6 +42,7 @@ const App = () => {
             </Route>
             <Route path='popular' element={<HomeGuest />} />
             <Route path='/*' element={<Page404 />} />
+            <Route path='search' element={<SearchResults />} />
             </Routes>
           </div>
         </ UserModalProvider> 

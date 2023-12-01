@@ -12,7 +12,8 @@ export const post = async ({url,accessToken,bodyData}) => {
       body: JSON.stringify(bodyData),
       mode: 'cors'
     })
-    let data = await response.json()
+    const data = await response.json()
+    return data
   }
   catch(err){
     console.log(err)
@@ -36,7 +37,15 @@ export const search = async ({url,prop,value}) => {
   const searchUrl = `${url}?where=${searchParam}`
   const response = await fetch(searchUrl,{method: 'GET'})
   const data = await response.json()
-  return data[0]
+  return data
+}
+
+export const searchContent = async ({url,prop,value,pageSize,offset}) => {
+  const searchParam = `${prop}LIKE${inEncodedQuotes(value)}`
+  const searchUrl = `${url}?pageSize=${pageSize}&offset=${offset}?where=${searchParam}`
+  const response = await fetch(searchUrl,{method: 'GET'})
+  const data = await response.json()
+  return data
 }
 
 export const searchWithUnion = async ({url,firstProp,firstValue,secondProp,secondValue}) => {
@@ -51,6 +60,14 @@ export const searchWithUnion = async ({url,firstProp,firstValue,secondProp,secon
   return data
 }
 
+export const searchContentWithUnion = async ({url,firstProp,secondProp,value,offset}) => {
+  const firstParam = `${firstProp} LIKE ${inEncodedQuotes(value)}`
+  const secondParam = `${secondProp} LIKE ${inEncodedQuotes(value)}`
+  const searchUrl = `${url}?pageSize=1&offset=${offset}?where=${firstParam} OR ${secondParam}`
+  const response = await fetch(searchUrl,{method: 'GET'})
+  return await response.json()
+}
+
 export const patchWithoutAuth = async ({url,newData}) => {
   let response = await fetch(url,{
     method:'PATCH',
@@ -60,6 +77,7 @@ export const patchWithoutAuth = async ({url,newData}) => {
     },
     'body':JSON.stringify(newData)
   })
+  return await response.json()
 }
 
 export const patchWithAuth = async ({url,accessToken,newData}) => {

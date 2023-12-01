@@ -52,8 +52,8 @@ const JoinButton = ({channelData, setChannelData}) =>{
   } 
 
   return ( 
-    //If the user is not logged in execute the function immediately, else 500 ms delay
-    <button onClick={useDebounce(userData ? 500 : 0, joinHandler)}>
+    //If the user is not logged in -> execute the function immediately, else 500 ms delay
+    <button onClick={useDebounce(joinHandler,userData ? 500 : 0)}>
       {!isJoined
         ?
         'Join'

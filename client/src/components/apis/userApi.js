@@ -1,6 +1,7 @@
-
 const baseUrl = 'http://localhost:3030/users';
 const dataUrl = 'http://localhost:3030/data/userData';
+
+import * as request from './request.js'
 
 export const logIn = async (email,password) => {
   try{
@@ -47,7 +48,6 @@ export const signUp = async ({email,password,username}) => {
 
 
 const createUserData = async (username,accessToken) => {
-
   const bodyData = {
     username:username,
     posts:[],
@@ -59,17 +59,18 @@ const createUserData = async (username,accessToken) => {
     comments:[],
     socialLinks:[],
   }
-  const data = request.post({url:dataUrl,accessToken,bodyData})
+  const data = await request.post({url:dataUrl,accessToken,bodyData})
   return data
 }
 
 export const getUserDataByProp = async (prop,value) => {
   const data = request.search({url:dataUrl,prop,value})
-  return data
+  return data[0]
 }
 
 export const updateUserData = async (userData,newData) => {
   const url = `${dataUrl}/${userData._id}`
-  const data = await request.updateWithAuth({url, accessToken:userData.accessToken, newData})
+  const data = await request.patchWithAuth({url, accessToken:userData.accessToken, newData})
   return {...userData,...data}
 }
+

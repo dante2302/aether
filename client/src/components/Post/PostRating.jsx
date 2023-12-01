@@ -29,7 +29,6 @@ const PostRating = ({postData}) => {
 
   useEffect(() => {checkRating()},[userData]) 
 
-  useEffect(() => {updatePostData(postData._id,{likesCount})}, [likesCount])
 
   const likeHandler = (e) => {
     e.stopPropagation()
@@ -44,6 +43,7 @@ const PostRating = ({postData}) => {
       likedPosts = userData.likedPosts.filter((_id) => _id !== postData._id)
       updateUserData(userData,{likedPosts})
         .then((result) => {setUserData({...userData,...result})})
+        .then(() => updatePostData(postData._id,{likesCount}))
     }
 
     else if(isDisliked){

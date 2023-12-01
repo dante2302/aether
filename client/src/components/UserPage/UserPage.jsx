@@ -12,10 +12,10 @@ const UserPage = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-      getUserDataByProp('username',username).then(response => { 
+      getUserDataByProp('username',username)
+      .then(response => { 
         setIsOwner(userData && userData._ownerId === response._ownerId)
-        const _createdOn = response._createdOn
-        setPageUserData({...response,_createdOn})
+        setPageUserData(response)
       })
   },[])
 

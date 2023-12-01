@@ -3,6 +3,7 @@ const baseUrl = 'http://localhost:3030/data/posts'
 import {getUserDataByProp} from './userApi.js'
 import { updateChannelData, createChannelPost } from './channelApi.js'
 import * as request from './request.js'
+import { inEncodedQuotes } from '../utils/encodeUtils.js'
 
 export const createPost = async ({username,accessToken},{title,text,imgUrl,channelId}) => {
   try{
@@ -23,11 +24,11 @@ export const createPost = async ({username,accessToken},{title,text,imgUrl,chann
   catch(error){
     alert(error)
   }
-}
-    
+}    
+
 export const getPostData = async (postId) => {
   const url = `${baseUrl}/${postId}`
-  const data = await request.read(url)
+  const data = await request.get(url)
   return data
 }
 
@@ -60,3 +61,7 @@ export const updatePostData = async (_id,newData) => {
   return data
 }
 
+export const searchPosts = async (value,pageSize,offset) => {
+  const data = await request.search({url:baseUrl,prop:'title',value,pageSize,offset})
+  return data
+}

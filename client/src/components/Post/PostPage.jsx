@@ -6,16 +6,19 @@ import { getPostComments } from "../apis/commentApi"
 
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
+import CommentForm from "../Comment/CommentForm"
 
 const PostPage = () => {
   const [postData,setPostData] = useState()
   const [comments,setComments] = useState()
-  const postTitle = useParams()
+
+  const postId = useParams().postId
+
   useEffect(() => {
 
     const asyncFunc = async () => {
       const data = await getPostData(postId)
-      const commentList = await getPostComments(123)
+      const commentList = await getPostComments(postId)
       setPostData(data)
       setComments(commentList)
     }
@@ -28,9 +31,24 @@ const PostPage = () => {
     <div style={{display:'flex','flexDirection':'column'}}>
       <PostRender postData={postData}/>
       <ul>
-        {
-          comments && comments.map((commentData) => <li key={commentData._id}><CommentBlockRender commentData={commentData} /></li>)
-        }
+      {
+        comments.length > 0 
+        ? 
+        comments.map((commentData) => 
+          <li key={commentData._id}>
+            <CommentBlockRender commentData={commentData} />
+          </li>)
+        :
+        <div>
+          <p>There are no comments on this post. Be the first one to express their thoughts</p>
+          <CommentForm 
+            postId={postId}
+            parentCommentId={''}
+            isReply={false}
+            replyTo={''}
+          />
+        </div>
+      }
       </ul>
     </div>
   ) 

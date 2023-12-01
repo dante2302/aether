@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 
-const useDebounce = (delay,callback) => {
+const useDebounce = (callback,delay,dependency) => {
   const timeoutRef = useRef(null)
 
   useEffect(() => {
