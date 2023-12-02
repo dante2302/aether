@@ -1,56 +1,48 @@
-const baseUrl = 'http://localhost:3030/data/popularChannels'
 
-export const createChannel = async ({accessToken,userId,name,description}) => {
-  try{
-    let response = await fetch(`${baseUrl}`,{
-      'method': 'POST',
-      'headers':{
-        'Content-Type': 'application/json',
-        'X-Authorization': accessToken
-      },
-      'body':JSON.stringify({
-        name,
-        description,
-        members:[userId],
-        memberCount: 1,
-        posts:[]
-      }),
-      'mode': 'cors'
-    })
-    const data = await response
-    return data.json() 
+const baseUrl = 'http://localhost:3030/data/channels'
+import * as request from './request.js'
+
+export const createChannel = async (userData,{name,description}) => {
+  const bodyData = {
+    name,
+    description,
+    members:[userData._ownerId],
+    posts:[]
   }
-  catch(error){
-    alert(error)
-  }
-}
-
-export const updateChannelData = async ({accessToken,userId}) => {
-}
-
-const getChannelData = async (channelId) => {
-  const response = await fetch(`${baseUrl}/${channelId}`,{method: 'GET'}) 
-  return await response.json()
-}
-
-const getChannelCount = async () => {
-  const response = await fetch(`${baseUrl}?count`,{
-    method: 'GET'
-  })
-  return await response.json()
-}
-
-export const getChannelDataByName = async (name) => {
-  const response = await fetch(`${baseUrl}?where=name%3D%22${name}%22`,{
-    method: 'GET'
-  })
-  const data = await response.json()
+  const data = await request.post(baseUrl,userData.accessToken,bodyData)
+  updateUserData(userData,{channels: [...userData.channels,data._id]})
   return data
 }
 
-export const getPopularChannels = async () => {
-  const response = await fetch(`${baseUrl.substring(0,26)}/popularChannels?pageSize=5?select=_id%2Cname%2memberCount`,
-    {method: 'GET'})
-  return await response.json()
+
+export const getChannelData = async (channelId) => {
+  const data = await request.get(`${baseUrl}/${channelId}`)
+  return data
 }
 
+
+export const getChannelDataByProp = async (prop,value) => {
+  const data = await request.search({url:baseUrl,prop,value})
+  return data[0]
+}
+
+export const updateChannelData = async (channelId,newData) => {
+  const url = `${baseUrl}/${channelId}`
+  const data = await request.patchWithoutAuth({url,newData})
+  return data
+}
+
+export const createChannelPost = async (channelId, newPost) => {
+  const channelData = await getChannelData(channelId)
+  const currentPosts = channelData.posts
+  const newData = {posts:[...currentPosts,newPost]}
+
+  const url = `${baseUrl}/${channelId}`
+  const data = await request.patchWithoutAuth({url,newData})
+  return data
+}
+
+export const searchChannels = async (value,pageSize,offset) => {
+  const data = await request.search({url:baseUrl,prop:'name',value,pageSize:5,offset:0})
+  return data  
+}

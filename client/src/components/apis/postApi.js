@@ -1,61 +1,67 @@
 const baseUrl = 'http://localhost:3030/data/posts'
-import {getUserDataProp as getUserDataProp} from './userApi.js'
 
-export const createPost = async ({accessToken,username},{title,text}) => {
+import {getUserDataByProp} from './userApi.js'
+import { updateChannelData, createChannelPost } from './channelApi.js'
+import * as request from './request.js'
+import { inEncodedQuotes } from '../utils/encodeUtils.js'
+
+export const createPost = async ({username,accessToken},{title,text,imgUrl,channelId}) => {
   try{
-    let response = await fetch(`${baseUrl}`,{
-      'method': 'POST',
-      'headers':{
-        'Content-Type': 'application/json',
-        'X-Authorization': accessToken
-      },
-      'body':JSON.stringify({
+    const bodyData = {
+        channelId,
+        ownerUsername:username,
         title,
         text,
-        ownerUsername:username,
+        imgUrl,
         likesCount:0,
-        usersLiked:[],
         comments:[],
         usersCommented:[],
-      }),
-      'mode': 'cors'
-    })
-    const data = await response
-    return data.json() 
+      }
+    const data = await request.post({url: baseUrl,accessToken,bodyData})
+    await createChannelPost(channelId,data._id)
+    return data
   }
   catch(error){
     alert(error)
   }
-}
+}    
 
 export const getPostData = async (postId) => {
-  try{
-    const response = await fetch(`${baseUrl}/${postId}`,{'method': 'GET'})
-    return response.json() 
-  }
-  catch(error){
-   alert(error) 
-  }
+  const url = `${baseUrl}/${postId}`
+  const data = await request.get(url)
+  return data
 }
 
-export const deletePost = async (accessToken,postId) => {
-  try{
-    let response = await fetch(`${baseUrl}/${postId}`,{
-      'method': 'DELETE',
-      'headers':{'X-Authorization': accessToken},
-    })
-    return response.json()
-  }
-  catch{
-    alert(error)
-  }
+export const getPostDataByProp = async (prop,value) => {
+  const data = await request.search({url:baseUrl,prop,value})
+  return data
 }
 
-export const getPopularPosts = async () => {
-  const response = await fetch(`${baseUrl.substring(0,26)}/popularPosts?pageSize=1`,{method: 'GET'})
-  return await response.json()
+export const getPersonalPosts = async(postId,userId) => {
+  const data = await request.search({url:`${baseUrl}/${postId}`, prop:'_ownerId', value:userId})
+  return data
 }
 
-export const getPostUsername = async (userId) => {
-  return await getUserDataProp(userId,'username')
+// export const deletePost = async (accessToken,postId) => {
+//   try{
+//     let response = await fetch(`${baseUrl}/${postId}`,{
+//       'method': 'DELETE',
+//       'headers':{'X-Authorization': accessToken},
+//     })
+//     return response.json()
+//   }
+//   catch{
+//     alert(error)
+//   }
+// }
+
+export const updatePostData = async (_id,newData) => {
+  const url = `${baseUrl}/${_id}`
+  const data = await request.patchWithoutAuth({url,newData})
+  return data
+}
+
+export const searchPosts = async (value,pageSize,offset) => {
+  const data = await request.search({url:baseUrl,prop:'title',value,pageSize,offset})
+  return data
 }

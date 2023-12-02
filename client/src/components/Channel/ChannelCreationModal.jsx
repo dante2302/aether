@@ -1,10 +1,11 @@
+import ModalPrototype from "../ModalBlueprint"
 import ChannelCreationForm from "./ChannelCreationForm"
 import styles from './styles/ChannelCreationModal.module.css'
 
 const ChannelCreationModal = ({userData,toggleChannelModal}) => {
+
   return (
-    <div className='modal'>
-      <div className='overlay' onClick={() => toggleChannelModal()}>
+    <ModalPrototype toggleModal={toggleChannelModal}>
         <div className={styles['content']}>
           <h3>Name</h3>
           <h6>Community names including capitalization cannot be changed.</h6>
@@ -13,8 +14,7 @@ const ChannelCreationModal = ({userData,toggleChannelModal}) => {
             toggleChannelModal={toggleChannelModal}
           />
         </div>
-      </div>
-    </div>
+    </ModalPrototype>
   )
 }
 

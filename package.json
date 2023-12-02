@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@iconscout/react-unicons": "^2.0.2"
+    "@iconscout/react-unicons": "^2.0.2",
+    "@uidotdev/usehooks": "^2.4.1"
   }
 }

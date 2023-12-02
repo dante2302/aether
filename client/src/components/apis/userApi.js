@@ -1,5 +1,7 @@
 const baseUrl = 'http://localhost:3030/users';
-const dataUrl = 'http://localhost:3030/jsonstore/userData';
+const dataUrl = 'http://localhost:3030/data/userData';
+
+import * as request from './request.js'
 
 export const logIn = async (email,password) => {
   try{
@@ -10,25 +12,32 @@ export const logIn = async (email,password) => {
         password
     })})
     const serverData = await response.json()
-    const userData = await getUserEntryData(serverData._id)
-    return {...userData,...serverData} 
+    const userData = await getUserDataByProp('_ownerId',serverData._id)
+    return {...serverData,...userData} 
   }
   catch(err){
-    alert("Data is not seeded yed!")
+    alert(err)
   }
 }
 
-export const signUp = async (email,password,username) => {
+export const signUp = async ({email,password,username}) => {
+  const bodyData = {
+    email,
+    password
+  }
+
+  const url = `${baseUrl}/register`
+
   try{
-    const response = await fetch(`${baseUrl}/register`,{
-      'method': 'POST',
-      'body': JSON.stringify({
-        email,
-        password
-    })})
+    const response = await fetch(
+      url,{
+      method: 'POST',
+      body:JSON.stringify(bodyData)})
+
     const serverData = await response.json()
-    const userData = await createUserData(serverData._id,username)
-    return {...userData,...serverData}
+
+    const userData = await createUserData(username,serverData.accessToken)
+    return {...serverData,...userData} 
 
   }
 
@@ -37,35 +46,31 @@ export const signUp = async (email,password,username) => {
   }
 }
 
-export const getUserDataProp = async(_id,prop) => {
-  const userData = await getUserEntry(_id)
-  return userData.prop
-}
 
-const createUserData = async (_id,username) => {
-   const response = await fetch(dataUrl,{
-   'method': 'POST',
-    'headers':{
-      'Content-type':'application/json'
-    },
-   'body':JSON.stringify({
-    userId: _id,
+const createUserData = async (username,accessToken) => {
+  const bodyData = {
     username:username,
     posts:[],
     channels:[],
+    authorChannels:[],
     savedPosts:[],
     likedPosts:[],
+    dislikedPosts:[],
     comments:[],
-    socialLinks:[]
-   }),
-  'mode':'cors'
-  })  
-  let data = await(response.json())
+    socialLinks:[],
+  }
+  const data = await request.post({url:dataUrl,accessToken,bodyData})
   return data
 }
 
-const getUserEntryData = async (_id) => {
-  const response = await fetch(`${dataUrl}`,{method:'GET'})
-  const allUserData = await response.json()
-  return Object.values(allUserData).find(userEntry => userEntry.userId == _id)
+export const getUserDataByProp = async (prop,value) => {
+  const data = request.search({url:dataUrl,prop,value})
+  return data[0]
 }
+
+export const updateUserData = async (userData,newData) => {
+  const url = `${dataUrl}/${userData._id}`
+  const data = await request.patchWithAuth({url, accessToken:userData.accessToken, newData})
+  return {...userData,...data}
+}
+

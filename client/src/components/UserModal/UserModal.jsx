@@ -1,13 +1,22 @@
-import { useState } from 'react'
-import styles from './styles/UserModal.module.css'
 import LogInForm from './LogInForm.jsx'
 import SignUpForm from './SignUpForm.jsx'
+import ModalPrototype from '../ModalBlueprint'
+
+import { useState, useContext } from 'react'
+
+import UserModalContext from '../contexts/UserModalContext'
+import UserDataContext from '../contexts/UserDataContext'
+
 import UilX from '@iconscout/react-unicons/icons/uil-x'
+import styles from './styles/UserModal.module.css'
 
-const Modal = ({setUserData,toggleUserModal,modalMode}) => {
+const Modal = ({modalMode}) => {
   const [currentMode,setCurrentMode] = useState(modalMode)
-  return (
+  const { toggleUserModal } = useContext(UserModalContext)
+  const {setUserData} = useContext(UserDataContext)
 
+  return (
+    <ModalPrototype toggleModal={toggleUserModal}>
     <div className='modal'>
       <div className='overlay' onClick={toggleUserModal}>
       </div>
@@ -27,10 +36,6 @@ const Modal = ({setUserData,toggleUserModal,modalMode}) => {
           <p className={styles["user-policy-text"]}>By continuing you agree to our <a className={styles['link']}>User Agreement </a>  
             and acknowledge that you understand our <a className={styles['link']}>Privacy Policy</a>.</p>
 
-          <button className={styles['google-btn']}>
-            <img src='../../public/images/google_icon.svg' className={styles['google-icon']}/>
-            <div className={styles['google-text']}>Continue with Google</div>
-          </button>
 
           { currentMode === 'logIn'&&
             <LogInForm setUserData={setUserData} toggleUserModal={toggleUserModal} setCurrentMode={setCurrentMode}/>}
@@ -41,7 +46,7 @@ const Modal = ({setUserData,toggleUserModal,modalMode}) => {
         </div>
       </div>
     </div>
-
+    </ModalPrototype>
   )
 }
 

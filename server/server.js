@@ -93,7 +93,7 @@
             // NOTE: the OPTIONS method results in undefined result and also it never processes plugins - keep this in mind
             if (method == 'OPTIONS') {
                 Object.assign(headers, {
-                    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
                     'Access-Control-Allow-Credentials': false,
                     'Access-Control-Max-Age': '86400',
                     'Access-Control-Allow-Headers': 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, X-Authorization, X-Admin'
@@ -1166,7 +1166,9 @@
     function hash(string) {
         const hash = crypto__default['default'].createHmac('sha256', secret);
         hash.update(string);
-        return hash.digest('hex');
+        let str = hash.digest('hex');
+        console.log(str)
+        return str
     }
 
     var auth = initPlugin$1;
@@ -1321,91 +1323,170 @@
     	users: {
     		"35c62d76-8152-4626-8712-eeb96381bea8": {
     			email: "peter@abv.bg",
-    			username: "Peter",
     			hashedPassword: "83313014ed3e2391aa1332615d2f053cf5c1bfe05ca1cbcb5582443822df6eb1"
     		},
     		"847ec027-f659-4086-8032-5173e2f9c93a": {
     			email: "george@abv.bg",
-    			username: "George",
     			hashedPassword: "83313014ed3e2391aa1332615d2f053cf5c1bfe05ca1cbcb5582443822df6eb1"
     		},
     		"60f0cf0b-34b0-4abd-9769-8c42f830dffc": {
     			email: "admin@abv.bg",
-    			username: "Admin",
     			hashedPassword: "fac7060c3e17e6f151f247eacb2cd5ae80b8c36aedb8764e18a41bbdc16aa302"
-    		}
+    		},
     	},
     	sessions: {
     	}
     };
     var seedData = {
-      popularChannels:{
+      userData:{
+        "5b8d688a-7ac2-4208-9600-c4d1dcf0fe68":{
+          _ownerId:"60f0cf0b-34b0-4abd-9769-8c42f830dffc",
+          username:"Admin",
+          posts:[],
+          channels:["250c79de-2a48-473a-aa89-244b56688924"],
+          authorChannels:[],
+          savedPosts:[],
+          likedPosts:[],
+          dislikedPosts:[],
+          comments:[],
+          socialLinks:[],
+          _createdOn:1700061636346,
+        },
+        "ab1200ba-d7e8-45d5-8fc3-736b85f234af":{
+          _ownerId:"847ec027-f659-4086-8032-5173e2f9c93a",
+          username:"George",
+          posts:["ab1200ba-d7e8-45d5-8fc3-736b85f234af","7ae63e75-3a7e-4f8c-947a-c0a8f83a9ad3"],
+          channels:[],
+          authorChannels:[],
+          savedPosts:[],
+          likedPosts:[],
+          dislikedPosts:[],
+          comments:[],
+          socialLinks:[],
+          _createdOn:1700061636346,
+        },
+
+        "250c79de-2a48-473a-aa89-244b56688924":{
+          _ownerId:"35c62d76-8152-4626-8712-eeb96381bea8",
+          username:"Peter",
+          posts:[],
+          channels:[],
+          authorChannels:["5b8d688a-7ac2-4208-9600-c4d1dcf0fe68","4f7fd579-5e9f-48c0-9eda-2a384704c916"],
+          savedPosts:[],
+          likedPosts:[],
+          dislikedPosts:[],
+          comments:[],
+          socialLinks:[],
+          _createdOn:1700061636346,
+        },
+
+        "acef6fe4-7376-4d2a-bf85-65113e311452":{
+          _ownerId:"cc-1c21c9-4c4e-4937-8e79-c1dafa09e21e",
+          username:"Darin",
+          posts:["acef6fe4-7376-4d2a-bf85-65113e311452"],
+          channels:["5b8d688a-7ac2-4208-9600-c4d1dcf0fe68"],
+          authorChannels:[],
+          savedPosts:[],
+          likedPosts:[],
+          dislikedPosts:[],
+          comments:[],
+          socialLinks:[],
+          _createdOn:1700061636346,
+        }
+      },
+
+      channels:{
         "5b8d688a-7ac2-4208-9600-c4d1dcf0fe68":{
           "_ownerId":"35c62d76-8152-4626-8712-eeb96381bea8",
           "name":"darksouls",
           "description":"First Ever Darksouls Channel",
-          "members":["35c62d76-8152-4626-8712-eeb96381bea8"],
-          "memberCount":8500,
+          "members":["cc-1c21c9-4c4e-4937-8e79-c1dafa09e21e","250c79de-2a48-473a-aa89-244b56688924"],
+          "memberCount":0,
           "posts":[],
-          "_createdOn":1700061636346
+          "_createdOn":1700061636346,
         },
 
         "4f7fd579-5e9f-48c0-9eda-2a384704c916":{
           "_ownerId":"35c62d76-8152-4626-8712-eeb96381bea8",
           "name":"Softuni",
           "description":"77777",
-          "members":["35c62d76-8152-4626-8712-eeb96381bea8"],
-          "memberCount":430,
+          "members":["250c79de-2a48-473a-aa89-244b56688924"],
+          "memberCount":0,
           "posts":[],
           "_createdOn":1700062203011,
         },
+
         "250c79de-2a48-473a-aa89-244b56688924":{
           "_ownerId":"60f0cf0b-34b0-4abd-9769-8c42f830dffc",
           "name":"react",
           "description":"React Development",
-          "members":["60f0cf0b-34b0-4abd-9769-8c42f830dffc"],
-          "memberCount":125700,
-          "posts":[],
-          "_createdOn":1700062708945
+          "members":["60f0cf0b-34b0-4abd-9769-8c42f830dffc","35c62d76-8152-4626-8712-eeb96381bea8","847ec027-f659-4086-8032-5173e2f9c93a"],
+          "memberCount":0,
+          "posts":["ab1200ba-d7e8-45d5-8fc3-736b85f234af","7ae63e75-3a7e-4f8c-947a-c0a8f83a9ad3","acef6fe4-7376-4d2a-bf85-65113e311452"],
+          "_createdOn":1700062708945,
         }
       },
 
-      popularPosts:{
+      popularChannels:{
+        "250c79de-2a48-473a-aa89-244b56688924":{},
+        "4f7fd579-5e9f-48c0-9eda-2a384704c916":{},
+        "5b8d688a-7ac2-4208-9600-c4d1dcf0fe68":{}
+      },
+
+      posts:{
         "ab1200ba-d7e8-45d5-8fc3-736b85f234af":{
-          "_ownerId":"847ec027-f659-4086-8032-5173e2f9c93a",
+          "_ownerId":"8d24d5c7-7a02-4069-85f7-d887e19bcfd1",
+          "ownerUsername": "George",
+          "channelId":'250c79de-2a48-473a-aa89-244b56688924',
           "title":"React Seed",
           "text":"Had strictly mrs handsome mistaken cheerful. We it so if resolution invitation remarkably unpleasant conviction. As into ye then form. To easy five less if rose were. Now set offended own out required entirely. Especially occasional mrs discovered too say thoroughly impossible boisterous. My head when real no he high rich at with. After so power of young as. Bore year does has get long fat cold saw neat. Put boy carried chiefly shy general. ",
-          "likesCount":643,
+          "imgUrl":"",
+          "likesCount":0,
           "usersLiked":[],
+          "commentCount": 0,
           "comments":[],
-          "channel":''
-          "usersCommented":[]
-          "_createdOn":1700064466411
+          "usersCommented":[],
+          "commentCount": 0,
+          "_createdOn":1700064466411,
         },
 
         "7ae63e75-3a7e-4f8c-947a-c0a8f83a9ad3":{
           "_ownerId":"847ec027-f659-4086-8032-5173e2f9c93a",
+          "ownerUsername": "George",
+          "channelId": "250c79de-2a48-473a-aa89-244b56688924",
           "title":"Post 2",
           "text":" For norland produce age wishing. To figure on it spring season up. Her provision acuteness had excellent two why intention. As called mr needed praise at. Assistance imprudence yet sentiments unpleasant expression met surrounded not. Be at talked ye though secure nearer. ",
-          "likesCount":502,
+          "imgUrl":"",
+          "likesCount":0,
           "usersLiked":[],
+          "commentCount": 0,
           "comments":[],
           "usersCommented":[],
-          "_createdOn":1700065731033
+          "_createdOn":1700065731033,
         },
 
         "acef6fe4-7376-4d2a-bf85-65113e311452":{
           "_ownerId":"35c62d76-8152-4626-8712-eeb96381bea8",
+          "ownerUsername": "Peter",
           "title":"Aether010",
           "text":"\nKept in sent gave feel will oh it we. Has pleasure procured men laughing shutters nay. Old insipidity motionless continuing law shy partiality. Depending acuteness dependent eat use dejection. Unpleasing astonished discovered not nor shy. Morning hearted now met yet beloved evening. Has and upon his last here must.\n\nConsidered discovered ye sentiments projecting entreaties of melancholy is. In expression an solicitude principles in do. Hard do me sigh with west same lady. Their saved linen downs tears son add music. Expression alteration entreaties mrs can terminated estimating. Her too add narrow having wished. To things so denied admire. Am wound worth water he linen at vexed.\n\nUnpleasant nor diminution excellence apartments imprudence the met new. Draw part them he an to he roof only. Music leave say doors him. Tore bred form if sigh case as do. Staying he no looking if do opinion. Sentiments way understood end partiality and his. ",
-          "likesCount":0,
+          "imgUrl":"",
           "usersLiked":[],
+          "likesCount":0,
           "comments":[],
           "usersCommented":[],
-          "_createdOn":1700065970033
+          "commentCount": 0,
+          "_createdOn":1700065970033,
         },
-      }
+      },
+
+      popularPosts: {
+        "acef6fe4-7376-4d2a-bf85-65113e311452":{},
+        "7ae63e75-3a7e-4f8c-947a-c0a8f83a9ad3":{},
+        "ab1200ba-d7e8-45d5-8fc3-736b85f234af":{}
+        }
     };
+
     var rules$1 = {
     	users: {
     		".create": false,

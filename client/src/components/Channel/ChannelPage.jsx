@@ -1,79 +1,65 @@
-import { useState,useEffect } from "react"
-import { useParams } from "react-router-dom"
-import * as channelApi from '../apis/channelApi.js'
-import * as dateUtils from '../utils/dateUtils.js'
-import styles from './styles/ChannelPage.module.css' 
-import PostRender from '../Post/PostRender.jsx'
-import * as postApi from '../apis/postApi.js'
+import CreatePostBar from '../Post/CreatePostBar.jsx'
+import InfiniteScrollPosts from '../InfiniteScroll/InfiniteScrollPosts.jsx'
+import JoinButton from './JoinButton.jsx'
 
-const ChannelPage = ({userData}) => {
-  const {channelName} = useParams()
+import { getChannelDataByProp } from '../apis/channelApi.js' 
+import { getFullDateFormat } from '../utils/dateUtils.js'
+
+import { useState, useEffect, useContext } from "react"
+import { useNavigate, useParams } from "react-router-dom"
+
+import UserModalContext from "../contexts/UserModalContext"
+import UserDataContext from "../contexts/UserDataContext"
+
+import UilHospital from "@iconscout/react-unicons/icons/uil-hospital.js"
+import styles from './styles/ChannelPage.module.css' 
+
+const ChannelPage = () => {
+
   const [channelData,setChannelData] = useState({})
-  const [isJoined,setJoined] = useState(false)
-  const [visiblePosts,setVisiblePosts] = useState([])
-  let posts
-  useEffect(()=>{
-      channelApi.getChannelDataByName(channelName)
-      .then(val => {
-        setChannelData(val[0])
-        userData&&setJoined(val[0].members.includes(userData.userId))
-        console.log(val[0])
-      })
+
+  const navigate = useNavigate()
+  const {channelName} = useParams()
+
+
+  const {userData} = useContext(UserDataContext)
+  const {toggleUserModal} = useContext(UserModalContext)
+
+  useEffect(() => {
+    getChannelDataByProp('name',channelName).then((channel) => {
+      setChannelData(channel)
+    })
   },[])
 
-  useEffect(()=>{
-    if(channelData.posts){
-      posts = channelData.posts.map(postId => <PostRender postData={postApi.getPostData(postId)} />)}
-  },[channelData])
-  
+
+  const createPostHandler = () => userData ? navigate('/submit') :  toggleUserModal()
+
   return(
-    <>
-      <header className={styles['header']}>
-        <div>
+    <div className={styles['container']} >
+      <div className={styles['content']}>
+        <header className={styles['header']}>
+          <div>
             <h1>{channelData.name}</h1>
             <h6>c/{channelData.name}</h6>
-          <button>
-            {isJoined
-              ?
-              'Join'
-              :
-              'Joined'
-            }
-          </button>
+          </div>
+          <JoinButton channelData={channelData} setChannelData={setChannelData}/>
+        </header>
+        <main className={styles['main']} >
+          <CreatePostBar />
+          {channelData.posts&&
+          <InfiniteScrollPosts posts={channelData.posts.reverse()}/>}
+        </main>
+      </div>
+      <div className={styles['side']}>
+        <h6>About Channel</h6>
+        <div className={styles['date-container']}>
+          <UilHospital size={20}/>
+          <div>Created {getFullDateFormat(channelData._createdOn)}</div>
         </div>
-      </header>
-      <main className={styles['main']}>
-        <div>
-            {// <CreatePostBar />
-            }
-          {channelData.posts?
-            <div>
-              {posts}
-            </div>
-            :
-            <>
-              <h4>There are no posts in this channel</h4>
-              <h6>Be the first to till this fertile land.</h6>
-                {//<button>Create Post</button>
-                }
-            </>
-          }
-        </div>
-        <div>
-          {
-            channelData.description&&
-            <div>
-                <h6>Description</h6>
-                <p>{channelData.description}</p>
-            </div>
-          }
-        </div>
-        <div>
-          <a>asd</a>
-          <h6>Created on {dateUtils.getFullDateFormat(channelData._createdOn)}</h6>
-        </div>
-      </main>
-    </>
+        <button onClick={createPostHandler}>Create Post</button>
+        <p>{channelData.description||'No Description'}</p>
+      </div>
+    </div>
   )
 }
 

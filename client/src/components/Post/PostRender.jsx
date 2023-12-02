@@ -1,25 +1,32 @@
-import { useNavigate } from 'react-router-dom'
-import * as dateUtils from '../utils/dateUtils.js'
-import UilArrowUp from '@iconscout/react-unicons/icons/uil-arrow-up'
-import UilArrowDown from '@iconscout/react-unicons/icons/uil-arrow-down'
+
+import PostRating from './PostRating.jsx'
+import PostSaving from './PostSaving.jsx'
+
+import {getTimeDifference} from '../utils/dateUtils.js'
+
+import { useContext } from 'react'
+
+import UserDataContext from '../contexts/UserDataContext'
+
 import UilComment from '@iconscout/react-unicons/icons/uil-comment.js' 
 import UilShare from '@iconscout/react-unicons/icons/uil-share.js'
-import UilBookmark from '@iconscout/react-unicons/icons/uil-bookmark.js'
 import styles from './styles/PostRender.module.css'
 
-
 const PostRender = ({postData}) => {
-  const navigate = useNavigate()
+  const {userData} = useContext(UserDataContext)
+
   return(
     <div className={styles['content']}>
-      <div className={styles['rating']}>
-        <UilArrowUp size={35} onClick={(event)=>{console.log('a');event.stopPropagation()}}/>
-        <div>{postData.likesCount}</div>
-        <UilArrowDown size={35}/>
-      </div>
+      <PostRating postData={postData} />
       <div className={styles['inner-content']}>
-        <div><span>c/{postData.channelName}</span> Posted by u\{postData.ownerUsername} {dateUtils.getTimeDifference(postData._createdOn)} ago</div>
+        <div>
+          <span>c/{postData.channelName}</span> 
+          <span>Posted by u\{postData.ownerUsername} </span> 
+          <span>{getTimeDifference(postData._createdOn)} ago</span>
+        </div>
         <h3>{postData.title}</h3>
+        {postData.imgUrl && 
+          <img src={postData.imgUrl} alt='Image Not Found!' className={styles['post-image']}/>}
         <p>{postData.text}</p>
         <div className={styles['options-container']}>
           <div>
@@ -29,11 +36,8 @@ const PostRender = ({postData}) => {
           <div>
             <UilShare />
             <span>Share</span>
-         </div>
-          <div>
-            <UilBookmark />
-            <span>Save</span>
           </div>
+          {userData && <PostSaving postData={postData}/>}
         </div>
       </div>
     </div>

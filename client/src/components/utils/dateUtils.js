@@ -22,7 +22,7 @@ const getPluralTimeFormat = (type,time) => {
     switch(type){
       case 'day':return `${time} ${isSingular?'day':'days'}`
       case 'hour':return `${time} ${isSingular?'hour':'hours'}`
-      case 'minute':return `${time} ${isSingular?'hour':'hours'}`
+      case 'minute':return `${time} ${isSingular?'minute':'minutes'}`
     }
 }
 

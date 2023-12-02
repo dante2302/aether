@@ -1,12 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import * as userApi from '../apis/userApi.js'
 import styles from './styles/LogInForm.module.css'
 import * as formUtils from '../utils/formUtils.js'
+import UserDataContext from '../contexts/UserDataContext.jsx'
+import UserModalContext from '../contexts/UserModalContext.jsx'
 
-const LogInForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
-
+const LogInForm = ({setCurrentMode}) => {
+  const {setUserData} = useContext(UserDataContext)
+  const { toggleUserModal } = useContext(UserModalContext)
   const initialFormState = {
-    username: '',
+    email: '',
     password: '',
   }
 
@@ -15,11 +18,11 @@ const LogInForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
   const [isDisabled,setDisabled] = useState(true)
 
   useEffect(() => {
-    (formState.name===''||formState.password==='')?setDisabled(true):setDisabled(false)
+    (formState.email===''||formState.password==='')?setDisabled(true):setDisabled(false)
   },[formState])
 
   
-  const submitHandler = async (e,email,password) => {
+  const submitHandler = async (e,{email,password}) => {
     setDisabled(true)
     e.preventDefault()
 
@@ -40,15 +43,15 @@ const LogInForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
         <div className={styles['input-container']}>
           <input 
             type='text'
-            id='username'
-            name='username'
-            value={formState.username}
+            id='email'
+            name='email'
+            value={formState.email}
             onChange={(e) => {
               formUtils.changeHandler(e,setFormState)
             }}
             className={styles['username']}
         />
-          {!formState.username&&<label htmlFor='username'>Username</label>}
+          {!formState.username&&<label htmlFor='email'>Email</label>}
         </div>
 
         <div className={styles['input-container']}>
@@ -61,7 +64,6 @@ const LogInForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
               e.preventDefault()
               formUtils.changeHandler(e,setFormState)}}
             className={styles['password']}
-            // onBlur = {validateInout}
           />
 
           {!formState.password
@@ -74,7 +76,7 @@ const LogInForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
         </div>
 
         <button 
-          onClick={(e) => submitHandler(e,formState.username,formState.password)}
+          onClick={(e) => submitHandler(e,formState)}
           disabled={isDisabled}
           className={`${styles['log-in-btn']} ${!isDisabled && styles['enabled']}`}
         >Log In</button>

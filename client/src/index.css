@@ -36,4 +36,5 @@ a:link,a:visited,a:hover,a:active{
   display:flex;
   border-radius:0;
   justify-content:center;
+  height:fit-content;
 }
