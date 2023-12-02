@@ -13,6 +13,7 @@ export const createPost = async ({username,accessToken},{title,text,imgUrl,chann
         title,
         text,
         imgUrl,
+        linkUrl,
         likesCount:0,
         comments:[],
         usersCommented:[],
@@ -56,8 +57,10 @@ export const getPersonalPosts = async(postId,userId) => {
 // }
 
 export const updatePostData = async (_id,newData) => {
+  console.log(newData)
   const url = `${baseUrl}/${_id}`
   const data = await request.patchWithoutAuth({url,newData})
+  console.log(data)
   return data
 }
 

@@ -17,7 +17,12 @@
   align-items:center;
   justify-content:start;
 }
-
+.redirect{
+  pointer-events: none;
+}
+.redirect>*{
+  pointer-events:auto;
+}
 .likes-count.liked,
 .rating>:first-child.liked{
   color:cyan;

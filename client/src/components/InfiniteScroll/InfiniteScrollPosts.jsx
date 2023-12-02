@@ -4,11 +4,12 @@ import { getPostData } from '../apis/postApi.js'
 
 import { useState, useEffect } from "react"
 
-const InfiniteScrollPosts = ({posts}) => {
+const InfiniteScrollPosts = ({posts,pageSize}) => {
 
   const [visiblePosts,setVisiblePosts] = useState([])
   const [visiblePostsCount,setVisiblePostsCount] = useState(0)
   const [isLoading,setIsLoading] = useState(true)
+
   const scrollHandler = async () => {
     const { clientHeight, scrollTop, scrollHeight } = document.documentElement
     const isBottom = scrollTop + clientHeight >= scrollHeight

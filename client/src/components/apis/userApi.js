@@ -64,7 +64,7 @@ const createUserData = async (username,accessToken) => {
 }
 
 export const getUserDataByProp = async (prop,value) => {
-  const data = request.search({url:dataUrl,prop,value})
+  const data = await request.search({url:dataUrl,prop,value})
   return data[0]
 }
 
