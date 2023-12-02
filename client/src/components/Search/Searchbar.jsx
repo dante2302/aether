@@ -1,8 +1,8 @@
 import SearchResultsCompact from './SearchResultsCompact'
 
-import search from './search.js'
 import useDebounce from '../hooks/useDebounce.jsx'
-
+import { searchPosts } from '../apis/postApi.js' 
+import { searchChannels } from '../apis/channelApi.js'
 import { useState, useEffect } from 'react'
 
 import styles from '../NavBar/Navbar.module.css'
@@ -17,21 +17,41 @@ const Searchbar = () => {
     channelResults:[]
   }
 
+
   const [searchState,setSearchState] = useState('')
   const [searchResults,setSearchResults] = useState(initialResults)
   const navigate = useNavigate()
 
 
+  const searchCompact = (value) => {
+    // This function is responsible for the search results shown under the searchbar
+    //
+    search(value,5,0).then((results) => {
+    // 5 and 0 respectively being pageSize and offset
+      let {channelResults,postResults} = results;
+      if(channelResults.length > 0)results = {...results,channelResults}
+      if(postResults.length > 0) results = {...results,postResults}
+      setSearchResults(results)
+    })
+  }
+
+  const search = async (value,pageSize,offset) => {
+    let postResults = await searchPosts(value,pageSize,offset)  
+    let channelResults = await searchChannels(value,pageSize,offset)
+    return {channelResults,postResults}
+  }
+
   const submitHandler = (e) => {
     e.preventDefault()
-    // navigate(search)
+    search(searchState,10,0)
+      .then((results) => {navigate('/search',{state:results})})
   }
-  const debouncedSearch = useDebounce(search,1000)
+
+  const debouncedSearchCompact = useDebounce(searchCompact,1000)
 
   useEffect(() => {
     searchState && 
-      debouncedSearch(searchState,initialResults)
-      .then((results) => setSearchResults(results))
+      debouncedSearchCompact(searchState,initialResults)
   },[searchState])
 
   return(

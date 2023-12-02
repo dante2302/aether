@@ -3,16 +3,11 @@ import { useEffect, useState } from 'react'
 
 const SearchResults = () => {
   const location = useLocation()
-  const navigate = useNavigate()
-  const [results,setResults] = useState()
-  useEffect(() => {
-  if(location.state){
-    console.log(location.state.results)
-      setResults(location.state.results)}
-  }, [])
+  let results = location.state
+
   return(
-        !results ||
-        (results.channelResults.length == 0 
+      !results ||
+      (results.channelResults.length == 0 
         && results.postResults.length == 0 )
       ? 
       <div>
@@ -21,16 +16,25 @@ const SearchResults = () => {
         <h6>Double-check your spelling or try different keywords.</h6>
       </div>
       :
-    <div>
-      {results.channelResults.length > 0 &&
-        <div>
-        </div>
-      }
-      {results.postResults.length > 0 &&
-        <div>
-        </div>
-      }
-    </div>
+      <ul>
+
+        {results.channelResults.map((resultData) => 
+          <li>
+          <div>
+            <h1>c/{resultData.name}</h1>
+          </div>
+          </li>
+          )
+        }
+
+        {results.postResults.map((resultData) => 
+          <li>
+          <div>
+            <h1>{resultData.title}</h1>
+          </div>
+          </li>)
+        }
+      </ul>
   )
 }
 export default SearchResults
