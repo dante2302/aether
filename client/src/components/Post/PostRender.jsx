@@ -20,11 +20,17 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
 
   const [postDataState,setPostDataState] = useState(postData)
   //In case the post data changes
+
   const {userData} = useContext(UserDataContext)
   const navigate = useNavigate()
 
+  const redirectToPage = (e) =>{ 
+    e.stopPropagation()
+    navigate(`/c/${postData.channelName}/${postData._id}`)
+  }
+
   return(
-    <div className={styles['content']} >
+    <div className={styles['content']} onClick={e => redirectToPage(e)}>
 
       <PostRating postDataState={postDataState} setPostDataState={setPostDataState} />
 
@@ -32,7 +38,7 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
         className={
          `${styles['inner-content']} 
           ${isRedirect && styles['redirect']}`} 
-        onClick={() => navigate(`/c/react/${postData._id}`)}
+        onClick={() => navigate(`/c/${postData.channelName}/${postData._id}`)}
       >
         <div>
 
@@ -74,11 +80,10 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
         }
 
         <div className={styles['options-container']}>
-
-          <div>
-            <UilComment size={23}/> 
-            <span>{postData.commentCount} {postData.commentCount>1?'comment':'comments'}</span>
-          </div>
+            <button onClick={e => redirectToPage(e)} className={styles['comment-container']}>
+              <UilComment size={23}/> 
+              <span>{postData.commentCount} {postData.commentCount>1?'comment':'comments'}</span>
+            </button>
 
           <PostSharing postData={postData}/>
 

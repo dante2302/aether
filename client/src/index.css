@@ -47,6 +47,11 @@ p{
   white-space:normal;
 }
 
+button{
+  background: none;
+  border: none;
+}
+
 a:link,a:visited,a:hover,a:active{
   text-decoration: none;
   color:black;

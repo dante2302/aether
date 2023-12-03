@@ -13,16 +13,15 @@ const PostSharing = ({postData}) => {
   }
 
   return(
-    <div className={styles['tooltip']}>
-    <button 
-        onClick={(e) => shareHandler(e)}
-        onBlur={()=>setCopied(false)}
-        onMouseOut={()=>setCopied(false)}
+    <div 
+        className={styles['tooltip']}
+        onMouseLeave={() => setCopied(false)}
     >
-      <UilShare />
-      <span>Share</span>
-      <span className={styles['tooltiptext']}>{ copied ? 'Copied' : 'Copy'} to clipboard</span>
-    </button>
+      <button onClick={(e) => shareHandler(e)}>
+        <UilShare />
+        <span>Share</span>
+        <span className={styles['tooltiptext']}>{ copied ? 'Copied' : 'Copy'} to clipboard {copied ? '!' : ''}</span>
+      </button>
     </div>
   )
 }

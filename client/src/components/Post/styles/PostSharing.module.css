@@ -3,10 +3,14 @@
   position: relative;
 }
 
+.tooltip>*{
+  cursor:pointer
+}
+
 .tooltip .tooltiptext{
   visibility: hidden;
   width: 140px;
-  background-color: #555;
+  background-color: #666;
   color: #fff;
   text-align: center;
   border-radius: 6px;

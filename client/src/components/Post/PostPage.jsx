@@ -22,6 +22,8 @@ const PostPage = () => {
       'code' in commentList
         ? setComments([]) 
         : setComments(commentList)
+      //check if the post has any comments
+
       setPostData(data)
     }
     asyncFunc()
@@ -57,16 +59,3 @@ const PostPage = () => {
 }
 
 export default PostPage
-
-  // const { userData } = useContext(UserDataContext)
-  // const [commentData,setCommentData] = useState({})
-  //
-  // useEffect(() => {
-  //   const asyncFunc = async () => {
-  //     const data = await getCommentData(commentId) 
-  //     const ownerData = await getUserDataByProp('_ownerId',data._ownerId)
-  //     setCommentData({...data,ownerUsername:ownerData.username})
-  //   }
-  //   asyncFunc()
-  // },[])
-
