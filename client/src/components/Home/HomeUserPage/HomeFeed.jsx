@@ -34,8 +34,13 @@ const HomeFeed = () => {
   return(
       <div className={styles['container']}>
         <CreatePostBar />
-      {userPosts.length && 
+      {userPosts.length > 0 
+        ? 
         <InfiniteScrollPosts posts={userPosts}/>
+        :
+        <div>
+          Welcome
+        </div>
       }
       </div>
   )

@@ -29,7 +29,7 @@ const PostPage = () => {
   return (
     postData && 
     <div style={{display:'flex','flexDirection':'column'}}>
-      <PostRender postData={postData}/>
+      <PostRender postData={postData} isRedirect={true} isCompact={false}/>
       <ul>
       {
         comments.length > 0 

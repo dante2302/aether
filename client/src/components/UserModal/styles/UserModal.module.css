@@ -4,10 +4,10 @@
     padding:2em;
     border-radius:7px;
     position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
     display:flex;
+    top:5%;
+    left:50%;
+    transform: translateX(-50%);
     flex-direction:column;
     align-items:start;
     justify-content:center;
@@ -17,8 +17,13 @@
 @media(min-width:800px){
   .content{
     width:45%;
+    padding:1em;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
   }
 }
+
 .close-btn-wrap{
   display:flex;
   width:100%;
@@ -29,6 +34,7 @@
   color:#FF0010;
   cursor:pointer;
 }
+
 .inner-content{
     display:flex;
     flex-direction:column;

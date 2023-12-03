@@ -1,4 +1,4 @@
-import styles from './styles/PostRender.module.css'
+import styles from './styles/PostRating.module.css'
 import { useState, useEffect, useContext } from "react"
 
 import UserDataContext from '../contexts/UserDataContext'

@@ -56,7 +56,7 @@ const InfiniteScrollPosts = ({posts}) => {
       &&
       <ul> 
         {visiblePosts.map(postData => 
-          <li key={postData._id}><PostRender postData={postData} /></li>)
+          <li key={postData._id}><PostRender postData={postData} isCompact={true} /></li>)
         }
         {isLoading&&<p>Loading</p>}
       </ul>

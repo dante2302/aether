@@ -6,7 +6,7 @@ import UserDataContext from '../contexts/UserDataContext'
 import UserModalContext from '../contexts/UserModalContext'
 
 import styles from './Navbar.module.css'
-
+import UilStar from '@iconscout/react-unicons/icons/uil-star'
 
 const NavBar = () => {
   const navigate = useNavigate()
@@ -17,10 +17,8 @@ const NavBar = () => {
     <div className={styles["nav-container"]}>
         <img className={styles['logo']} src='/images/pegasus.svg' onClick={()=>navigate('/')}/>
         {userData &&
-        <div onClick={() => navigate('/popular')}>Popular</div>}
-      <div className={styles['search-container']}>
+        <div onClick={() => navigate('/popular')}><UilStar size={35}/></div>}
         <Searchbar />  
-      </div>
 
       {
         userData

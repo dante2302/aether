@@ -6,3 +6,15 @@ export const changeHandler = (e,setFormState) => {
   }))
 }
 
+export const validateEmail = () => {
+
+}
+
+export const validateUsername = () => {
+
+}
+
+export const validatePassword = () => {
+
+}
+

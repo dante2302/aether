@@ -5,7 +5,7 @@ import { searchPosts } from '../apis/postApi.js'
 import { searchChannels } from '../apis/channelApi.js'
 import { useState, useEffect } from 'react'
 
-import styles from '../NavBar/Navbar.module.css'
+import styles from './styles/Searchbar.module.css'
 import  UilSearch from '@iconscout/react-unicons/icons/uil-search.js'
 import { useNavigate } from 'react-router-dom'
 
@@ -43,8 +43,10 @@ const Searchbar = () => {
 
   const submitHandler = (e) => {
     e.preventDefault()
-    search(searchState,10,0)
-      .then((results) => {navigate('/search',{state:results})})
+    if(searchState){
+      search(searchState,10,0)
+        .then((results) => {navigate('/search',{state:results})})
+    }
   }
 
   const debouncedSearchCompact = useDebounce(searchCompact,1000)
@@ -55,16 +57,18 @@ const Searchbar = () => {
   },[searchState])
 
   return(
-    <div>
+    <div className={styles['outer-container']}>
+      <div className={styles['search-container']}>
       <form onSubmit={(e) => submitHandler(e)}>
-        <button><UilSearch /></button>
+        <button className={styles['search-btn']}><UilSearch /></button>
         <input type='search'
           value={searchState}
           onChange={(e) => setSearchState(e.target.value)}
           className={styles['search-bar']}
         />
       </form>
-      <div>
+      </div>
+      <div className={styles['search-results']}>
         <SearchResultsCompact postResults={searchResults.postResults} channelResults={searchResults.channelResults}/>
       </div>
     </div>
