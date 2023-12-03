@@ -2,13 +2,15 @@
  /* Colors */
   --accent-red:#FF0010;
   --accent-blue:#00dfff;
+  --accent-yellow:#ebd950;
   --background-grey:#dedcdc;
+  --border-grey:#d9d9d9;
   --overlay-color:#1a1a1a;
   /* --white: */
   /* Typography */
   --ff: 'Ubuntu', sans-serif;
   --fs-reg:16px;
-  --fs-sm:10px;
+  --fs-sm:12px;
   --fs-xl:20px;
   --fw-b:600;
   --fw-reg:400;
@@ -16,7 +18,7 @@
 
 @media (min-width: 768px){
   :root{
-    --fs-sm:12px;
+    --fs-sm:14px;
     --fs-reg:18px;
     --fs-xl:22px;
   }

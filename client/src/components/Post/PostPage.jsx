@@ -19,8 +19,10 @@ const PostPage = () => {
     const asyncFunc = async () => {
       const data = await getPostData(postId)
       const commentList = await getPostComments(postId)
+      'code' in commentList
+        ? setComments([]) 
+        : setComments(commentList)
       setPostData(data)
-      setComments(commentList)
     }
     asyncFunc()
 

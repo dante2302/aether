@@ -12,10 +12,11 @@ const NavBar = () => {
   const navigate = useNavigate()
   const { userData, setUserData } = useContext(UserDataContext)
   const {toggleUserModal } = useContext(UserModalContext)
+  const size = window.innerWidth
 
   return(
     <div className={styles["nav-container"]}>
-        <img className={styles['logo']} src='/images/pegasus.svg' onClick={()=>navigate('/')}/>
+        <img className={styles['logo']} src={size>768 ? '/images/logo.svg' : 'images/logo_small.png'} onClick={()=>navigate('/')}/>
         {userData &&
         <div onClick={() => navigate('/popular')}><UilStar size={35}/></div>}
         <Searchbar />  

@@ -16,14 +16,19 @@ export const createComment = async ({accessToken,username},{replyTo,parentCommen
 }
 
 export const getPostComments = async (postId) => {
-  const data = await request.searchWithUnion({
-    url:baseUrl,
-    firstProp:'postId',
-    firstValue:postId,
-    secondProp:'replyTo',
-    secondValue: ''
-  })  
-  return data
+  try{
+    const data = await request.searchWithUnion({
+      url:baseUrl,
+      firstProp:'postId',
+      firstValue:postId,
+      secondProp:'replyTo',
+      secondValue: ''
+    })  
+    return data
+  }
+  catch(err){
+    console.log(err)
+  }
 }
 
 export const getCommentReplies = async (commentId,pageSize,offset) => {

@@ -18,6 +18,16 @@ const HomeFeed = () => {
     pageSize.current = 3
   }, [])
 
+  useEffect(() => {
+    if(pageSizeEnded){
+      pageSize.current += 3
+      getRelatedPosts().then((posts) => {
+        setUserPosts(posts)
+      })
+      setPageSizeEnded(false)
+    }
+  },[pageSizeEnded])
+
   const getRelatedPosts = async () => {
     let posts = []
     for(let channelId of userData.channels){
@@ -36,7 +46,7 @@ const HomeFeed = () => {
         <CreatePostBar />
       {userPosts.length > 0 
         ? 
-        <InfiniteScrollPosts posts={userPosts}/>
+        <InfiniteScrollPosts posts={userPosts} setPageSizeEnded={pageSizeEnded}/>
         :
         <div>
           Welcome

@@ -20,7 +20,7 @@ const UserPage = () => {
   },[userData])
   
   return (
-    Object.keys(pageUserData).length>0
+    pageUserData && Object.keys(pageUserData).length>0
     ? 
     <div>
       <UserPageSidebar pageUserData={pageUserData} isOwner={isOwner}/>

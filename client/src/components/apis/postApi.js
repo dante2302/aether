@@ -5,10 +5,11 @@ import { updateChannelData, createChannelPost } from './channelApi.js'
 import * as request from './request.js'
 import { inEncodedQuotes } from '../utils/encodeUtils.js'
 
-export const createPost = async ({username,accessToken},{title,text,imgUrl,channelId}) => {
+export const createPost = async ({username,accessToken},{title,text,imgUrl,channelId,channelName}) => {
   try{
     const bodyData = {
         channelId,
+        channelName,
         ownerUsername:username,
         title,
         text,

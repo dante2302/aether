@@ -63,8 +63,12 @@ const Searchbar = () => {
         <button className={styles['search-btn']}><UilSearch /></button>
         <input type='search'
           value={searchState}
-          onChange={(e) => setSearchState(e.target.value)}
           className={styles['search-bar']}
+          onChange={(e) => setSearchState(e.target.value)}
+          onBlur={() => {
+              setSearchState("");
+              setSearchResults(initialResults);
+          }}
         />
       </form>
       </div>

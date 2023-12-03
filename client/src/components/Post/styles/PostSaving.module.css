@@ -1,0 +1,10 @@
+.saved{
+  color:var(--accent-yellow);
+}
+
+.save-container.saved{
+  border:.2px solid var(--accent-yellow);
+  border-radius:5px;
+  color:black;
+}
+
