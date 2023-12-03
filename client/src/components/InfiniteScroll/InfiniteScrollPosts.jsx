@@ -4,7 +4,7 @@ import { getPostData } from '../apis/postApi.js'
 
 import { useState, useEffect } from "react"
 
-const InfiniteScrollPosts = ({posts,pageSize}) => {
+const InfiniteScrollPosts = ({posts}) => {
 
   const [visiblePosts,setVisiblePosts] = useState([])
   const [visiblePostsCount,setVisiblePostsCount] = useState(0)
@@ -13,14 +13,14 @@ const InfiniteScrollPosts = ({posts,pageSize}) => {
   const scrollHandler = async () => {
     const { clientHeight, scrollTop, scrollHeight } = document.documentElement
     const isBottom = scrollTop + clientHeight >= scrollHeight
-    if( !isBottom || isLoading){
+    if(!isBottom || isLoading){
       return
     }
     fetchVisiblePosts(posts)
   }
 
   const fetchVisiblePosts = async (posts) => {
-    let newPostsCount = 2
+    let newPostsCount = 3
     // Number of posts to render
 
     if(newPostsCount > posts[visiblePostsCount]){
@@ -31,7 +31,6 @@ const InfiniteScrollPosts = ({posts,pageSize}) => {
     setIsLoading(true)
     let i = visiblePostsCount
     let newPosts = []
-
     while(i < posts.length && i - visiblePostsCount < newPostsCount){
       newPosts.push(await getPostData(posts[i]))
       i++
@@ -53,20 +52,14 @@ const InfiniteScrollPosts = ({posts,pageSize}) => {
 
   return (
 
-    visiblePosts
-      ?
+    visiblePosts.length 
+      &&
       <ul> 
         {visiblePosts.map(postData => 
           <li key={postData._id}><PostRender postData={postData} /></li>)
         }
         {isLoading&&<p>Loading</p>}
       </ul>
-      :
-      <div>
-        <h3>'There are no posts in this channel'</h3>
-        <h6>Be the chosen one</h6>
-        <button onClick={createPostHandler}>Create a Post</button>
-      </div>
   )
 }
 export default InfiniteScrollPosts

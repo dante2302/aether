@@ -46,8 +46,18 @@ const ChannelPage = () => {
         </header>
         <main className={styles['main']} >
           <CreatePostBar />
-          {channelData.posts&&
-          <InfiniteScrollPosts posts={channelData.posts.reverse()}/>}
+          {channelData.posts 
+            ? 
+            <InfiniteScrollPosts posts={channelData.posts.reverse()}/>
+          :
+            <>
+              <div>
+                <h3>'There are no posts in this channel'</h3>
+                <h6>Be the chosen one</h6>
+              </div>
+              <button onClick={createPostHandler}>Create a Post</button>
+            </>
+          }
         </main>
       </div>
       <div className={styles['side']}>
