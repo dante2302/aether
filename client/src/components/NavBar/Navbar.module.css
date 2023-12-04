@@ -23,19 +23,45 @@
   }
 }
 
-.log-in-btn{
-  font-size:16px;
-  font-weight:450;
-  padding:.6em;
-  padding-inline:1em;
-  border-radius:60px;
-  border:none;
-  background-color:rgb(50,215,220);
+.log-in-container,.log-in-container>div{
+  display:flex;
+  flex-direction:row;
+  place-items: center;
+  gap:15px;
   cursor: pointer;
-  color:white;
-  font-weight: var(--fw-b);
 }
 
-.log-in-btn:hover{
-  background-color:#2b65d9;
+.log-in-container>div{
+  gap:5px;
+  margin-right: 10px;
+  font-size: var(--fs-reg);
+}
+
+.log-in-container>div:hover{
+  color: var(--accent-blue);
+}
+
+.log-in-btn,.log-out-btn{
+  border-radius:60px;
+  border:none;
+  color:white;
+  background-color:rgb(50,215,220);
+  background-color: var(--accent-blue);
+  font-weight: var(--fw-b);
+  cursor: pointer;
+}
+
+.log-in-btn{
+  padding:.8em 1em;
+  font-size: calc(var(--fs-sm) + 4px);
+}
+
+.log-out-btn{
+  padding:.5em .8em;
+  font-size: calc(var(--fs-sm) + 2px);
+  cursor: pointer;
+}
+
+.log-in-btn:hover,.log-out-btn:hover{
+  background-color: blue;
 }
