@@ -2,6 +2,7 @@
 .nav-container{
   position:sticky;
   top:0;
+  z-index:3;
   display:flex;
   width:100%;
   background:white;
@@ -15,6 +16,7 @@
   width:9em;
   cursor:pointer;
 }
+
 @media(max-width: 768px){
   .logo{
     width:3.5em;
@@ -28,10 +30,12 @@
   padding-inline:1em;
   border-radius:60px;
   border:none;
-  background-color:var(--accent-blue);
+  background-color:rgb(50,215,220);
   cursor: pointer;
+  color:white;
+  font-weight: var(--fw-b);
 }
 
 .log-in-btn:hover{
-  background-color:rgb(50,215,220)
+  background-color:#2b65d9;
 }

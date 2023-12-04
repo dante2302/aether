@@ -24,10 +24,13 @@ const PostPage = () => {
         : setComments(commentList)
       //check if the post has any comments
 
+      document.title = `${data.title}`
       setPostData(data)
     }
     asyncFunc()
-
+    return () => {
+      document.title = 'Aether'
+    }
   },[])
 
   return (

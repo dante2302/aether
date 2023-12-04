@@ -26,9 +26,15 @@ const ChannelPage = () => {
   const {toggleUserModal} = useContext(UserModalContext)
 
   useEffect(() => {
-    getChannelDataByProp('name',channelName).then((channel) => {
-      setChannelData(channel)
+    getChannelDataByProp('name',channelName).then((data) => {
+      setChannelData(data)
+      document.title = `c/${data.name}`
     })
+
+    return(() => {
+      document.title = 'Aether'
+    })
+
   },[])
 
 

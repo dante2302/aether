@@ -16,7 +16,12 @@ const UserPage = () => {
       .then(response => { 
         setIsOwner(userData && userData._ownerId === response._ownerId)
         setPageUserData(response)
+        document.title = `u/${response.username}`
       })
+
+    return(() => {
+      document.title = 'Aether'
+    })
   },[userData])
   
   return (

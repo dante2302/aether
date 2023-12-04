@@ -8,18 +8,28 @@
 }
 
 .inner-content{
-  padding:1em;
-  padding-bottom:0;
+  padding-top: .5em;
+  padding-left: .5em;
 }
 
-.inner-content>p{
-  font-size: var(--fs-reg);
+@media (max-width: 687px){
+  .inner-content{
+    padding: 1em 1.5em;
+  }
+}
+
+.channel-name{
+  font-weight: var(--fw-b);
 }
 
 .inner-content>h1{
   padding-top:.6em;
   padding-bottom:1.2em;
   font-size: var(--fs-xl);
+}
+
+.inner-content>p{
+  font-size: var(--fs-reg);
 }
 
 .inner-content>:first-child{
@@ -29,7 +39,7 @@
 
 .username:hover,.channel-name:hover{
   text-decoration: underline;
-  text-decoration-thickness: 2px;
+  text-decoration-thickness: 1.5px;
   cursor: pointer;
 }
 
@@ -73,9 +83,5 @@
 .options-container>*:hover{
   background:#bfbfbf;
   border-radius:4px 4px 0 0;
-}
-
-.channel-name{
-  font-weight: var(--fw-b);
 }
 

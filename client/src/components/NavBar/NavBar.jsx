@@ -13,7 +13,6 @@ const NavBar = () => {
   const { userData, setUserData } = useContext(UserDataContext)
   const {toggleUserModal } = useContext(UserModalContext)
   const size = window.innerWidth
-
   return(
     <div className={styles["nav-container"]}>
         <img className={styles['logo']} src={size>768 ? '/images/logo.svg' : 'images/logo_small.png'} onClick={()=>navigate('/')}/>
