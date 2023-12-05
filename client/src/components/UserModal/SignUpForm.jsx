@@ -4,6 +4,7 @@ import * as userApi from '../apis/userApi.js'
 import * as formUtils from '../utils/formUtils.js'
 import UilArrowRight from '@iconscout/react-unicons/icons/uil-arrow-right'
 import UilArrowLeft from '@iconscout/react-unicons/icons/uil-arrow-left'
+import UilSad from '@iconscout/react-unicons/icons/uil-sad'
 
 const SignUpForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
 

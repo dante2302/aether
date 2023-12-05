@@ -7,7 +7,7 @@ import UserModalContext from '../contexts/UserModalContext'
 
 import styles from './Navbar.module.css'
 import UilStar from '@iconscout/react-unicons/icons/uil-star'
-import UilUserMd from '@iconscout/react-unicons/icons/uil-user-md'
+import UilUser from '@iconscout/react-unicons/icons/uil-user'
 
 const NavBar = () => {
   const navigate = useNavigate()
@@ -33,7 +33,7 @@ const NavBar = () => {
           ?
           <div className={styles['log-in-container']}>
             <div onClick={() => navigate(`./u/${userData.username}`)}>
-              <UilUserMd size={30} />
+              <UilUser size={30} />
               <p>{userData.username}</p>
             </div>
             <button 

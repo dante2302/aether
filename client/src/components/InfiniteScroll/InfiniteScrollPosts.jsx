@@ -5,13 +5,13 @@ import { getPostData } from '../apis/postApi.js'
 import { useState, useEffect } from "react"
 
 import styles from './InfiniteScrollPosts.module.css'
+import useLoading from '../hooks/useLoading.jsx'
 
 const InfiniteScrollPosts = ({posts,setPageSizeEnded}) => {
 
   const [visiblePosts,setVisiblePosts] = useState([])
   const [visiblePostsCount,setVisiblePostsCount] = useState(0)
   const [isLoading,setIsLoading] = useState(true)
-
   const scrollHandler = async () => {
     const { clientHeight, scrollTop, scrollHeight } = document.documentElement
     const isBottom = scrollTop + clientHeight >= scrollHeight
@@ -52,13 +52,15 @@ const InfiniteScrollPosts = ({posts,setPageSizeEnded}) => {
     setIsLoading(false)
   }
 
+  const [spinner,fetchPostsWithLoading] = useLoading(fetchVisiblePosts,15)
+
   useEffect(() => { 
     window.addEventListener('scroll',scrollHandler)
     return () => window.removeEventListener('scroll',scrollHandler)
   },[isLoading])
 
   useEffect(() => {
-    fetchVisiblePosts(posts)
+    fetchPostsWithLoading(posts)
   },[])
 
   return (
@@ -70,6 +72,7 @@ const InfiniteScrollPosts = ({posts,setPageSizeEnded}) => {
           <li key={postData._id}><PostRender postData={postData} isCompact={true} /></li>)
         }
         {isLoading&&<p>Loading</p>}
+        {spinner}
       </ul>
   )
 }
