@@ -7,6 +7,7 @@
   align-items:center;
   justify-content:start;
   border-right:.3px solid var(--border-grey);
+  border-radius: 7px 0 0 7px;
 }
 
 .rating>:first-child:hover,.rating>:last-child:hover{

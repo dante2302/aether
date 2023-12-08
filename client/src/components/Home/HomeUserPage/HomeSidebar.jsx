@@ -53,9 +53,10 @@ const HomeSidebar = ({userData}) => {
         {channelModal&&
           <ChannelCreateModal userData={userData} toggleChannelModal={toggleChannelModal}/>}
       </div>
-      <h1> Your Channels: </h1>
       <Spinner />
-      <ChannelList visibleChannels={visibleChannels}/>
+      <ChannelList visibleChannels={visibleChannels}> 
+        <h1> Your Channels: </h1>
+      </ChannelList>
     </div>
   )
 }

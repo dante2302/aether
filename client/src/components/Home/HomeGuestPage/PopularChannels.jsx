@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react'
 import { getPopularChannels } from '../../../apis/popularApi'
 import { getChannelData } from '../../../apis/channelApi'
 
-import styles from './styles/PopularChannels.module.css'
-
 import ChannelList from '../../Channel/ChannelList'
 
 const PopularChannels = () => {
@@ -23,10 +21,9 @@ const PopularChannels = () => {
   },[])
 
   return (
-    <div>
-      <h6>Popular Channels</h6>
-      <ChannelList visibleChannels={visibleChannels} />
-    </div>
+      <ChannelList visibleChannels={visibleChannels}>
+        <h6>Popular Channels</h6>
+      </ChannelList>
   )
 }
 
