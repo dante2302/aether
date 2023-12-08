@@ -5,16 +5,18 @@
 
 .preview{
   max-width:70%;
-  border:1px solid grey;
-  display:flex;
-  background-color: var(--background-grey);
-  flex-direction:row;
-  justify-content:start;
+  padding:15px;
   position:relative;
+  display:flex;
+  flex-direction:row;
+  background-color: var(--background-grey);
+  border:1px solid grey;
 }
 
-.preview>svg{
-    align-self: end;
-    margin:.5em;
+.link{
+    color:blue;
 }
 
+.link:visited{
+    color:purple
+}

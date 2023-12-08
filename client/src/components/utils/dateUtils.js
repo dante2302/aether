@@ -17,7 +17,6 @@ export const getTimeDifference = (timeOfCreation) => {
 }
 
 const getPluralTimeFormat = (type,time) => {
-  // console.log(type,time)
   const isSingular = (time == 1)
     switch(type){
       case 'day':return `${time} ${isSingular?'day':'days'}`

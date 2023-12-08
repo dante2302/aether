@@ -105,10 +105,7 @@ const PostRating = ({postDataState,setPostDataState}) => {
       updateUserData(userData,{dislikedPosts,likedPosts})
         .then(result => setUserData(result))
         .then(() => updatePostData(postDataState._id,{likesCount:likesCount-2})
-          .then((data) =>{
-            setPostDataState(data)
-           setPostData && setPostData(data)
-          }))
+          .then((data) => setPostDataState(data)))
     }
 
     else{

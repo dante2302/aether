@@ -90,6 +90,12 @@ export const patchWithAuth = async ({url,accessToken,newData}) => {
    body:JSON.stringify(newData)
   })
   return await response.json()
-
 }
 
+export const Delete = async ({url,accessToken}) => {
+  let response = await fetch(url,{
+    'method': 'DELETE',
+    'headers':{'X-Authorization': accessToken},
+  })
+  return response.json()
+}

@@ -4,8 +4,9 @@ import { useContext, useState } from 'react'
 import { createComment } from '../apis/commentApi'
 import useDisabled from '../hooks/useDisabled'
 import userDataContext from '../contexts/UserDataContext'
-import styles from './styles/CommentForm.module.css'
-const CommentForm = ({
+import styles from './styles/CommentCreateForm.module.css'
+
+const CommentCreateForm = ({
   postId,
   replyTo,
   isReply,
@@ -45,4 +46,4 @@ const CommentForm = ({
   )
 }
 
-export default CommentForm
+export default CommentCreateForm

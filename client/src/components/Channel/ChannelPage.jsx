@@ -1,9 +1,9 @@
-import CreatePostBar from '../Post/CreatePostBar.jsx'
-import InfiniteScrollPosts from '../InfiniteScroll/InfiniteScrollPosts.jsx'
+import ChannelSidebar from './ChannelSidebar.jsx'
 import JoinButton from './JoinButton.jsx'
+import InfiniteScrollPosts from '../InfiniteScroll/InfiniteScrollPosts.jsx'
+import CreatePostBar from '../Post/CreatePostBar.jsx'
 
 import { getChannelDataByProp } from '../apis/channelApi.js' 
-import { getFullDateFormat } from '../utils/dateUtils.js'
 
 import { useState, useEffect, useContext } from "react"
 import { useNavigate, useParams } from "react-router-dom"
@@ -11,14 +11,11 @@ import { useNavigate, useParams } from "react-router-dom"
 import UserModalContext from "../contexts/UserModalContext"
 import UserDataContext from "../contexts/UserDataContext"
 
-import UilHospital from "@iconscout/react-unicons/icons/uil-hospital.js"
 import styles from './styles/ChannelPage.module.css' 
-import ChannelPageCompact from './ChannelPageCompact.jsx'
 
 const ChannelPage = ({isCompact}) => {
   const [isJoined,setJoined] = useState(false)
   const [channelData,setChannelData] = useState({})
-
   const navigate = useNavigate()
   const {channelName} = useParams()
 
@@ -27,23 +24,30 @@ const ChannelPage = ({isCompact}) => {
   const {toggleUserModal} = useContext(UserModalContext)
 
   useEffect(() => {
-    getChannelDataByProp('name',channelName).then((data) => {
-      console.log(data)
-      setChannelData(data)
-      document.title = `c/${data.name}`
-    })
+    getChannelDataByProp('name',channelName)
+      .then((data) => {
+        setChannelData(data)
+        document.title = `c/${data.name}`
+      })
+
     return(() => {
       document.title = 'Aether'
     })
   },[])
-
 
   const createPostHandler = () => userData && isJoined ? navigate('/submit') :  toggleUserModal()
 
   return(
     isCompact
       ? 
-      <ChannelPageCompact channelData={channelData} setChannelData={setChannelData}/>
+      <ChannelSidebar channelData={channelData}>
+        <JoinButton 
+          channelData={channelData} 
+          setChannelData= {setChannelData} 
+          isJoined={isJoined} 
+          setJoined={setJoined}
+        />
+      </ChannelSidebar>
       :
       <div className={styles['container']} >
         <div className={styles['content']}>
@@ -55,14 +59,19 @@ const ChannelPage = ({isCompact}) => {
                 <h1>{channelData.name}</h1>
                 <h6>c/{channelData.name}</h6>
               </div>
-              <JoinButton channelData={channelData} setChannelData={setChannelData} isJoined={isJoined} setJoined={setJoined}/>
+              <JoinButton 
+                channelData={channelData} 
+                setChannelData={setChannelData} 
+                isJoined={isJoined} 
+                setJoined={setJoined}
+              />
             </div>
           </header>
           <main className={styles['main']} >
-          <CreatePostBar />
+          {isJoined && <CreatePostBar />}
           {channelData.posts?.length 
             ? 
-            <InfiniteScrollPosts posts={channelData.posts.reverse()}/>
+            <InfiniteScrollPosts posts={channelData.posts}/>
           :
             <>
               <div className={styles['noposts']}>
@@ -73,15 +82,9 @@ const ChannelPage = ({isCompact}) => {
           }
         </main>
       </div>
-      <div className={styles['side']}>
-        <h6>About Channel</h6>
-        <p>{channelData.description||'No Description'}</p>
-       <div className={styles['date-container']}>
-          <UilHospital size={20}/>
-          <div>Created {getFullDateFormat(channelData._createdOn)}</div>
-        </div>
-        <button onClick={createPostHandler}>Create Post</button>
-      </div>
+        <ChannelSidebar channelData={channelData}> 
+          <button onClick={createPostHandler} className={styles['create-btn']}>Create Post</button>
+        </ChannelSidebar>
     </div>
   )
 }

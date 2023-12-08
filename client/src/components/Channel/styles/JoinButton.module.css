@@ -1,13 +1,15 @@
+
 .join-btn{
+  width:fit-content;
+  margin: 0 0 20px 1.5rem;
+  padding: 5px 30px;
+  font-size: calc(var(--fs-reg) - .1em);
+  font-weight: var(--fw-b);
   color:white;
   background-color:black;
-  font-size: calc(var(--fs-reg) - 3px);
-  font-weight: var(--fw-b);
   border-radius:15px;
-  padding: 5px 30px;
   cursor: pointer;
-  margin-left:1.5rem;
-  margin-top:10px;
+  place-self: center;
 }
 
 .join-btn:hover{

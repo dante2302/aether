@@ -1,6 +1,6 @@
 .container{
-    margin-top:30px;
     width:85%;
+    margin-top:30px;
 }
 
 @media (min-width:900px){
@@ -35,18 +35,18 @@
 }
 
 .header>:last-child{
-  background-color: white;
-  border-radius:0 0 15 15px;
   padding:10px 20px;
   display:flex;
   flex-direction:row;
+  background-color: white;
+  border-radius:0 0 15 15px;
 }
 
 .heading-div{
+  margin-left:15px;
   display:flex;
   flex-direction: column;
   align-items: start;
-  margin-left:15px;
 }
 
 .heading-div>h1{
@@ -54,27 +54,24 @@
 }
 
 .heading-div>h6{
-  color:var(--text-grey);
   font-size: var(--fs-sm);
+  color:var(--text-grey);
 }
 
-.side>h6{
-  background-color: var(--accent-blue);
-  padding:1.3em;
-  border-radius: 8px 8px 0 0;
-  background: radial-gradient(circle at 12.3% 19.3%, rgb(85, 88, 218) 0%, rgb(95, 209, 249) 100.2%);
-  color:white;
-  font-weight: var(--fw-b);
+.create-btn{
+  width:80%;
+  margin-top:10px;
+  margin-bottom:20px;
+  padding: 5px 30px;
   font-size: calc(var(--fs-reg) - 2px);
+  font-weight: var(--fw-b);
+  color:white;
+  background-color:black;
+  border-radius:15px;
+  cursor: pointer;
+  place-self: center;
 }
 
-.side>*{
-  padding:1em;
+.create-btn:hover{
+  background-color:var(--overlay-color);
 }
-.side{
-  height:fit-content;
-  border-radius:8px;
-  background-color: white;
-
-}
-

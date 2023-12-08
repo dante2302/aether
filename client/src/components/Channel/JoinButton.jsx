@@ -10,7 +10,7 @@ const JoinButton = ({channelData, setChannelData,isJoined, setJoined}) =>{
   const {userModal,toggleUserModal} = useContext(UserModalContext)
 
   useEffect(() => {
-    if(userData&&channelData.members){
+    if(userData && channelData.members){
       setJoined(channelData.members.includes(userData._ownerId))
     }
   },[channelData,userModal])
@@ -52,7 +52,7 @@ const JoinButton = ({channelData, setChannelData,isJoined, setJoined}) =>{
 
   return ( 
     //If the user is not logged in -> execute the function immediately, else 500 ms delay
-    <button onClick={useDebounce(joinHandler,userData ? 500 : 0)} className={styles['join-btn']}>
+    <button onClick={useDebounce(joinHandler,userData ? 200 : 0)} className={styles['join-btn']}>
       {!isJoined
         ?
         'Join'

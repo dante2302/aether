@@ -9,7 +9,7 @@ import useLoading from '../hooks/useLoading.jsx'
 
 const InfiniteScrollPosts = ({posts,setPageSizeEnded}) => {
 
-  const newPostsCount = 3
+  let newPostsCount = 3
   // Number of posts to render
 
   const [visiblePosts,setVisiblePosts] = useState([])
