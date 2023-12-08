@@ -17,6 +17,7 @@ const CommentEditForm = ({commentData,setCommentData,setEditing}) => {
       commentData._id,
       {text,edited:true}
     ).then((data) => setCommentData(data))
+     .finally(setEditing(false))
   } 
 
   const [disabled,submitHandlerWithDisable] = useDisabled(submitHandler)

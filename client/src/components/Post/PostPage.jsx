@@ -51,7 +51,9 @@ const PostPage = () => {
               comments.map((commentData) => 
                 <li key={commentData._id}>
                   <CommentBlockRender 
-                        commentData={commentData} />
+                        commentData={commentData} 
+                        setComments={setComments}
+                      />
                 </li>)
               :
                 <div>

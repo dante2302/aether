@@ -1,0 +1,7 @@
+.container{
+  z-index:6;
+    position:absolute;
+    display:flex;
+    left:50%;
+    transform: translateX(-50%);
+}

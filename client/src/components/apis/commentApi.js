@@ -17,19 +17,14 @@ export const createComment = async ({accessToken,username},{replyTo,parentCommen
 }
 
 export const getPostComments = async (postId) => {
-  try{
-    const data = await request.searchWithUnion({
-      url:baseUrl,
-      firstProp:'postId',
-      firstValue:postId,
-      secondProp:'replyTo',
-      secondValue: ''
-    })  
-    return data
-  }
-  catch(err){
-    console.log(err)
-  }
+  const data = await request.searchWithUnion({
+    url:baseUrl,
+    firstProp:'postId',
+    firstValue:postId,
+    secondProp:'replyTo',
+    secondValue: ''
+  })  
+  return data
 }
 
 export const getCommentReplies = async (commentId) => {
@@ -55,7 +50,9 @@ export const updateCommentData = async ({accessToken},commentId,newData) => {
   return data
 }
 
-export const deleteComment = async () => {
-
+export const deleteComment = async ({accessToken},id) => {
+  console.log(accessToken)
+  const url = `${baseUrl}/${id}`
+  const data = await request.Delete({url,accessToken})
 }
 

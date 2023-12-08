@@ -2,10 +2,9 @@ import {  useEffect, useState } from "react"
 import CommentRender from "./CommentRender"
 import { getCommentReplies } from "../apis/commentApi"
 import styles from './styles/CommentBlockRender.module.css'
-import ReplyRender from "./ReplyRender"
 
-const CommentBlockRender = ({commentData}) => {
-  const [data,setCommentData] = useState(commentData)
+
+const CommentBlockRender = ({commentData,setComments}) => {
   const [commentReplies,setCommentReplies]  = useState([])
 
   useEffect(() => {
@@ -22,15 +21,20 @@ const CommentBlockRender = ({commentData}) => {
     <div className={styles['comment-container']}>
 
         <CommentRender 
-          commentData={data} 
-          setCommentData={setCommentData}
+          data={commentData}
           setCommentReplies={setCommentReplies}
+          setComments={setComments}
         />
-
+        
         <ul className={styles['replies']}>
           {commentReplies.map((replyData) => 
             <li key={replyData._id}>
-              <ReplyRender data={replyData} />
+              <CommentRender 
+                data={replyData} 
+                isReply={true}
+                setCommentReplies={setCommentReplies}
+                setComments={setComments}
+              />
             </li> 
           )}
 
@@ -38,9 +42,9 @@ const CommentBlockRender = ({commentData}) => {
     </div>
     :
       <CommentRender 
-        commentData={commentData} 
-        setCommentData={setCommentData}
+        data={commentData} 
         setCommentReplies={setCommentReplies}
+        setComments={setComments}
       />
   )
 }

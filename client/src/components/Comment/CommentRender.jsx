@@ -5,15 +5,21 @@ import CommentCreateForm from "./CommentCreateForm"
 import CommentEditForm from "./CommentEditForm"
 import UilPen from '@iconscout/react-unicons/icons/uil-pen'
 import UilX from '@iconscout/react-unicons/icons/uil-x'
+import DumbCommentRender from "./DumbCommentRender"
+import DeleteConfirmation from "../DeleteConfirmation/DeleteConfirmation"
 
-const CommentRender = ({commentData, setCommentData, setCommentReplies}) => {
-
+const CommentRender = ({data, setCommentReplies,setComments}) => {
+  const [commentData,setCommentData] = useState(data)
   const [isReplying,setReplying] = useState(false)
   const [isEditing,setEditing] = useState(false)
-  const [isDeleting,setDeleting] = useState()
-  const [isOwner,setIsOwner] = useState([])
+  const [isDeleting,setDeleting] = useState(false)
+  const [isOwner,setIsOwner] = useState(false)
 
   const {userData} = useContext(UserDataContext)
+
+  const deleteComment = () => {
+    setComments((comments) => comments.filter((comment) => comment === commentData._id))
+  }
 
   useEffect(() => {
     if(userData?.comments.includes(commentData._id))setIsOwner(true)
@@ -22,28 +28,28 @@ const CommentRender = ({commentData, setCommentData, setCommentReplies}) => {
 
   return (
     <div>
-      <h6>{commentData.ownerUsername}</h6>
-      <p>
-        {commentData.replyTo &&
-          <span>@{commentData.replyTo}  </span>}
-        {commentData.text}
-      </p>
-
+      <DumbCommentRender data={commentData} />
       {isOwner && 
-        <button onClick={() => {
-          if(isReplying) setReplying(false)
-          setEditing(!isEditing)
-        }}>
-          {!isEditing ? <UilPen size={15}/> : 'Cancle'}
-        </button>}
-        <button onClick={() => {
-          if(isReplying) setReplying(false)
-          if(isEditing) setEditing(false)
-          setDeleting(true)
-        }}>
-          <UilX size={15} />
+        <div>
 
-        </button>
+          <button onClick={() => {
+            if(isReplying) setReplying(false)
+            setEditing(!isEditing)
+          }}>
+            {!isEditing ? <UilPen size={15}/> : 'Cancle'}
+          </button>
+
+          {!isEditing &&
+            <button 
+              onClick={() => {
+                if(isReplying) setReplying(false)
+                if(isEditing) setEditing(false)
+                setDeleting(true)
+              }}
+            > <UilX size={15} /> </button>
+          }
+        </div>
+      }
 
 
       {isEditing && 
@@ -53,13 +59,6 @@ const CommentRender = ({commentData, setCommentData, setCommentReplies}) => {
           setEditing={setEditing}
         />
       } 
-        
-      {userData && 
-        <button onClick={() => 
-          setReplying(!isReplying)}>
-          {isReplying ? 'Cancle' : 'Reply'}
-        </button> 
-      }
 
       {isReplying && 
         <CommentCreateForm 
@@ -70,6 +69,15 @@ const CommentRender = ({commentData, setCommentData, setCommentReplies}) => {
           setReplying={setReplying}
           setCommentReplies={setCommentReplies}
         />
+      }
+      {isDeleting &&
+        <DeleteConfirmation id={commentData._id} type={'comment'} setDeleting={setDeleting} setAsset={deleteComment}/>
+      }
+      {userData && 
+        <button onClick={() => 
+          setReplying(!isReplying)}>
+          {isReplying ? 'Cancle' : 'Reply'}
+        </button> 
       }
 
     </div>

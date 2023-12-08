@@ -28,8 +28,8 @@ export const createPost = async ({username,accessToken},{title,text,imgUrl,chann
   }
 }    
 
-export const getPostData = async (postId) => {
-  const url = `${baseUrl}/${postId}`
+export const getPostData = async (id) => {
+  const url = `${baseUrl}/${id}`
   const data = await request.get(url)
   return data
 }
@@ -44,28 +44,19 @@ export const getPersonalPosts = async(postId,userId) => {
   return data
 }
 
-// export const deletePost = async (accessToken,postId) => {
-//   try{
-//     let response = await fetch(`${baseUrl}/${postId}`,{
-//       'method': 'DELETE',
-//       'headers':{'X-Authorization': accessToken},
-//     })
-//     return response.json()
-//   }
-//   catch{
-//     alert(error)
-//   }
-// }
-
-export const updatePostData = async (_id,newData) => {
-  console.log(newData)
-  const url = `${baseUrl}/${_id}`
+export const updatePostData = async (id,newData) => {
+  const url = `${baseUrl}/${id}`
   const data = await request.patchWithoutAuth({url,newData})
-  console.log(data)
   return data
 }
 
 export const searchPosts = async (value,pageSize,offset) => {
   const data = await request.search({url:baseUrl,prop:'title',value,pageSize,offset})
+  return data
+}
+
+export const deletePost = async (accessToken,id) => {
+  const url = `${baseUrl}/${_id}`
+  const data = await request.Delete({url,accessToken})
   return data
 }
