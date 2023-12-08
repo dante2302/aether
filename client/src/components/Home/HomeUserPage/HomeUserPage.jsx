@@ -1,9 +1,12 @@
 import HomeSidebar from "./HomeSidebar"
 import HomeFeed from "./HomeFeed"
-import styles from './styles/HomeUserPage.module.css'
+
 import { useWindowSize } from '@uidotdev/usehooks'
-import UserDataContext from '../../contexts/UserDataContext'
+
+import UserDataContext from '../../../contexts/UserDataContext'
 import { useContext } from "react"
+
+import styles from './styles/HomeUserPage.module.css'
 
 const HomeUserPage = () => {
   const windowSize = useWindowSize()

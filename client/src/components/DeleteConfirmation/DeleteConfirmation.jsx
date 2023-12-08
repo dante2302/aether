@@ -1,19 +1,18 @@
 import ModalPrototype from '../ModalPrototype'
 
-import { deleteComment } from '../apis/commentApi'
-import { deletePost } from '../apis/postApi'
+import { deleteComment } from '../../apis/commentApi'
+import { deletePost } from '../../apis/postApi'
 
 import { useContext } from 'react'
+import UserDataContext from '../../contexts/UserDataContext'
+
 import styles from './DeleteConfirmation.module.css'
 
-import UserDataContext from '../contexts/UserDataContext'
 
 const DeleteConfirmation = ({id,type,setDeleting, setAsset}) => {
 
   const {userData} = useContext(UserDataContext)
-  console.log(userData) 
   const deleteHandler = () => {
-    console.log('a')
     switch(type){
       case 'comment':{ 
         deleteComment(userData,id);

@@ -1,8 +1,15 @@
-# React + Vite
+A forum SPA(reddit-like) built for the project defense of the React-October 2023 Softuni Course.
+Project Architecture:
+  Client:
+    - General Components in the components dir(eg. App.jsx, ModalPrototype.jsx)
+    - Dirs based on relevant & similar features (/Channel, /Post /Comment)
+        - styles folders with css modules for each component(if needed)
+    - Helper directories - apis, utils, contexts
+    - Custom hooks dir with simiral hooks inside, main one being useLoading 
+  Server:
+    - data dir, needed for the server to operate
+    - server.js - Softuni Practice Server
+  External Packages outside of react:
+    - react-spinners
+    - iconscout
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh

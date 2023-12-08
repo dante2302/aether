@@ -1,6 +1,6 @@
 
 import { useContext, useState, useEffect } from "react"
-import UserDataContext from "../contexts/UserDataContext"
+import UserDataContext from "../../contexts/UserDataContext"
 import CommentCreateForm from "./CommentCreateForm"
 import CommentEditForm from "./CommentEditForm"
 import UilPen from '@iconscout/react-unicons/icons/uil-pen'

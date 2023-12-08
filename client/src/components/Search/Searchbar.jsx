@@ -1,13 +1,16 @@
 import SearchResultsCompact from './SearchResultsCompact'
 
-import useDebounce from '../hooks/useDebounce.jsx'
-import { searchPosts } from '../apis/postApi.js' 
-import { searchChannels } from '../apis/channelApi.js'
+import { searchPosts } from '../../apis/postApi.js' 
+import { searchChannels } from '../../apis/channelApi.js'
+
 import { useState, useEffect } from 'react'
+
+import { useNavigate } from 'react-router-dom'
+
+import useDebounce from '../../hooks/useDebounce.jsx'
 
 import styles from './styles/Searchbar.module.css'
 import  UilSearch from '@iconscout/react-unicons/icons/uil-search.js'
-import { useNavigate } from 'react-router-dom'
 
 
 

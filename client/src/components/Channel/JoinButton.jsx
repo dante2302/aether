@@ -1,10 +1,15 @@
-import {useState,useEffect, useContext} from 'react'
-import UserDataContext from '../contexts/UserDataContext'
-import UserModalContext from '../contexts/UserModalContext'
-import { updateChannelData } from '../apis/channelApi.js' 
-import { updateUserData } from '../apis/userApi.js'
-import  useDebounce  from '../hooks/useDebounce'
+import { updateChannelData } from '../../apis/channelApi.js' 
+import { updateUserData } from '../../apis/userApi.js'
+
+import {useEffect, useContext} from 'react'
+
+import UserDataContext from '../../contexts/UserDataContext'
+import UserModalContext from '../../contexts/UserModalContext'
+
+import  useDebounce  from '../../hooks/useDebounce'
+
 import styles from './styles/JoinButton.module.css'
+
 const JoinButton = ({channelData, setChannelData,isJoined, setJoined}) =>{
   const {userData,setUserData} = useContext(UserDataContext)
   const {userModal,toggleUserModal} = useContext(UserModalContext)

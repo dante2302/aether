@@ -2,19 +2,19 @@
 import PostRating from './PostRating.jsx'
 import PostSaving from './PostSaving.jsx'
 import PostSharing from './PostSharing.jsx'
-
 import LinkPreview from './LinkPreview/LinkPreview.jsx'
 
-import {getTimeDifference} from '../utils/dateUtils.js'
+import {getTimeDifference} from '../../utils/dateUtils.js'
 
 import { useContext, useState } from 'react'
 
-import UserDataContext from '../contexts/UserDataContext'
+import { useNavigate } from 'react-router-dom'
+
+import UserDataContext from '../../contexts/UserDataContext'
 
 import UilComment from '@iconscout/react-unicons/icons/uil-comment.js' 
 
 import styles from './styles/PostRender.module.css'
-import { useNavigate } from 'react-router-dom'
 
 const PostRender = ({postData, isCompact, isRedirect}) => {
 

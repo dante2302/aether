@@ -3,13 +3,13 @@ import JoinButton from './JoinButton.jsx'
 import InfiniteScrollPosts from '../InfiniteScroll/InfiniteScrollPosts.jsx'
 import CreatePostBar from '../Post/CreatePostBar.jsx'
 
-import { getChannelDataByProp } from '../apis/channelApi.js' 
+import { getChannelDataByProp } from '../../apis/channelApi.js' 
 
 import { useState, useEffect, useContext } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
-import UserModalContext from "../contexts/UserModalContext"
-import UserDataContext from "../contexts/UserDataContext"
+import UserModalContext from "../../contexts/UserModalContext"
+import UserDataContext from "../../contexts/UserDataContext"
 
 import styles from './styles/ChannelPage.module.css' 
 

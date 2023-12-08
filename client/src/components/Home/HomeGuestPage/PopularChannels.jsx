@@ -1,9 +1,10 @@
 
 import { useEffect, useState } from 'react'
-import { getPopularChannels } from '../../apis/popularApi'
-import { getChannelData } from '../../apis/channelApi'
+import { getPopularChannels } from '../../../apis/popularApi'
+import { getChannelData } from '../../../apis/channelApi'
 
 import styles from './styles/PopularChannels.module.css'
+
 import ChannelList from '../../Channel/ChannelList'
 
 const PopularChannels = () => {

@@ -1,5 +1,5 @@
 import UilHospital from '@iconscout/react-unicons/icons/uil-hospital'
-import { getFullDateFormat } from '../utils/dateUtils'
+import { getFullDateFormat } from '../../utils/dateUtils'
 
 const UserPageSidebar = ({pageUserData,isOwner}) => {
 

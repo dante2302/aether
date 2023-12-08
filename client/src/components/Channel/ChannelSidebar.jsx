@@ -1,4 +1,4 @@
-import { getFullDateFormat } from '../utils/dateUtils.js'
+import { getFullDateFormat } from '../../utils/dateUtils.js'
 import UilHospital from "@iconscout/react-unicons/icons/uil-hospital.js"
 import styles from './styles/ChannelSidebar.module.css'
 

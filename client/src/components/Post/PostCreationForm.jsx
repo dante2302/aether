@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react"
-import * as formUtils from '../utils/formUtils.js'
-import * as postApi from '../apis/postApi.js'
-import {getChannelData} from '../apis/channelApi.js'
+import * as formUtils from '../../utils/formUtils.js'
+import * as postApi from '../../apis/postApi.js'
+import {getChannelData} from '../../apis/channelApi.js'
 import { useNavigate } from "react-router-dom"
 
-import UserDataContext from "../contexts/UserDataContext"
+import UserDataContext from "../../contexts/UserDataContext"
 
 const PostForm = () => {
   const initialFormState = {

@@ -1,8 +1,13 @@
 import UserPageSidebar from './UserPageSidebar'
+
+import { getUserDataByProp } from '../../apis/userApi'
+
 import { useState, useEffect, useContext } from 'react'
+
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
-import UserDataContext from '../contexts/UserDataContext'
-import { getUserDataByProp } from '../apis/userApi'
+
+import UserDataContext from '../../contexts/UserDataContext'
+
 
 const UserPage = () => {
   const [pageUserData,setPageUserData] = useState({})
