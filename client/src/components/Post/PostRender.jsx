@@ -20,7 +20,6 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
 
   const [postDataState,setPostDataState] = useState(postData)
   //In case the post data changes
-
   const {userData} = useContext(UserDataContext)
   const navigate = useNavigate()
 
@@ -30,7 +29,7 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
   }
 
   return(
-    <div className={styles['content']} onClick={e => redirectToPage(e)}>
+    <div className={`${styles['content']} ${isRedirect ? styles['redirect'] : ''}`} onClick={e => redirectToPage(e)}>
 
       <PostRating postDataState={postDataState} setPostDataState={setPostDataState} />
 
@@ -78,7 +77,12 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
         }
 
         <div className={styles['options-container']}>
-            <button onClick={e => redirectToPage(e)} className={styles['comment-container']}>
+            <button 
+              onClick={e => redirectToPage(e)} 
+              className={`
+                ${styles['comment-container']} 
+                ${isRedirect ? styles['redirect'] : ''}`
+            }>
               <UilComment size={23}/> 
               <span>{postData.commentCount} {postData.commentCount>1?'comment':'comments'}</span>
             </button>

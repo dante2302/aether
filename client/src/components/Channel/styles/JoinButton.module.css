@@ -1,0 +1,15 @@
+.join-btn{
+  color:white;
+  background-color:black;
+  font-size: calc(var(--fs-reg) - 3px);
+  font-weight: var(--fw-b);
+  border-radius:15px;
+  padding: 5px 30px;
+  cursor: pointer;
+  margin-left:1.5rem;
+  margin-top:10px;
+}
+
+.join-btn:hover{
+  background-color:var(--overlay-color);
+}

@@ -12,6 +12,7 @@
 .rating>:first-child:hover,.rating>:last-child:hover{
   background:#bfbfbf;
   border-radius:5px;
+    cursor: pointer;
 }
 
 .likes-count.liked,

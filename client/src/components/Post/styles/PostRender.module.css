@@ -8,7 +8,7 @@
   cursor:pointer;
 }
 
-.content:hover{
+.content.enalbed:hover{
   border: 1px solid black;
 }
 
@@ -58,16 +58,6 @@
   margin-block:.8em;
 }
 
-.redirect{
-  pointer-events: none;
-  cursor:auto;
-}
-
-.redirect>*{
-  pointer-events:auto;
-}
-
-
 .options-container{
   margin-top:1em;
   display:flex;
@@ -86,12 +76,17 @@
   cursor:pointer
 }
 
-.comment-container.disabled{
-  cursor:pointer;
-}
-
 .options-container>*:hover{
   background:#bfbfbf;
   border-radius:4px 4px 0 0;
+}
+
+.redirect{
+  pointer-events: none;
+  cursor: default;
+}
+
+.redirect *{
+  pointer-events:auto;
 }
 

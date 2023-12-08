@@ -77,4 +77,5 @@ a:link,a:visited,a:hover,a:active{
   display:flex;
   justify-content:center;
   height:fit-content;
+  min-height: 85vh;
 }

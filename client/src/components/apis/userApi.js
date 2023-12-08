@@ -3,21 +3,17 @@ const dataUrl = 'http://localhost:3030/data/userData';
 
 import * as request from './request.js'
 
-export const logIn = async (email,password) => {
-  try{
+export const logIn = async ({email,password}) => {
     let response = await fetch(`${baseUrl}/login`,{
-      'method':'POST',
-      'body': JSON.stringify({
-        email,
-        password
+    'method':'POST',
+    'body': JSON.stringify({
+      email,
+      password
     })})
-    const serverData = await response.json()
-    const userData = await getUserDataByProp('_ownerId',serverData._id)
-    return {...serverData,...userData} 
-  }
-  catch(err){
-    alert(err)
-  }
+  const serverData = await response.json()
+  if(serverData?.code === '403')return serverData
+  const userData = await getUserDataByProp('_ownerId',serverData._id)
+  return {...serverData,...userData} 
 }
 
 export const signUp = async ({email,password,username}) => {
@@ -27,8 +23,6 @@ export const signUp = async ({email,password,username}) => {
   }
 
   const url = `${baseUrl}/register`
-
-  try{
     const response = await fetch(
       url,{
       method: 'POST',
@@ -38,12 +32,6 @@ export const signUp = async ({email,password,username}) => {
 
     const userData = await createUserData(username,serverData.accessToken)
     return {...serverData,...userData} 
-
-  }
-
-  catch(error){
-    alert(error)
-  }
 }
 
 

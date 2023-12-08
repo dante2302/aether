@@ -65,8 +65,8 @@ const ChannelPage = ({isCompact}) => {
             <InfiniteScrollPosts posts={channelData.posts.reverse()}/>
           :
             <>
-              <div>
-                <h3>'There are no posts in this channel'</h3>
+              <div className={styles['noposts']}>
+                <h3>There are no posts in this channel</h3>
                 <h6>Be the chosen one</h6>
               </div>
             </>
@@ -76,7 +76,7 @@ const ChannelPage = ({isCompact}) => {
       <div className={styles['side']}>
         <h6>About Channel</h6>
         <p>{channelData.description||'No Description'}</p>
-        <div className={styles['date-container']}>
+       <div className={styles['date-container']}>
           <UilHospital size={20}/>
           <div>Created {getFullDateFormat(channelData._createdOn)}</div>
         </div>
