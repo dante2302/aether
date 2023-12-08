@@ -6,7 +6,6 @@ export default UserModalContext
 
 export const UserModalProvider = ({
   children,
-  value
 }) => {
 
   const [userModal,setUserModal] = useState()
@@ -18,6 +17,6 @@ export const UserModalProvider = ({
     <UserModalContext.Provider value={{userModal, toggleUserModal}} >
       {children}            
       {userModal&& <UserModal modalMode={'logIn'}/>}
-    </ UserModalContext.Provider >
+    </ UserModalContext.Provider>
   )
 }

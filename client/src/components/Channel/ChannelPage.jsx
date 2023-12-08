@@ -13,8 +13,9 @@ import UserDataContext from "../contexts/UserDataContext"
 
 import UilHospital from "@iconscout/react-unicons/icons/uil-hospital.js"
 import styles from './styles/ChannelPage.module.css' 
+import ChannelPageCompact from './ChannelPageCompact.jsx'
 
-const ChannelPage = () => {
+const ChannelPage = ({isCompact}) => {
 
   const [channelData,setChannelData] = useState({})
 
@@ -27,20 +28,24 @@ const ChannelPage = () => {
 
   useEffect(() => {
     getChannelDataByProp('name',channelName).then((data) => {
+      console.log(data)
       setChannelData(data)
       document.title = `c/${data.name}`
     })
-
     return(() => {
       document.title = 'Aether'
     })
-
   },[])
 
 
   const createPostHandler = () => userData ? navigate('/submit') :  toggleUserModal()
 
   return(
+    
+      isCompact
+      ? 
+      <ChannelPageCompact channelData={channelData} setChannelData={setChannelData}/>
+      :
     <div className={styles['container']} >
       <div className={styles['content']}>
         <header className={styles['header']}>

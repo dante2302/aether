@@ -13,9 +13,9 @@
 .container>*{
     cursor:pointer;
 }
-.container>:nth-child(3):hover,.container>:last-child:hover{
-   color:rgb(80,225,230); 
-  }
+.container>svg:hover{
+  color: var(--accent-blue);
+}
 .create-post-link{
   width:90%;
   background:#0000001a;

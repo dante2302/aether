@@ -1,13 +1,21 @@
+
+import { logIn } from '../apis/userApi.js'
+import { changeHandler } from '../utils/formUtils.js'
+import useLoading from '../hooks/useLoading.jsx'
+
+
 import { useState, useEffect, useContext } from 'react'
-import * as userApi from '../apis/userApi.js'
-import styles from './styles/LogInForm.module.css'
-import * as formUtils from '../utils/formUtils.js'
+
 import UserDataContext from '../contexts/UserDataContext.jsx'
 import UserModalContext from '../contexts/UserModalContext.jsx'
 
+import styles from './styles/LogInForm.module.css'
+
 const LogInForm = ({setCurrentMode}) => {
+
   const {setUserData} = useContext(UserDataContext)
   const { toggleUserModal } = useContext(UserModalContext)
+
   const initialFormState = {
     email: '',
     password: '',
@@ -18,26 +26,24 @@ const LogInForm = ({setCurrentMode}) => {
   const [isDisabled,setDisabled] = useState(true)
 
   useEffect(() => {
-    (formState.email===''||formState.password==='')?setDisabled(true):setDisabled(false)
+    (formState.email==='' || formState.password==='')
+      ?
+      setDisabled(true)
+      :
+      setDisabled(false)
   },[formState])
-
   
   const submitHandler = async (e,{email,password}) => {
-    setDisabled(true)
     e.preventDefault()
-
-    try{
-      const data = await userApi.logIn(email,password)
-      setUserData(data)
-      toggleUserModal(false)
-    }
-    catch(error){
-      alert(error)
-    }
+    setDisabled(true)
+    const data = await logIn(email,password)
+    setUserData(data)
+    toggleUserModal(false)
   }
-  
+
+  const [Spinner,submitWithLoading,isLoading] = useLoading(submitHandler,undefined,15)
+
   return(
-    <>
       <form className={styles['input-form']}>
         <div className={styles['input-container']}>
           <input 
@@ -45,9 +51,7 @@ const LogInForm = ({setCurrentMode}) => {
             id='email'
             name='email'
             value={formState.email}
-            onChange={(e) => {
-              formUtils.changeHandler(e,setFormState)
-            }}
+            onChange={(e) => changeHandler(e,setFormState)}
             className={styles['username']}
         />
           {!formState.username&&<label htmlFor='email'>Email</label>}
@@ -59,10 +63,7 @@ const LogInForm = ({setCurrentMode}) => {
             id='password'
             name='password'
             value={formState.password}
-            onChange={(e) => {
-              e.preventDefault()
-              formUtils.changeHandler(e,setFormState)}}
-            className={styles['password']}
+            onChange={(e) => changeHandler(e,setFormState)}
           />
 
           {!formState.password
@@ -75,15 +76,18 @@ const LogInForm = ({setCurrentMode}) => {
         </div>
 
         <button 
-          onClick={(e) => submitHandler(e,formState)}
+          onClick={(e) => submitWithLoading(e,formState)}
           disabled={isDisabled}
           className={`${styles['log-in-btn']} ${!isDisabled && styles['enabled']}`}
-        >Log In</button>
+        >{isLoading ? <Spinner size={15}/> : 'Log In'}</button>
 
         <p className={styles['link']}>New to Aether? </p>
-        <button onClick={()=>setCurrentMode('signUp')}>Sign Up</button>
+      <button 
+        type='button'
+        onClick={()=>setCurrentMode('signUp')}
+        className={styles['sign-up-btn']}
+      >Sign Up</button>
       </form>
-    </>
   )
 }
 

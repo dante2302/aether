@@ -1,5 +1,11 @@
-.container{
+.post-container,.container{
+  margin-block:1em;
   display:flex;
   flex-direction:column;
   gap:1em;
+  align-items: center;
+}
+
+.post-container>li{
+    width:100%;
 }

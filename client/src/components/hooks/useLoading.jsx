@@ -1,26 +1,27 @@
-
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { ClipLoader } from "react-spinners"
 
-const useLoading = (callback,size) => {
+const useLoading = (callback, errorCallback) => {
   const [isLoading,setLoading] = useState(false)
-  const [spinner,setSpinner] = useState(<ClipLoader size={size} />)
 
-  // useEffect(() => { 
-  //   isLoading 
-  //     ? 
-  //     setSpinner()
-  //     :
-  //     setSpinner(<></>)
-  // }, [isLoading])
-  //
   const callbackWithLoading = async (...args) => {
-    setLoading(true)
-    await callback(...args) 
-    setLoading(false)
+    try{
+      setLoading(true)
+      await callback(...args) 
+    }
+    catch(error){
+      if(errorCallback)errorCallback(error)
+    }
+    finally{
+      setLoading(false)
+    }
   }
 
-  return [spinner,callbackWithLoading]
+  const loadingSpinner = ({size}) => {
+    return isLoading ? <ClipLoader size={size} /> : null
+  }
+
+  return [loadingSpinner,callbackWithLoading,isLoading]
 }
 
 export default useLoading

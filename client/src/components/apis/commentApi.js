@@ -1,7 +1,7 @@
 
 const baseUrl = 'http://localhost:3030/data/comments'
 import * as request from './request.js'
-
+import {updatePostData} from './postApi.js'
 export const createComment = async ({accessToken,username},{replyTo,parentCommentId,postId,text}) => {
   const bodyData = {
     postId,
@@ -31,7 +31,7 @@ export const getPostComments = async (postId) => {
   }
 }
 
-export const getCommentReplies = async (commentId,pageSize,offset) => {
+export const getCommentReplies = async (commentId) => {
   const data = await request.search({
     url:baseUrl,
     prop:'parentCommentId',

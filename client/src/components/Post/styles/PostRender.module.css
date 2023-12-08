@@ -1,3 +1,4 @@
+
 .content{
   background:white;
   border:1px solid #bfbfbf;
@@ -7,7 +8,12 @@
   cursor:pointer;
 }
 
+.content:hover{
+  border: 1px solid black;
+}
+
 .inner-content{
+  margin-left:8px;
   padding-top: .5em;
   padding-left: .5em;
 }
@@ -26,9 +32,12 @@
   padding-top:.6em;
   padding-bottom:1.2em;
   font-size: var(--fs-xl);
+  margin-right:12px;
 }
 
 .inner-content>p{
+  margin-block: .5em;
+  margin-right:12px;
   font-size: var(--fs-reg);
 }
 
@@ -46,6 +55,7 @@
 .post-image{
   max-width:70%;
   border-radius:1px;
+  margin-block:.8em;
 }
 
 .redirect{

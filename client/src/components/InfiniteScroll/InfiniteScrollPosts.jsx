@@ -9,23 +9,13 @@ import useLoading from '../hooks/useLoading.jsx'
 
 const InfiniteScrollPosts = ({posts,setPageSizeEnded}) => {
 
+  const newPostsCount = 3
+  // Number of posts to render
+
   const [visiblePosts,setVisiblePosts] = useState([])
   const [visiblePostsCount,setVisiblePostsCount] = useState(0)
-  const [isLoading,setIsLoading] = useState(true)
-  const scrollHandler = async () => {
-    const { clientHeight, scrollTop, scrollHeight } = document.documentElement
-    const isBottom = scrollTop + clientHeight >= scrollHeight
-    if(!isBottom || isLoading){
-      return
-    }
-    fetchVisiblePosts(posts)
-  }
 
   const fetchVisiblePosts = async (posts) => {
-    setIsLoading(true)
-
-    let newPostsCount = 3
-    // Number of posts to render
 
     if(newPostsCount > posts[visiblePostsCount]){
       newPostsCount = posts.length - visiblePostsCount
@@ -41,6 +31,11 @@ const InfiniteScrollPosts = ({posts,setPageSizeEnded}) => {
     }
     //check to see if there are posts
 
+    newPosts = newPosts.map(postData => 
+      <li key={postData._id}> <PostRender postData={postData} isCompact={true} /></li>)
+      // Violating the rule of state shouldn't store a component 
+      // so we dont have to map over the entire list every time we fetch new posts.
+
     if(newPosts.length > 0){
       if(typeof(setPageSizeEnded) == 'function')setPageSizeEnded(true)
       // setPageSizeEnded is a function for communicating with the parent
@@ -49,10 +44,20 @@ const InfiniteScrollPosts = ({posts,setPageSizeEnded}) => {
       setVisiblePostsCount(count => count + newPosts.length)
       setVisiblePosts(visiblePosts => [...visiblePosts,...newPosts])
     }
-    setIsLoading(false)
   }
 
-  const [spinner,fetchPostsWithLoading] = useLoading(fetchVisiblePosts,15)
+  const scrollHandler = async () => {
+    const { clientHeight, scrollTop, scrollHeight } = document.documentElement
+    const isBottom = scrollTop + clientHeight >= scrollHeight
+
+    if(!isBottom || isLoading){
+      return
+    }
+
+    fetchWithLoading(posts)
+  }
+
+  const [Spinner,fetchWithLoading,isLoading] = useLoading(fetchVisiblePosts,undefined,true)
 
   useEffect(() => { 
     window.addEventListener('scroll',scrollHandler)
@@ -60,20 +65,16 @@ const InfiniteScrollPosts = ({posts,setPageSizeEnded}) => {
   },[isLoading])
 
   useEffect(() => {
-    fetchPostsWithLoading(posts)
+    fetchWithLoading(posts)
   },[])
 
   return (
-
-    visiblePosts.length 
-      &&
-      <ul className={styles['container']}> 
-        {visiblePosts.map(postData => 
-          <li key={postData._id}><PostRender postData={postData} isCompact={true} /></li>)
-        }
-        {isLoading&&<p>Loading</p>}
-        {spinner}
+    <div className={styles['container']}>
+      <ul className={styles['post-container']}> 
+        {visiblePosts}
       </ul>
+      <Spinner size={50}/>
+    </div>
   )
 }
 export default InfiniteScrollPosts

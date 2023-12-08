@@ -13,8 +13,9 @@ import styles from './styles/CreatePostBar.module.css'
 const CreatePostBar = () => {
   const {userData} = useContext(UserDataContext)
   const {toggleUserModal} = useContext(UserModalContext)
+
   return(
-    <Link className={styles['container']} to={`./submit`} onClick={() => !userData?toggleUserModal():undefined}>
+    <Link className={styles['container']} to={userData ? `./submit` : '#'} onClick={() => {if(!userData) toggleUserModal()}}>
       <UilPen size={28} />
       <div  className={styles['create-post-link']}>Create Post</div>
       <UilImage size={30} />

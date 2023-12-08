@@ -64,19 +64,17 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
 
         <h1>{postData.title}</h1>
 
-        {postData.linkUrl && 
-          <LinkPreview url={postData.linkUrl} />
-        }
-
-        {isCompact 
-          ? 
-          <p>{postData.text.substring(0,150)}...</p>
-          :
-          <p>{postData.text}</p>
-        }
 
         {postData.imgUrl && 
           <img src={postData.imgUrl} className={styles['post-image']}/>
+        }
+
+        {postData.text &&(
+         isCompact 
+          ? 
+          <p>{postData.text.substring(0,150)}...</p>
+          :
+          <p>{postData.text}</p>)
         }
 
         <div className={styles['options-container']}>
@@ -98,3 +96,6 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
 }
 
 export default PostRender
+        // {postData.linkUrl && 
+        //   <LinkPreview url={postData.linkUrl} />
+        // }

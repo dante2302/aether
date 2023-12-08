@@ -1,6 +1,6 @@
 import LogInForm from './LogInForm.jsx'
 import SignUpForm from './SignUpForm.jsx'
-import ModalPrototype from '../ModalBlueprint'
+import ModalPrototype from '../ModalPrototype.jsx'
 
 import { useState, useContext } from 'react'
 
@@ -17,9 +17,6 @@ const Modal = ({modalMode}) => {
 
   return (
     <ModalPrototype toggleModal={toggleUserModal}>
-    <div className='modal'>
-      <div className='overlay' onClick={toggleUserModal}>
-      </div>
       <div className={styles['content']}>
         <div className={styles['close-btn-wrap']}>
             <UilX size={30} className={styles['x']} onClick={() => toggleUserModal()} />
@@ -45,7 +42,6 @@ const Modal = ({modalMode}) => {
           }
         </div>
       </div>
-    </div>
     </ModalPrototype>
   )
 }
