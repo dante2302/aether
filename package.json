@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@iconscout/react-unicons": "^2.0.2",
-    "@uidotdev/usehooks": "^2.4.1"
+    "@uidotdev/usehooks": "^2.4.1",
+    "react-spinners": "^0.13.8"
   }
 }
