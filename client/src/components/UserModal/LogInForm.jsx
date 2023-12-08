@@ -26,7 +26,6 @@ const LogInForm = ({setCurrentMode}) => {
   const [shownPassword,setShownPassword] = useState(false)
   const [isDisabled,setDisabled] = useState(true)
   const [error, setError] = useState('')
-  console.log('error:',error)
   useEffect(() => {
     (formState.email==='' || formState.password==='')
       ?
@@ -41,7 +40,6 @@ const LogInForm = ({setCurrentMode}) => {
     const data = await logIn(formState)
     
     if(data.hasOwnProperty('code')){
-      console.log('in conditional',data.message)
       setError(data.message)
       setDisabled(false)
       return
@@ -62,7 +60,6 @@ const LogInForm = ({setCurrentMode}) => {
           name='email'
           value={formState.email}
           onChange={(e) => changeHandler(e,setFormState)}
-          className={styles['username']}
         />
         {!formState.username&&<label htmlFor='email'>Email</label>}
       </div>

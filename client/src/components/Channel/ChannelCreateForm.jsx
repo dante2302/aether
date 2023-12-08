@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react"
-import styles from './styles/ChannelCreationForm.module.css'
+import { useState } from "react"
+import styles from './styles/ChannelCreateForm.module.css'
 import * as formUtils from '../utils/formUtils.js'
 import * as channelApi from '../apis/channelApi.js'
 import { useNavigate } from "react-router-dom"
 import { useContext } from "react"
 import UserDataContext from "../contexts/UserDataContext.jsx"
 
-const ChannelCreationForm = ({toggleChannelModal}) => {
+const ChannelCreateForm = ({toggleChannelModal}) => {
   const {userData, setUserData} = useContext(UserDataContext) 
   const navigate = useNavigate()
 
@@ -49,4 +49,4 @@ const ChannelCreationForm = ({toggleChannelModal}) => {
   )
 }
 
-export default ChannelCreationForm
+export default ChannelCreateForm

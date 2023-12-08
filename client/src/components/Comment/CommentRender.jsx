@@ -1,11 +1,24 @@
 
-import { useContext, useState } from "react"
+import { useContext, useState, useEffect } from "react"
 import UserDataContext from "../contexts/UserDataContext"
-import CommentForm from "./CommentForm"
+import CommentCreateForm from "./CommentCreateForm"
+import CommentEditForm from "./CommentEditForm"
+import UilPen from '@iconscout/react-unicons/icons/uil-pen'
+import UilX from '@iconscout/react-unicons/icons/uil-x'
 
-const CommentRender = ({commentData, setCommentReplies}) => {
-const [isReplying,setReplying] = useState(false)
-const { userData } = useContext(UserDataContext)
+const CommentRender = ({commentData, setCommentData, setCommentReplies}) => {
+
+  const [isReplying,setReplying] = useState(false)
+  const [isEditing,setEditing] = useState(false)
+  const [isDeleting,setDeleting] = useState()
+  const [isOwner,setIsOwner] = useState([])
+
+  const {userData} = useContext(UserDataContext)
+
+  useEffect(() => {
+    if(userData?.comments.includes(commentData._id))setIsOwner(true)
+    else setIsOwner(false)
+  },[userData])
 
   return (
     <div>
@@ -16,6 +29,31 @@ const { userData } = useContext(UserDataContext)
         {commentData.text}
       </p>
 
+      {isOwner && 
+        <button onClick={() => {
+          if(isReplying) setReplying(false)
+          setEditing(!isEditing)
+        }}>
+          {!isEditing ? <UilPen size={15}/> : 'Cancle'}
+        </button>}
+        <button onClick={() => {
+          if(isReplying) setReplying(false)
+          if(isEditing) setEditing(false)
+          setDeleting(true)
+        }}>
+          <UilX size={15} />
+
+        </button>
+
+
+      {isEditing && 
+        <CommentEditForm 
+          commentData={commentData} 
+          setCommentData={setCommentData} 
+          setEditing={setEditing}
+        />
+      } 
+        
       {userData && 
         <button onClick={() => 
           setReplying(!isReplying)}>
@@ -24,9 +62,9 @@ const { userData } = useContext(UserDataContext)
       }
 
       {isReplying && 
-        <CommentForm 
+        <CommentCreateForm 
           postId={commentData.postId}
-          parentCommentId={commentData.parentCommentId || commentData._id}
+          parentCommentId={commentData.parentCommentId }
           isReply={true}
           replyTo={commentData.ownerUsername}
           setReplying={setReplying}

@@ -79,3 +79,7 @@ a:link,a:visited,a:hover,a:active{
   height:fit-content;
   min-height: 85vh;
 }
+
+.disabled{
+  pointer-events: none;
+}

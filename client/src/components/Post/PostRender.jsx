@@ -29,14 +29,17 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
   }
 
   return(
-    <div className={`${styles['content']} ${isRedirect ? styles['redirect'] : ''}`} onClick={e => redirectToPage(e)}>
-
+    <div className={
+     `${styles['content']} 
+      ${isRedirect ? styles['redirect'] : ''}`} 
+      onClick={e => redirectToPage(e)}
+    >
       <PostRating postDataState={postDataState} setPostDataState={setPostDataState} />
 
       <div 
         className={
          `${styles['inner-content']} 
-          ${isRedirect && styles['redirect']}`} 
+          ${isRedirect ? styles['redirect'] : ''}`} 
         onClick={() => navigate(`/c/${postData.channelName}/${postData._id}`)}
       >
         <div>
@@ -75,6 +78,12 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
           :
           <p>{postData.text}</p>)
         }
+        
+
+
+        
+
+
 
         <div className={styles['options-container']}>
             <button 
@@ -99,7 +108,9 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
   )
 }
 
-export default PostRender
+        // 
         // {postData.linkUrl && 
-        //   <LinkPreview url={postData.linkUrl} />
+        //   <LinkPreview url={postData.linkUrl} isCompact={isCompact}/>
         // }
+
+export default PostRender

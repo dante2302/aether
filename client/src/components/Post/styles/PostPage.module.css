@@ -14,3 +14,11 @@
   display:grid;
 }
 
+.post-container{
+    background:white;
+    border-radius: 10px;
+}
+
+.post-container>div{
+  border:none;
+}

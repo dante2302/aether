@@ -1,20 +1,21 @@
 .side>h6{
-  background-color: var(--accent-blue);
   padding:1.3em;
-  border-radius: 8px 8px 0 0;
-  background: radial-gradient(circle at 12.3% 19.3%, rgb(85, 88, 218) 0%, rgb(95, 209, 249) 100.2%);
-  color:white;
   font-weight: var(--fw-b);
   font-size: calc(var(--fs-reg) - 2px);
+  color:white;
+  background: radial-gradient(circle at 12.3% 19.3%, rgb(85, 88, 218) 0%, rgb(95, 209, 249) 100.2%);
+  border-radius: 8px 8px 0 0;
 }
 
 .side>*{
   padding:1em;
 }
-.side{
-  height:fit-content;
-  border-radius:8px;
-  background-color: white;
 
+.side{
+  display:flex;
+  flex-direction: column;
+  height:fit-content;
+  background-color: white;
+  border-radius:8px;
 }
 

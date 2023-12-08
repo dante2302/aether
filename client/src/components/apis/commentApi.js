@@ -1,7 +1,8 @@
 
 const baseUrl = 'http://localhost:3030/data/comments'
 import * as request from './request.js'
-import {updatePostData} from './postApi.js'
+import { updatePostData } from './postApi.js'
+
 export const createComment = async ({accessToken,username},{replyTo,parentCommentId,postId,text}) => {
   const bodyData = {
     postId,
@@ -45,22 +46,16 @@ export const getCommentData = async (commentId) => {
   return data
 }
 
-export const updateComment = async () => {
-  
+export const updateCommentData = async ({accessToken},commentId,newData) => {
+  const data = await request.patchWithAuth({
+    url:`${baseUrl}/${commentId}`,
+    accessToken,
+    newData
+  }) 
+  return data
 }
 
 export const deleteComment = async () => {
 
 }
 
-export const getReply = async () => {
-
-}
-
-export const updateReply = async () => {
-
-}
-
-export const deleteReply = async () => {
-
-}

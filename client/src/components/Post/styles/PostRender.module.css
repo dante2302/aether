@@ -86,6 +86,10 @@
   cursor: default;
 }
 
+.redirect:hover{
+  background: white;
+  border:none;
+}
 .redirect *{
   pointer-events:auto;
 }

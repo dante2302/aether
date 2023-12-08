@@ -1,6 +1,6 @@
 .container{
-    margin-top:30px;
     width:85%;
+    margin-top:30px;
 }
 
 @media (min-width:900px){
@@ -35,18 +35,18 @@
 }
 
 .header>:last-child{
-  background-color: white;
-  border-radius:0 0 15 15px;
   padding:10px 20px;
   display:flex;
   flex-direction:row;
+  background-color: white;
+  border-radius:0 0 15 15px;
 }
 
 .heading-div{
+  margin-left:15px;
   display:flex;
   flex-direction: column;
   align-items: start;
-  margin-left:15px;
 }
 
 .heading-div>h1{
@@ -54,20 +54,22 @@
 }
 
 .heading-div>h6{
-  color:var(--text-grey);
   font-size: var(--fs-sm);
+  color:var(--text-grey);
 }
 
 .create-btn{
+  width:80%;
+  margin-top:10px;
+  margin-bottom:20px;
+  padding: 5px 30px;
+  font-size: calc(var(--fs-reg) - 2px);
+  font-weight: var(--fw-b);
   color:white;
   background-color:black;
-  font-size: calc(var(--fs-reg) - 3px);
-  font-weight: var(--fw-b);
   border-radius:15px;
-  padding: 5px 30px;
   cursor: pointer;
-  margin-left:1.5rem;
-  margin-top:10px;
+  place-self: center;
 }
 
 .create-btn:hover{
