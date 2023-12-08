@@ -58,23 +58,18 @@
   font-size: var(--fs-sm);
 }
 
-.side>h6{
-  background-color: var(--accent-blue);
-  padding:1.3em;
-  border-radius: 8px 8px 0 0;
-  background: radial-gradient(circle at 12.3% 19.3%, rgb(85, 88, 218) 0%, rgb(95, 209, 249) 100.2%);
+.create-btn{
   color:white;
+  background-color:black;
+  font-size: calc(var(--fs-reg) - 3px);
   font-weight: var(--fw-b);
-  font-size: calc(var(--fs-reg) - 2px);
+  border-radius:15px;
+  padding: 5px 30px;
+  cursor: pointer;
+  margin-left:1.5rem;
+  margin-top:10px;
 }
 
-.side>*{
-  padding:1em;
+.create-btn:hover{
+  background-color:var(--overlay-color);
 }
-.side{
-  height:fit-content;
-  border-radius:8px;
-  background-color: white;
-
-}
-

@@ -1,12 +1,10 @@
 import InfiniteScrollPosts from '../../InfiniteScroll/InfiniteScrollPosts'
 import CreatePostBar from '../../Post/CreatePostBar'
 import { getChannelData } from '../../apis/channelApi'
-import UserDataContext from '../../contexts/UserDataContext'
 import styles from './styles/HomeFeed.module.css'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-const HomeFeed = () => {
-  const {userData} = useContext(UserDataContext)
+const HomeFeed = ({userData}) => {
   const [userPosts,setUserPosts] = useState([])
   const [pageSizeEnded,setPageSizeEnded] = useState(false)
   const pageSize =  useRef()

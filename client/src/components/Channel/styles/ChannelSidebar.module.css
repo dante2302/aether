@@ -1,0 +1,20 @@
+.side>h6{
+  background-color: var(--accent-blue);
+  padding:1.3em;
+  border-radius: 8px 8px 0 0;
+  background: radial-gradient(circle at 12.3% 19.3%, rgb(85, 88, 218) 0%, rgb(95, 209, 249) 100.2%);
+  color:white;
+  font-weight: var(--fw-b);
+  font-size: calc(var(--fs-reg) - 2px);
+}
+
+.side>*{
+  padding:1em;
+}
+.side{
+  height:fit-content;
+  border-radius:8px;
+  background-color: white;
+
+}
+

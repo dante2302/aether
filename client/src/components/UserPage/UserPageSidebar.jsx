@@ -5,8 +5,6 @@ const UserPageSidebar = ({pageUserData,isOwner}) => {
 
   return (
     <div>
-      <img src='background' alt='banner' />
-      <img src='asd' alt='avatar' />
       <div>
         u/{pageUserData.username}
       </div>
