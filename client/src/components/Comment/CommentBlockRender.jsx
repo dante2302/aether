@@ -1,6 +1,6 @@
 import {  useEffect, useState } from "react"
 import CommentRender from "./CommentRender"
-import { getCommentReplies } from "../apis/commentApi"
+import { getCommentReplies } from "../../apis/commentApi"
 import styles from './styles/CommentBlockRender.module.css'
 
 

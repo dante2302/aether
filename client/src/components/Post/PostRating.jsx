@@ -1,19 +1,20 @@
-import styles from './styles/PostRating.module.css'
+import { updatePostData } from '../../apis/postApi.js'
+import { updateUserData } from '../../apis/userApi'
+
 import { useState, useEffect, useContext } from "react"
 
-import UserDataContext from '../contexts/UserDataContext'
-import UserModalContext from '../contexts/UserModalContext'
-
-import { updatePostData } from '../apis/postApi.js'
-import { updateUserData } from '../apis/userApi'
+import UserDataContext from '../../contexts/UserDataContext'
+import UserModalContext from '../../contexts/UserModalContext'
 
 import UilArrowUp from '@iconscout/react-unicons/icons/uil-arrow-up'
 import UilArrowDown from '@iconscout/react-unicons/icons/uil-arrow-down'
 
+import styles from './styles/PostRating.module.css'
+
 const PostRating = ({postDataState,setPostDataState}) => {
 
   const {userData, setUserData} = useContext(UserDataContext)
-  const {userModal,toggleUserModal} = useContext(UserModalContext)
+  const {toggleUserModal} = useContext(UserModalContext)
 
   const [likesCount,setLikesCount] = useState(postDataState.likesCount)
   const [isLiked,setLiked] = useState(false)

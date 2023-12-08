@@ -1,13 +1,15 @@
 import ChannelCreateModal from '../../Channel/ChannelCreateModal'
+import ChannelList from '../../Channel/ChannelList.jsx'
+
+import { getChannelData } from '../../../apis/channelApi.js'
 
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
+import useLoading from '../../../hooks/useLoading.jsx'
+
 import UilHouseUser from '@iconscout/react-unicons/icons/uil-house-user.js'
 import styles from './styles/HomeSidebar.module.css'
-import ChannelList from '../../Channel/ChannelList.jsx'
-import { getChannelData } from '../../apis/channelApi.js'
-import useLoading from '../../hooks/useLoading.jsx'
 
 const HomeSidebar = ({userData}) => {
 

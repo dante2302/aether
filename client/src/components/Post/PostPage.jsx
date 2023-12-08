@@ -2,14 +2,14 @@ import CommentBlockRender from "../Comment/CommentBlockRender"
 import PostRender from "./PostRender"
 import CommentCreateForm from "../Comment/CommentCreateForm"
 
-import { getPostData } from "../apis/postApi"
-import { getPostComments } from "../apis/commentApi"
-import useLoading from "../hooks/useLoading"
+import { getPostData } from "../../apis/postApi"
+import { getPostComments } from "../../apis/commentApi"
+import useLoading from "../../hooks/useLoading"
 import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import styles from './styles/PostPage.module.css'
 import ChannelPage from "../Channel/ChannelPage"
-import UserDataContext from "../contexts/UserDataContext"
+import UserDataContext from "../../contexts/UserDataContext"
 
 const PostPage = () => {
   const [postData,setPostData] = useState()

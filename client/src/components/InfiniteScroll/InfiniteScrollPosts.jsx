@@ -1,11 +1,13 @@
 import PostRender from '../Post/PostRender.jsx'
 
-import { getPostData } from '../apis/postApi.js'
+import { getPostData } from '../../apis/postApi.js'
 
 import { useState, useEffect } from "react"
 
+import useLoading from '../../hooks/useLoading.jsx'
+
 import styles from './InfiniteScrollPosts.module.css'
-import useLoading from '../hooks/useLoading.jsx'
+
 
 const InfiniteScrollPosts = ({posts,setPageSizeEnded}) => {
 

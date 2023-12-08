@@ -1,9 +1,9 @@
-import { updateUserData } from '../apis/userApi.js'
+import { updateUserData } from '../../apis/userApi.js'
 
 import { useState, useEffect, useContext } from 'react'
 
-import UserDataContext from '../contexts/UserDataContext'
-import UserModalContext from '../contexts/UserModalContext'
+import UserDataContext from '../../contexts/UserDataContext'
+import UserModalContext from '../../contexts/UserModalContext'
 
 import styles from './styles/PostSaving.module.css'
 import UilBookmark from '@iconscout/react-unicons/icons/uil-bookmark.js'

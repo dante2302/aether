@@ -1,6 +1,6 @@
-import useDisabled from "../hooks/useDisabled"
-import { updateCommentData } from "../apis/commentApi"
-import userDataContext from '../contexts/UserDataContext'
+import useDisabled from "../../hooks/useDisabled"
+import { updateCommentData } from "../../apis/commentApi"
+import userDataContext from '../../contexts/UserDataContext'
 import { useContext, useState } from "react"
 
 const CommentEditForm = ({commentData,setCommentData,setEditing}) => {

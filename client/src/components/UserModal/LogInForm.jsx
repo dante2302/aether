@@ -1,13 +1,13 @@
 
-import { logIn } from '../apis/userApi.js'
-import { changeHandler } from '../utils/formUtils.js'
-import useLoading from '../hooks/useLoading.jsx'
+import { logIn } from '../../apis/userApi.js'
+import { changeHandler } from '../../utils/formUtils.js'
+import useLoading from '../../hooks/useLoading.jsx'
 
 
 import { useState, useEffect, useContext } from 'react'
 
-import UserDataContext from '../contexts/UserDataContext.jsx'
-import UserModalContext from '../contexts/UserModalContext.jsx'
+import UserDataContext from '../../contexts/UserDataContext.jsx'
+import UserModalContext from '../../contexts/UserModalContext.jsx'
 
 import UilExclamationCircle from '@iconscout/react-unicons/icons/uil-exclamation-circle.js'
 import styles from './styles/LogInForm.module.css'

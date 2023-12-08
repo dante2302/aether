@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react'
 import {getLinkData} from './linkPreview.js'
-import useLoading from '../../hooks/useLoading.jsx'
+import useLoading from '../../../hooks/useLoading.jsx'
 
 import styles from './LinkPreview.module.css'
 const LinkPreview = ({url, isCompact}) => {

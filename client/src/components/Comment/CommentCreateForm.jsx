@@ -1,9 +1,9 @@
 
 import { useContext, useState } from 'react'
 
-import { createComment } from '../apis/commentApi'
-import useDisabled from '../hooks/useDisabled'
-import userDataContext from '../contexts/UserDataContext'
+import { createComment } from '../../apis/commentApi'
+import useDisabled from '../../hooks/useDisabled'
+import userDataContext from '../../contexts/UserDataContext'
 import styles from './styles/CommentCreateForm.module.css'
 
 const CommentCreateForm = ({

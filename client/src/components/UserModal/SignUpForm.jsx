@@ -1,10 +1,10 @@
-
-import {signUp} from '../apis/userApi.js'
-import {changeHandler, validatePassword, validateUsername, validateEmail} from '../utils/formUtils.js'
-
-import useDisabled from '../hooks/useDisabled.jsx'
+import {changeHandler, validatePassword, validateUsername, validateEmail} from '../../utils/formUtils.js'
+import {signUp} from '../../apis/userApi.js'
 
 import { useState, useEffect } from "react"
+
+import useDisabled from '../../hooks/useDisabled.jsx'
+
 
 import UilArrowRight from '@iconscout/react-unicons/icons/uil-arrow-right'
 import UilArrowLeft from '@iconscout/react-unicons/icons/uil-arrow-left'

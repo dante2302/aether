@@ -18,8 +18,9 @@ import Page404 from './ErrorBoundary/Page404.jsx'
 import GlobalErrorBoundary from './ErrorBoundary/GlobalErrorBoundary.jsx'
 
 import { Routes, Route} from 'react-router-dom'
-import { UserDataProvider } from './contexts/UserDataContext.jsx'
-import { UserModalProvider } from './contexts/UserModalContext.jsx'
+
+import { UserDataProvider } from '../contexts/UserDataContext.jsx'
+import { UserModalProvider } from '../contexts/UserModalContext.jsx'
 
 const App = () => {
   return (

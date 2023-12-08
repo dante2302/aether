@@ -1,4 +1,4 @@
-import UserModal from '../UserModal/UserModal'
+import UserModal from '../components/UserModal/UserModal'
 import { createContext, useState } from 'react'
 
 const UserModalContext = createContext()
