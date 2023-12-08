@@ -1,17 +1,19 @@
-
-
 .input-form{
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  gap:15px;
   width:100%;
 }
 
+.input-form>button{
+  margin-block:10px;
+}
+
 .input-container{
+  margin-top:15px;
   position:relative;
-  width:90%;
+  width:80%;
 }
 
 .input-container>input{
@@ -19,11 +21,19 @@
   height:100%;
 }
 
-.username,.password,.log-in-btn{
-  padding:1em;
-  border:none;
-  background:rgb(235,235,235)
+.input-container>button{
+  position:absolute;
+  top:55%;
+  transform:translateY(-50%);
+  left: 90%;
+  cursor: pointer;
+  padding:.3em;
 }
+
+.input-container>button>svg{
+  cursor:pointer;
+}
+
 
 .input-container>label{
   color:grey;
@@ -32,38 +42,71 @@
   left:50%;
   transform:translate(-50%,-50%);
   z-index:1;
+  text-align: center;
+  cursor: text;
+  user-select: none;
+  pointer-events: none;
 }
 
-.input-container>button{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  left:72.5%;
+.input,.sign-up-btn{
+  padding:1em;
+  border:none;
+  background:rgb(235,235,235)
 }
 
-.username:focus,.password:focus{
+.input:focus{
   outline: 1px solid rgb(120,245,250)  
 }
 
-.username,.password,.log-in-btn{
+.input,.sign-up-btn{
   border-radius:15px;
 }
 
 .close-btn:hover,
-.username:hover,
-.password:hover{
+.input:hover{
   background-color:rgb(215,215,215);
 }
 
-.log-in-btn{
-  /* font-size:1rem; */
+.sign-up-btn{
   width:60%;
   background-color:rgb(100,245,250);
 }
 
-.log-in-btn.enabled:hover{
+.sign-up-btn.enabled:hover{
   cursor:pointer;
   color:rgb(15,15,15);
   background-color:rgb(23,201,231)
 }
 
+.error{
+  max-width:80%;
+  font-size: calc(var(--fs-sm) - 2px);
+  text-align: center;
+  color:red
+}
+
+.error-input{
+  border: 1px solid red;
+}
+
+.arrow:not(:disabled):hover{
+  color:var(--accent-blue);
+  cursor: pointer;
+}
+
+.error-container{
+  margin-top:.2em;
+  width:80%;
+  display:flex;
+  flex-direction:row;
+  align-items: center;
+  justify-content: center;
+  gap:2px;
+}
+
+.log-in-btn{
+  font-size: calc(var(--fs-reg) - 2px);
+  font-weight: var(--fw-b);
+  color:var(--accent-darkblue);
+  cursor: pointer;
+}

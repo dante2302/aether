@@ -4,6 +4,8 @@ import InfiniteScrollPosts from '../InfiniteScroll/InfiniteScrollPosts'
 const UserPageFeed = ({type}) => {
   const [pageUserData,isOwner] = useOutletContext()
   let propertyName = (type === 'posted') ? 'posts': `${type}Posts`
+  console.log(propertyName)
+  console.log(pageUserData)
   return(
     Object.keys(pageUserData).length>0 && pageUserData[propertyName].length > 0
       ?

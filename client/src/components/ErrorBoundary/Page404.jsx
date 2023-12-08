@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import styles from './Page404.module.css'
+import styles from './styles/Page404.module.css'
 
 const Page404 = () => {
   const navigate = useNavigate()

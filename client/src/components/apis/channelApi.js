@@ -1,6 +1,7 @@
 
 const baseUrl = 'http://localhost:3030/data/channels'
 import * as request from './request.js'
+import {updateUserData} from './userApi.js'
 
 export const createChannel = async (userData,{name,description}) => {
   const bodyData = {
@@ -9,9 +10,18 @@ export const createChannel = async (userData,{name,description}) => {
     members:[userData._ownerId],
     posts:[]
   }
-  const data = await request.post(baseUrl,userData.accessToken,bodyData)
-  updateUserData(userData,{channels: [...userData.channels,data._id]})
-  return data
+  const data = await request.post({
+    url:baseUrl,
+    accessToken:userData.accessToken,
+    bodyData
+  })
+
+  const a = await updateUserData(userData,{
+    channels: [...userData.channels,data._id], 
+    authorChannels: [...userData.authorChannels, data._id]
+  })
+
+  return [data,a]
 }
 
 

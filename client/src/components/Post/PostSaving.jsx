@@ -5,7 +5,7 @@ import { useState, useEffect, useContext } from 'react'
 import UserDataContext from '../contexts/UserDataContext'
 import UserModalContext from '../contexts/UserModalContext'
 
-
+import styles from './styles/PostSaving.module.css'
 import UilBookmark from '@iconscout/react-unicons/icons/uil-bookmark.js'
 
 const PostSaving = ({postData}) => {
@@ -41,9 +41,12 @@ const PostSaving = ({postData}) => {
   }
 
   return(
-    <div onClick={e => saveHandler(e)}>
-      <UilBookmark />
-      <span>Save</span>
+    <div onClick={e => saveHandler(e)} className={
+      `${isSaved && styles['saved']} 
+       ${styles['save-container']}`}
+    >
+      <UilBookmark className={isSaved ? styles['saved'] : undefined}/>
+      <span>{isSaved ? 'Saved' : 'Save'}</span>
     </div>
   )
 }

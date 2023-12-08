@@ -1,4 +1,4 @@
-import styles from './styles/PostRender.module.css'
+import styles from './styles/PostRating.module.css'
 import { useState, useEffect, useContext } from "react"
 
 import UserDataContext from '../contexts/UserDataContext'
@@ -10,19 +10,19 @@ import { updateUserData } from '../apis/userApi'
 import UilArrowUp from '@iconscout/react-unicons/icons/uil-arrow-up'
 import UilArrowDown from '@iconscout/react-unicons/icons/uil-arrow-down'
 
-const PostRating = ({postData}) => {
+const PostRating = ({postDataState,setPostDataState}) => {
 
   const {userData, setUserData} = useContext(UserDataContext)
   const {userModal,toggleUserModal} = useContext(UserModalContext)
 
-  const [likesCount,setLikesCount] = useState(postData.likesCount)
+  const [likesCount,setLikesCount] = useState(postDataState.likesCount)
   const [isLiked,setLiked] = useState(false)
   const [isDisliked,setDisliked] = useState(false) 
 
   const checkRating = () => {
     if(!userData || Object.keys(userData).length === 0){setLiked(false) ; setDisliked(false) ; return}
-    if(userData.likedPosts.includes(postData._id))setLiked(true);
-    else if(userData.dislikedPosts.includes(postData._id))setDisliked(true);
+    if(userData.likedPosts.includes(postDataState._id))setLiked(true);
+    else if(userData.dislikedPosts.includes(postDataState._id))setDisliked(true);
   }
 
   useEffect(() => {checkRating()},[])
@@ -40,28 +40,39 @@ const PostRating = ({postData}) => {
     if(isLiked){
       setLikesCount(likes => likes - 1)
       setLiked(false)
-      likedPosts = userData.likedPosts.filter((_id) => _id !== postData._id)
+      likedPosts = userData.likedPosts.filter((_id) => _id !== postDataState._id)
       updateUserData(userData,{likedPosts})
         .then((result) => {setUserData({...userData,...result})})
-        .then(() => updatePostData(postData._id,{likesCount}))
+        .then(() => updatePostData(postDataState._id,{likesCount:likesCount-1})
+          .then((data) =>{
+            setPostDataState(data)
+          }))
     }
 
     else if(isDisliked){
       setDisliked(false)
       setLiked(true)
       setLikesCount(likes => likes + 2)
-      likedPosts = [...userData.likedPosts,postData._id]
-      dislikedPosts = userData.dislikedPosts.filter((posts) => posts !== postData._id)
+      likedPosts = [...userData.likedPosts,postDataState._id]
+      dislikedPosts = userData.dislikedPosts.filter((posts) => posts !== postDataState._id)
       updateUserData(userData,{dislikedPosts,likedPosts})
         .then(result => setUserData(result))
+        .then(() => updatePostData(postDataState._id,{likesCount:likesCount+2})
+          .then((data) =>{
+            setPostDataState(data)
+          }))
     }
 
     else {
       setLiked(true)
       setLikesCount( likes => likes + 1)
-      likedPosts = [...userData.likedPosts,postData._id]
+      likedPosts = [...userData.likedPosts,postDataState._id]
       updateUserData(userData,{likedPosts})
         .then((result) => {setUserData(result)})
+        .then(() => updatePostData(postDataState._id,{likesCount:likesCount+1})
+          .then((data) =>{
+            setPostDataState(data)
+          }))
     }
   
   }
@@ -76,27 +87,40 @@ const PostRating = ({postData}) => {
     if(isDisliked){
       setLikesCount(likes => likes + 1)
       setDisliked(false)
-      dislikedPosts = userData.dislikedPosts.filter((_id) => _id !== postData._id)
+      dislikedPosts = userData.dislikedPosts.filter((_id) => _id !== postDataState._id)
       updateUserData(userData,{dislikedPosts})
         .then((result) => {setUserData(result)})
+        .then(() => updatePostData(postDataState._id,{likesCount:likesCount+1})
+          .then((data) =>{
+            setPostDataState(data)
+          }))
     }
 
     else if(isLiked){
       setLiked(false)
       setDisliked(true)
       setLikesCount(likes => likes - 2)
-      dislikedPosts = [...userData.dislikedPosts,postData._id]
-      likedPosts = userData.likedPosts.filter((posts) => posts !== postData._id)
+      dislikedPosts = [...userData.dislikedPosts,postDataState._id]
+      likedPosts = userData.likedPosts.filter((posts) => posts !== postDataState._id)
       updateUserData(userData,{dislikedPosts,likedPosts})
         .then(result => setUserData(result))
+        .then(() => updatePostData(postDataState._id,{likesCount:likesCount-2})
+          .then((data) =>{
+            setPostDataState(data)
+           setPostData && setPostData(data)
+          }))
     }
 
     else{
       setDisliked(true)
       setLikesCount(likes => likes - 1)
-      dislikedPosts = [...userData.dislikedPosts,postData._id]
+      dislikedPosts = [...userData.dislikedPosts,postDataState._id]
       updateUserData(userData,{dislikedPosts}).then()
         .then((result) => {setUserData(result)})
+        .then(() => updatePostData(postDataState._id,{likesCount:likesCount-1})
+          .then((data) =>{
+            setPostDataState(data)
+          }))
     }
   }
   return(

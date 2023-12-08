@@ -34,7 +34,7 @@ const PostForm = () => {
       else {alert('You need a channel');navigate('../')}
     }
     asyncFunc()
-  },[])
+  },[userData])
 
 
 
@@ -60,8 +60,9 @@ const PostForm = () => {
   const submitHandler = async (e) => {
     e.preventDefault()
     if(formState.title && await checkImgUrl(formState.imgUrl)){
-      console.log(userData)
-      await postApi.createPost(userData,{...formState , channelId: selectedChannel})
+      const channelData = await getChannelData(selectedChannel)
+      const channelName = channelData.name
+      await postApi.createPost(userData,{...formState , channelId: selectedChannel,channelName})
       navigate('../')
     }
   }

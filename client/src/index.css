@@ -1,9 +1,41 @@
+:root{
+ /* Colors */
+  --accent-red:#FF0010;
+  --accent-blue:#3ba5ed;
+  --accent-darkblue:#0008a1;
+  --accent-yellow:#ebd950;
+  --background-grey:#dedcdc;
+  --border-grey:#d9d9d9;
+  --text-grey:#5e5e5e;
+  --overlay-color:#1a1a1a;
+  /* --white: */
+  /* Typography */
+  --ff: 'Ubuntu', sans-serif;
+  --fs-reg:16px;
+  --fs-sm:12px;
+  --fs-xl:20px;
+  --fw-reg:400;
+  --fw-b:700;
+}
 
-*{
-  box-sizing:border-box;
+@media (min-width: 768px){
+  :root{
+    --fs-sm:14px;
+    --fs-reg:18px;
+    --fs-xl:22px;
+  }
+}
+
+*,button{
+  font-family: var(--ff);
+  box-sizing: border-box;
   margin:0;
   padding:0;
   text-decoration:none;
+}
+
+body{
+  width:100%;
 }
 
 ul{
@@ -12,6 +44,12 @@ ul{
 
 p{
   white-space:normal;
+}
+
+button{
+  background: none;
+  border: none;
+  height: fit-content;
 }
 
 a:link,a:visited,a:hover,a:active{
@@ -26,15 +64,18 @@ a:link,a:visited,a:hover,a:active{
   position:fixed;
 }
 
+.modal{
+  z-index:5;
+}
 .overlay{
-    background-color: rgb(26,26,26);
-    opacity:.4;
+  background-color: var(--overlay-color);
+  opacity:.4;
 }
 
 .canvas{
-  background:#d6d6d6;
+  background:var(--background-grey);
   display:flex;
-  border-radius:0;
   justify-content:center;
   height:fit-content;
+  min-height: 85vh;
 }

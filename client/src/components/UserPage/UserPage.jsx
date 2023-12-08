@@ -16,19 +16,24 @@ const UserPage = () => {
       .then(response => { 
         setIsOwner(userData && userData._ownerId === response._ownerId)
         setPageUserData(response)
+        document.title = `u/${response.username}`
       })
-  },[])
 
+    return(() => {
+      document.title = 'Aether'
+    })
+  },[userData])
+  
   return (
-    Object.keys(pageUserData).length>0
+    pageUserData && Object.keys(pageUserData).length>0
     ? 
     <div>
       <UserPageSidebar pageUserData={pageUserData} isOwner={isOwner}/>
       <div>
         <Link to='./submitted'>POSTS</Link>
-        <Link to='./saved'>SAVED</Link>
-        <Link to='./liked'>LIKED</Link>
-        <Link to='./disliked'>DISLIKED</Link>
+        {isOwner && <Link to='./saved'>SAVED</Link>}
+        {isOwner &&<Link to='./liked'>LIKED</Link>}
+        {isOwner &&<Link to='./disliked'>DISLIKED</Link>}
         <Link to='./comments'>COMMENTS</Link>
       </div>
       <Outlet context={[pageUserData,isOwner]}/>

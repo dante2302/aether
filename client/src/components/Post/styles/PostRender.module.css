@@ -1,3 +1,4 @@
+
 .content{
   background:white;
   border:1px solid #bfbfbf;
@@ -6,37 +7,59 @@
   grid-template-columns:5% 95%;
   cursor:pointer;
 }
+
+.content.enalbed:hover{
+  border: 1px solid black;
+}
+
+.inner-content{
+  margin-left:8px;
+  padding-top: .5em;
+  padding-left: .5em;
+}
+
+@media (max-width: 687px){
+  .inner-content{
+    padding: 1em 1.5em;
+  }
+}
+
+.channel-name{
+  font-weight: var(--fw-b);
+}
+
+.inner-content>h1{
+  padding-top:.6em;
+  padding-bottom:1.2em;
+  font-size: var(--fs-xl);
+  margin-right:12px;
+}
+
+.inner-content>p{
+  margin-block: .5em;
+  margin-right:12px;
+  font-size: var(--fs-reg);
+}
+
+.inner-content>:first-child{
+  margin-block:.2em;
+  font-size: var(--fs-sm);
+}
+
+.username:hover,.channel-name:hover{
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  cursor: pointer;
+}
+
 .post-image{
-  font-size:3rem;
-  font-weight: 600;
-}
-.rating{
-  display:flex;
-  background:#edf0ef; 
-  flex-direction:column;
-  align-items:center;
-  justify-content:start;
+  max-width:70%;
+  border-radius:1px;
+  margin-block:.8em;
 }
 
-.likes-count.liked,
-.rating>:first-child.liked{
-  color:cyan;
-}
-
-.likes-count.disliked,
-.rating>:last-child.disliked{
-  color:red;
-}
-
-
-.likes-count{
-  font-weight: 500;
-}
-.rating>:first-child:hover,.rating>:last-child:hover{
-  background:#bfbfbf;
-  border-radius:5px;
-}
 .options-container{
+  margin-top:1em;
   display:flex;
   flex-direction:row;
   gap:15px;
@@ -50,6 +73,7 @@
   justify-content:center;
   padding:.3em;
   gap:8px;
+  cursor:pointer
 }
 
 .options-container>*:hover{
@@ -57,11 +81,12 @@
   border-radius:4px 4px 0 0;
 }
 
-.inner-content{
-  padding:1em;
-  padding-bottom:0;
+.redirect{
+  pointer-events: none;
+  cursor: default;
 }
 
-.inner-content>p, .inner-content>h3{
-  padding-block:1em;
+.redirect *{
+  pointer-events:auto;
 }
+

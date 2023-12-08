@@ -5,14 +5,16 @@ import { updateChannelData, createChannelPost } from './channelApi.js'
 import * as request from './request.js'
 import { inEncodedQuotes } from '../utils/encodeUtils.js'
 
-export const createPost = async ({username,accessToken},{title,text,imgUrl,channelId}) => {
+export const createPost = async ({username,accessToken},{title,text,imgUrl,channelId,channelName}) => {
   try{
     const bodyData = {
         channelId,
+        channelName,
         ownerUsername:username,
         title,
         text,
         imgUrl,
+        linkUrl,
         likesCount:0,
         comments:[],
         usersCommented:[],
@@ -56,8 +58,10 @@ export const getPersonalPosts = async(postId,userId) => {
 // }
 
 export const updatePostData = async (_id,newData) => {
+  console.log(newData)
   const url = `${baseUrl}/${_id}`
   const data = await request.patchWithoutAuth({url,newData})
+  console.log(data)
   return data
 }
 

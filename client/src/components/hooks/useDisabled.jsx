@@ -9,7 +9,7 @@ const useDisabled = (callback) => {
     setDisabled(false)
   }
 
-  return [disabled,callbackWithDisable]
+  return [disabled,callbackWithDisable,setDisabled]
 }
 
 export default useDisabled

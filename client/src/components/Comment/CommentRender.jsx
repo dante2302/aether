@@ -1,10 +1,9 @@
 
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import UserDataContext from "../contexts/UserDataContext"
 import CommentForm from "./CommentForm"
 
-const CommentRender = ({commentData}) => {
-
+const CommentRender = ({commentData, setCommentReplies}) => {
 const [isReplying,setReplying] = useState(false)
 const { userData } = useContext(UserDataContext)
 
@@ -30,6 +29,8 @@ const { userData } = useContext(UserDataContext)
           parentCommentId={commentData.parentCommentId || commentData._id}
           isReply={true}
           replyTo={commentData.ownerUsername}
+          setReplying={setReplying}
+          setCommentReplies={setCommentReplies}
         />
       }
 

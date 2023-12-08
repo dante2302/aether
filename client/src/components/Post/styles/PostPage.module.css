@@ -1,0 +1,16 @@
+.inner-container, .outer-container{
+  padding:3em 2em;
+}
+
+.inner-container{
+  display: grid; 
+  grid-template-columns: 70% 30%;
+  grid-gap:20px;
+  background-color:grey;
+}
+
+.outer-container{
+  background-color: black;
+  display:grid;
+}
+

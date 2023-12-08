@@ -1,0 +1,20 @@
+.preview>div>img{
+  max-width:40%;
+  margin:.5em;
+}
+
+.preview{
+  max-width:70%;
+  border:1px solid grey;
+  display:flex;
+  background-color: var(--background-grey);
+  flex-direction:row;
+  justify-content:start;
+  position:relative;
+}
+
+.preview>svg{
+    align-self: end;
+    margin:.5em;
+}
+

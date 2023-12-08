@@ -4,9 +4,8 @@ import UserModalContext from '../contexts/UserModalContext'
 import { updateChannelData } from '../apis/channelApi.js' 
 import { updateUserData } from '../apis/userApi.js'
 import  useDebounce  from '../hooks/useDebounce'
-
-const JoinButton = ({channelData, setChannelData}) =>{
-  const [isJoined,setJoined] = useState(false)
+import styles from './styles/JoinButton.module.css'
+const JoinButton = ({channelData, setChannelData,isJoined, setJoined}) =>{
   const {userData,setUserData} = useContext(UserDataContext)
   const {userModal,toggleUserModal} = useContext(UserModalContext)
 
@@ -53,7 +52,7 @@ const JoinButton = ({channelData, setChannelData}) =>{
 
   return ( 
     //If the user is not logged in -> execute the function immediately, else 500 ms delay
-    <button onClick={useDebounce(joinHandler,userData ? 500 : 0)}>
+    <button onClick={useDebounce(joinHandler,userData ? 500 : 0)} className={styles['join-btn']}>
       {!isJoined
         ?
         'Join'

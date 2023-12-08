@@ -1,7 +1,7 @@
 
 const baseUrl = 'http://localhost:3030/data/comments'
 import * as request from './request.js'
-
+import {updatePostData} from './postApi.js'
 export const createComment = async ({accessToken,username},{replyTo,parentCommentId,postId,text}) => {
   const bodyData = {
     postId,
@@ -16,17 +16,22 @@ export const createComment = async ({accessToken,username},{replyTo,parentCommen
 }
 
 export const getPostComments = async (postId) => {
-  const data = await request.searchWithUnion({
-    url:baseUrl,
-    firstProp:'postId',
-    firstValue:postId,
-    secondProp:'replyTo',
-    secondValue: ''
-  })  
-  return data
+  try{
+    const data = await request.searchWithUnion({
+      url:baseUrl,
+      firstProp:'postId',
+      firstValue:postId,
+      secondProp:'replyTo',
+      secondValue: ''
+    })  
+    return data
+  }
+  catch(err){
+    console.log(err)
+  }
 }
 
-export const getCommentReplies = async (commentId,pageSize,offset) => {
+export const getCommentReplies = async (commentId) => {
   const data = await request.search({
     url:baseUrl,
     prop:'parentCommentId',
