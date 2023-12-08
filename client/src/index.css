@@ -49,6 +49,7 @@ p{
 button{
   background: none;
   border: none;
+  height: fit-content;
 }
 
 a:link,a:visited,a:hover,a:active{

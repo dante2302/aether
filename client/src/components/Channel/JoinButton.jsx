@@ -5,8 +5,7 @@ import { updateChannelData } from '../apis/channelApi.js'
 import { updateUserData } from '../apis/userApi.js'
 import  useDebounce  from '../hooks/useDebounce'
 
-const JoinButton = ({channelData, setChannelData}) =>{
-  const [isJoined,setJoined] = useState(false)
+const JoinButton = ({channelData, setChannelData,isJoined, setJoined}) =>{
   const {userData,setUserData} = useContext(UserDataContext)
   const {userModal,toggleUserModal} = useContext(UserModalContext)
 
