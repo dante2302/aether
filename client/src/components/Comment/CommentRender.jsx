@@ -1,12 +1,16 @@
-
-import { useContext, useState, useEffect } from "react"
-import UserDataContext from "../../contexts/UserDataContext"
 import CommentCreateForm from "./CommentCreateForm"
 import CommentEditForm from "./CommentEditForm"
-import UilPen from '@iconscout/react-unicons/icons/uil-pen'
-import UilX from '@iconscout/react-unicons/icons/uil-x'
 import DumbCommentRender from "./DumbCommentRender"
 import DeleteConfirmation from "../DeleteConfirmation/DeleteConfirmation"
+
+import { useContext, useState, useEffect } from "react"
+
+import UserDataContext from "../../contexts/UserDataContext"
+
+import UilPen from '@iconscout/react-unicons/icons/uil-pen'
+import UilX from '@iconscout/react-unicons/icons/uil-x'
+
+import styles from './styles/CommentRender.module.css'
 
 const CommentRender = ({data, setCommentReplies,setComments}) => {
   const [commentData,setCommentData] = useState(data)
@@ -15,14 +19,17 @@ const CommentRender = ({data, setCommentReplies,setComments}) => {
   const [isDeleting,setDeleting] = useState(false)
   const [isOwner,setIsOwner] = useState(false)
 
+
   const {userData} = useContext(UserDataContext)
 
   const deleteComment = () => {
     setComments((comments) => comments.filter((comment) => comment === commentData._id))
   }
+  console.log(data)
+  console.log(userData)
 
   useEffect(() => {
-    if(userData?.comments.includes(commentData._id))setIsOwner(true)
+    if(commentData._ownerId === userData._ownerId)setIsOwner(true)
     else setIsOwner(false)
   },[userData])
 
@@ -30,12 +37,14 @@ const CommentRender = ({data, setCommentReplies,setComments}) => {
     <div>
       <DumbCommentRender data={commentData} />
       {isOwner && 
-        <div>
+        <div className={styles['container']}>
 
           <button onClick={() => {
             if(isReplying) setReplying(false)
             setEditing(!isEditing)
-          }}>
+          }}
+          className={styles['btn']}
+          >
             {!isEditing ? <UilPen size={15}/> : 'Cancle'}
           </button>
 
@@ -46,6 +55,7 @@ const CommentRender = ({data, setCommentReplies,setComments}) => {
                 if(isEditing) setEditing(false)
                 setDeleting(true)
               }}
+          className={styles['btn']}
             > <UilX size={15} /> </button>
           }
         </div>
@@ -75,7 +85,9 @@ const CommentRender = ({data, setCommentReplies,setComments}) => {
       }
       {userData && 
         <button onClick={() => 
-          setReplying(!isReplying)}>
+          setReplying(!isReplying)}
+          className={styles['btn']}
+        >
           {isReplying ? 'Cancle' : 'Reply'}
         </button> 
       }

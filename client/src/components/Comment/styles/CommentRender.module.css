@@ -1,0 +1,18 @@
+.container>button{
+  padding:.3em;
+  background:red;
+}
+
+.btn{
+  font-size: var(--fs-sm);
+  background: var(--background-grey);
+  border: 1px solid black;
+  border-radius: 3px;
+  color: var(--text-grey);
+  padding:.2em;
+}
+
+.btn:not(:disabled):hover{
+    color:black;
+    cursor: pointer;
+}

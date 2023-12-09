@@ -45,6 +45,15 @@ const PostPage = () => {
         <div className={styles['inner-container']}>
           <div className={styles['post-container']}>
           <PostRender postData={postData} isRedirect={true} isCompact={false}/>
+              {comments.length > 0 &&
+              <CommentCreateForm 
+                postId={postId}
+                parentCommentId={''}
+                isReply={false}
+                replyTo={''}
+                setComments={setComments}
+              />
+              }
           <ul className={styles['comments']}>
             {comments.length > 0 
               ? 
@@ -56,7 +65,7 @@ const PostPage = () => {
                       />
                 </li>)
               :
-                <div>
+                <div className={styles['no-comments']}>
                   <p>There are no comments on this post. Be the first one to express their thoughts</p>
                   {userData 
                   && 
@@ -65,6 +74,7 @@ const PostPage = () => {
                     parentCommentId={''}
                     isReply={false}
                     replyTo={''}
+                    setComments={setComments}
                   />}
                 </div> 
             }

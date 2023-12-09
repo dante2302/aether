@@ -1,0 +1,3 @@
+.username{
+  font-size: calc(var(--fs-reg) - 3px);
+}

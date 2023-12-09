@@ -2,6 +2,7 @@
 import { equalSign, inEncodedQuotes } from '../utils/encodeUtils.js'
 
 export const post = async ({url,accessToken,bodyData}) => {
+  console.log(accessToken)
   try{
     const response = await fetch(url,{
       method: 'POST',

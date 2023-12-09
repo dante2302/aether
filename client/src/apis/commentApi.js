@@ -1,18 +1,21 @@
 
 const baseUrl = 'http://localhost:3030/data/comments'
 import * as request from './request.js'
-import { updatePostData } from './postApi.js'
+import { updateUserData } from './userApi.js'
 
-export const createComment = async ({accessToken,username},{replyTo,parentCommentId,postId,text}) => {
+export const createComment = async (userData,{replyTo,parentCommentId,postId,text}) => {
+  console.log(userData.accessToken)
   const bodyData = {
     postId,
     text,
     edited:false,
     parentCommentId,
     replyTo,
-    ownerUsername:username
+    ownerUsername:userData.username
   }
-  const data = await request.post({url:baseUrl,accessToken,bodyData}) 
+  const data = await request.post({url:baseUrl, accessToken: userData.accessToken, bodyData}) 
+  const a = await updateUserData(userData,{comments:[...userData.comments,data._id]})
+  console.log(a)
   return data
 }
 
