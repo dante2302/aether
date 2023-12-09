@@ -1,11 +1,12 @@
+import styles from './styles/DumbCommentRender.module.css'
 
 const DumbCommentRender = ({data}) => {
   return(
     <>
-      <h6>{data.ownerUsername}</h6>
+      <h6 className={styles['username']}>{data.ownerUsername}</h6>
       <p>
         {data.replyTo &&
-          <span>@{data.replyTo}  </span>}
+          <span className={styles['replyUsername']}>@{data.replyTo}  </span>}
         {data.text}
       </p>
     </>)

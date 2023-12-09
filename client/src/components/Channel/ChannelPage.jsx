@@ -75,8 +75,8 @@ const ChannelPage = ({isCompact}) => {
           :
             <>
               <div className={styles['noposts']}>
-                <h3>There are no posts in this channel</h3>
-                <h6>Be the chosen one</h6>
+                <h1>There are no posts in this channel</h1>
+                <h3>Be the chosen one</h3>
               </div>
             </>
           }

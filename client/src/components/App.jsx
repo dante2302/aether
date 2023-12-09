@@ -4,12 +4,11 @@ import Home from './Home/Home.jsx'
 import HomeGuest from './Home/HomeGuestPage/HomeGuestPage.jsx'
 
 import UserPage from './UserPage/UserPage.jsx'
-import UserCommentsPage from './UserPage/UserCommentsPage.jsx'
 import UserPageFeed from './UserPage/UserPageFeed.jsx'
 
 import ChannelPage from './Channel/ChannelPage'
 
-import PostCreationForm from './Post/PostCreationForm.jsx'
+import PostCreateForm from './Post/PostCreateForm.jsx'
 
 import PostPage from './Post/PostPage.jsx'
 import SearchResults from './Search/SearchResults.jsx'
@@ -36,18 +35,17 @@ const App = () => {
 
               <Route path={'c/:channelName'}>
                 <Route index element={<ChannelPage />} />
-                <Route path='submit' element={<PostCreationForm />} />
+                <Route path='submit' element={<PostCreateForm />} />
                 <Route path={':postId'} element={<PostPage />} />
               </Route>
 
-              <Route path='submit' element={<PostCreationForm />} />
+              <Route path='submit' element={<PostCreateForm />} />
 
               <Route path='/u/:username' element={<UserPage />}>
-                <Route path='submitted' element={<UserPageFeed type='posted' />} />
-                <Route path='saved' element={<UserPageFeed type='saved' />} />
-                <Route path='liked' element={<UserPageFeed type='liked'/>} />
-                <Route path='disliked' element={<UserPageFeed type='disliked'/>} />
-                <Route path='comments' element={<UserCommentsPage />} />
+                <Route path='submitted' element={<UserPageFeed key={'posted'} type='posted' />} />
+                <Route path='saved' element={<UserPageFeed key={'saved'} type='saved' />} />
+                <Route path='liked' element={<UserPageFeed key={'liked'} type='liked'/>} />
+                <Route path='disliked' element={<UserPageFeed key={'disliked'} type='disliked'/>} />
               </Route>
 
               <Route path='/*' element={<Page404 />} />

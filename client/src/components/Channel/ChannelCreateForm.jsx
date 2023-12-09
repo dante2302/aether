@@ -1,13 +1,17 @@
-import { useState } from "react"
-import styles from './styles/ChannelCreateForm.module.css'
+
 import * as formUtils from '../../utils/formUtils.js'
 import * as channelApi from '../../apis/channelApi.js'
+
 import { useNavigate } from "react-router-dom"
-import { useContext } from "react"
+import { useState, useContext, useEffect } from "react"
+
 import UserDataContext from "../../contexts/UserDataContext.jsx"
+
+import styles from './styles/ChannelCreateForm.module.css'
 
 const ChannelCreateForm = ({toggleChannelModal}) => {
   const {userData, setUserData} = useContext(UserDataContext) 
+  const [isDisabled,setDisabled] = useState(true)
   const navigate = useNavigate()
 
   const initialFormState = {
@@ -16,7 +20,11 @@ const ChannelCreateForm = ({toggleChannelModal}) => {
   }
 
   const [formState,setFormState] = useState(initialFormState)
+  useEffect(() => {
+    if(!formState.name)setDisabled(true)
+    else setDisabled(false)
 
+  },[formState])
   const submitHandler = async (e) => {
     e.preventDefault()
     const response = await channelApi.createChannel(userData,formState)
@@ -26,7 +34,9 @@ const ChannelCreateForm = ({toggleChannelModal}) => {
   }
 
   return (
-    <form onSubmit={(e) => submitHandler(e)}>
+    <form onSubmit={(e) => submitHandler(e)} className={styles['form']}>
+      <h2>Create A Channel</h2>
+      <label htmlFor='name'>Name</label>
       <input 
         type='text'
         id='name'
@@ -35,7 +45,7 @@ const ChannelCreateForm = ({toggleChannelModal}) => {
         onChange={(e) => formUtils.changeHandler(e,setFormState)}
         className={styles['title']}
       />
-
+      <label htmlFor='description'>Description</label>
       <input 
         type='text'
         id='description'
@@ -44,7 +54,7 @@ const ChannelCreateForm = ({toggleChannelModal}) => {
         onChange={(e) => formUtils.changeHandler(e,setFormState)}
         className={styles['description']}
       />
-      <button>Create Channel</button>
+      <button disabled={isDisabled}>Create Channel</button>
     </form>
   )
 }

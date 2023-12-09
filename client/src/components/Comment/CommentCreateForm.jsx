@@ -1,5 +1,5 @@
 
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { createComment } from '../../apis/commentApi'
 import useDisabled from '../../hooks/useDisabled'
@@ -12,7 +12,8 @@ const CommentCreateForm = ({
   isReply,
   parentCommentId,
   setCommentReplies,
-  setReplying
+  setReplying,
+  setComments
 }) => {
   const { userData } = useContext(userDataContext)
   const [text,setText] = useState('')
@@ -22,13 +23,20 @@ const CommentCreateForm = ({
   const submitHandler = async (e,text) => {
     e.preventDefault()
     const result = await createComment(userData,{replyTo,parentCommentId,postId,text})        
+    if(setComments)setComments((comments) => {
+     return [...comments,result]
+    })
     if(isReply && result){
       setCommentReplies((replies) => [...replies,result])
       setReplying(false)
     }
   } 
+  useEffect(() => {
+    if(text == '')setDisabled(true)
+    else setDisabled(false)
+  },[text])
 
-  const [disabled,submitHandlerWithDisable] = useDisabled(submitHandler)
+  const [disabled,submitHandlerWithDisable,setDisabled] = useDisabled(submitHandler)
   
 
   return (
@@ -37,7 +45,7 @@ const CommentCreateForm = ({
       className={`${styles['form']} ${isReply ? styles['isReply'] : ''}`}
     >
       {isReply && <h6>Comment as {userData.username}</h6>}
-        <div>
+        <div  className={styles['input-container']}>
           <textarea id='text' name='text' onChange={(e) => changeHandler(e)}/>
           {!text && <label htmlFor='text'>What are your thoughts?</label>}
         </div>

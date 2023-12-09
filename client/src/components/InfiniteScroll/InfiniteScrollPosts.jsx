@@ -10,7 +10,6 @@ import styles from './InfiniteScrollPosts.module.css'
 
 
 const InfiniteScrollPosts = ({posts,setPageSizeEnded}) => {
-
   let newPostsCount = 3
   // Number of posts to render
 

@@ -22,3 +22,16 @@
 .post-container>div{
   border:none;
 }
+
+.no-comments{
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+  margin-block:10px;
+  }
+
+.comments{
+  margin-top:10px;
+  margin-left:10px;
+}

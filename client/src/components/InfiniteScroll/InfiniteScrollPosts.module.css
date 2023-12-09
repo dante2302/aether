@@ -5,7 +5,10 @@
   gap:1em;
   align-items: center;
 }
-
-.post-container>li{
+.container{
+    max-width:80vw;
+}
+.post-container,.post-container>li{
     width:100%;
 }
+
