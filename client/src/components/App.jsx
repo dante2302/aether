@@ -9,7 +9,7 @@ import UserPageFeed from './UserPage/UserPageFeed.jsx'
 
 import ChannelPage from './Channel/ChannelPage'
 
-import PostCreationForm from './Post/PostCreationForm.jsx'
+import PostCreateForm from './Post/PostCreateForm.jsx'
 
 import PostPage from './Post/PostPage.jsx'
 import SearchResults from './Search/SearchResults.jsx'
@@ -36,11 +36,11 @@ const App = () => {
 
               <Route path={'c/:channelName'}>
                 <Route index element={<ChannelPage />} />
-                <Route path='submit' element={<PostCreationForm />} />
+                <Route path='submit' element={<PostCreateForm />} />
                 <Route path={':postId'} element={<PostPage />} />
               </Route>
 
-              <Route path='submit' element={<PostCreationForm />} />
+              <Route path='submit' element={<PostCreateForm />} />
 
               <Route path='/u/:username' element={<UserPage />}>
                 <Route path='submitted' element={<UserPageFeed type='posted' />} />

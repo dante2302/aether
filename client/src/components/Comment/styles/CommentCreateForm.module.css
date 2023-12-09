@@ -1,7 +1,3 @@
 .form{
   background:white;
 }
-
-.form>div>textarea{
-  resize:vertical;
-}

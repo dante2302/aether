@@ -57,6 +57,10 @@ a:link,a:visited,a:hover,a:active{
   color:black;
 }
 
+textarea{
+  resize:vertical;
+}
+
 .modal, .overlay{
   width:100vw;
   height:100vh;
@@ -83,3 +87,4 @@ a:link,a:visited,a:hover,a:active{
 .disabled{
   pointer-events: none;
 }
+

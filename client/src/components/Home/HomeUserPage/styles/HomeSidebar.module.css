@@ -62,3 +62,13 @@
 .create-channel-btn:hover{
   background:#f2f2f2;
 }
+
+.channel-h1{
+  width:100%;
+  padding:.7em;
+  font-size: var(--fs-xl);
+  text-align: center;
+  color:white;
+  background: linear-gradient(135deg, rgb(82, 229, 231) 10%, rgb(19, 12, 183) 100%);
+  border-radius:5px 5px 0 0;
+}

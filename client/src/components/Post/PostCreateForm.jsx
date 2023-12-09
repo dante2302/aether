@@ -1,12 +1,19 @@
 import { useContext, useEffect, useState } from "react"
+
 import * as formUtils from '../../utils/formUtils.js'
+
 import * as postApi from '../../apis/postApi.js'
 import {getChannelData} from '../../apis/channelApi.js'
+
 import { useNavigate } from "react-router-dom"
 
 import UserDataContext from "../../contexts/UserDataContext"
 
-const PostForm = () => {
+import styles from './styles/PostCreateForm.module.css'
+import UilImage from "@iconscout/react-unicons/icons/uil-image.js"
+import UilLink from "@iconscout/react-unicons/icons/uil-link.js"
+
+const PostCreateForm = () => {
   const initialFormState = {
     title: '',
     text: '',
@@ -68,19 +75,20 @@ const PostForm = () => {
   }
 
   return(
-    <form onSubmit={(e) => submitHandler(e)}>
+    <form onSubmit={(e) => submitHandler(e)} className={styles['form']}>
+      <label htmlFor="channel">Choose a channel</label>
       <select
         id='channel'
         name='channel'
         value={selectedChannel && selectedChannel._id}
-        onChange={(e) => {setSelectedChannel(e.target.value);console.log(e.target.value)}}
+        onChange={(e) => setSelectedChannel(e.target.value)}
       >
         {channels && 
           channels.map((channelData) => 
             <option key={channelData._id} value={channelData._id}>{channelData.name}</option>)
         }
       </select>
-
+      <div className={styles['input-container']}>
       <label htmlFor="title">Title</label>
       <input 
         id='title'
@@ -98,8 +106,7 @@ const PostForm = () => {
         value={formState.text}
         onChange={(e) => formUtils.changeHandler(e,setFormState)}
       />
-      <label htmlFor="imgUrl">Img:</label>
-
+      <label htmlFor="imgUrl"><UilImage size={15}/>Img</label>
       <input 
         id='imgUrl'
         name='imgUrl'
@@ -107,10 +114,19 @@ const PostForm = () => {
         value={formState.imgUrl}
         onChange={(e) => formUtils.changeHandler(e,setFormState)} 
       />
-
+      <label htmlFor="link"><UilLink size={15}/>Link</label>
+      <input
+        id='link'
+        name='link'
+        type='text'
+        value={formState.link}
+        onChange={(e) => formUtils.changeHandler(e,setFormState)}
+        />
+      </div>
       <button>Post</button>
+
     </form>
   )
 }
 
-export default PostForm
+export default PostCreateForm

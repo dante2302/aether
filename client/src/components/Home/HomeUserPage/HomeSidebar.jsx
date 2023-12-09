@@ -25,7 +25,7 @@ const HomeSidebar = ({userData}) => {
     setVisibleChannels(channels)
   }
 
-  const [Spinner, fetchChannelsWithLoading] = useLoading(fetchChannels)
+  const [Spinner, fetchChannelsWithLoading,isLoading] = useLoading(fetchChannels)
 
   useEffect(() => {fetchChannelsWithLoading()},[])
 
@@ -53,10 +53,14 @@ const HomeSidebar = ({userData}) => {
         {channelModal&&
           <ChannelCreateModal userData={userData} toggleChannelModal={toggleChannelModal}/>}
       </div>
-      <Spinner />
-      <ChannelList visibleChannels={visibleChannels}> 
-        <h1> Your Channels: </h1>
-      </ChannelList>
+      {isLoading 
+        ? 
+        <Spinner />
+        :
+        <ChannelList visibleChannels={visibleChannels}> 
+          <h1 className={styles['channel-h1']}> Your Channels: </h1>
+        </ChannelList>
+      }
     </div>
   )
 }
