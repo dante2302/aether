@@ -89,10 +89,9 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
             <button 
               onClick={e => redirectToPage(e)} 
               className={`
-                ${styles['comment-container']} 
                 ${isRedirect ? styles['redirect'] : ''}`
             }>
-              <UilComment size={23}/> 
+              <UilComment size={25}/> 
               <span>{postData.commentCount} {postData.commentCount>1?'comment':'comments'}</span>
             </button>
 

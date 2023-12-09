@@ -4,7 +4,6 @@ import Home from './Home/Home.jsx'
 import HomeGuest from './Home/HomeGuestPage/HomeGuestPage.jsx'
 
 import UserPage from './UserPage/UserPage.jsx'
-import UserCommentsPage from './UserPage/UserCommentsPage.jsx'
 import UserPageFeed from './UserPage/UserPageFeed.jsx'
 
 import ChannelPage from './Channel/ChannelPage'
@@ -43,11 +42,10 @@ const App = () => {
               <Route path='submit' element={<PostCreateForm />} />
 
               <Route path='/u/:username' element={<UserPage />}>
-                <Route path='submitted' element={<UserPageFeed type='posted' />} />
-                <Route path='saved' element={<UserPageFeed type='saved' />} />
-                <Route path='liked' element={<UserPageFeed type='liked'/>} />
-                <Route path='disliked' element={<UserPageFeed type='disliked'/>} />
-                <Route path='comments' element={<UserCommentsPage />} />
+                <Route path='submitted' element={<UserPageFeed key={'posted'} type='posted' />} />
+                <Route path='saved' element={<UserPageFeed key={'saved'} type='saved' />} />
+                <Route path='liked' element={<UserPageFeed key={'liked'} type='liked'/>} />
+                <Route path='disliked' element={<UserPageFeed key={'disliked'} type='disliked'/>} />
               </Route>
 
               <Route path='/*' element={<Page404 />} />

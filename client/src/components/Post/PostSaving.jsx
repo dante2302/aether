@@ -45,7 +45,7 @@ const PostSaving = ({postData}) => {
       `${isSaved && styles['saved']} 
        ${styles['save-container']}`}
     >
-      <UilBookmark className={isSaved ? styles['saved'] : undefined}/>
+      <UilBookmark className={isSaved ? styles['saved'] : ''} size={23}/>
       <span>{isSaved ? 'Saved' : 'Save'}</span>
     </div>
   )

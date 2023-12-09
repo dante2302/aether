@@ -1,5 +1,6 @@
 import UilHospital from '@iconscout/react-unicons/icons/uil-hospital'
 import { getFullDateFormat } from '../../utils/dateUtils'
+import styles from './styles/UserPageSidebar.module.css'
 
 const UserPageSidebar = ({pageUserData,isOwner}) => {
 
@@ -8,7 +9,7 @@ const UserPageSidebar = ({pageUserData,isOwner}) => {
       <div>
         u/{pageUserData.username}
       </div>
-      <div>
+      <div className={styles['date-c']}>
           <UilHospital size={25}/>
           <div>Created {getFullDateFormat(pageUserData._createdOn)}</div>
       </div>

@@ -1,0 +1,9 @@
+.nodata{
+  font-size: var(--fs-xl);
+  text-align:center;
+  margin:20px;
+}
+
+.container{
+  margin-inline:30px;
+}
