@@ -1,20 +1,14 @@
 const baseUrl = 'http://localhost:3030/data/posts'
 
-import {getUserDataByProp} from './userApi.js'
-import { updateChannelData, createChannelPost } from './channelApi.js'
+import { createChannelPost } from './channelApi.js'
 import * as request from './request.js'
-import { inEncodedQuotes } from '../utils/encodeUtils.js'
 
-export const createPost = async ({username,accessToken},{title,text,imgUrl,channelId,channelName}) => {
+export const createPost = async ({username,accessToken},formData) => {
+  const { channelId } = formData
   try{
     const bodyData = {
-        channelId,
-        channelName,
+        ...formData,
         ownerUsername:username,
-        title,
-        text,
-        imgUrl,
-        linkUrl,
         likesCount:0,
         comments:[],
         usersCommented:[],
@@ -24,7 +18,7 @@ export const createPost = async ({username,accessToken},{title,text,imgUrl,chann
     return data
   }
   catch(error){
-    alert(error)
+    console.log(error)
   }
 }    
 
