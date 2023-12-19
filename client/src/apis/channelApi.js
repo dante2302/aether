@@ -43,7 +43,9 @@ export const updateChannelData = async (channelId,newData) => {
 }
 
 export const createChannelPost = async (channelId, newPost) => {
+  console.log(channelId)
   const channelData = await getChannelData(channelId)
+  console.log(channelData)
   const currentPosts = channelData.posts
   const newData = {posts:[...currentPosts,newPost]}
 

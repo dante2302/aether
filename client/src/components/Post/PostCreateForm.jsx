@@ -23,8 +23,10 @@ const PostCreateForm = () => {
 
   const navigate = useNavigate()
   const [channels,setChannels] = useState([])
-  const [selectedChannel,setSelectedChannel] = useState()
+  const [selectedChannel,setSelectedChannel] = useState({})
   const {userData} = useContext(UserDataContext)
+
+  useEffect(()=>console.log(selectedChannel),[selectedChannel])
 
   useEffect(() => {
     if (!userData){navigate('../');return}
@@ -36,7 +38,7 @@ const PostCreateForm = () => {
       }
       if(availableChannels.length>0){
         setChannels(availableChannels)
-        setSelectedChannel(availableChannels[0])
+        setSelectedChannel(availableChannels[0]._id)
       }
       else {alert('You need a channel');navigate('../')}
     }
@@ -69,7 +71,7 @@ const PostCreateForm = () => {
     if(formState.title && await checkImgUrl(formState.imgUrl)){
       const channelData = await getChannelData(selectedChannel)
       const channelName = channelData.name
-      await postApi.createPost(userData,{...formState , channelId: selectedChannel,channelName})
+      await postApi.createPost(userData,{...formState , channelId: selectedChannel, channelName})
       navigate('../')
     }
   }
@@ -80,7 +82,7 @@ const PostCreateForm = () => {
       <select
         id='channel'
         name='channel'
-        value={selectedChannel && selectedChannel._id}
+        value={selectedChannel._id}
         onChange={(e) => setSelectedChannel(e.target.value)}
       >
         {channels && 
