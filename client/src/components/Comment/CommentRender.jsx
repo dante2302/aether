@@ -23,10 +23,10 @@ const CommentRender = ({data, setCommentReplies,setComments}) => {
   const {userData} = useContext(UserDataContext)
 
   const deleteComment = () => {
-    setComments((comments) => comments.filter((comment) => comment === commentData._id))
+    setComments(comments => 
+      comments.filter(comment => 
+        comment === commentData._id))
   }
-  console.log(data)
-  console.log(userData)
 
   useEffect(() => {
     if(commentData._ownerId === userData._ownerId)setIsOwner(true)

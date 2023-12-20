@@ -9,9 +9,9 @@ import { useNavigate } from "react-router-dom"
 
 import UserDataContext from "../../contexts/UserDataContext"
 
-import styles from './styles/PostCreateForm.module.css'
 import UilImage from "@iconscout/react-unicons/icons/uil-image.js"
 import UilLink from "@iconscout/react-unicons/icons/uil-link.js"
+import styles from './styles/PostCreateForm.module.css'
 
 const PostCreateForm = () => {
   const initialFormState = {
@@ -25,8 +25,6 @@ const PostCreateForm = () => {
   const [channels,setChannels] = useState([])
   const [selectedChannel,setSelectedChannel] = useState({})
   const {userData} = useContext(UserDataContext)
-
-  useEffect(()=>console.log(selectedChannel),[selectedChannel])
 
   useEffect(() => {
     if (!userData){navigate('../');return}
@@ -55,13 +53,8 @@ const PostCreateForm = () => {
     const formatRegex = new RegExp('(.jpg|.jpeg|.png|.svg|.webp|.gif)$')
 
     if(httpRegex.test(imgUrl) && formatRegex.test(imgUrl)){
-      try{
         const response = await fetch(imgUrl)
         return response.ok
-      }
-      catch(err){
-        console.log(err)
-      }
     }
     return false
   }
@@ -91,40 +84,44 @@ const PostCreateForm = () => {
         }
       </select>
       <div className={styles['input-container']}>
-      <label htmlFor="title">Title</label>
-      <input 
-        id='title'
-        name='title'
-        type='text'
-        value={formState.title}
-        onChange={(e) => formUtils.changeHandler(e,setFormState)} 
-      />
 
-      <label htmlFor="text">Text</label>
-
-      <textarea
-        id='text'
-        name='text'
-        value={formState.text}
-        onChange={(e) => formUtils.changeHandler(e,setFormState)}
-      />
-      <label htmlFor="imgUrl"><UilImage size={15}/>Img</label>
-      <input 
-        id='imgUrl'
-        name='imgUrl'
-        type='text'
-        value={formState.imgUrl}
-        onChange={(e) => formUtils.changeHandler(e,setFormState)} 
-      />
-      <label htmlFor="link"><UilLink size={15}/>Link</label>
-      <input
-        id='link'
-        name='link'
-        type='text'
-        value={formState.link}
-        onChange={(e) => formUtils.changeHandler(e,setFormState)}
+        <label htmlFor="title">Title</label>
+        <input 
+          id='title'
+          name='title'
+          type='text'
+          value={formState.title}
+          onChange={(e) => formUtils.changeHandler(e,setFormState)} 
         />
+
+        <label htmlFor="text">Text</label>
+        <textarea
+          id='text'
+          name='text'
+          value={formState.text}
+          onChange={(e) => formUtils.changeHandler(e,setFormState)}
+        />
+
+        <label htmlFor="imgUrl"><UilImage size={15}/>Img</label>
+        <input 
+          id='imgUrl'
+          name='imgUrl'
+          type='text'
+          value={formState.imgUrl}
+          onChange={(e) => formUtils.changeHandler(e,setFormState)} 
+        />
+
+        <label htmlFor="link"><UilLink size={15}/>Link</label>
+        <input
+          id='link'
+          name='link'
+          type='text'
+          value={formState.link}
+          onChange={(e) => formUtils.changeHandler(e,setFormState)}
+        />
+
       </div>
+
       <button>Post</button>
 
     </form>

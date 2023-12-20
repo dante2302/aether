@@ -5,7 +5,6 @@ import * as request from './request.js'
 
 export const createPost = async ({username,accessToken},formData) => {
   const { channelId } = formData
-  try{
     const bodyData = {
         ...formData,
         ownerUsername:username,
@@ -16,10 +15,6 @@ export const createPost = async ({username,accessToken},formData) => {
     const data = await request.post({url: baseUrl,accessToken,bodyData})
     await createChannelPost(channelId,data._id)
     return data
-  }
-  catch(error){
-    console.log(error)
-  }
 }    
 
 export const getPostData = async (id) => {

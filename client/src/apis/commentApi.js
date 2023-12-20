@@ -4,7 +4,6 @@ import * as request from './request.js'
 import { updateUserData } from './userApi.js'
 
 export const createComment = async (userData,{replyTo,parentCommentId,postId,text}) => {
-  console.log(userData.accessToken)
   const bodyData = {
     postId,
     text,
@@ -15,7 +14,6 @@ export const createComment = async (userData,{replyTo,parentCommentId,postId,tex
   }
   const data = await request.post({url:baseUrl, accessToken: userData.accessToken, bodyData}) 
   const a = await updateUserData(userData,{comments:[...userData.comments,data._id]})
-  console.log(a)
   return data
 }
 
@@ -54,8 +52,7 @@ export const updateCommentData = async ({accessToken},commentId,newData) => {
 }
 
 export const deleteComment = async ({accessToken},id) => {
-  console.log(accessToken)
   const url = `${baseUrl}/${id}`
-  const data = await request.Delete({url,accessToken})
+  await request.Delete({url,accessToken})
 }
 

@@ -9,7 +9,7 @@
   ### Server:
     - data dir, needed for the server to operate
     - server.js - Softuni Practice Server
-  External Packages outside of react:
+  ### External Packages outside of react:
     - react-spinners
     - iconscout
     

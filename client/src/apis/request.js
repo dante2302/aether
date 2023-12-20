@@ -2,8 +2,6 @@
 import { equalSign, inEncodedQuotes } from '../utils/encodeUtils.js'
 
 export const post = async ({url,accessToken,bodyData}) => {
-  console.log(accessToken)
-  try{
     const response = await fetch(url,{
       method: 'POST',
       headers:{
@@ -15,22 +13,12 @@ export const post = async ({url,accessToken,bodyData}) => {
     })
     const data = await response.json()
     return data
-  }
-  catch(err){
-    console.log(err)
-  }
 }
 
 export const get = async (url) => {
-  try{
     const response = await fetch(url,{method: 'GET',mode:'cors'})
     const data = await response.json()
     return data
-  }
-  catch(err){
-
-  }
-
 }
 
 export const search = async ({url,prop,value}) => {
