@@ -29,7 +29,7 @@ const CommentRender = ({data, setCommentReplies,setComments}) => {
   }
 
   useEffect(() => {
-    if(commentData._ownerId === userData._ownerId)setIsOwner(true)
+    if(userData && commentData._ownerId === userData._ownerId)setIsOwner(true)
     else setIsOwner(false)
   },[userData])
 

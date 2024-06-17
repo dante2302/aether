@@ -5,6 +5,7 @@ import { createComment } from '../../apis/commentApi'
 import useDisabled from '../../hooks/useDisabled'
 import userDataContext from '../../contexts/UserDataContext'
 import styles from './styles/CommentCreateForm.module.css'
+import UserModalContext from '../../contexts/UserModalContext'
 
 const CommentCreateForm = ({
   postId,
@@ -16,12 +17,18 @@ const CommentCreateForm = ({
   setComments
 }) => {
   const { userData } = useContext(userDataContext)
+  const {toggleUserModal} = useContext(UserModalContext)
   const [text,setText] = useState('')
 
   const changeHandler = e => setText(e.target.value)
 
   const submitHandler = async (e,text) => {
     e.preventDefault()
+    if(!userData)
+    {
+      toggleUserModal();
+      return;
+    }
     const result = await createComment(userData,{replyTo,parentCommentId,postId,text})        
     if(setComments)setComments((comments) => {
      return [...comments,result]

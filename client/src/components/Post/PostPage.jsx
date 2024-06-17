@@ -67,8 +67,7 @@ const PostPage = () => {
               :
                 <div className={styles['no-comments']}>
                   <p>There are no comments on this post. Be the first one to express their thoughts</p>
-                  {userData 
-                  && 
+                  {userData && 
                   <CommentCreateForm 
                     postId={postId}
                     parentCommentId={''}
