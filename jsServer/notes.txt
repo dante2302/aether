@@ -1,0 +1,21 @@
+// USER
+// {
+//   ID: uuid,
+//   username: string,
+//   posts: POSTS QUERY,
+//   channels: CHANNEL_MEMBERS JUNCTION TABLE,
+//   authorChannels: CHANNEL TABLE QUERY,
+//   savedPosts: Saved TABLE
+//   likedPosts: LIKES TABLE
+//   dislikedPosts: DISLIKES TABLE
+//   comments: COMMENTS TABLE
+//   socialLinks:[]strign,
+//   _createdOn:1700061636346,
+// },
+
+// USER CREDENTIALS
+// {
+//    email: string,
+//    password: hashed password,
+//    accountId: uuid 
+// }
