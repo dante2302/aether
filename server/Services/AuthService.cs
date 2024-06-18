@@ -2,6 +2,7 @@
 using System.Text;
 using Exceptions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Models;
@@ -18,7 +19,7 @@ public class AuthService(IConfiguration config) : DbService(config)
         using var connection = new NpgsqlConnection(_config.GetConnectionString("aether"));
         connection.Open();
         var tableCmd = connection.CreateCommand();
-        tableCmd.CommandText = $"SELECT * FROM aether WHERE Email = {userCredentials.Email}";
+        tableCmd.CommandText = $"SELECT * FROM UserCredentials WHERE Email = '{userCredentials.Email}'";
         using var reader = tableCmd.ExecuteReader();
         if(reader.Read())
         {

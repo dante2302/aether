@@ -3,8 +3,10 @@ using Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Protocols.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<AuthService, AuthService>();
 
 IConfiguration config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
@@ -35,6 +37,8 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+var endpointMapper = new EndpointMapper(app);
+endpointMapper.MapAuth();
 app.MapGet("/", () => "Hello World!");
 
 app.Run();

@@ -1,7 +1,4 @@
-﻿using System.Data.Common;
-using System.Security.Cryptography;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Protocols.Configuration;
 using Npgsql;
 
@@ -11,7 +8,7 @@ public class DbService(IConfiguration config)
 {
     private readonly IConfiguration _config = config;
     private readonly string? _connectionString = config.GetConnectionString("aether");
-    private void ExecuteNonQueryCommand(string command)
+    protected void ExecuteNonQueryCommand(string command)
     {
         if(_connectionString is null)
         {
