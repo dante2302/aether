@@ -19,3 +19,15 @@
 //    password: hashed password,
 //    accountId: uuid 
 // }
+
+CHANNEL
+{
+    "_ownerId":uuid
+    "name": string
+    "description" string
+    "members": CHANNEL MEMBER JUNCTION TABLE,
+    "posts": QUERY POSTS FROM CHANNEL ID,
+    "dateofcreation": DATETIME,
+    ISPOPULAR: BOOL
+    
+},

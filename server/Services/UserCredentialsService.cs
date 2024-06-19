@@ -7,28 +7,22 @@ namespace Services;
 
 public class UserCredentialsService(IConfiguration config) : DbService(config)
 {
-    private readonly IConfiguration _config = config;
-
-    public bool CheckIfUserCredentialsExist(string email)
+    public UserCredentials GetOne(string email)
     {
-        using var connection = new NpgsqlConnection(_config.GetConnectionString("aether"));
-        connection.Open();
-        var tableCmd = connection.CreateCommand();
-        tableCmd.CommandText = $"SELECT * FROM UserCredentials WHERE Email = '{email}'";
-
-        using var reader = tableCmd.ExecuteReader();
-        if (reader.Read())
+        var reader = GetQueryReader($"SELECT * FROM UserCredentials WHERE Email = '{email}'");
+        if(reader.Read())
         {
-            connection.Close();
-            return true;
+            return new UserCredentials() {
+                Email = reader.GetString(0),
+                Password = reader.GetString(1),
+                UserId = reader.GetGuid(2)
+            };
         }
-        connection.Close();
-        return false;
+        throw new NotFoundException("User not found.");
     }
-
     public void Create(UserCredentials newUserCredentials)
     {
-        if(CheckIfUserCredentialsExist(newUserCredentials.Email))
+        if(RecordExists("UserCredentials","Email",newUserCredentials.Email))
         {
             throw new ConflictException("A user with this email already exists.");
         }

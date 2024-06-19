@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Authentication.OAuth.Claims;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Protocols.Configuration;
 using Npgsql;
 
 namespace Services;
 
-public class DbService(IConfiguration config)
+public abstract class DbService(IConfiguration config)
 {
     private readonly IConfiguration _config = config;
     private readonly string? _connectionString = config.GetConnectionString("aether");
@@ -22,7 +23,18 @@ public class DbService(IConfiguration config)
         var a = tableCmd.ExecuteNonQuery();
         connection.Close();
     }
-    public bool RecordExists(string tableName, string columnName, string columnValue)
+
+    public NpgsqlDataReader GetQueryReader(string query)
+    {
+        using var connection = new NpgsqlConnection(_config.GetConnectionString("aether"));
+        connection.Open();
+        var tableCmd = connection.CreateCommand();
+        tableCmd.CommandText = query;
+        var reader = tableCmd.ExecuteReader();
+        return reader;
+    }
+
+    public bool RecordExists<T>(string tableName, string columnName, T columnValue)
     {
         using var connection = new NpgsqlConnection(_connectionString);
         connection.Open();
@@ -30,10 +42,7 @@ public class DbService(IConfiguration config)
         var tableCmd = connection.CreateCommand();
         tableCmd.CommandText = $"SELECT * FROM {tableName} WHERE {columnName} = {columnValue}";
         var reader = tableCmd.ExecuteReader();
-        bool exists = reader.HasRows;
-
-        connection.Close();
-        return exists;
+        return reader.HasRows;
     }
 }
 
