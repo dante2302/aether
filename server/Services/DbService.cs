@@ -17,17 +17,8 @@ public abstract class DbService
     private readonly IConfiguration _config;
     private readonly string? _connectionString;
 
-    protected void ExecuteNonQueryCommand(string command)
-    {
-        using var connection = new NpgsqlConnection(_connectionString);
-        connection.Open();
-        var tableCmd = connection.CreateCommand();
-        tableCmd.CommandText = command;
-        var a = tableCmd.ExecuteNonQuery();
-        connection.Close();
-    }
-
-    public QueryResult<T> ExecuteQueryCommand<T>(string query, Func<NpgsqlDataReader, T> GetColumnValues)
+    // SYNCHRONIOUS METHODS
+    protected virtual QueryResult<T> ExecuteQueryCommand<T>(string query, Func<NpgsqlDataReader, T> GetColumnValues)
         where T : IRecord
     {
         using var connection = new NpgsqlConnection(_config.GetConnectionString("aether"));
@@ -43,14 +34,69 @@ public abstract class DbService
         return new QueryResult<T>(false);
     }
 
-    public bool RecordExists<T>(string tableName, string columnName, T columnValue)
+    protected virtual int ExecuteNonQueryCommand(string command)
+    {
+        using var connection = new NpgsqlConnection(_connectionString);
+        connection.Open();
+        var tableCmd = connection.CreateCommand();
+        tableCmd.CommandText = command;
+        var rowsAffected = tableCmd.ExecuteNonQuery(); 
+        return rowsAffected;
+    }    
+
+    protected virtual bool RecordExists<T>(string tableName, string columnName, T columnValue)
     {
         using var connection = new NpgsqlConnection(_connectionString);
         connection.Open();
 
         var tableCmd = connection.CreateCommand();
-        tableCmd.CommandText = $"SELECT * FROM {tableName} WHERE {columnName} = {columnValue}";
+        tableCmd.CommandText = @$"
+            SELECT * FROM {tableName} WHERE {columnName} = 
+            {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'{columnValue}'" : columnValue)}
+            {ColumnTypeHelper.GetAnnotation<T>()}";
         var reader = tableCmd.ExecuteReader();
+        return reader.HasRows;
+    }
+
+    // *** ASYNC METHODS ***
+    protected virtual async Task<QueryResult<T>> ExecuteQueryCommandAsync<T>
+        (string query, Func<NpgsqlDataReader, T> GetColumnValues)
+        where T : IRecord
+    {
+        using var connection = new NpgsqlConnection(_config.GetConnectionString("aether"));
+        await connection.OpenAsync();
+        var tableCmd = connection.CreateCommand();
+        tableCmd.CommandText = query;
+        var reader = await tableCmd.ExecuteReaderAsync();
+        if(await reader.ReadAsync())
+        {
+            var record =  GetColumnValues(reader);
+            return new QueryResult<T>(true, record);
+        }
+        return new QueryResult<T>(false);
+    }
+
+    protected virtual async Task<int> ExecuteNonQueryCommandAsync(string command)
+    {
+        using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+        var tableCmd = connection.CreateCommand();
+        tableCmd.CommandText = command;
+        var rowsAffected = await tableCmd.ExecuteNonQueryAsync(); 
+        return rowsAffected;
+    }    
+
+    protected virtual async Task<bool> RecordExistsAsync<T>(string tableName, string columnName, T columnValue)
+    {
+        using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        var tableCmd = connection.CreateCommand();
+        tableCmd.CommandText = @$"
+            SELECT * FROM {tableName} WHERE {columnName} = 
+            {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'{columnValue}'" : columnValue)}
+            {ColumnTypeHelper.GetAnnotation<T>()}";
+        var reader = await tableCmd.ExecuteReaderAsync();
         return reader.HasRows;
     }
 }

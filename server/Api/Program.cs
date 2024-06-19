@@ -13,8 +13,6 @@ IConfiguration config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
-// config.GetConnectionString("aether");
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(x =>
                 {
@@ -37,8 +35,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
-
+app.UseMiddleware<ExceptionHandler>();
 var endpointMapper = new EndpointMapper(app);
+
 endpointMapper.MapAuth();
 endpointMapper.MapChannel();
 
