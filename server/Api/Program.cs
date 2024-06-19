@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Protocols.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Services;
+using Api;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<AuthService, AuthService>();

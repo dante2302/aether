@@ -12,14 +12,14 @@ public class AuthService(IConfiguration config) : DbService(config)
 {
     private readonly IConfiguration _config = config;
     private readonly UserService userService = new(config);
-    private readonly UserCredentialsService userCredentialsService = new(config);
-    public AuthenticationResult Authenticate(UserCredentials userCredentials)
+    private readonly UserCredentialsService ucService = new(config);
+    public async Task<AuthenticationResult> Authenticate(UserCredentials userCredentials)
     {
-            UserCredentials storedCredentials = userCredentialsService.GetOne(userCredentials.Email);
-            User userData = userService.GetOne(storedCredentials.UserId);
+            UserCredentials storedCredentials = await ucService.GetOne(userCredentials.Email);
+            User userData = await userService.GetOne(storedCredentials.UserId);
             PasswordHasher<User> pHasher = new();
-            var result = pHasher.VerifyHashedPassword(userData, storedCredentials.Password, userCredentials.Password);
-            bool isSuccessful = result == PasswordVerificationResult.Success;
+            var verificationResult = pHasher.VerifyHashedPassword(userData, storedCredentials.Password, userCredentials.Password);
+            bool isSuccessful = verificationResult == PasswordVerificationResult.Success;
             return new AuthenticationResult(isSuccessful, userData);
     }
     public string GenerateToken()
@@ -44,7 +44,7 @@ public class AuthService(IConfiguration config) : DbService(config)
         return jwt;
     }
 
-    public User SignUp(SignUpData signUpData)
+    public async Task<User> SignUp(SignUpData signUpData)
     {
         var userCredentials = new {signUpData.Email, signUpData.Password};
 
@@ -65,9 +65,9 @@ public class AuthService(IConfiguration config) : DbService(config)
             UserId = newUser.Id
         };
 
-        userCredentialsService.Create(newUserCredentials);
-        userService.Create(newUser);
+        await ucService.Create(newUserCredentials);
+        User createdUser = await userService.Create(newUser);
         
-        return newUser;
+        return createdUser;
     }
 }

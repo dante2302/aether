@@ -1,6 +1,7 @@
 using Exceptions;
 using Npgsql;
 
+namespace Api;
 public class ExceptionHandler(RequestDelegate next)
 {
     private readonly RequestDelegate _next = next;
@@ -42,10 +43,11 @@ public class ExceptionHandler(RequestDelegate next)
             });
         }
 
-        catch(BadHttpRequestException)
+        catch(BadHttpRequestException e)
         {
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
             context.Response.ContentType = "application/json";
+            await context.Response.WriteAsJsonAsync(new { error = e.Message });
         }
     }
 }

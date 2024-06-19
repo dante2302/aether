@@ -24,7 +24,8 @@ public class ChannelService(IConfiguration config) : DbService(config)
             INSERT INTO channels
             VALUES(
                 '{newChannel.Id}'::uuid, 
-                '{newChannel.OwnerId}'::uuid, '{newChannel.Name}', 
+                '{newChannel.OwnerId}'::uuid, 
+                '{newChannel.Name}', 
                 '{string.Empty}', 
                 '{newChannel.DateOfCreation}'::TIMESTAMP, 
             false)
@@ -33,9 +34,9 @@ public class ChannelService(IConfiguration config) : DbService(config)
         return result.Record;
     }
 
-    public Channel GetOne(Guid id)
+    public async Task<Channel> GetOne(Guid id)
     {
-        QueryResult<Channel> result = ExecuteQueryCommand(
+        QueryResult<Channel> result = await ExecuteQueryCommandAsync(
             $"SELECT * FROM channels WHERE id = '{id}'::uuid", 
             MapChannelFromReader);
 
@@ -46,14 +47,14 @@ public class ChannelService(IConfiguration config) : DbService(config)
         return result.Record;
     }
 
-    public Channel GetOneByCriteria<T>(string columnName, T columnValue)
+    public async Task<Channel> GetOneByCriteria<T>(string columnName, T columnValue)
     {
         string command =  
             $@"SELECT * FROM channels WHERE {columnName} = 
             {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'{columnValue}'" : columnValue )}
             {ColumnTypeHelper.GetAnnotation<T>()}";
 
-        QueryResult<Channel> result = ExecuteQueryCommand(command, MapChannelFromReader);
+        QueryResult<Channel> result = await ExecuteQueryCommandAsync(command, MapChannelFromReader);
         if(!result.HasRecords)
         {
             throw new NotFoundException("Channel not found.");
@@ -62,9 +63,9 @@ public class ChannelService(IConfiguration config) : DbService(config)
         return result.Record;
     }
 
-    public void Update(Channel updatedChannel)
+    public async Task Update(Channel updatedChannel)
     {
-        int rowsAffected = ExecuteNonQueryCommand($@"
+        int rowsAffected = await ExecuteNonQueryCommandAsync($@"
             UPDATE channels
             SET name = {updatedChannel.Name} 
                 description = {updatedChannel.Description}
@@ -75,9 +76,9 @@ public class ChannelService(IConfiguration config) : DbService(config)
         if(rowsAffected <= 0)
             throw new NotFoundException("No such channel exists.");
     }
-    public void Delete(Guid id)
+    public async Task Delete(Guid id)
     {
-       int rowsAffected = ExecuteNonQueryCommand($@"
+       int rowsAffected = await ExecuteNonQueryCommandAsync($@"
             DELETE FROM channels 
             WHERE id = '{id}'::uuid
        ");

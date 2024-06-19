@@ -7,34 +7,40 @@ namespace Services;
 
 public class UserCredentialsService(IConfiguration config) : DbService(config)
 {
-    public UserCredentials GetOne(string email)
+    public async Task<UserCredentials> GetOne(string email)
     {
-        QueryResult<UserCredentials> result = ExecuteQueryCommand(
+        QueryResult<UserCredentials> result = await ExecuteQueryCommandAsync(
             $"SELECT * FROM UserCredentials WHERE Email = '{email}'",
-            (reader) => {
-                return new UserCredentials()
-                {
-                    Email = reader.GetString(0),
-                    Password = reader.GetString(1),
-                    UserId = reader.GetGuid(2)
-                };
-            });
+            MapUserCredentialsFromReader);
+
         if(!result.HasRecords)
             throw new NotFoundException("User not found.");
 
         return result.Record;
     }
-    public void Create(UserCredentials newUserCredentials)
+    public async Task<UserCredentials> Create(UserCredentials newUserCredentials)
     {
-        if (RecordExists("UserCredentials", "Email", newUserCredentials.Email))
+        if (await RecordExistsAsync("UserCredentials", "Email", newUserCredentials.Email))
         {
             throw new ConflictException("A user with this email already exists.");
         }
-        ExecuteNonQueryCommand(@$"
+        var result = await ExecuteQueryCommandAsync(@$"
             INSERT INTO UserCredentials
             VALUES( '{newUserCredentials.Email}',
                     '{newUserCredentials.Password}',
-                    '{newUserCredentials.UserId}'::UUID)"
-        );
+                    '{newUserCredentials.UserId}'::UUID)
+            RETURNING *;",
+            MapUserCredentialsFromReader);
+        return result.Record;
+    }
+
+    private UserCredentials MapUserCredentialsFromReader(NpgsqlDataReader reader)
+    {
+        return new UserCredentials()
+        {
+            Email = reader.GetString(0),
+            Password = reader.GetString(1),
+            UserId = reader.GetGuid(2)
+        };
     }
 }
