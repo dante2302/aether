@@ -64,5 +64,22 @@ public class EndpointMapper(WebApplication app)
                 return Results.BadRequest(e.Message);
             }
         });
+
+        _app.MapGet("/channel",
+        ([FromQuery] string columnName, [FromQuery] string value,
+         [FromServices] ChannelService channelService) => {
+            try{
+                var channelData = channelService.GetOneByCriteria(columnName, value);
+                return Results.Ok(channelData);
+            }
+            catch(NotFoundException e)
+            {
+                return Results.NotFound(e.Message);
+            }
+            catch(Exception e)
+            {
+                return Results.BadRequest(e.Message);
+            }
+        });
     }
 }

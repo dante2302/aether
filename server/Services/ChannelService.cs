@@ -1,7 +1,6 @@
 ﻿using Exceptions;
 using Microsoft.Extensions.Configuration;
 using Models;
-using Npgsql;
 
 namespace Services;
 
@@ -51,8 +50,12 @@ public class ChannelService(IConfiguration config) : DbService(config)
 
     public Channel GetOneByCriteria<T>(string columnName, T columnValue)
     {
-        string command =  $"SELECT * FROM channels WHERE {columnName} = {columnValue}", 
-        QueryResult<Channel> result = ExecuteQueryCommand(
+        string command =  
+            $@"SELECT * FROM channels WHERE {columnName} = 
+            {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'{columnValue}'" : columnValue )}
+            {ColumnTypeHelper.GetAnnotation<T>()}";
+
+        QueryResult<Channel> result = ExecuteQueryCommand(command,
             (reader) => {
                 return new Channel()
                 {
@@ -69,6 +72,7 @@ public class ChannelService(IConfiguration config) : DbService(config)
         {
             throw new NotFoundException("Channel not found.");
         }
+
         return result.Record;
     }
 }

@@ -7,19 +7,29 @@ public static class ColumnTypeHelper
         {typeof(DateTime), "::timespan"},
         {typeof(List<string>), "::array[]::varchar"},
     };
-    public static Type[] NeedQuotationsList { get; } = [
+    private static HashSet<Type> NeedQuotationsList { get; } = [
         typeof(Guid),
         typeof(string),
         typeof(DateTime),
         typeof(bool)
     ];
 
-    public static string GetTypeAnnotation<T>()
+    public static bool NeedsQuotation<T>()
+    {
+        return NeedQuotationsList.Contains(typeof(T));
+    }
+
+    public static string GetAnnotation<T>()
     {
         if(Annotations.ContainsKey(typeof(T)))
         {
             return Annotations[typeof(T)];
         }
         return "";
+    }
+
+    public static bool NeedsAnnotation<T>()
+    {
+        return Annotations.ContainsKey(typeof(T));
     }
 }
