@@ -30,7 +30,7 @@ public class UserCredentialsService(IConfiguration config) : DbService(config)
     {
         if(CheckIfUserCredentialsExist(newUserCredentials.Email))
         {
-            throw new ConflictException("Username is taken");
+            throw new ConflictException("A user with this email already exists.");
         }
         ExecuteNonQueryCommand(@$"
             INSERT INTO UserCredentials

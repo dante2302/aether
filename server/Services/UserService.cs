@@ -20,14 +20,14 @@ public class UserService(IConfiguration config) : DbService(config)
             VALUES( '{newUser.Id}'::UUID, 
                     '{newUser.Username}',
                      ARRAY[]::varchar[],
-                    {newUser.DateOfCreation}::DATE)"
+                    '{newUser.DateOfCreation}'::TIMESTAMP)"
         );
     }
 
 
     public User GetOne(Guid id)
     {
-        using var connection = new Npgsql.NpgsqlConnection(_config.GetConnectionString("aether"));
+        using var connection = new NpgsqlConnection(_config.GetConnectionString("aether"));
         connection.Open();
         var tableCmd = connection.CreateCommand();
         tableCmd.CommandText = $"SELECT * FROM Users WHERE Id = '{id}'::UUID";

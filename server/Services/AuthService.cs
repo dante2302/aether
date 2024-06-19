@@ -42,7 +42,7 @@ public class AuthService(IConfiguration config) : DbService(config)
             throw new NotFoundException("User not found.");
         }
     }
-    public string Generate()
+    public string GenerateToken()
     {
         JwtSettings? jwtSettings = _config.GetSection("JwtSettings").Get<JwtSettings>()
             ?? throw new InvalidConfigurationException();

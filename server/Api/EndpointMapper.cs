@@ -14,9 +14,11 @@ public class EndpointMapper(WebApplication app)
         {
             try{
                 AuthenticationResult result = authService.Authenticate(userCredentials);
-                return result.IsSuccessful 
-                        ? Results.Ok(result.UserData) 
-                        : Results.Unauthorized();
+                if(!result.IsSuccessful)
+                    return Results.Unauthorized();
+
+                string authToken = authService.GenerateToken();
+                return Results.Ok(new {authToken, userData = result.UserData});
             }
             catch(NotFoundException)
             {
@@ -26,10 +28,12 @@ public class EndpointMapper(WebApplication app)
                 return Results.BadRequest(e.Message);
             }
         });
+
         _app.MapPost("/auth/signup", (SignUpData signUpData, AuthService authService) => {
             try{
-                authService.SignUp(signUpData);
-                return Results.Ok(authService.Generate());
+                User userData = authService.SignUp(signUpData);
+                string authToken = authService.GenerateToken();
+                return Results.Ok(new { authToken, userData });
             }
             catch(ConflictException c){
                 return Results.Conflict(c.Message);
