@@ -1,7 +1,8 @@
-namespace Models;
-public class UserCredentials
+﻿namespace Models;
+
+public class SignUpData
 {
     public required string Email { get; set; }
     public required string Password { get; set; }
-    public Guid UserId { get; set; }
+    public required string Username { get; set; }
 }

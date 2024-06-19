@@ -1,5 +1,11 @@
 namespace Exceptions;
 public class NotFoundException : Exception
 {
-    public override string Message {get;} = "Entity Not Found";
+    public NotFoundException(){
+        Message = "Entity Not Found";
+    }
+    public NotFoundException(string message){
+        Message = message;
+    }
+    public override string Message {get;}
 }

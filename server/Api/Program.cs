@@ -17,7 +17,7 @@ IConfiguration config = new ConfigurationBuilder()
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(x =>
                 {
-                    JwtSettings? jwtSettings = config.GetSection("Jwt").Get<JwtSettings>() 
+                    JwtSettings? jwtSettings = config.GetSection("JwtSettings").Get<JwtSettings>() 
                         ?? throw new InvalidConfigurationException();
 
                     x.TokenValidationParameters = new TokenValidationParameters()

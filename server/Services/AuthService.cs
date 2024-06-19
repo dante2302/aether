@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Exceptions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols.Configuration;
@@ -13,8 +14,10 @@ namespace Services;
 public class AuthService(IConfiguration config) : DbService(config)
 {
     private readonly IConfiguration _config = config;
+    private readonly UserService userService = new(config);
+    private readonly UserCredentialsService userCredentialsService = new(config);
     // Expects a UserCredentials Model with the already hashed password to compare
-    public bool Authenticate(UserCredentials userCredentials)
+    public AuthenticationResult Authenticate(UserCredentials userCredentials)
     {
         using var connection = new NpgsqlConnection(_config.GetConnectionString("aether"));
         connection.Open();
@@ -23,14 +26,20 @@ public class AuthService(IConfiguration config) : DbService(config)
         using var reader = tableCmd.ExecuteReader();
         if(reader.Read())
         {
-            string realPassword = reader.GetString(1);
+            Guid userId = reader.GetGuid(2);
+            User userData = userService.GetOne(userId);
+
+            PasswordHasher<User> passwordHasher = new();
+            string storedPassword = reader.GetString(1);
+            PasswordVerificationResult result = passwordHasher.VerifyHashedPassword(userData, storedPassword, userCredentials.Password);
+            bool isSuccessful = result == PasswordVerificationResult.Success;
             connection.Close();
-            return userCredentials.Password == realPassword;
+            return new AuthenticationResult(isSuccessful, userData);
         }
         else
         {
             connection.Close();
-            throw new NotFoundException();
+            throw new NotFoundException("User not found.");
         }
     }
     public string Generate()
@@ -39,11 +48,8 @@ public class AuthService(IConfiguration config) : DbService(config)
             ?? throw new InvalidConfigurationException();
 
         JwtSecurityTokenHandler handler = new();
-        byte[] key = Encoding.UTF8.GetBytes(jwtSettings.SigningKey);
-        if (key is null)
-        {
-            throw new InvalidConfigurationException();
-        }
+        byte[] key = Encoding.UTF8.GetBytes(jwtSettings.SigningKey)
+            ?? throw new InvalidConfigurationException();
 
         var tokenD = new SecurityTokenDescriptor()
         {
@@ -56,5 +62,32 @@ public class AuthService(IConfiguration config) : DbService(config)
         SecurityToken token = handler.CreateToken(tokenD);
         string jwt = handler.WriteToken(token);
         return jwt;
+    }
+
+    public User SignUp(SignUpData signUpData)
+    {
+        var userCredentials = new {signUpData.Email, signUpData.Password};
+
+        User newUser = new(){
+            Id = Guid.NewGuid(),
+            Username = signUpData.Username,
+            SocialLinks = [],
+            DateOfCreation = DateTime.Now
+        };
+
+        var passwordHasher = new PasswordHasher<User>();
+        string hashedPassword = passwordHasher.HashPassword(newUser, userCredentials.Password);
+
+        UserCredentials newUserCredentials = new ()
+        {
+            Email = userCredentials.Email,
+            Password = hashedPassword,
+            UserId = newUser.Id
+        };
+
+        userCredentialsService.Create(newUserCredentials);
+        userService.Create(newUser);
+        
+        return newUser;
     }
 }
