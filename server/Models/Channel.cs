@@ -1,6 +1,6 @@
 namespace Models;
 
-public class Channel
+public class Channel : IRecord
 {
     public Guid Id { get; set; }
     public Guid OwnerId { get; set; }

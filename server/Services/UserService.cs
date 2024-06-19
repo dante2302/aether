@@ -24,17 +24,19 @@ public class UserService(IConfiguration config) : DbService(config)
 
     public User GetOne(Guid id)
     {
-        var reader = GetQueryReader($"SELECT * FROM Users WHERE Id = '{id}'::UUID");
-        if (reader.Read())
-        {
-            return new User()
-            {
-                Id = reader.GetGuid(0),
-                Username = reader.GetString(1),
-                SocialLinks = reader.GetFieldValue<List<string>>(2),
-                DateOfCreation = reader.GetDateTime(3)
-            };
-        }
-        throw new NotFoundException("User not found.");
+        QueryResult<User> result = ExecuteQueryCommand(
+            $"SELECT * FROM Users WHERE Id = '{id}'::UUID",
+            (reader) => {
+                return new User()
+                {
+                    Id = reader.GetGuid(0),
+                    Username = reader.GetString(1),
+                    SocialLinks = reader.GetFieldValue<List<string>>(2),
+                    DateOfCreation = reader.GetDateTime(3)
+                };
+            });
+        if(!result.HasRecords)
+            throw new NotFoundException();
+        return result.Record;
     }
 }

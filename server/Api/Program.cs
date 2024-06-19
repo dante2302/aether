@@ -7,6 +7,7 @@ using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<AuthService, AuthService>();
+builder.Services.AddScoped<ChannelService, ChannelService>();
 
 IConfiguration config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
@@ -39,6 +40,6 @@ var app = builder.Build();
 
 var endpointMapper = new EndpointMapper(app);
 endpointMapper.MapAuth();
-app.MapGet("/", () => "Hello World!");
+endpointMapper.MapChannel();
 
 app.Run();

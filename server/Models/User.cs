@@ -1,7 +1,5 @@
-﻿using System.Numerics;
-
-namespace Models;
-public class User
+﻿namespace Models;
+public class User : IRecord
 {
     public required Guid Id { get; set;}
     public required string Username { get; set; }

@@ -1,4 +1,5 @@
 using Exceptions;
+using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services;
 
@@ -10,7 +11,8 @@ public class EndpointMapper(WebApplication app)
     {
         _app.MapPost("/auth/login", (UserCredentials userCredentials, AuthService authService) => 
         {
-            try{
+            try
+            {
                 AuthenticationResult result = authService.Authenticate(userCredentials);
                 if(!result.IsSuccessful)
                     return Results.Unauthorized();
@@ -28,15 +30,37 @@ public class EndpointMapper(WebApplication app)
         });
 
         _app.MapPost("/auth/signup", (SignUpData signUpData, AuthService authService) => {
-            try{
+            try
+            {
                 User userData = authService.SignUp(signUpData);
                 string authToken = authService.GenerateToken();
                 return Results.Ok(new { authToken, userData });
             }
-            catch(ConflictException c){
+            catch(ConflictException c)
+            {
                 return Results.Conflict(c.Message);
             }
             catch(Exception e){
+                return Results.BadRequest(e.Message);
+            }
+        });
+    }
+
+    public void MapChannel()
+    {
+        _app.MapGet("/channel/{id}", 
+        ([FromRoute] Guid id, [FromServices] ChannelService channelService) => {
+            try
+            {
+                var channel = channelService.GetOne(id);
+                return Results.Ok(channel);
+            }
+            catch(NotFoundException e)
+            {
+                return Results.NotFound(e.Message);
+            }
+            catch(Exception e)
+            {
                 return Results.BadRequest(e.Message);
             }
         });
