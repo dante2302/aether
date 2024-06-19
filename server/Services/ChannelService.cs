@@ -9,9 +9,9 @@ namespace Services;
 public class ChannelService(IConfiguration config) : DbService(config)
 {
 
-    public async Task Create(Channel newChannel)
+    public async Task<Channel> Create(Channel newChannel)
     {
-        if(RecordExists("Channels", "name", newChannel.Name))
+        if(await RecordExistsAsync("Channels", "name", newChannel.Name))
         {
             throw new ConflictException($"Channel with name {newChannel.Name} already exists.");
         }
@@ -20,16 +20,17 @@ public class ChannelService(IConfiguration config) : DbService(config)
         newChannel.IsPopular = false;
         newChannel.DateOfCreation = DateTime.Now;
 
-        var result = await ExecuteQueryCommandAsync(@$"
-            INSERT INTO channels 
-            VALUES( '{newChannel.Id}'::UUID',
-                    '{newChannel.OwnerId}'::UUID',
-                    '{newChannel.Name}', 
-                    '{newChannel.Description}',
-                    '{newChannel.DateOfCreation}'::TIMESTAMP,
-                    '{newChannel.IsPopular}');
-            RETURNING "
+        QueryResult<Channel> result = await ExecuteQueryCommandAsync(@$"
+            INSERT INTO channels
+            VALUES(
+                '{newChannel.Id}'::uuid, 
+                '{newChannel.OwnerId}'::uuid, '{newChannel.Name}', 
+                '{string.Empty}', 
+                '{newChannel.DateOfCreation}'::TIMESTAMP, 
+            false)
+            RETURNING *;"
         , MapChannelFromReader);
+        return result.Record;
     }
 
     public Channel GetOne(Guid id)

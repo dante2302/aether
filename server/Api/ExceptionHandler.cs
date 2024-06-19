@@ -1,4 +1,5 @@
 using Exceptions;
+using Npgsql;
 
 public class ExceptionHandler(RequestDelegate next)
 {
@@ -25,15 +26,26 @@ public class ExceptionHandler(RequestDelegate next)
             await context.Response.WriteAsJsonAsync(new { error = e.Message });
         }
 
-        catch(Exception e)
+        catch(NpgsqlException e)
         {
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             context.Response.ContentType = "application/json";
 
             await context.Response.WriteAsJsonAsync(new
             {
-                error = e.Message 
+                error = new {
+                    source = e.Source,
+                    message = e.Message,
+                    helpLink = e.HelpLink,
+                    data = e.Data
+                }
             });
+        }
+
+        catch(BadHttpRequestException)
+        {
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            context.Response.ContentType = "application/json";
         }
     }
 }

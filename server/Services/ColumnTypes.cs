@@ -11,7 +11,6 @@ public static class ColumnTypeHelper
         typeof(Guid),
         typeof(string),
         typeof(DateTime),
-        typeof(bool)
     ];
 
     public static bool NeedsQuotation<T>()

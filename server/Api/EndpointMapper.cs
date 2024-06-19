@@ -30,8 +30,8 @@ public class EndpointMapper(WebApplication app)
     public void MapChannel()
     {
         _app.MapGet("/channels",
-        async (
-         [FromQuery] string columnName,
+        // async
+        ([FromQuery] string columnName,
          [FromQuery] string value,
          [FromServices] ChannelService channelService) =>
          {
@@ -46,20 +46,21 @@ public class EndpointMapper(WebApplication app)
         });
 
         _app.MapPost("/channels", 
+        async
         (HttpContext context,
-         [FromBody] Channel newChannel, 
-         [FromServices] ChannelService channelService
-        ) => {
-            var channelData = channelService.Create(newChannel);
-            return Results.Created(context.Request.GetDisplayUrl(), newChannel);
+         [FromBody] Channel newChannel,
+         [FromServices] ChannelService channelService) =>
+        {
+            var channelData = await channelService.Create(newChannel);
+            return Results.Created(context.Request.GetDisplayUrl(), channelData);
         });
 
-        _app.MapPut("channels", 
-        ([FromBody] updatedChannel, [FromServices] channelService) =>
-        {
-            channelService.update(updatedChannel);
-            return Results.NoContent();
-        });
+        // _app.MapPut("channels", 
+        // ([FromBody] updatedChannel, [FromServices] channelService) =>
+        // {
+        //     channelService.update(updatedChannel);
+        //     return Results.NoContent();
+        // });
 
         _app.MapDelete("/channels/{id}", 
         ([FromRoute] Guid id, [FromServices] ChannelService channelService) => {
