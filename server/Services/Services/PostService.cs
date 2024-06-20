@@ -64,9 +64,18 @@ public class PostService(IConfiguration config) : DbService(config)
         return result.Record;
     }
 
-    public async Task<List<Post>> GetPostsFromChannel(Guid channelId)
+    public async Task<List<Post>> GetPostsFromChannel(Guid channelId, int limit=0, int offset=0)
     {
-    
+       List<Post> posts = await ExecuteQueryListCommandAsync(
+        $@"SELECT * FROM posts
+           WHERE channelid = '{channelId}'::uuid
+           ORDER BY dateofcreation DESC
+           LIMIT {limit}
+           OFFSET {offset}
+        "
+       ,MapPostFromReader);
+
+       return posts;
     }
     private Post MapPostFromReader(NpgsqlDataReader reader)
     {

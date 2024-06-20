@@ -19,7 +19,7 @@ const PostPage = () => {
 
   const postId = useParams().postId
   
-  const fetchPosts = async () => {
+  const fetchPost = async () => {
     const data = await getPostData(postId)
     const commentList = await getPostComments(postId)
     'code' in commentList
@@ -31,7 +31,7 @@ const PostPage = () => {
     setPostData(data)
   }
 
-  const [Spinner,fetchWithLoading] = useLoading(fetchPosts)
+  const [Spinner,fetchWithLoading] = useLoading(fetchPost)
   useEffect(() => {
     fetchWithLoading()
     return () => document.title = 'Aether'

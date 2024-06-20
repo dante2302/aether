@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Protocols.Configuration;
+using Models;
 using Npgsql;
 
 namespace Services;
@@ -75,6 +76,21 @@ public abstract class DbService
         return new QueryResult<T>(false);
     }
 
+    protected virtual async Task<List<T>> ExecuteQueryListCommandAsync<T>
+        (string query, Func<NpgsqlDataReader, T> GetColumnValues)
+    {
+        using var connection = new NpgsqlConnection(_config.GetConnectionString("aether"));
+        await connection.OpenAsync();
+        var tableCmd = connection.CreateCommand();
+        tableCmd.CommandText = query;
+        var reader = await tableCmd.ExecuteReaderAsync();
+        List<T> records = [];
+        while(await reader.ReadAsync())
+        {
+            records.Add(GetColumnValues(reader));
+        }
+        return records; 
+    }
     protected virtual async Task<int> ExecuteNonQueryCommandAsync(string command)
     {
         using var connection = new NpgsqlConnection(_connectionString);

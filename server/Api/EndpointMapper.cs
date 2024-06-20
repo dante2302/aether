@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services;
@@ -131,6 +132,21 @@ public class EndpointMapper(WebApplication app)
         {
             Post p = await postService.Create(newPost);
             return Results.Created(context.Request.GetDisplayUrl(), p);
+        });
+
+        _app.MapGet("/posts/{channelId:guid}",
+        async 
+        ([FromServices] PostService postService,
+         [FromRoute] Guid channelId,
+         [FromQuery] int? limit,
+         [FromQuery] int? offset
+        ) =>
+        {
+            limit ??= 0;
+            offset ??= 0;
+
+            List<Post> posts = await postService.GetPostsFromChannel(channelId, (int)limit, (int)offset);
+            return Results.Ok(posts);
         });
     }
 }
