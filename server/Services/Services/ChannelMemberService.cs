@@ -24,6 +24,22 @@ public class ChannelMemberService(IConfiguration config) : DbService(config)
         }
     }
 
+    public async Task Delete(ChannelMember channelMember)
+    {
+        if(!await ChannelMemberExists(channelMember))
+            return;
+
+        int result = await ExecuteNonQueryCommandAsync(@$"
+            DELETE FROM ChannelMembers
+            WHERE channelId = '{channelMember.ChannelId}'::uuid, 
+            AND userId = '{channelMember.UserId}'::uuid 
+        )");
+
+        if(result <= 0){
+            throw new NpgsqlException();
+        }
+    }
+
     public async Task<bool> ChannelMemberExists(ChannelMember cm)
     {
         var result = await ExecuteQueryCommandAsync($@"
