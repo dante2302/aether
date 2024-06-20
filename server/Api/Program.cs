@@ -42,6 +42,7 @@ app.UseMiddleware<ExceptionHandler>();
 var endpointMapper = new EndpointMapper(app);
 
 endpointMapper.MapAuth();
-endpointMapper.MapChannel();
+endpointMapper.MapChannels();
+endpointMapper.MapPosts();
 
 app.Run();

@@ -31,3 +31,15 @@ CHANNEL
     ISPOPULAR: BOOL
     
 },
+
+POST
+    Id: "837ec027-f659-4086-8032-5173e2f9c93a"
+    "_ownerId":"8d24d5c7-7a02-4069-85f7-d887e19bcfd1",
+    "ownerUsername": "George",
+    "channelId":"3e1366c9-acad-405e-ab7c-9b6d1668fd2f",
+    channelName:"mma",
+    title:"Leon Edwards has told @ufcontnt that after he knocks out Colby Covington at UFC296 he will make a post-fight callout for the winner of the UFC297 middleweight title fight between Sean Strickland and Dricus Du Plessis.",
+    text:"",
+    linkUrl:"https://x.com/mma_orbit/status/1732557786532159697?s=46",
+    imgUrl:"",
+    dateOfCreation:1700064466411,

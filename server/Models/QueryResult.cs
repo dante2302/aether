@@ -1,14 +1,15 @@
 public readonly struct QueryResult<T> 
 {
-    public QueryResult(bool hasRecords, T record)
+    public QueryResult(bool hasRecord, T record)
     {
-        HasRecords = hasRecords;
+        HasRecord = hasRecord;
         Record = record;
     }
-    public QueryResult(bool hasRecords)
+    public QueryResult(bool hasRecord)
     {
-        HasRecords = hasRecords;
+        HasRecord = hasRecord;
+        Record = default;
     }
-    public bool HasRecords { get; }
+    public bool HasRecord { get; }
     public T Record { get; }
 }

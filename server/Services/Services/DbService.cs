@@ -61,7 +61,6 @@ public abstract class DbService
     // *** ASYNC METHODS ***
     protected virtual async Task<QueryResult<T>> ExecuteQueryCommandAsync<T>
         (string query, Func<NpgsqlDataReader, T> GetColumnValues)
-        where T : IRecord
     {
         using var connection = new NpgsqlConnection(_config.GetConnectionString("aether"));
         await connection.OpenAsync();

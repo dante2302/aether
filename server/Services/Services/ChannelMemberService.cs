@@ -48,7 +48,7 @@ public class ChannelMemberService(IConfiguration config) : DbService(config)
             AND UserId = '{cm.UserId}'::uuid 
         ", 
         MapChannelMemberFromReader);
-        return result.HasRecords;
+        return result.HasRecord;
     }
 
     private ChannelMember MapChannelMemberFromReader(NpgsqlDataReader reader)

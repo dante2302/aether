@@ -13,7 +13,7 @@ public class UserCredentialsService(IConfiguration config) : DbService(config)
             $"SELECT * FROM UserCredentials WHERE Email = '{email}'",
             MapUserCredentialsFromReader);
 
-        if(!result.HasRecords)
+        if(!result.HasRecord)
             throw new NotFoundException("User not found.");
 
         return result.Record;

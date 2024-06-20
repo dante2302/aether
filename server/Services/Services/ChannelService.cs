@@ -25,7 +25,7 @@ public class ChannelService(IConfiguration config) : DbService(config)
                 '{newChannel.Id}'::uuid, 
                 '{newChannel.OwnerId}'::uuid, 
                 '{newChannel.Name}', 
-                '{string.Empty}', 
+                '{newChannel.Description}', 
                 '{newChannel.DateOfCreation}'::TIMESTAMP, 
             false)
             RETURNING *;"
@@ -47,7 +47,7 @@ public class ChannelService(IConfiguration config) : DbService(config)
             $"SELECT * FROM channels WHERE id = '{id}'::uuid", 
             MapChannelFromReader);
 
-        if(!result.HasRecords)
+        if(!result.HasRecord)
         {
             throw new NotFoundException("Channel not found.");
         }
@@ -62,7 +62,7 @@ public class ChannelService(IConfiguration config) : DbService(config)
             {ColumnTypeHelper.GetAnnotation<T>()}";
 
         QueryResult<Channel> result = await ExecuteQueryCommandAsync(command, MapChannelFromReader);
-        if(!result.HasRecords)
+        if(!result.HasRecord)
         {
             throw new NotFoundException("Channel not found.");
         }
@@ -70,14 +70,25 @@ public class ChannelService(IConfiguration config) : DbService(config)
         return result.Record;
     }
 
+    public async Task<string> GetName(Guid id)
+    {
+        QueryResult<string> result = await ExecuteQueryCommandAsync(
+            @$"SELECT name FROM channels
+               WHERE id = {id}", (reader) => reader.GetString(0));
+        if(!result.HasRecord)
+        {
+            throw new NotFoundException("No such channel");
+        }
+        return result.Record;
+    }
     public async Task Update(Channel updatedChannel)
     {
         int rowsAffected = await ExecuteNonQueryCommandAsync($@"
             UPDATE channels
-            SET name = {updatedChannel.Name} 
-                description = {updatedChannel.Description}
+            SET name = '{updatedChannel.Name}',
+                description = '{updatedChannel.Description}',
                 ispopular = {updatedChannel.IsPopular}
-            WHERE id = {updatedChannel.Id}
+            WHERE id = '{updatedChannel.Id}'::uuid
         ");
 
         if(rowsAffected <= 0)

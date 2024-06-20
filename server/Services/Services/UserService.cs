@@ -33,7 +33,7 @@ public class UserService(IConfiguration config) : DbService(config)
             $"SELECT * FROM Users WHERE Id = '{id}'::UUID",
             MapUserFromReader);
 
-        if(!result.HasRecords)
+        if(!result.HasRecord)
             throw new NotFoundException("User not found");
 
         return result.Record;

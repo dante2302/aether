@@ -34,19 +34,8 @@ public class EndpointMapper(WebApplication app)
         });
     }
 
-    public void MapChannel()
+    public void MapChannels()
     {
-        _app.MapGet("/channels",
-        async
-        ([FromQuery] string columnName,
-         [FromQuery] string value,
-         [FromServices] ChannelService channelService
-        ) =>
-        {
-            var channelData = await channelService.GetOneByCriteria(columnName, value);
-            return Results.Ok(channelData);
-        });
-
         _app.MapGet("/channels/{name}",
         async
         ([FromRoute] string name,
@@ -63,8 +52,8 @@ public class EndpointMapper(WebApplication app)
          [FromServices] ChannelService channelService
         ) =>
         {
-            var channel = await channelService.GetOne(id);
-            return Results.Ok(channel);
+            var channelData = await channelService.GetOne(id);
+            return Results.Ok(new {channelData});
         });
 
         _app.MapPost("/channels",
@@ -75,7 +64,7 @@ public class EndpointMapper(WebApplication app)
         ) =>
         {
             var channelData = await channelService.Create(newChannel);
-            return Results.Created(context.Request.GetDisplayUrl(), channelData);
+            return Results.Created(context.Request.GetDisplayUrl(), new {channelData});
         });
 
         _app.MapPut("channels",
@@ -133,6 +122,15 @@ public class EndpointMapper(WebApplication app)
 
     public void MapPosts()
     {
-
+        _app.MapPost("/posts", 
+        async
+        (HttpContext context,
+         [FromBody] Post newPost,
+         [FromServices] PostService postService
+        ) => 
+        {
+            Post p = await postService.Create(newPost);
+            return Results.Created(context.Request.GetDisplayUrl(), p);
+        });
     }
 }
