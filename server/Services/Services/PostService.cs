@@ -51,6 +51,23 @@ public class PostService(IConfiguration config) : DbService(config)
         return result.Record;
     }
 
+    public async Task<Post> GetOne(Guid id)
+    {
+        QueryResult<Post> result = await ExecuteQueryCommandAsync(
+            $"SELECT * FROM posts WHERE id = '{id}'::uuid", 
+            MapPostFromReader);
+
+        if(!result.HasRecord)
+        {
+            throw new NotFoundException("Channel not found.");
+        }
+        return result.Record;
+    }
+
+    public async Task<List<Post>> GetPostsFromChannel(Guid channelId)
+    {
+    
+    }
     private Post MapPostFromReader(NpgsqlDataReader reader)
     {
         return new Post 
