@@ -1,6 +1,6 @@
 const baseUrl = 'http://localhost:3030/data/posts'
 
-import { createChannelPost } from './channelApi.js'
+import { createChannelPost } from './channelService.js'
 import * as request from './request.js'
 
 export const createPost = async ({username,accessToken},formData) => {

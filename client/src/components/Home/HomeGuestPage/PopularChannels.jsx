@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react'
 import { getPopularChannels } from '../../../apis/popularApi'
-import { getChannelData } from '../../../apis/channelApi'
+import { getChannelData } from '../../../apis/channelService'
 
 import ChannelList from '../../Channel/ChannelList'
 import useLoading from '../../../hooks/useLoading'

@@ -9,6 +9,7 @@ using Api;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<AuthService, AuthService>();
 builder.Services.AddScoped<ChannelService, ChannelService>();
+builder.Services.AddScoped<ChannelMemberService, ChannelMemberService>();
 
 IConfiguration config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")

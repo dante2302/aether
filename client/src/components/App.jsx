@@ -35,7 +35,8 @@ const App = () => {
 
               <Route path={'c/:channelName'}>
                 <Route index element={<ChannelPage />} />
-                <Route path='submit' element={<PostCreateForm />} />
+              </Route>
+                {/* <Route path='submit' element={<PostCreateForm />} />
                 <Route path={':postId'} element={<PostPage />} />
               </Route>
 
@@ -46,9 +47,9 @@ const App = () => {
                 <Route path='saved' element={<UserPageFeed key={'saved'} type='saved' />} />
                 <Route path='liked' element={<UserPageFeed key={'liked'} type='liked'/>} />
                 <Route path='disliked' element={<UserPageFeed key={'disliked'} type='disliked'/>} />
-              </Route>
-
-              <Route path='/*' element={<Page404 />} />
+              
+              <Route path='/*' element={<Page404 />} /> */}
+              <Route path="/error" element={<Page404 />}/>
             </Routes>
           </div>
         </ UserModalProvider> 

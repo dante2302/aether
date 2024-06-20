@@ -1,7 +1,7 @@
 import ChannelCreateModal from '../../Channel/ChannelCreateModal'
 import ChannelList from '../../Channel/ChannelList.jsx'
 
-import { getChannelData } from '../../../apis/channelApi.js'
+import { getChannelData } from '../../../apis/channelService.js'
 
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'

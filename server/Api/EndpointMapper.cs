@@ -42,7 +42,19 @@ public class EndpointMapper(WebApplication app)
              return Results.Ok(channelData);
          });
 
-        _app.MapGet("/channel/{id}",
+
+
+         _app.MapGet("/channels/{name}",
+         async
+         ([FromRoute] string name,
+          [FromServices] ChannelService channelService
+         ) =>
+         {
+             var channelData = await channelService.GetOneByCriteria("name", name);
+             return Results.Ok(new { channelData });
+         });
+
+        _app.MapGet("/channels/{id:guid}",
         async
         ([FromRoute] Guid id,
          [FromServices] ChannelService channelService) =>
@@ -70,13 +82,30 @@ public class EndpointMapper(WebApplication app)
             return Results.NoContent();
         });
 
-        _app.MapDelete("/channels/{id}",
+        _app.MapDelete("/channels/{id:guid}",
         async
         ([FromRoute] Guid id,
          [FromServices] ChannelService channelService) =>
         {
             await channelService.Delete(id);
             return Results.NoContent();
+        });
+
+        /* CHANNEL MEMBER ENDPOINTS */
+
+        _app.MapPost("/channels/{id:guid}/join", 
+        async
+        ([FromRoute] Guid id,
+         [FromBody] Guid userId,
+         [FromServices] ChannelMemberService cmService 
+        ) =>
+        {
+            await cmService.Create(new ChannelMember
+            {
+                ChannelId = id, 
+                UserId = userId
+            });
+            return Results.Ok();
         });
     }
 }

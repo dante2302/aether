@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Models;
 using Npgsql;
-using NpgsqlTypes;
 
 namespace Services;
 
@@ -31,6 +30,14 @@ public class ChannelService(IConfiguration config) : DbService(config)
             false)
             RETURNING *;"
         , MapChannelFromReader);
+
+        ChannelMemberService cmService = new(_config);
+        await cmService.Create(new ChannelMember
+        {
+            ChannelId = result.Record.Id,
+            UserId = result.Record.OwnerId
+        });
+
         return result.Record;
     }
 

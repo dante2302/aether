@@ -5,14 +5,13 @@ export const post = async ({url,accessToken,bodyData}) => {
     const response = await fetch(url,{
       method: 'POST',
       headers:{
-        'X-Authorization': accessToken,
+        'Bearer': accessToken,
         'Content-Type':'application/json'
       },
       body: JSON.stringify(bodyData),
       mode: 'cors'
     })
-    const data = await response.json()
-    return data
+    return response;
 }
 
 export const get = async (url) => {
@@ -22,11 +21,11 @@ export const get = async (url) => {
 }
 
 export const search = async ({url,prop,value}) => {
-  const searchParam = `${prop}${equalSign}${inEncodedQuotes(value)}`
-  const searchUrl = `${url}?where=${searchParam}`
-  const response = await fetch(searchUrl,{method: 'GET'})
-  const data = await response.json()
-  return data
+  const response = await fetch(
+    `${url}?${encodeURIComponent(prop)}=${encodeURIComponent(value)}`,
+    {method: 'GET'}
+  )
+  return response;
 }
 
 export const searchContent = async ({url,prop,value,pageSize,offset}) => {

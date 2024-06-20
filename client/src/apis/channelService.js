@@ -1,27 +1,21 @@
 
-const baseUrl = 'http://localhost:3030/data/channels'
+const baseUrl = 'http://localhost:5155/channels'
 import * as request from './request.js'
-import {updateUserData} from './userApi.js'
 
 export const createChannel = async (userData,{name,description}) => {
   const bodyData = {
     name,
     description,
-    members:[userData._ownerId],
-    posts:[]
+    ownerId: userData.Id
   }
-  const data = await request.post({
+
+  const result = await request.post({
     url:baseUrl,
     accessToken:userData.accessToken,
     bodyData
   })
 
-  const a = await updateUserData(userData,{
-    channels: [...userData.channels,data._id], 
-    authorChannels: [...userData.authorChannels, data._id]
-  })
-
-  return [data,a]
+  return result;
 }
 
 
@@ -31,9 +25,9 @@ export const getChannelData = async (channelId) => {
 }
 
 
-export const getChannelDataByProp = async (prop,value) => {
-  const data = await request.search({url:baseUrl,prop,value})
-  return data[0]
+export const getChannelDataByName = async (name) => {
+  const response = await request.get(`${baseUrl}/${encodeURIComponent(name)}`)
+  return response;
 }
 
 export const updateChannelData = async (channelId,newData) => {

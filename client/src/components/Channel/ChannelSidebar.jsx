@@ -9,7 +9,7 @@ const ChannelSidebar = ({channelData,children}) => {
       <p>{channelData.description||'No Description'}</p>
       <div className={styles['date-container']}>
         <UilHospital size={20}/>
-        <div>Created {getFullDateFormat(channelData._createdOn)}</div>
+        <div>Created {getFullDateFormat(channelData.dateOfCreation)}</div>
       </div>
       {children}
     </div>

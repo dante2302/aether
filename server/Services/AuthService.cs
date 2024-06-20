@@ -10,7 +10,6 @@ namespace Services;
 
 public class AuthService(IConfiguration config) : DbService(config)
 {
-    private readonly IConfiguration _config = config;
     private readonly UserService userService = new(config);
     private readonly UserCredentialsService ucService = new(config);
     public async Task<AuthenticationResult> Authenticate(UserCredentials userCredentials)

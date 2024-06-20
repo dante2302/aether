@@ -14,8 +14,8 @@ public abstract class DbService
             throw new InvalidConfigurationException();    
         }
     }
-    private readonly IConfiguration _config;
-    private readonly string? _connectionString;
+    protected readonly IConfiguration _config;
+    protected readonly string? _connectionString;
 
     // SYNCHRONIOUS METHODS
     protected virtual QueryResult<T> ExecuteQueryCommand<T>(string query, Func<NpgsqlDataReader, T> GetColumnValues)
