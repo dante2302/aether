@@ -21,7 +21,7 @@ public class PostService(IConfiguration config) : DbService(config)
                 $"Channel Does Not Exist! (Creating a post at channel: {newPost.ChannelId})"
             );
 
-        if(await PostExists(newPost.Title, newPost.ChannelId))
+        if(await PostExistsInChannel(newPost.Title, newPost.ChannelId))
             throw new ConflictException(
                 @$"Post with the title ""{newPost.Title}"" already exists in channel!"
             );
@@ -93,7 +93,7 @@ public class PostService(IConfiguration config) : DbService(config)
         };
     }
 
-    private async Task<bool> PostExists(string postTitle, Guid channelId)
+    private async Task<bool> PostExistsInChannel(string postTitle, Guid channelId)
     {
         QueryResult<Post> result = await ExecuteQueryCommandAsync(
             $@"SELECT * FROM posts

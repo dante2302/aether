@@ -11,6 +11,7 @@ builder.Services.AddScoped<AuthService, AuthService>();
 builder.Services.AddScoped<ChannelService, ChannelService>();
 builder.Services.AddScoped<ChannelMemberService, ChannelMemberService>();
 builder.Services.AddScoped<PostService, PostService>();
+builder.Services.AddScoped<LikeService, LikeService>();
 
 IConfiguration config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")

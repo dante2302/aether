@@ -148,5 +148,33 @@ public class EndpointMapper(WebApplication app)
             List<Post> posts = await postService.GetPostsFromChannel(channelId, (int)limit, (int)offset);
             return Results.Ok(posts);
         });
+
+        _app.MapGet("/posts/{postId:guid}/likesCount", 
+        async 
+        (
+            [FromServices] LikeService likeService,
+            [FromRoute] Guid postId
+        ) =>
+        {
+            long count = await likeService.GetLikeCount(postId);
+            return Results.Ok(count);
+        });
+
+        _app.MapPost("/posts/{postId:guid}/like",
+        async
+        (
+            [FromServices] LikeService likeService,
+            [FromRoute] Guid postId,
+            [FromBody] Guid userId
+        ) =>
+        {
+            bool created = await likeService.Create(new Like
+            {
+                PostId = postId,
+                UserId = userId
+            }); 
+
+            return created ? Results.Ok() : Results.Problem("Internal Problem");
+        });
     }
 }
