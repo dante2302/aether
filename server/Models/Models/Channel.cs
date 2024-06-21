@@ -8,5 +8,4 @@ public class Channel : IRecord
     public string? Description { get; set; }
     public DateTime DateOfCreation { get; set; }
     public bool IsPopular { get; set; }
-
 }

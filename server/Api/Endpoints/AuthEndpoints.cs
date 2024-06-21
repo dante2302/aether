@@ -4,9 +4,8 @@ using Models;
 using Services;
 namespace Api;
 
-public class AuthEndpoints(WebApplication app) : IEndpointMapper
+public class AuthEndpoints(WebApplication app) : EndpointMapper(app)
 {
-    private WebApplication _app = app;
     // !!!Errors and Exceptions Are Being Handled By ExceptionHandler!!!
     public void Map()
     {

@@ -77,7 +77,7 @@ where T : UserPostInteraction, new()
     {
         var result = await ExecuteNonQueryCommandAsync($@"
         DELETE FROM {_tableName}
-        WHERE userid = '{interaction.UserId}':uuid
+        WHERE userid = '{interaction.UserId}'::uuid
         AND postid = '{interaction.PostId}'::uuid");
 
         return result > 0;

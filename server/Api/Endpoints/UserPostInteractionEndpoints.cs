@@ -10,63 +10,12 @@ public class UserPostInteractionEndpoints(WebApplication app) : EndpointMapper(a
     public void Map()
     {
 
-    /*     DISLIKES   || 
-                     \\//
-                      \/ 
-    */
-
-        _app.MapGet("/likes/{postId:guid}/likesCount",
-        async
-        (
-            [FromServices] IUserPostInteractionService<Like> likeService,
-            [FromRoute] Guid postId
-        ) =>
-        {
-            long count = await likeService.GetCount(postId);
-            return Results.Ok(count);
-        });
-
-        _app.MapPost("/likes/{postId:guid}/like",
-        async
-        (
-            [FromServices] IUserPostInteractionService<Like> likeService,
-            [FromRoute] Guid postId,
-            [FromBody] Guid userId
-        ) =>
-        {
-            bool created = await likeService.Create(new Like
-            {
-                PostId = postId,
-                UserId = userId
-            });
-
-            return created ? Results.Ok() : Results.Problem("Internal Problem.");
-        });
-
-        _app.MapDelete("/likes/{postId:guid}/like",
-        async
-        (
-            [FromServices] IUserPostInteractionService<Like> likeService,
-            [FromRoute] Guid postId,
-            [FromBody] Guid userId
-        ) =>
-        {
-            var success = await likeService.Delete(new Like
-            {
-                PostId = postId,
-                UserId = userId
-            });
-
-            return success ? Results.NoContent() : Results.Problem("Internal Problem.");
-        });
-
-
     /*        LIKES   || 
                      \\//
                       \/ 
     */
 
-        _app.MapGet("/dislikes/{postId:guid}/dislikesCount",
+        _app.MapGet("/likes/{postId:guid}/count",
         async
         (
             [FromServices] IUserPostInteractionService<Like> likeService,
@@ -77,38 +26,116 @@ public class UserPostInteractionEndpoints(WebApplication app) : EndpointMapper(a
             return Results.Ok(count);
         });
 
-        _app.MapPost("/dislikes/{postId:guid}/dislike",
+        _app.MapPost("/likes",
         async
         (
+            [FromServices] IUserPostInteractionService<Like> likeService,
             [FromServices] IUserPostInteractionService<Dislike> dislikeService,
-            [FromRoute] Guid postId,
-            [FromBody] Guid userId
+            [FromBody] Like newLike
         ) =>
         {
-            bool created = await dislikeService.Create(new Dislike
+            var tempDislike = new Dislike
             {
-                PostId = postId,
-                UserId = userId
-            });
+                PostId = newLike.PostId,
+                UserId = newLike.UserId
+            };
+
+            bool disliked = await dislikeService.InteractionExists(tempDislike);
+            if(disliked)
+            {
+                await dislikeService.Delete(tempDislike);
+            }
+
+            bool created = await likeService.Create(newLike);
 
             return created ? Results.Ok() : Results.Problem("Internal Problem.");
         });
 
-        _app.MapDelete("/dislikes/{postId:guid}/dislike",
+        _app.MapDelete("/likes",
+        async
+        (
+            [FromServices] IUserPostInteractionService<Like> likeService,
+            [FromBody] Like like
+        ) =>
+        {
+            var success = await likeService.Delete(like);
+
+            return success ? Results.NoContent() : Results.Problem("Internal Problem.");
+        });
+
+        _app.MapGet("/likes/{userId:guid}",
+        async
+        (
+            [FromServices] IUserPostInteractionService<Like> likeService,
+            [FromRoute] Guid userId
+        ) =>
+        {
+            List<Like> likes = await likeService.GetByUser(userId);
+            return Results.Ok(likes);
+        });
+
+    /*     DISLIKES   || 
+                     \\//
+                      \/ 
+    */
+
+        _app.MapGet("/dislikes/{postId:guid}/count",
+        async
+        (
+            [FromServices] IUserPostInteractionService<Like> likeService,
+            [FromRoute] Guid postId
+        ) =>
+        {
+            long count = await likeService.GetCount(postId);
+            return Results.Ok(count);
+        });
+
+        _app.MapPost("/dislikes",
         async
         (
             [FromServices] IUserPostInteractionService<Dislike> dislikeService,
-            [FromRoute] Guid postId,
-            [FromBody] Guid userId
+            [FromServices] IUserPostInteractionService<Like> likeService,
+            [FromBody] Dislike newDislike
         ) =>
         {
-            var success = await dislikeService.Delete(new Dislike
+            var tempLike = new Like
             {
-                PostId = postId,
-                UserId = userId
-            });
+                PostId = newDislike.PostId,
+                UserId = newDislike.UserId
+            };
 
+            bool liked = await likeService.InteractionExists(tempLike);
+            if(liked)
+            {
+                await likeService.Delete(tempLike);
+            }
+
+
+            bool created = await dislikeService.Create(newDislike);
+
+            return created ? Results.Ok() : Results.Problem("Internal Problem.");
+        });
+
+        _app.MapDelete("/dislikes",
+        async
+        (
+            [FromServices] IUserPostInteractionService<Dislike> dislikeService,
+            [FromBody] Dislike dislike
+        ) =>
+        {
+            var success = await dislikeService.Delete(dislike);
             return success ? Results.NoContent() : Results.Problem("Internal Problem.");
+        });
+
+        _app.MapGet("/dislikes/{userId:guid}",
+        async
+        (
+            [FromServices] IUserPostInteractionService<Dislike> dislikeService,
+            [FromRoute] Guid userId
+        ) =>
+        {
+            List<Dislike> dislikes = await dislikeService.GetByUser(userId);
+            return Results.Ok(dislikes);
         });
 
 
@@ -117,37 +144,25 @@ public class UserPostInteractionEndpoints(WebApplication app) : EndpointMapper(a
                       \/ 
     */
 
-        _app.MapPost("/saves/{postId:guid}/saves",
+        _app.MapPost("/saves",
         async
         (
             [FromServices] IUserPostInteractionService<Save> saveService,
-            [FromRoute] Guid postId,
-            [FromBody] Guid userId
+            [FromBody] Save newSave
         ) =>
         {
-            bool created = await saveService.Create(new Save
-            {
-                PostId = postId,
-                UserId = userId
-            });
-
+            bool created = await saveService.Create(newSave);
             return created ? Results.Ok() : Results.Problem("Internal Problem.");
         });
 
-        _app.MapDelete("/saves/{postId:guid}/save",
+        _app.MapDelete("/saves",
         async
         (
             [FromServices] IUserPostInteractionService<Save> saveService,
-            [FromRoute] Guid postId,
-            [FromBody] Guid userId
+            [FromBody] Save save
         ) =>
         {
-            var success = await saveService.Delete(new Save
-            {
-                PostId = postId,
-                UserId = userId
-            });
-
+            var success = await saveService.Delete(save);
             return success ? Results.NoContent() : Results.Problem("Internal Problem.");
         });
 

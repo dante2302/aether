@@ -4,9 +4,8 @@ using Models;
 using Services;
 
 namespace Api;
-public class ChannelEndpoints(WebApplication app) : IEndpointMapper
+public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
 {
-    private readonly WebApplication _app = app;
     public void Map()
     {
         _app.MapGet("/channels/{name}",

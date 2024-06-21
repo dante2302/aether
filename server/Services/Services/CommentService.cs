@@ -1,52 +1,34 @@
-﻿using Exceptions;
+
+using Exceptions;
 using Microsoft.Extensions.Configuration;
 using Models;
 using Npgsql;
 
 namespace Services;
 
-public class ChannelService(IConfiguration config) : DbService(config)
+public class CommentService(IConfiguration config) : DbService(config)
 {
 
-    public async Task<Channel> Create(Channel newChannel)
+    public async Task<Comment> Create(Comment newComment)
     {
-        if (await RecordExistsAsync("Channels", "name", newChannel.Name))
-        {
-            throw new ConflictException($"Channel with name {newChannel.Name} already exists.");
-        }
-
-        newChannel.Id = Guid.NewGuid();
-        newChannel.IsPopular = false;
-        newChannel.DateOfCreation = DateTime.Now;
-
-        QueryResult<Channel> result = await ExecuteQueryCommandAsync(@$"
+        newComment.Id = Guid.NewGuid();
+        QueryResult<Comment> result = await ExecuteQueryCommandAsync(@$"
             INSERT INTO channels
             VALUES(
-                '{newChannel.Id}'::uuid, 
-                '{newChannel.OwnerId}'::uuid, 
-                '{newChannel.Name}', 
-                '{newChannel.Description}', 
-                false,
-                '{newChannel.DateOfCreation}'::TIMESTAMP
+                '{newComment.PostId}'::uuid,
+                '{newComment.UserId}'::uuid,
+                '{newComment.Text}'
             )
             RETURNING *;"
-        , MapChannelFromReader);
+        , MapCommentFromReader);
 
-        ChannelMemberService cmService = new(_config);
-        await cmService.Create(new ChannelMember
-        {
-            ChannelId = result.Record.Id,
-            UserId = result.Record.OwnerId
-        });
-
-        return result.Record;
     }
 
     public async Task<Channel> GetOne(Guid id)
     {
         QueryResult<Channel> result = await ExecuteQueryCommandAsync(
             $"SELECT * FROM channels WHERE id = '{id}'::uuid",
-            MapChannelFromReader);
+            MapCommentFromReader);
 
         if (!result.HasRecord)
             throw new NotFoundException("Channel not found.");
@@ -104,16 +86,16 @@ public class ChannelService(IConfiguration config) : DbService(config)
             throw new NotFoundException("No such channel exists.");
     }
 
-    private Channel MapChannelFromReader(NpgsqlDataReader reader)
+    private Comment MapCommentFromReader(NpgsqlDataReader reader)
     {
-        return new Channel()
+        return new Comment()
         {
             Id = reader.GetGuid(0),
-            OwnerId = reader.GetGuid(1),
-            Name = reader.GetString(2),
-            Description = reader.IsDBNull(3) ? "" : reader.GetString(3),
-            DateOfCreation = reader.GetDateTime(4),
-            IsPopular = reader.GetBoolean(5)
+            PostId = reader.GetGuid(1),
+            UserId = reader.GetGuid(2),
+            Text = reader.GetString(3),
+            IsEdited = reader.GetBoolean(4),
+            DateOfCreation = reader.GetDateTime(5)
         };
     }
 }
