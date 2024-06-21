@@ -5,42 +5,42 @@ using Microsoft.IdentityModel.Tokens;
 using Models;
 using Services;
 namespace Api;
-public class ServiceRegistry(WebApplicationBuilder builder, IConfiguration config)
+public class ServiceRegistry(WebApplicationBuilder builder, IConfiguration Config)
 {
     private WebApplicationBuilder Builder { get; } = builder;
-    private IConfiguration config { get; } = config;
+    private IConfiguration Config { get; } = Config;
     public void RegisterServices()
     {
         Builder.Services.AddScoped<AuthService, AuthService>();
-        builder.Services.AddScoped<ChannelService, ChannelService>();
-        builder.Services.AddScoped<ChannelMemberService, ChannelMemberService>();
-        builder.Services.AddScoped<PostService, PostService>();
-        builder.Services.AddScoped<CommentService, CommentService>();
-        builder.Services.AddScoped<ReplyService, ReplyService>();
+        Builder.Services.AddScoped<ChannelService, ChannelService>();
+        Builder.Services.AddScoped<ChannelMemberService, ChannelMemberService>();
+        Builder.Services.AddScoped<PostService, PostService>();
+        Builder.Services.AddScoped<CommentService, CommentService>();
+        Builder.Services.AddScoped<ReplyService, ReplyService>();
 
-        builder.Services.AddScoped<IUserPostInteractionService<Like>, UPIService<Like>>
-            (serviceProvider => new UPIService<Like>(config));
+        Builder.Services.AddScoped<IUserPostInteractionService<Like>, UPIService<Like>>
+            (serviceProvider => new UPIService<Like>(Config));
 
-        builder.Services.AddScoped<IUserPostInteractionService<Dislike>, UPIService<Dislike>>
-            (serviceProvider => new UPIService<Dislike>(config));
+        Builder.Services.AddScoped<IUserPostInteractionService<Dislike>, UPIService<Dislike>>
+            (serviceProvider => new UPIService<Dislike>(Config));
 
-        builder.Services.AddScoped<IUserPostInteractionService<Save>, UPIService<Save>>
-            (serviceProvider => new UPIService<Save>(config));
+        Builder.Services.AddScoped<IUserPostInteractionService<Save>, UPIService<Save>>
+            (serviceProvider => new UPIService<Save>(Config));
 
-        builder.Services.AddScoped<AugmentedUPIService<Like>, AugmentedUPIService<Like>>
-            (serviceProvider => new AugmentedUPIService<Like>(config));
+        Builder.Services.AddScoped<AugmentedUPIService<Like>, AugmentedUPIService<Like>>
+            (serviceProvider => new AugmentedUPIService<Like>(Config));
 
-        builder.Services.AddScoped<AugmentedUPIService<Dislike>, AugmentedUPIService<Dislike>>
-            (serviceProvider => new AugmentedUPIService<Dislike>(config));
+        Builder.Services.AddScoped<AugmentedUPIService<Dislike>, AugmentedUPIService<Dislike>>
+            (serviceProvider => new AugmentedUPIService<Dislike>(Config));
     }
 
     public void RegisterAuth()
     {
-        builder.Services
+        Builder.Services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(x =>
             {
-                JwtSettings? jwtSettings = config.GetSection("JwtSettings").Get<JwtSettings>()
+                JwtSettings? jwtSettings = Config.GetSection("JwtSettings").Get<JwtSettings>()
                     ?? throw new InvalidConfigurationException();
 
                 x.TokenValidationParameters = new TokenValidationParameters()
@@ -56,6 +56,6 @@ public class ServiceRegistry(WebApplicationBuilder builder, IConfiguration confi
                     ValidateIssuerSigningKey = true
                 };
             });
-        builder.Services.AddAuthorization();
+        Builder.Services.AddAuthorization();
     }
 }

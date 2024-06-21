@@ -8,14 +8,15 @@ public class ReplyEndpoints(WebApplication app) : EndpointMapper(app)
 {
     public void Map()
     {
-        _app.MapPost("/comments", 
+        _app.MapPost("/reply", 
         async
         (
-            [FromServices] CommentService commentService,
-            [FromBody] Comment newComment
+            [FromServices] ReplyService replyService,
+            [FromBody] Reply newReply 
         ) => 
         {
-
+            Reply replyData = await replyService.Create(newReply);
+            return Results.Ok(replyData);
         });
     }
 }

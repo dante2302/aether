@@ -8,6 +8,12 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
 {
     public void Map()
     {
+        MapCoreEndpoints();
+        MapChannelMemberEndpoints();
+        MapPostEndpoints();
+    }
+    private void MapCoreEndpoints()
+    {
         _app.MapGet("/channels/{name}",
         async
         ([FromRoute] string name,
@@ -58,9 +64,10 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
             await channelService.Delete(id);
             return Results.NoContent();
         });
+    }
 
-        /* CHANNEL MEMBER ENDPOINTS */
-
+    private void MapChannelMemberEndpoints()
+    {
         _app.MapPost("/channels/{id:guid}/join",
         async
         ([FromRoute] Guid id,
@@ -91,6 +98,9 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
             return Results.NoContent();
         });
 
+    }
+    private void MapPostEndpoints()
+    {
         _app.MapGet("channel/{channelId:guid}/posts",
         async 
         ([FromServices] PostService postService,
