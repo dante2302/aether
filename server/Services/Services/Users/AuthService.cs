@@ -15,7 +15,7 @@ public class AuthService(IConfiguration config) : DbService(config)
     public async Task<AuthenticationResult> Authenticate(UserCredentials userCredentials)
     {
             UserCredentials storedCredentials = await ucService.GetOne(userCredentials.Email);
-            User userData = await userService.GetOne(storedCredentials.UserId);
+            User userData = await userService.GetOne(storedCredentials.OwnerId);
             PasswordHasher<User> pHasher = new();
             var verificationResult = pHasher.VerifyHashedPassword(userData, storedCredentials.Password, userCredentials.Password);
             bool isSuccessful = verificationResult == PasswordVerificationResult.Success;
@@ -61,7 +61,7 @@ public class AuthService(IConfiguration config) : DbService(config)
         {
             Email = userCredentials.Email,
             Password = hashedPassword,
-            UserId = newUser.Id
+            OwnerId = newUser.Id
         };
 
         await ucService.Create(newUserCredentials);
