@@ -4,7 +4,7 @@ using Models;
 using Services;
 
 namespace Api;
-public class ChannelEndpoint(WebApplication app) : IEndpointMapper
+public class ChannelEndpoints(WebApplication app) : IEndpointMapper
 {
     private readonly WebApplication _app = app;
     public void Map()

@@ -8,15 +8,21 @@ using Exceptions;
 using Api;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddScoped<AuthService, AuthService>();
-builder.Services.AddScoped<ChannelService, ChannelService>();
-builder.Services.AddScoped<ChannelMemberService, ChannelMemberService>();
-builder.Services.AddScoped<PostService, PostService>();
-builder.Services.AddScoped<IUserPostInt, UserPostInteractionService<Like>();
 
 IConfiguration config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
+
+builder.Services.AddScoped<AuthService, AuthService>();
+builder.Services.AddScoped<ChannelService, ChannelService>();
+builder.Services.AddScoped<ChannelMemberService, ChannelMemberService>();
+builder.Services.AddScoped<PostService, PostService>();
+builder.Services.AddScoped<IUserPostInteractionService<Like>, UserPostInteractionService<Like>>
+    (serviceProvider =>
+    {
+        return new UserPostInteractionService<Like>(config, "likes");
+    });
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(x =>
@@ -41,10 +47,9 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 app.UseMiddleware<ExceptionHandler>();
-var endpointMapper = new EndpointMapper(app);
 
-endpointMapper.MapAuth();
-endpointMapper.MapChannels();
-endpointMapper.MapPosts();
+new AuthEndpoints(app).Map();
+new ChannelEndpoints(app).Map();
+new PostEndpoints(app).Map();
 
 app.Run();

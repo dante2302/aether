@@ -39,18 +39,18 @@ public class PostEndpoints(WebApplication app) : IEndpointMapper
         _app.MapGet("/posts/{postId:guid}/likesCount", 
         async 
         (
-            [FromServices] LikeService likeService,
+            [FromServices] IUserPostInteractionService<Like> likeService,
             [FromRoute] Guid postId
         ) =>
         {
-            long count = await likeService.GetLikeCount(postId);
+            long count = await likeService.GetCount(postId);
             return Results.Ok(count);
         });
 
         _app.MapPost("/posts/{postId:guid}/like",
         async
         (
-            [FromServices] LikeService likeService,
+            [FromServices] IUserPostInteractionService<Like> likeService,
             [FromRoute] Guid postId,
             [FromBody] Guid userId
         ) =>
@@ -67,7 +67,7 @@ public class PostEndpoints(WebApplication app) : IEndpointMapper
         _app.MapDelete("/posts/{postId:guid}/like",
         async
         (
-            [FromServices] UserPostInteractionService<Like> likeService,
+            [FromServices] IUserPostInteractionService<Like> likeService,
             [FromRoute] Guid postId,
             [FromBody] Guid userId
         ) => 

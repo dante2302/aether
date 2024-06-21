@@ -11,4 +11,6 @@ where T : UserPostInteraction, new()
 
     public Task<long> GetCount(Guid postId);
     public T MapInteractionFromReader(NpgsqlDataReader reader);
+
+    public Task<bool> Delete(T interaction);
 }
