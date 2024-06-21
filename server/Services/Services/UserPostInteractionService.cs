@@ -54,6 +54,16 @@ where T : UserPostInteraction, new()
         return (long)await command.ExecuteScalarAsync();
     }
 
+    public async Task<List<T>> GetByUser(Guid userId)
+    {
+        List<T> result = await ExecuteQueryListCommandAsync(
+        $@"SELECT * FROM {_tableName}
+           WHERE userId = '{userId}'::uuid"
+        ,MapInteractionFromReader);
+
+        return result;
+    }
+
     public T MapInteractionFromReader(NpgsqlDataReader reader)
     {
         return new T 

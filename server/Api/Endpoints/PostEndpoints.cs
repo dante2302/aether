@@ -5,9 +5,8 @@ using Services;
 
 namespace Api;
 
-public class PostEndpoints(WebApplication app) : IEndpointMapper
+public class PostEndpoints(WebApplication app) : EndpointMapper(app)
 {
-    private readonly WebApplication _app = app;
     public void Map()
     {
         _app.MapPost("/posts", 
@@ -34,140 +33,6 @@ public class PostEndpoints(WebApplication app) : IEndpointMapper
 
             List<Post> posts = await postService.GetPostsFromChannel(channelId, (int)limit, (int)offset);
             return Results.Ok(posts);
-        });
-
-        // *** LIKES ***
-        _app.MapGet("/posts/{postId:guid}/likesCount", 
-        async 
-        (
-            [FromServices] IUserPostInteractionService<Like> likeService,
-            [FromRoute] Guid postId
-        ) =>
-        {
-            long count = await likeService.GetCount(postId);
-            return Results.Ok(count);
-        });
-
-        _app.MapPost("/posts/{postId:guid}/like",
-        async
-        (
-            [FromServices] IUserPostInteractionService<Like> likeService,
-            [FromRoute] Guid postId,
-            [FromBody] Guid userId
-        ) =>
-        {
-            bool created = await likeService.Create(new Like
-            {
-                PostId = postId,
-                UserId = userId
-            }); 
-
-            return created ? Results.Ok() : Results.Problem("Internal Problem.");
-        });
-
-        _app.MapDelete("/posts/{postId:guid}/like",
-        async
-        (
-            [FromServices] IUserPostInteractionService<Like> likeService,
-            [FromRoute] Guid postId,
-            [FromBody] Guid userId
-        ) => 
-        {
-            var success = await likeService.Delete(new Like
-            {
-                PostId = postId,
-                UserId = userId
-            });
-
-            return success ? Results.NoContent() : Results.Problem("Internal Problem.");
-        });
-
-
-        // *** DISLIKES ***
-
-
-        _app.MapGet("/posts/{postId:guid}/dislikesCount", 
-        async 
-        (
-            [FromServices] IUserPostInteractionService<Like> likeService,
-            [FromRoute] Guid postId
-        ) =>
-        {
-            long count = await likeService.GetCount(postId);
-            return Results.Ok(count);
-        });
-
-        _app.MapPost("/posts/{postId:guid}/dislike",
-        async
-        (
-            [FromServices] IUserPostInteractionService<Dislike> dislikeService,
-            [FromRoute] Guid postId,
-            [FromBody] Guid userId
-        ) =>
-        {
-            bool created = await dislikeService.Create(new Dislike
-            {
-                PostId = postId,
-                UserId = userId
-            }); 
-
-            return created ? Results.Ok() : Results.Problem("Internal Problem.");
-        });
-
-        _app.MapDelete("/posts/{postId:guid}/dislike",
-        async
-        (
-            [FromServices] IUserPostInteractionService<Dislike> dislikeService,
-            [FromRoute] Guid postId,
-            [FromBody] Guid userId
-        ) => 
-        {
-            var success = await dislikeService.Delete(new Dislike
-            {
-                PostId = postId,
-                UserId = userId
-            });
-
-            return success ? Results.NoContent() : Results.Problem("Internal Problem.");
-        });
-
-
-        // *** SAVES *** 
-
-
-
-        _app.MapPost("/posts/{postId:guid}/saves",
-        async
-        (
-            [FromServices] IUserPostInteractionService<Save> saveService,
-            [FromRoute] Guid postId,
-            [FromBody] Guid userId
-        ) =>
-        {
-            bool created = await saveService.Create(new Save 
-            {
-                PostId = postId,
-                UserId = userId
-            }); 
-
-            return created ? Results.Ok() : Results.Problem("Internal Problem.");
-        });
-
-        _app.MapDelete("/posts/{postId:guid}/save",
-        async
-        (
-            [FromServices] IUserPostInteractionService<Save> saveService,
-            [FromRoute] Guid postId,
-            [FromBody] Guid userId
-        ) => 
-        {
-            var success = await saveService.Delete(new Save 
-            {
-                PostId = postId,
-                UserId = userId
-            });
-
-            return success ? Results.NoContent() : Results.Problem("Internal Problem.");
         });
     }
 }
