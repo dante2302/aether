@@ -29,5 +29,29 @@ public class CommentEndpoints(WebApplication app) : EndpointMapper(app)
             List<Comment> commentList = await commentService.GetCommentsFromPost(postId);
             return Results.Ok(commentList);
         });
+
+        _app.MapPut("/comments", 
+        async
+        (
+            [FromServices] CommentService commentService,
+            [FromBody] Comment updatedComment
+        ) => 
+        {
+            await commentService.Update(updatedComment);
+            return Results.NoContent();
+        }
+        );
+
+        _app.MapDelete("/comments/{id:guid}",
+        async
+        (
+            [FromServices] CommentService commentService,
+            [FromRoute] Guid id
+        ) => 
+        {
+            await commentService.Delete(id);
+            return Results.NoContent();
+        }
+        );
     }
 }

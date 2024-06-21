@@ -90,5 +90,20 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
             });
             return Results.NoContent();
         });
+
+        _app.MapGet("channel/{channelId:guid}/posts",
+        async 
+        ([FromServices] PostService postService,
+         [FromRoute] Guid channelId,
+         [FromQuery] int? limit,
+         [FromQuery] int? offset
+        ) =>
+        {
+            limit ??= 0;
+            offset ??= 0;
+
+            List<Post> posts = await postService.GetPostsFromChannel(channelId, (int)limit, (int)offset);
+            return Results.Ok(posts);
+        });
     }
 }

@@ -15,17 +15,6 @@ public class UserPostInteractionEndpoints(WebApplication app) : EndpointMapper(a
                       \/ 
     */
 
-        _app.MapGet("/likes/{postId:guid}/count",
-        async
-        (
-            [FromServices] IUserPostInteractionService<Like> likeService,
-            [FromRoute] Guid postId
-        ) =>
-        {
-            long count = await likeService.GetCount(postId);
-            return Results.Ok(count);
-        });
-
         _app.MapPost("/likes",
         async
         (
@@ -37,7 +26,7 @@ public class UserPostInteractionEndpoints(WebApplication app) : EndpointMapper(a
             var tempDislike = new Dislike
             {
                 PostId = newLike.PostId,
-                UserId = newLike.UserId
+                OwnerId = newLike.OwnerId
             };
 
             bool disliked = await dislikeService.InteractionExists(tempDislike);
@@ -79,16 +68,6 @@ public class UserPostInteractionEndpoints(WebApplication app) : EndpointMapper(a
                       \/ 
     */
 
-        _app.MapGet("/dislikes/{postId:guid}/count",
-        async
-        (
-            [FromServices] IUserPostInteractionService<Like> likeService,
-            [FromRoute] Guid postId
-        ) =>
-        {
-            long count = await likeService.GetCount(postId);
-            return Results.Ok(count);
-        });
 
         _app.MapPost("/dislikes",
         async
@@ -101,7 +80,7 @@ public class UserPostInteractionEndpoints(WebApplication app) : EndpointMapper(a
             var tempLike = new Like
             {
                 PostId = newDislike.PostId,
-                UserId = newDislike.UserId
+                OwnerId = newDislike.OwnerId
             };
 
             bool liked = await likeService.InteractionExists(tempLike);

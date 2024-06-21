@@ -20,19 +20,26 @@ public class PostEndpoints(WebApplication app) : EndpointMapper(app)
             return Results.Ok(p);
         });
 
-        _app.MapGet("/posts/{channelId:guid}",
-        async 
-        ([FromServices] PostService postService,
-         [FromRoute] Guid channelId,
-         [FromQuery] int? limit,
-         [FromQuery] int? offset
+        _app.MapGet("/posts/{postId:guid}/likescount", 
+        async
+        (
+            [FromServices] IUserPostInteractionService<Like> likeService,
+            [FromRoute] Guid postId
         ) =>
         {
-            limit ??= 0;
-            offset ??= 0;
+            long count = await likeService.GetCount(postId);
+            return Results.Ok(count);
+        });
 
-            List<Post> posts = await postService.GetPostsFromChannel(channelId, (int)limit, (int)offset);
-            return Results.Ok(posts);
+        _app.MapGet("posts/{postId:guid}/dislikescount",
+        async
+        (
+            [FromServices] IUserPostInteractionService<Dislike> dislikeService,
+            [FromRoute] Guid postId
+        ) =>
+        {
+            long count = await dislikeService.GetCount(postId);
+            return Results.Ok(count);
         });
     }
 }
