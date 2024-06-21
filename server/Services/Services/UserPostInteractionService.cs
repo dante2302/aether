@@ -1,3 +1,4 @@
+using Exceptions;
 using Microsoft.Extensions.Configuration;
 using Models;
 using Npgsql;
@@ -14,7 +15,13 @@ where T : UserPostInteraction, new()
         if(await InteractionExists(newInteraction))
             return true;
 
-        QueryResult<T> result = await ExecuteQueryCommandAsync(
+        if (!await RecordExistsAsync("users", "id", newInteraction.UserId))
+            throw new NotFoundException($"User with id {newInteraction.UserId} does not exist.");
+
+        if(!await RecordExistsAsync("posts", "id", newInteraction.PostId))
+            throw new NotFoundException($"Post with id {newInteraction.PostId} does not exist.");
+
+        QueryResult <T> result = await ExecuteQueryCommandAsync(
         $@"INSERT INTO {_tableName}
            VALUES(
                 '{newInteraction.PostId}'::uuid,

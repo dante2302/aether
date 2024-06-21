@@ -1,5 +1,3 @@
 namespace Models;
 
-public class Like : UserPostInteraction 
-{
-}
+public class Like : UserPostInteraction;
