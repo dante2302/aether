@@ -17,7 +17,7 @@ public class CommentService(IConfiguration config) : DbService(config)
             VALUES(
                 '{newComment.Id}':: uuid,
                 '{newComment.PostId}'::uuid,
-                '{newComment.UserId}'::uuid,
+                '{newComment.OwnerId}'::uuid,
                 '{newComment.Text}',
                 {newComment.IsEdited},
                 '{newComment.DateOfCreation}'::TIMESTAMP
@@ -80,7 +80,7 @@ public class CommentService(IConfiguration config) : DbService(config)
         {
             Id = reader.GetGuid(0),
             PostId = reader.GetGuid(1),
-            UserId = reader.GetGuid(2),
+            OwnerId = reader.GetGuid(2),
             Text = reader.GetString(3),
             IsEdited = reader.GetBoolean(4),
             DateOfCreation = reader.GetDateTime(5)

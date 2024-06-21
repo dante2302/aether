@@ -17,7 +17,7 @@ public class PostEndpoints(WebApplication app) : EndpointMapper(app)
         ) => 
         {
             Post p = await postService.Create(newPost);
-            return Results.Created(context.Request.GetDisplayUrl(), p);
+            return Results.Ok(p);
         });
 
         _app.MapGet("/posts/{channelId:guid}",

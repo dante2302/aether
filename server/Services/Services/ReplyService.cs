@@ -11,25 +11,29 @@ public class ReplyService(IConfiguration config) : DbService(config)
     {
         newReply.Id = Guid.NewGuid();
         QueryResult<Reply> result = await ExecuteQueryCommandAsync(@$"
-            INSERT INTO channels
+            INSERT INTO replies 
             VALUES(
                 '{newReply.Id}'::uuid,
-                '{newReply.UserId}'::uuid,
-                '{newReply.Text}'
+                '{newReply.ParentCommentId}'::uuid,
+                '{newReply.OwnerId}'::uuid,
+                '{newReply.ReplyToComment}'::uuid,
+                '{newReply.Text}',
+                {newReply.IsEdited},
+                '{newReply.DateOfCreation}'::TIMESTAMP
             )
             RETURNING *;"
         , MapReplyFromReader);
         return result.Record;
     }
 
-    public async Task<Comment> GetOne(Guid id)
+    public async Task<Reply> GetOne(Guid id)
     {
-        QueryResult<Comment> result = await ExecuteQueryCommandAsync(
-            $"SELECT * FROM channels WHERE id = '{id}'::uuid",
-            MapCommentFromReader);
+        QueryResult<Reply> result = await ExecuteQueryCommandAsync(
+            $"SELECT * FROM replies WHERE id = '{id}'::uuid",
+            MapReplyFromReader);
 
         if (!result.HasRecord)
-            throw new NotFoundException("Channel not found.");
+            throw new NotFoundException("Reply not found.");
 
         return result.Record;
     }
@@ -37,7 +41,7 @@ public class ReplyService(IConfiguration config) : DbService(config)
     public async Task<List<Reply>> GetRepliesFromComment(Guid commentId)
     {
        List<Reply> replies = await ExecuteQueryListCommandAsync(
-        $@"SELECT * FROM comments
+        $@"SELECT * FROM replies
            WHERE parentCommentId = '{commentId}'::uuid
            ORDER BY dateofcreation DESC
         "
@@ -73,8 +77,9 @@ public class ReplyService(IConfiguration config) : DbService(config)
         return new Reply()
         {
             Id = reader.GetGuid(0),
-            UserId = reader.GetGuid(2),
-            ReplyTo = reader.GetGuid(3)
+            ParentCommentId = reader.GetGuid(2),
+            OwnerId = reader.GetGuid(3),
+            ReplyToComment = reader.GetGuid(4),
             Text = reader.GetString(3),
             IsEdited = reader.GetBoolean(4),
             DateOfCreation = reader.GetDateTime(5)

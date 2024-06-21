@@ -15,8 +15,8 @@ where T : UserPostInteraction, new()
         if(await InteractionExists(newInteraction))
             return true;
 
-        if (!await RecordExistsAsync("users", "id", newInteraction.UserId))
-            throw new NotFoundException($"User with id {newInteraction.UserId} does not exist.");
+        if (!await RecordExistsAsync("users", "id", newInteraction.OwnerId))
+            throw new NotFoundException($"User with id {newInteraction.OwnerId} does not exist.");
 
         if(!await RecordExistsAsync("posts", "id", newInteraction.PostId))
             throw new NotFoundException($"Post with id {newInteraction.PostId} does not exist.");
@@ -25,7 +25,7 @@ where T : UserPostInteraction, new()
         $@"INSERT INTO {_tableName}
            VALUES(
                 '{newInteraction.PostId}'::uuid,
-                '{newInteraction.UserId}'::uuid
+                '{newInteraction.OwnerId}'::uuid
            )
            RETURNING *"
         ,MapInteractionFromReader);
@@ -38,7 +38,7 @@ where T : UserPostInteraction, new()
         QueryResult<T> result = await ExecuteQueryCommandAsync(
         $@"SELECT * FROM {_tableName} 
            WHERE postId = '{interaction.PostId}'::uuid
-           AND userId = '{interaction.UserId}'::uuid",
+           AND userId = '{interaction.OwnerId}'::uuid",
         (reader) => new T());
         return result.HasRecord;
     }
@@ -69,7 +69,7 @@ where T : UserPostInteraction, new()
         return new T 
         {
             PostId = reader.GetGuid(0),
-            UserId = reader.GetGuid(1),
+            OwnerId = reader.GetGuid(1),
         };
     }
 
@@ -77,7 +77,7 @@ where T : UserPostInteraction, new()
     {
         var result = await ExecuteNonQueryCommandAsync($@"
         DELETE FROM {_tableName}
-        WHERE userid = '{interaction.UserId}'::uuid
+        WHERE userid = '{interaction.OwnerId}'::uuid
         AND postid = '{interaction.PostId}'::uuid");
 
         return result > 0;

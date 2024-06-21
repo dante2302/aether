@@ -28,7 +28,7 @@ public class UserCredentialsService(IConfiguration config) : DbService(config)
             INSERT INTO UserCredentials
             VALUES( '{newUserCredentials.Email}',
                     '{newUserCredentials.Password}',
-                    '{newUserCredentials.UserId}'::UUID)
+                    '{newUserCredentials.OwnerId}'::UUID)
             RETURNING *;",
             MapUserCredentialsFromReader);
         return result.Record;
@@ -40,7 +40,7 @@ public class UserCredentialsService(IConfiguration config) : DbService(config)
         {
             Email = reader.GetString(0),
             Password = reader.GetString(1),
-            UserId = reader.GetGuid(2)
+            OwnerId = reader.GetGuid(2)
         };
     }
 }

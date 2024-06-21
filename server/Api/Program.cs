@@ -17,6 +17,8 @@ builder.Services.AddScoped<AuthService, AuthService>();
 builder.Services.AddScoped<ChannelService, ChannelService>();
 builder.Services.AddScoped<ChannelMemberService, ChannelMemberService>();
 builder.Services.AddScoped<PostService, PostService>();
+builder.Services.AddScoped<CommentService, CommentService>();
+builder.Services.AddScoped<ReplyService, ReplyService>();
 
 builder.Services.AddScoped<IUserPostInteractionService<Like>, UserPostInteractionService<Like>>
     (serviceProvider =>
@@ -65,5 +67,6 @@ new ChannelEndpoints(app).Map();
 new PostEndpoints(app).Map();
 new UserPostInteractionEndpoints(app).Map();
 new CommentEndpoints(app).Map();
+new ReplyEndpoints(app).Map();
 
 app.Run();
