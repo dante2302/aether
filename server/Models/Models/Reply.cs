@@ -6,5 +6,6 @@ public class Reply : IRecord
     public Guid ParentCommentId { get; set; }
     public Guid UserId { get; set; }
     public required string Text { get; set; }
+    public bool IsEdited { get; set; }
     public DateTime DateOfCreation { get; set; }
 }

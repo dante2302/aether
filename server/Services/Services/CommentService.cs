@@ -13,77 +13,65 @@ public class CommentService(IConfiguration config) : DbService(config)
     {
         newComment.Id = Guid.NewGuid();
         QueryResult<Comment> result = await ExecuteQueryCommandAsync(@$"
-            INSERT INTO channels
+            INSERT INTO comments
             VALUES(
+                '{newComment.Id}':: uuid,
                 '{newComment.PostId}'::uuid,
                 '{newComment.UserId}'::uuid,
-                '{newComment.Text}'
+                '{newComment.Text}',
+                {newComment.IsEdited},
+                '{newComment.DateOfCreation}'::TIMESTAMP
             )
             RETURNING *;"
         , MapCommentFromReader);
-
+        return result.Record;
     }
 
-    public async Task<Channel> GetOne(Guid id)
+    public async Task<Comment> GetOne(Guid id)
     {
-        QueryResult<Channel> result = await ExecuteQueryCommandAsync(
-            $"SELECT * FROM channels WHERE id = '{id}'::uuid",
+        QueryResult<Comment> result = await ExecuteQueryCommandAsync(
+            $"SELECT * FROM comments WHERE id = '{id}'::uuid",
             MapCommentFromReader);
 
         if (!result.HasRecord)
-            throw new NotFoundException("Channel not found.");
+            throw new NotFoundException("Comment not found.");
 
         return result.Record;
     }
 
-    public async Task<Channel> GetOneByCriteria<T>(string columnName, T columnValue)
+    public async Task<List<Comment>> GetCommentsFromPost(Guid postId)
     {
-        string command =
-            $@"SELECT * FROM channels WHERE {columnName} = 
-            {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'{columnValue}'" : columnValue)}
-            {ColumnTypeHelper.GetAnnotation<T>()}";
-
-        QueryResult<Channel> result = await ExecuteQueryCommandAsync(command, MapChannelFromReader);
-
-        if (!result.HasRecord)
-            throw new NotFoundException("Channel not found.");
-
-        return result.Record;
+       List<Comment> comments = await ExecuteQueryListCommandAsync(
+        $@"SELECT * FROM comments
+           WHERE postid = '{postId}'::uuid
+           ORDER BY dateofcreation DESC
+        "
+       ,MapCommentFromReader);
+       return comments;
     }
 
-    public async Task<string> GetName(Guid id)
-    {
-        QueryResult<string> result = await ExecuteQueryCommandAsync(
-            @$"SELECT name FROM channels
-               WHERE id = {id}", (reader) => reader.GetString(0));
-
-        if (!result.HasRecord)
-            throw new NotFoundException("No such channel");
-
-        return result.Record;
-    }
-    public async Task Update(Channel updatedChannel)
+    public async Task Update(Comment updatedComment)
     {
         int rowsAffected = await ExecuteNonQueryCommandAsync($@"
-            UPDATE channels
-            SET name = '{updatedChannel.Name}',
-                description = '{updatedChannel.Description}',
-                ispopular = {updatedChannel.IsPopular}
-            WHERE id = '{updatedChannel.Id}'::uuid
+            UPDATE comments
+            SET
+                Text = '{updatedComment.Text}',
+                IsEdited = true
+            WHERE id = '{updatedComment.Id}'::uuid
         ");
 
         if (rowsAffected <= 0)
-            throw new NotFoundException("No such channel exists.");
+            throw new NotFoundException("No such comment exists.");
     }
     public async Task Delete(Guid id)
     {
         int rowsAffected = await ExecuteNonQueryCommandAsync($@"
-            DELETE FROM channels 
+            DELETE FROM comments 
             WHERE id = '{id}'::uuid
        ");
 
         if (rowsAffected <= 0)
-            throw new NotFoundException("No such channel exists.");
+            throw new NotFoundException("No such comment exists.");
     }
 
     private Comment MapCommentFromReader(NpgsqlDataReader reader)

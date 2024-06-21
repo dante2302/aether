@@ -41,13 +41,6 @@ public class PostService(IConfiguration config) : DbService(config)
             RETURNING *;"
         , MapPostFromReader);
 
-        ChannelMemberService cmService = new(_config);
-        await cmService.Create(new ChannelMember
-        {
-            ChannelId = result.Record.Id,
-            UserId = result.Record.OwnerId
-        });
-
         return result.Record;
     }
 

@@ -26,12 +26,25 @@ public class UserService(IConfiguration config) : DbService(config)
         return result.Record;
     }
 
-
     public async Task<User> GetOne(Guid id)
     {
         QueryResult<User> result = await ExecuteQueryCommandAsync(
             $"SELECT * FROM Users WHERE Id = '{id}'::UUID",
             MapUserFromReader);
+
+        if(!result.HasRecord)
+            throw new NotFoundException("User not found");
+
+        return result.Record;
+    }
+
+    public async Task<string> GetName(Guid id)
+    {
+
+        QueryResult<string> result = await ExecuteQueryCommandAsync(
+            $"SELECT * FROM Users WHERE Id = '{id}'::UUID",
+            (reader) => reader.GetString(0)
+        );
 
         if(!result.HasRecord)
             throw new NotFoundException("User not found");
