@@ -1,3 +1,4 @@
+using Models;
 using Npgsql;
 
 namespace Services;

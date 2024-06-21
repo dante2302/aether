@@ -4,12 +4,13 @@ using Models;
 using Npgsql;
 
 namespace Services;
-public class UserPostInteractionService<T>(IConfiguration config, string tableName) :
+// UPI STANDS FOR USER POST INTERACTION
+public class UPIService<T>(IConfiguration config) :
     DbService(config),
     IUserPostInteractionService<T>
 where T : UserPostInteraction, new()
 {
-    private readonly string _tableName = tableName;
+    private readonly string _tableName = UPIHelper.GetInteractionTableName<T>();
     public async Task<bool> Create(T newInteraction)
     {
         if(await InteractionExists(newInteraction))
@@ -20,6 +21,7 @@ where T : UserPostInteraction, new()
 
         if(!await RecordExistsAsync("posts", "id", newInteraction.PostId))
             throw new NotFoundException($"Post with id {newInteraction.PostId} does not exist.");
+
 
         QueryResult <T> result = await ExecuteQueryCommandAsync(
         $@"INSERT INTO {_tableName}

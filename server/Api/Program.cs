@@ -20,23 +20,20 @@ builder.Services.AddScoped<PostService, PostService>();
 builder.Services.AddScoped<CommentService, CommentService>();
 builder.Services.AddScoped<ReplyService, ReplyService>();
 
-builder.Services.AddScoped<IUserPostInteractionService<Like>, UserPostInteractionService<Like>>
-    (serviceProvider =>
-    {
-        return new UserPostInteractionService<Like>(config, "likes");
-    });
+builder.Services.AddScoped<IUserPostInteractionService<Like>, UPIService<Like>>
+    (serviceProvider => new UPIService<Like>(config));
 
-builder.Services.AddScoped<IUserPostInteractionService<Save>, UserPostInteractionService<Save>>
-    (serviceProvider =>
-    {
-        return new UserPostInteractionService<Save>(config, "saves");
-    });
+builder.Services.AddScoped<IUserPostInteractionService<Dislike>, UPIService<Dislike>>
+    (serviceProvider => new UPIService<Dislike>(config));
 
-builder.Services.AddScoped<IUserPostInteractionService<Dislike>, UserPostInteractionService<Dislike>>
-    (serviceProvider =>
-    {
-        return new UserPostInteractionService<Dislike>(config, "dislikes");
-    });
+builder.Services.AddScoped<IUserPostInteractionService<Save>, UPIService<Save>>
+    (serviceProvider => new UPIService<Save>(config));
+
+builder.Services.AddScoped<AugmentedUPIService<Like>, AugmentedUPIService<Like>>
+    (serviceProvider => new AugmentedUPIService<Like>(config));
+
+builder.Services.AddScoped<AugmentedUPIService<Dislike>, AugmentedUPIService<Dislike>>
+    (serviceProvider => new AugmentedUPIService<Dislike>(config));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(x =>
