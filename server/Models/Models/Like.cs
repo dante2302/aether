@@ -1,7 +1,5 @@
 namespace Models;
 
-public class Like : IRecord
+public class Like : UserPostInteraction 
 {
-    public Guid PostId { get; set; }
-    public Guid UserId { get; set; }
 }

@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Models;
 using Npgsql;
-using Services;
 
+namespace Services;
 public class LikeService(IConfiguration config) : DbService(config)
 {
     public async Task<bool> Create(Like newLike)
@@ -50,5 +50,15 @@ public class LikeService(IConfiguration config) : DbService(config)
             PostId = reader.GetGuid(0),
             UserId = reader.GetGuid(1),
         };
+    }
+
+    public async Task<bool> Delete(Like like)
+    {
+        var result = await ExecuteNonQueryCommandAsync($@"
+        DELETE FROM likes
+        WHERE userid = '{like.UserId}':uuid
+        AND postid = '{like.PostId}'::uuid");
+
+        return result > 0;
     }
 }

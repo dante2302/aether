@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Protocols.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Services;
+using Exceptions;
 using Api;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,7 @@ builder.Services.AddScoped<AuthService, AuthService>();
 builder.Services.AddScoped<ChannelService, ChannelService>();
 builder.Services.AddScoped<ChannelMemberService, ChannelMemberService>();
 builder.Services.AddScoped<PostService, PostService>();
-builder.Services.AddScoped<LikeService, LikeService>();
+builder.Services.AddScoped<IUserPostInt, UserPostInteractionService<Like>();
 
 IConfiguration config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")

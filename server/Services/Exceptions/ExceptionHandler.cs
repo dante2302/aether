@@ -1,7 +1,8 @@
 using Exceptions;
+using Microsoft.AspNetCore.Http;
 using Npgsql;
 
-namespace Api;
+namespace Exceptions;
 public class ExceptionHandler(RequestDelegate next)
 {
     private readonly RequestDelegate _next = next;
