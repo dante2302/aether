@@ -12,8 +12,6 @@ var serviceRegistry = new ServiceRegistry(builder, config);
 serviceRegistry.RegisterServices();
 serviceRegistry.RegisterAuth();
 
-
-
 var app = builder.Build();
 app.UseMiddleware<ExceptionHandler>();
 app.UseMiddleware<AuthMiddleware>();

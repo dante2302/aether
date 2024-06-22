@@ -57,7 +57,7 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
         ) =>
         {
             Guid jwtUserId = JwtClaimHelper.GetUserId(context);
-            if(jwtUserId != updatedChannel.Id)
+            if(jwtUserId != updatedChannel.OwnerId)
                 return Results.Forbid();
 
             await channelService.Update(updatedChannel);

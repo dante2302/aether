@@ -54,7 +54,7 @@ public class ServiceRegistry(WebApplicationBuilder builder, IConfiguration Confi
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
+                    ValidateIssuerSigningKey = true
                 };
             });
         Builder.Services.AddAuthorization(options => 
