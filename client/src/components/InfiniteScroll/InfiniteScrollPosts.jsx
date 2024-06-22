@@ -1,6 +1,6 @@
 import PostRender from '../Post/PostRender.jsx'
 
-import { getPostData } from '../../apis/postApi.js'
+import { getPostData } from '../../services/postService.js'
 
 import { useState, useEffect } from "react"
 

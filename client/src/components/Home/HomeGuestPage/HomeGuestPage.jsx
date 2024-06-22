@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import InfiniteScrollPosts from '../../InfiniteScroll/InfiniteScrollPosts.jsx'
 import PopularChannels from './PopularChannels.jsx'
 import styles from './styles/HomeGuest.module.css'
-import { getPopularPosts } from '../../../apis/popularApi.js'
+import { getPopularPosts } from '../../../services/popularApi.js'
 
 const HomeGuest = () => {
   const [posts,setPosts] = useState()

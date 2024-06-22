@@ -1,5 +1,5 @@
-import { updatePostData } from '../../apis/postApi.js'
-import { updateUserData } from '../../apis/userApi'
+import { updatePostData } from '../../services/postService.js'
+import { updateUserData } from '../../services/userService'
 
 import { useState, useEffect, useContext } from "react"
 

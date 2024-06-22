@@ -1,5 +1,5 @@
 import useDisabled from "../../hooks/useDisabled"
-import { updateCommentData } from "../../apis/commentApi"
+import { updateCommentData } from "../../services/commentService"
 import userDataContext from '../../contexts/UserDataContext'
 import { useContext, useState } from "react"
 

@@ -1,7 +1,7 @@
 import SearchResultsCompact from './SearchResultsCompact'
 
-import { searchPosts } from '../../apis/postApi.js' 
-import { searchChannels } from '../../apis/channelService.js'
+import { searchPosts } from '../../services/postService.js' 
+import { searchChannels } from '../../services/channelService.js'
 
 import { useState, useEffect } from 'react'
 

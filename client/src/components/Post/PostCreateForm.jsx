@@ -2,8 +2,8 @@ import { useContext, useEffect, useState } from "react"
 
 import * as formUtils from '../../utils/formUtils.js'
 
-import * as postApi from '../../apis/postApi.js'
-import {getChannelData} from '../../apis/channelService.js'
+import * as postApi from '../../services/postService.js'
+import {getChannelData} from '../../services/channelService.js'
 
 import { useNavigate } from "react-router-dom"
 

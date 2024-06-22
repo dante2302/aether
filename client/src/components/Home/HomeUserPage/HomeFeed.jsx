@@ -1,6 +1,6 @@
 import InfiniteScrollPosts from '../../InfiniteScroll/InfiniteScrollPosts'
 import CreatePostBar from '../../Post/CreatePostBar'
-import { getChannelData } from '../../../apis/channelService'
+import { getChannelData } from '../../../services/channelService'
 import styles from './styles/HomeFeed.module.css'
 import { useEffect, useRef, useState } from 'react'
 

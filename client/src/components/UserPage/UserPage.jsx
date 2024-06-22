@@ -1,6 +1,6 @@
 import UserPageSidebar from './UserPageSidebar'
 
-import { getUserDataByProp } from '../../apis/userApi'
+import { getUserDataByProp } from '../../services/userService'
 
 import { useState, useEffect, useContext } from 'react'
 

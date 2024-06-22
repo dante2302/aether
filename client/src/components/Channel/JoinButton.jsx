@@ -1,5 +1,5 @@
 import { updateChannelData } from '../../apis/channelService.js' 
-import { updateUserData } from '../../apis/userApi.js'
+import { updateUserData } from '../../services/userService.js'
 
 import {useEffect, useContext} from 'react'
 

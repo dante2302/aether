@@ -1,7 +1,7 @@
 
 import { useContext, useEffect, useState } from 'react'
 
-import { createComment } from '../../apis/commentApi'
+import { createComment } from '../../services/commentService'
 import useDisabled from '../../hooks/useDisabled'
 import userDataContext from '../../contexts/UserDataContext'
 import styles from './styles/CommentCreateForm.module.css'

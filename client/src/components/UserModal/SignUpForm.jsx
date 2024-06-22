@@ -1,10 +1,10 @@
 import {changeHandler, validatePassword, validateUsername, validateEmail} from '../../utils/formUtils.js'
-import {signUp} from '../../apis/userApi.js'
+import {signUp} from '../../services/userService.js'
 
 import { useState, useEffect } from "react"
 
 import useDisabled from '../../hooks/useDisabled.jsx'
-
+import UserDataContext from '../../contexts/UserDataContext'
 
 import UilArrowRight from '@iconscout/react-unicons/icons/uil-arrow-right'
 import UilArrowLeft from '@iconscout/react-unicons/icons/uil-arrow-left'
@@ -13,7 +13,9 @@ import UilEyeSlash from '@iconscout/react-unicons/icons/uil-eye-slash.js'
 import UilSad from '@iconscout/react-unicons/icons/uil-sad.js'
 import styles from './styles/SignUpForm.module.css'
 
-const SignUpForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
+const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
+
+  const {setUserData} = useContext(UserDataContext)
 
   const initialFormState = {
     username: '',
@@ -104,7 +106,6 @@ const SignUpForm = ({setUserData,toggleUserModal,setCurrentMode}) => {
       {
       chooseUsername 
         ?
-
         <>
           <h3> Choose a Username </h3>
           <div className={`${styles['input-container']} `}>

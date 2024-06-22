@@ -1,6 +1,6 @@
 
 import * as formUtils from '../../utils/formUtils.js'
-import * as channelApi from '../../apis/channelService.js'
+import * as channelApi from '../../services/channelService.js'
 
 import { useNavigate } from "react-router-dom"
 import { useState, useContext, useEffect } from "react"

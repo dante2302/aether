@@ -1,7 +1,7 @@
 import ModalPrototype from '../ModalPrototype'
 
-import { deleteComment } from '../../apis/commentApi'
-import { deletePost } from '../../apis/postApi'
+import { deleteComment } from '../../services/commentService'
+import { deletePost } from '../../services/postService'
 
 import { useContext } from 'react'
 import UserDataContext from '../../contexts/UserDataContext'

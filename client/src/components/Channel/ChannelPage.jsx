@@ -3,7 +3,7 @@ import ChannelSidebar from './ChannelSidebar.jsx'
 // import InfiniteScrollPosts from '../InfiniteScroll/InfiniteScrollPosts.jsx'
 // import CreatePostBar from '../Post/CreatePostBar.jsx'
 
-import { getChannelDataByName } from '../../apis/channelService.js' 
+import { getChannelDataByName } from '../../services/channelService.js' 
 
 import { useState, useEffect, useContext } from "react"
 import { useNavigate, useParams } from "react-router-dom"

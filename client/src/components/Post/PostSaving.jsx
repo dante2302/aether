@@ -1,4 +1,4 @@
-import { updateUserData } from '../../apis/userApi.js'
+import { updateUserData } from '../../services/userService.js'
 
 import { useState, useEffect, useContext } from 'react'
 

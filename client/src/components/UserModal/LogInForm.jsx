@@ -1,5 +1,5 @@
 
-import { logIn } from '../../apis/authService.js'
+import { logIn } from '../../services/authService.js'
 import { changeHandler } from '../../utils/formUtils.js'
 import useLoading from '../../hooks/useLoading.jsx'
 
