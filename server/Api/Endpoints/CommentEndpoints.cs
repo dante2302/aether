@@ -18,6 +18,17 @@ public class CommentEndpoints(WebApplication app) : EndpointMapper(app)
             return Results.Ok(new {commentData});
         });
 
+        _app.MapGet("/comments/{commentId:guid}/replies",
+        async 
+        (
+            [FromRoute] Guid commentId,
+            [FromServices] ReplyService replyService 
+        ) => 
+        {
+            List<Reply> replies = await replyService.GetRepliesFromComment(commentId);
+            return Results.Ok(replies);
+        });
+
         _app.MapPut("/comments", 
         async
         (

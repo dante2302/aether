@@ -31,9 +31,9 @@ public class ChannelMemberService(IConfiguration config) : DbService(config)
 
         int result = await ExecuteNonQueryCommandAsync(@$"
             DELETE FROM ChannelMembers
-            WHERE channelId = '{channelMember.ChannelId}'::uuid, 
+            WHERE channelId = '{channelMember.ChannelId}'::uuid
             AND userId = '{channelMember.UserId}'::uuid 
-        )");
+        ");
 
         if(result <= 0){
             throw new NpgsqlException();

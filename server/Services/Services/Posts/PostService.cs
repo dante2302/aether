@@ -36,8 +36,8 @@ public class PostService(IConfiguration config) : DbService(config)
                 '{newPost.Text}',
                 '{newPost.LinkUrl}',
                 '{newPost.ImgUrl}',
-                '{newPost.DateOfCreation}'::TIMESTAMP, 
-                {newPost.IsPopular})
+                {newPost.IsPopular},
+                '{newPost.DateOfCreation}'::TIMESTAMP)
             RETURNING *;"
         , MapPostFromReader);
 
@@ -57,14 +57,14 @@ public class PostService(IConfiguration config) : DbService(config)
         return result.Record;
     }
 
-    public async Task<List<Post>> GetPostsFromChannel(Guid channelId, int limit=0, int offset=0)
+    public async Task<List<Post>> GetPostsFromChannel(Guid channelId, int? limit=null, int? offset=null)
     {
        List<Post> posts = await ExecuteQueryListCommandAsync(
         $@"SELECT * FROM posts
            WHERE channelid = '{channelId}'::uuid
            ORDER BY dateofcreation DESC
-           LIMIT {limit}
-           OFFSET {offset}
+           LIMIT {(limit is null ? "ALL" : limit)}
+           OFFSET {offset ?? 0}
         "
        ,MapPostFromReader);
 
@@ -81,8 +81,8 @@ public class PostService(IConfiguration config) : DbService(config)
             Text = reader.IsDBNull(4) ? "" : reader.GetString(4),
             LinkUrl = reader.IsDBNull(5) ? "" : reader.GetString(5), 
             ImgUrl = reader.IsDBNull(6) ? "" : reader.GetString(6),
-            DateOfCreation = reader.GetDateTime(7),
-            IsPopular = reader.GetBoolean(8)
+            IsPopular = reader.GetBoolean(7),
+            DateOfCreation = reader.GetDateTime(8)
         };
     }
 

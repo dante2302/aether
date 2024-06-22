@@ -112,8 +112,8 @@ public class ChannelService(IConfiguration config) : DbService(config)
             OwnerId = reader.GetGuid(1),
             Name = reader.GetString(2),
             Description = reader.IsDBNull(3) ? "" : reader.GetString(3),
-            DateOfCreation = reader.GetDateTime(4),
-            IsPopular = reader.GetBoolean(5)
+            IsPopular = reader.GetBoolean(4),
+            DateOfCreation = reader.GetDateTime(5)
         };
     }
 }

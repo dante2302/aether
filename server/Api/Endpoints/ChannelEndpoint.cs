@@ -90,7 +90,7 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
          [FromServices] ChannelMemberService cmService
         ) =>
         {
-            await cmService.Create(new ChannelMember
+            await cmService.Delete(new ChannelMember
             {
                 ChannelId = id,
                 UserId = userId
@@ -101,7 +101,7 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
     }
     private void MapPostEndpoints()
     {
-        _app.MapGet("channel/{channelId:guid}/posts",
+        _app.MapGet("channels/{channelId:guid}/posts",
         async 
         ([FromServices] PostService postService,
          [FromRoute] Guid channelId,
@@ -109,11 +109,8 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
          [FromQuery] int? offset
         ) =>
         {
-            limit ??= 0;
-            offset ??= 0;
-
-            List<Post> posts = await postService.GetPostsFromChannel(channelId, (int)limit, (int)offset);
-            return Results.Ok(posts);
+            List<Post> postList = await postService.GetPostsFromChannel(channelId, limit, offset);
+            return Results.Ok(new {postList});
         });
     }
 }

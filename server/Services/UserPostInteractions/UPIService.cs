@@ -40,7 +40,7 @@ where T : UserPostInteraction, new()
         QueryResult<T> result = await ExecuteQueryCommandAsync(
         $@"SELECT * FROM {_tableName} 
            WHERE postId = '{interaction.PostId}'::uuid
-           AND userId = '{interaction.OwnerId}'::uuid",
+           AND ownerId = '{interaction.OwnerId}'::uuid",
         (reader) => new T());
         return result.HasRecord;
     }
@@ -60,10 +60,20 @@ where T : UserPostInteraction, new()
     {
         List<T> result = await ExecuteQueryListCommandAsync(
         $@"SELECT * FROM {_tableName}
-           WHERE userId = '{userId}'::uuid"
+           WHERE ownerId = '{userId}'::uuid"
         ,MapInteractionFromReader);
 
         return result;
+    }
+
+    public async Task<bool> Delete(T interaction)
+    {
+        var result = await ExecuteNonQueryCommandAsync($@"
+        DELETE FROM {_tableName}
+        WHERE ownerid = '{interaction.OwnerId}'::uuid
+        AND postid = '{interaction.PostId}'::uuid");
+
+        return result > 0;
     }
 
     public T MapInteractionFromReader(NpgsqlDataReader reader)
@@ -73,15 +83,5 @@ where T : UserPostInteraction, new()
             PostId = reader.GetGuid(0),
             OwnerId = reader.GetGuid(1),
         };
-    }
-
-    public async Task<bool> Delete(T interaction)
-    {
-        var result = await ExecuteNonQueryCommandAsync($@"
-        DELETE FROM {_tableName}
-        WHERE userid = '{interaction.OwnerId}'::uuid
-        AND postid = '{interaction.PostId}'::uuid");
-
-        return result > 0;
     }
 }

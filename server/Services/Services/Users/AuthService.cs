@@ -64,8 +64,8 @@ public class AuthService(IConfiguration config) : DbService(config)
             OwnerId = newUser.Id
         };
 
-        await ucService.Create(newUserCredentials);
         User createdUser = await userService.Create(newUser);
+        await ucService.Create(newUserCredentials);
         
         return createdUser;
     }

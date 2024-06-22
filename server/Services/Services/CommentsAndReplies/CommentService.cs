@@ -12,6 +12,8 @@ public class CommentService(IConfiguration config) : DbService(config)
     public async Task<Comment> Create(Comment newComment)
     {
         newComment.Id = Guid.NewGuid();
+        newComment.IsEdited = false;
+        newComment.DateOfCreation = DateTime.Now;
         QueryResult<Comment> result = await ExecuteQueryCommandAsync(@$"
             INSERT INTO comments
             VALUES(
