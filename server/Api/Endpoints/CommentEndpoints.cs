@@ -9,11 +9,15 @@ public class CommentEndpoints(WebApplication app) : EndpointMapper(app)
     {
         _app.MapPost("/comments", 
         async
-        (
+        (   HttpContext context,
             [FromServices] CommentService commentService,
             [FromBody] Comment newComment
         ) => 
         {
+            Guid jwtUserId = JwtClaimHelper.GetUserId(context);
+            if(jwtUserId != newComment.OwnerId)
+                return Results.Forbid();
+
             Comment commentData = await commentService.Create(newComment);
             return Results.Ok(new {commentData});
         });
@@ -32,10 +36,15 @@ public class CommentEndpoints(WebApplication app) : EndpointMapper(app)
         _app.MapPut("/comments", 
         async
         (
+            HttpContext context,
             [FromServices] CommentService commentService,
             [FromBody] Comment updatedComment
         ) => 
         {
+            Guid jwtUserId = JwtClaimHelper.GetUserId(context);
+            if(jwtUserId != updatedComment.OwnerId)
+                return Results.Forbid();
+
             await commentService.Update(updatedComment);
             return Results.NoContent();
         }
@@ -49,7 +58,8 @@ public class CommentEndpoints(WebApplication app) : EndpointMapper(app)
             [FromRoute] Guid id
         ) => 
         {
-            await commentService.Delete(id);
+            Guid jwtUserId = JwtClaimHelper.GetUserId(context);
+            await commentService.Delete(id, jwtUserId);
             return Results.NoContent();
         }
         );

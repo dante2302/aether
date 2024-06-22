@@ -60,16 +60,18 @@ public class CommentService(IConfiguration config) : DbService(config)
                 Text = '{updatedComment.Text}',
                 IsEdited = true
             WHERE id = '{updatedComment.Id}'::uuid
+            AND ownerId = '{updatedComment.OwnerId}'::uuid
         ");
 
         if (rowsAffected <= 0)
             throw new NotFoundException("No such comment exists.");
     }
-    public async Task Delete(Guid id)
+    public async Task Delete(Guid id, Guid ownerId)
     {
         int rowsAffected = await ExecuteNonQueryCommandAsync($@"
             DELETE FROM comments 
             WHERE id = '{id}'::uuid
+            AND ownerId = '{ownerId}'::uuid
        ");
 
         if (rowsAffected <= 0)

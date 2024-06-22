@@ -89,7 +89,7 @@ public class ChannelService(IConfiguration config) : DbService(config)
                 description = '{updatedChannel.Description}',
                 ispopular = {updatedChannel.IsPopular}
             WHERE id = '{updatedChannel.Id}'::uuid
-            AND ownerid = '{updatedChannel.OwnerId}'
+            AND ownerid = '{updatedChannel.OwnerId}'::uuid
         ");
 
         if (rowsAffected <= 0)

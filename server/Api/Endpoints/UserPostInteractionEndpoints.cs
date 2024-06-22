@@ -29,22 +29,30 @@ public class UserPostInteractionEndpoints(WebApplication app) : EndpointMapper(a
 
         _app.MapPost("/likes",
         async
-        (
+        (   HttpContext context,
             [FromServices] AugmentedUPIService<Like> likeService,
             [FromBody] Like newLike
         ) =>
         {
+            Guid jwtUserId = JwtClaimHelper.GetUserId(context);
+            if(jwtUserId != newLike.OwnerId)
+                return Results.Forbid();
+
             bool created = await likeService.CreateMutuallyExclusive<Dislike>(newLike);
             return created ? Results.Ok() : Results.Problem("Internal Problem.");
         });
 
         _app.MapDelete("/likes",
         async
-        (
+        (   HttpContext context,
             [FromServices] IUserPostInteractionService<Like> likeService,
             [FromBody] Like like
         ) =>
         {
+            Guid jwtUserId = JwtClaimHelper.GetUserId(context);
+            if(jwtUserId != like.OwnerId)
+                return Results.Forbid();
+
             var success = await likeService.Delete(like);
             return success ? Results.NoContent() : Results.Problem("Internal Problem.");
         });
@@ -54,12 +62,16 @@ public class UserPostInteractionEndpoints(WebApplication app) : EndpointMapper(a
     {
         _app.MapPost("/dislikes",
         async
-        (
+        (   HttpContext context,
             [FromServices] AugmentedUPIService<Dislike> dislikeService,
             [FromServices] IUserPostInteractionService<Like> likeService,
             [FromBody] Dislike newDislike
         ) =>
         {
+            Guid jwtUserId = JwtClaimHelper.GetUserId(context);
+            if(jwtUserId != newDislike.OwnerId)
+                return Results.Forbid();
+
             bool created = await dislikeService.CreateMutuallyExclusive<Dislike>(newDislike);
             return created ? Results.Ok() : Results.Problem("Internal Problem.");
         });
@@ -77,11 +89,14 @@ public class UserPostInteractionEndpoints(WebApplication app) : EndpointMapper(a
 
         _app.MapDelete("/dislikes",
         async
-        (
+        (   HttpContext context,
             [FromServices] IUserPostInteractionService<Dislike> dislikeService,
             [FromBody] Dislike dislike
         ) =>
         {
+            Guid jwtUserId = JwtClaimHelper.GetUserId(context);
+            if(jwtUserId != dislike.OwnerId)
+                return Results.Forbid();
             var success = await dislikeService.Delete(dislike);
             return success ? Results.NoContent() : Results.Problem("Internal Problem.");
         });
