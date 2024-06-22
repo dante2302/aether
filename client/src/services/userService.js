@@ -34,23 +34,6 @@ export const signUp = async ({email,password,username}) => {
     return {...serverData,...userData} 
 }
 
-
-const createUserData = async (username,accessToken) => {
-  const bodyData = {
-    username:username,
-    posts:[],
-    channels:[],
-    authorChannels:[],
-    savedPosts:[],
-    likedPosts:[],
-    dislikedPosts:[],
-    comments:[],
-    socialLinks:[],
-  }
-  const data = await request.post({url:dataUrl,accessToken,bodyData})
-  return data
-}
-
 export const getUserDataByProp = async (prop,value) => {
   const data = await request.search({url:dataUrl,prop,value})
   return data[0]

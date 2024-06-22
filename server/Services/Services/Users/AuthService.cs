@@ -1,10 +1,11 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Text;
+﻿using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Protocols.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using Models;
+using System.Security.Claims;
 
 namespace Services;
 
@@ -21,7 +22,7 @@ public class AuthService(IConfiguration config) : DbService(config)
             bool isSuccessful = verificationResult == PasswordVerificationResult.Success;
             return new AuthenticationResult(isSuccessful, userData);
     }
-    public string GenerateToken()
+    public string GenerateToken(Guid userId)
     {
         JwtSettings? jwtSettings = _config.GetSection("JwtSettings").Get<JwtSettings>()
             ?? throw new InvalidConfigurationException();
@@ -30,12 +31,18 @@ public class AuthService(IConfiguration config) : DbService(config)
         byte[] key = Encoding.UTF8.GetBytes(jwtSettings.SigningKey)
             ?? throw new InvalidConfigurationException();
 
+        var claims = new List<Claim>
+        {
+            new("userId", userId.ToString())
+        };
+
         var tokenD = new SecurityTokenDescriptor()
         {
             Expires = DateTime.UtcNow.AddMinutes(30),
             Issuer = jwtSettings.ValidIssuer,
             Audience = jwtSettings.ValidAudiences.First(),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256),
+            Subject = new ClaimsIdentity(claims)
         };
 
         SecurityToken token = handler.CreateToken(tokenD);

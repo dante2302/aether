@@ -114,5 +114,23 @@ public abstract class DbService
         var reader = await tableCmd.ExecuteReaderAsync();
         return reader.HasRows;
     }
+
+    protected virtual async Task<bool> RecordExistsUnionAsync<T,F>(string tableName, string columnName, T columnValue, string secondColumnName, F secondColumnValue)
+    {
+        using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        var tableCmd = connection.CreateCommand();
+        tableCmd.CommandText = @$"
+            SELECT * FROM {tableName} 
+
+            WHERE {columnName} = {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'{columnValue}'" : columnValue)}
+            {ColumnTypeHelper.GetAnnotation<T>()}
+
+            AND {secondColumnName} = {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'{secondColumnValue}'" : secondColumnValue)}
+            {ColumnTypeHelper.GetAnnotation<T>()}";
+        var reader = await tableCmd.ExecuteReaderAsync();
+        return reader.HasRows;
+    }
 }
 

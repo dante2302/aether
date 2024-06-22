@@ -39,7 +39,7 @@ public class PostEndpoints(WebApplication app) : EndpointMapper(app)
         {
             long count = await likeService.GetCount(postId);
             return Results.Ok(count);
-        });
+        }).AllowAnonymous();
 
         _app.MapGet("posts/{postId:guid}/dislikescount",
         async
@@ -50,7 +50,7 @@ public class PostEndpoints(WebApplication app) : EndpointMapper(app)
         {
             long count = await dislikeService.GetCount(postId);
             return Results.Ok(count);
-        });
+        }).AllowAnonymous();
     }
     
     private void MapCommentEndpoints()
@@ -64,6 +64,6 @@ public class PostEndpoints(WebApplication app) : EndpointMapper(app)
         {
             List<Comment> commentList = await commentService.GetCommentsFromPost(postId);
             return Results.Ok(new { commentList });
-        });
+        }).AllowAnonymous();
     }
 }

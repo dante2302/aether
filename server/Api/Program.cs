@@ -16,6 +16,7 @@ serviceRegistry.RegisterAuth();
 
 var app = builder.Build();
 app.UseMiddleware<ExceptionHandler>();
+app.UseMiddleware<AuthMiddleware>();
 
 new AuthEndpoints(app).Map();
 new ChannelEndpoints(app).Map();

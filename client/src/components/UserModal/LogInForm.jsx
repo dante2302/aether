@@ -1,5 +1,5 @@
 
-import { logIn } from '../../apis/userApi.js'
+import { logIn } from '../../apis/authService.js'
 import { changeHandler } from '../../utils/formUtils.js'
 import useLoading from '../../hooks/useLoading.jsx'
 
@@ -38,14 +38,7 @@ const LogInForm = ({setCurrentMode}) => {
     e.preventDefault()
     setDisabled(true)
     const data = await logIn(formState)
-    
-    if(data.hasOwnProperty('code')){
-      setError(data.message)
-      setDisabled(false)
-      return
-    }
     setUserData(data)
-    setDisabled(false)
     toggleUserModal(false)
   }
 

@@ -1,3 +1,6 @@
+using System.Security.Claims;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -22,7 +25,7 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
         {
             var channelData = await channelService.GetOneByCriteria("name", name);
             return Results.Ok(new { channelData });
-        });
+        }).AllowAnonymous();
 
         _app.MapGet("/channels/{id:guid}",
         async
@@ -32,7 +35,7 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
         {
             var channelData = await channelService.GetOne(id);
             return Results.Ok(new {channelData});
-        });
+        }).AllowAnonymous();
 
         _app.MapPost("/channels",
         async
@@ -41,27 +44,38 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
          [FromServices] ChannelService channelService
         ) =>
         {
+            Guid jwtUserId = JwtClaimHelper.GetUserId(context);
+            if(jwtUserId != newChannel.OwnerId)
+                return Results.Forbid();
+
             var channelData = await channelService.Create(newChannel);
             return Results.Created(context.Request.GetDisplayUrl(), new {channelData});
         });
 
         _app.MapPut("channels",
         async
-        ([FromBody] Channel updatedChannel,
+        (HttpContext context,
+         [FromBody] Channel updatedChannel,
          [FromServices] ChannelService channelService
         ) =>
         {
+            Guid jwtUserId = JwtClaimHelper.GetUserId(context);
+            if(jwtUserId != updatedChannel.Id)
+                return Results.Forbid();
+
             await channelService.Update(updatedChannel);
             return Results.NoContent();
         });
 
         _app.MapDelete("/channels/{id:guid}",
         async
-        ([FromRoute] Guid id,
+        (HttpContext context,
+         [FromRoute] Guid id,
          [FromServices] ChannelService channelService
         ) =>
         {
-            await channelService.Delete(id);
+            Guid jwtUserId = JwtClaimHelper.GetUserId(context);
+            await channelService.Delete(id, jwtUserId);
             return Results.NoContent();
         });
     }
@@ -70,11 +84,16 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
     {
         _app.MapPost("/channels/{id:guid}/join",
         async
-        ([FromRoute] Guid id,
+        (HttpContext context,
+         [FromRoute] Guid id,
          [FromBody] Guid userId,
          [FromServices] ChannelMemberService cmService
         ) =>
         {
+            Guid jwtUserId = JwtClaimHelper.GetUserId(context);
+            if(jwtUserId != userId)
+                return Results.Forbid();
+
             await cmService.Create(new ChannelMember
             {
                 ChannelId = id,
@@ -85,11 +104,16 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
 
         _app.MapDelete("/channels/{id:guid}/leave",
         async
-        ([FromRoute] Guid id,
+        (HttpContext context,
+         [FromRoute] Guid id,
          [FromBody] Guid userId,
          [FromServices] ChannelMemberService cmService
         ) =>
         {
+            Guid jwtUserId = JwtClaimHelper.GetUserId(context);
+            if(jwtUserId != userId)
+                return Results.Forbid();
+
             await cmService.Delete(new ChannelMember
             {
                 ChannelId = id,
@@ -111,6 +135,6 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
         {
             List<Post> postList = await postService.GetPostsFromChannel(channelId, limit, offset);
             return Results.Ok(new {postList});
-        });
+        }).AllowAnonymous();
     }
 }

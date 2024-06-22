@@ -82,22 +82,25 @@ public class ChannelService(IConfiguration config) : DbService(config)
     }
     public async Task Update(Channel updatedChannel)
     {
+
         int rowsAffected = await ExecuteNonQueryCommandAsync($@"
             UPDATE channels
             SET name = '{updatedChannel.Name}',
                 description = '{updatedChannel.Description}',
                 ispopular = {updatedChannel.IsPopular}
             WHERE id = '{updatedChannel.Id}'::uuid
+            AND ownerid = '{updatedChannel.OwnerId}'
         ");
 
         if (rowsAffected <= 0)
             throw new NotFoundException("No such channel exists.");
     }
-    public async Task Delete(Guid id)
+    public async Task Delete(Guid id, Guid ownerId)
     {
         int rowsAffected = await ExecuteNonQueryCommandAsync($@"
             DELETE FROM channels 
             WHERE id = '{id}'::uuid
+            AND ownerid = '{ownerId}'::uuid
        ");
 
         if (rowsAffected <= 0)

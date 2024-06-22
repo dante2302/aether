@@ -27,7 +27,7 @@ public class CommentEndpoints(WebApplication app) : EndpointMapper(app)
         {
             List<Reply> replies = await replyService.GetRepliesFromComment(commentId);
             return Results.Ok(replies);
-        });
+        }).AllowAnonymous();
 
         _app.MapPut("/comments", 
         async
@@ -44,6 +44,7 @@ public class CommentEndpoints(WebApplication app) : EndpointMapper(app)
         _app.MapDelete("/comments/{id:guid}",
         async
         (
+            HttpContext context,
             [FromServices] CommentService commentService,
             [FromRoute] Guid id
         ) => 

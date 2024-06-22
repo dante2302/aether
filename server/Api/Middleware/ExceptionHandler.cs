@@ -1,5 +1,3 @@
-using Exceptions;
-using Microsoft.AspNetCore.Http;
 using Npgsql;
 
 namespace Exceptions;
