@@ -62,6 +62,7 @@ public class ServiceRegistry(WebApplicationBuilder builder, IConfiguration Confi
             options.FallbackPolicy = new AuthorizationPolicyBuilder()
             .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
             .RequireAuthenticatedUser()
+            .RequireClaim("userId")
             .Build();
         });
     }

@@ -1,7 +1,7 @@
 import {changeHandler, validatePassword, validateUsername, validateEmail} from '../../utils/formUtils.js'
-import {signUp} from '../../services/userService.js'
+import {signUp} from '../../services/authService.js'
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 
 import useDisabled from '../../hooks/useDisabled.jsx'
 import UserDataContext from '../../contexts/UserDataContext'
@@ -12,11 +12,13 @@ import UilEye from '@iconscout/react-unicons/icons/uil-eye.js'
 import UilEyeSlash from '@iconscout/react-unicons/icons/uil-eye-slash.js'
 import UilSad from '@iconscout/react-unicons/icons/uil-sad.js'
 import styles from './styles/SignUpForm.module.css'
+import { useNavigate } from 'react-router-dom'
+import useLoading from '../../hooks/useLoading.jsx'
 
 const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
 
   const {setUserData} = useContext(UserDataContext)
-
+  const navigate = useNavigate();
   const initialFormState = {
     username: '',
     email: '',
@@ -35,6 +37,7 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
   const [formErrors,setFormErrors] = useState(initialFormErrors)
   const [shownPassword,setShownPassword] = useState(false)
   const [chooseUsername,setChooseUsername] = useState(false)
+  const [submissionError, setSubmissionError] = useState("");
 
   useEffect(() => {
     if(formState === initialFormState){
@@ -62,6 +65,7 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
     switch(field){
       case 'password': {
         newFormErrors.password = validatePassword(formState.password);
+        (formState.password == formState.passwordCopy) && (newFormErrors.passwordCopy = '')
         break;
       }
 
@@ -87,11 +91,21 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
 
   const submitHandler = async (e) => {
     e.preventDefault()
-    try{
-      const data = await signUp(formState)
-      if(!data)throw new Error
-      setUserData(data)
-      toggleUserModal(false)
+    try {
+      const response = await signUp(formState)
+      if (!response.ok) {
+        if (response.status == 409) {
+          setSubmissionError((await response.json()).error);
+        }
+        else {
+          navigate("/error");
+        }
+      }
+      else
+      {
+        setUserData(await response.json());
+        toggleUserModal(false)
+      }
     }
     catch(error){
       alert(error)
@@ -99,9 +113,10 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
   }
   
   const [isDisabled,submitWithDisable,setDisabled] = useDisabled(submitHandler)
+  const [LoadingSpinner, submitWithLoading, isLoading] = useLoading(submitWithDisable);
 
   return(
-    <form className={styles['input-form']} onSubmit={(e) => submitWithDisable(e,formState)}>
+    <form className={styles['input-form']} onSubmit={(e) => submitWithLoading(e,formState)}>
 
       {
       chooseUsername 
@@ -134,6 +149,7 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
         :
 
         <>
+        <h1>{submissionError}</h1>
           <div className={styles['input-container']}>
             <input 
               type='email'
@@ -250,11 +266,19 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
       chooseUsername 
         ? 
 
+        <>
         <button 
           disabled={formState.username===''}
           className={styles['sign-up-btn']}
-        >Sign Up</button>
-
+        >{isLoading ? <LoadingSpinner size="20px"/> : "Sign Up" }</button>
+          {
+          submissionError &&
+            <div className={styles['error-container']}>
+              <UilSad size={20} color={'red'}/>
+              <p className={styles['error']}>{submissionError}</p>
+            </div>
+          }
+          </>
         :
 
         <>

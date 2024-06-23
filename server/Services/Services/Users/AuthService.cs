@@ -71,6 +71,11 @@ public class AuthService(IConfiguration config) : DbService(config)
             OwnerId = newUser.Id
         };
 
+        // creating a user before the respecitve user credentials is necessary
+        // therefore, we need a check for already existing user credentials before creating a user
+        // because we could create a user with a different username but with the same email
+        await ucService.CheckEmailExistence(newUserCredentials.Email);
+
         User createdUser = await userService.Create(newUser);
         await ucService.Create(newUserCredentials);
         

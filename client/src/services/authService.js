@@ -1,7 +1,25 @@
-const baseUrl = "localhost:5155/auth"
+const baseUrl = "http://localhost:5155/auth"
 import * as request from './request.js'
 
-export const logIn = async ({email,password}) => {
+export const signUp = async (bodyData) => {
+    try{
+        console.log(await fetch(`http://localhost:5155/channels/225edfba-a7d4-4c62-a795-2275848821ad`))
+        const response = await fetch(`${baseUrl}/signup`, {
+            method: 'POST',
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(bodyData)
+        })
+        return response;
+    }
+    catch(e)
+    {
+        console.log(e);
+    }
+}
+
+export const logIn = async ({ email, password }) => {
     try{
         let response = await fetch(`${baseUrl}/login`,{
         'method':'POST',
@@ -9,6 +27,7 @@ export const logIn = async ({email,password}) => {
         email,
         password
         })})
+        return response;
     }
     catch(e){
         console.log(e)

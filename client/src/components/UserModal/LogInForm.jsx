@@ -11,6 +11,8 @@ import UserModalContext from '../../contexts/UserModalContext.jsx'
 
 import UilExclamationCircle from '@iconscout/react-unicons/icons/uil-exclamation-circle.js'
 import styles from './styles/LogInForm.module.css'
+import UilEyeSlash from '@iconscout/react-unicons/icons/uil-eye-slash.js'
+import UilEye from '@iconscout/react-unicons/icons/uil-eye.js'
 
 const LogInForm = ({setCurrentMode}) => {
 
@@ -37,7 +39,12 @@ const LogInForm = ({setCurrentMode}) => {
   const submitHandler = async (e) => {
     e.preventDefault()
     setDisabled(true)
-    const data = await logIn(formState)
+    const response = await logIn(formState)
+    if(!response.ok)
+      {
+        console.log(response);
+    }
+    console.log(data);
     setUserData(data)
     toggleUserModal(false)
   }
@@ -54,7 +61,7 @@ const LogInForm = ({setCurrentMode}) => {
           value={formState.email}
           onChange={(e) => changeHandler(e,setFormState)}
         />
-        {!formState.username&&<label htmlFor='email'>Email</label>}
+        {!formState.email&&<label htmlFor='email'>Email</label>}
       </div>
 
       <div className={styles['input-container']}>
@@ -70,7 +77,9 @@ const LogInForm = ({setCurrentMode}) => {
           ?
           <label htmlFor='password'>Password</label>
           :
-          <button type='button' onClick={() => setShownPassword(!shownPassword) }>Show Password</button>
+          <button type='button' onClick={() => setShownPassword(!shownPassword) }>
+            {shownPassword ? <UilEye size={20} /> : <UilEyeSlash size={20}/>}
+          </button>
         }
 
       </div>

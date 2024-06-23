@@ -35,10 +35,19 @@
 
 .input-container>button{
   position:absolute;
-  top:50%;
-  left:72.5%;
+  top:55%;
+  left:90%;
   transform:translateY(-50%);
+  cursor: pointer;
 }
+
+@media(max-width: 500px){
+  .input-container>button{
+    left: 80%;
+  }
+}
+
+
 
 .input-container>input:focus{
   outline: 1px solid rgb(120,245,250)  

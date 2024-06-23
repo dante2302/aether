@@ -20,10 +20,7 @@ public class UserCredentialsService(IConfiguration config) : DbService(config)
     }
     public async Task<UserCredentials> Create(UserCredentials newUserCredentials)
     {
-        if (await RecordExistsAsync("UserCredentials", "Email", newUserCredentials.Email))
-        {
-            throw new ConflictException("A user with this email already exists.");
-        }
+        await CheckEmailExistence(newUserCredentials.Email);
         var result = await ExecuteQueryCommandAsync(@$"
             INSERT INTO UserCredentials
             VALUES( '{newUserCredentials.Email}',
@@ -42,5 +39,12 @@ public class UserCredentialsService(IConfiguration config) : DbService(config)
             Password = reader.GetString(1),
             OwnerId = reader.GetGuid(2)
         };
+    }
+
+    public async Task CheckEmailExistence(string email){
+        if (await RecordExistsAsync("UserCredentials", "Email", email))
+        {
+            throw new ConflictException("A user with this email already exists.");
+        }
     }
 }
