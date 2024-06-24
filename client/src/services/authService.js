@@ -23,6 +23,9 @@ export const logIn = async ({ email, password }) => {
     try{
         let response = await fetch(`${baseUrl}/login`,{
         'method':'POST',
+        headers:{
+            "Content-Type": "application/json"
+        },
         'body': JSON.stringify({
         email,
         password

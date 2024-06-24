@@ -1,19 +1,14 @@
 const baseUrl = 'http://localhost:3030/data/posts'
 
-import { createChannelPost } from './channelService.js'
 import * as request from './request.js'
 
-export const createPost = async ({username,accessToken},formData) => {
+export const createPost = async ({accessToken},formData) => {
   const { channelId } = formData
     const bodyData = {
         ...formData,
-        ownerUsername:username,
-        likesCount:0,
-        comments:[],
-        usersCommented:[],
+        channelId
       }
     const data = await request.post({url: baseUrl,accessToken,bodyData})
-    await createChannelPost(channelId,data._id)
     return data
 }    
 

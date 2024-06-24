@@ -107,7 +107,7 @@ public class ChannelService(IConfiguration config) : DbService(config)
             throw new NotFoundException("No such channel exists.");
     }
 
-    private Channel MapChannelFromReader(NpgsqlDataReader reader)
+    public static Channel MapChannelFromReader(NpgsqlDataReader reader)
     {
         return new Channel()
         {

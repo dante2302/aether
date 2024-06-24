@@ -14,16 +14,13 @@ export const createChannel = async (userData,{name,description}) => {
     accessToken:userData.accessToken,
     bodyData
   })
-
   return result;
 }
-
 
 export const getChannelData = async (channelId) => {
   const data = await request.get(`${baseUrl}/${channelId}`)
   return data
 }
-
 
 export const getChannelDataByName = async (name) => {
   const response = await request.get(`${baseUrl}/${encodeURIComponent(name)}`)
@@ -31,16 +28,6 @@ export const getChannelDataByName = async (name) => {
 }
 
 export const updateChannelData = async (channelId,newData) => {
-  const url = `${baseUrl}/${channelId}`
-  const data = await request.patchWithoutAuth({url,newData})
-  return data
-}
-
-export const createChannelPost = async (channelId, newPost) => {
-  const channelData = await getChannelData(channelId)
-  const currentPosts = channelData.posts
-  const newData = {posts:[...currentPosts,newPost]}
-
   const url = `${baseUrl}/${channelId}`
   const data = await request.patchWithoutAuth({url,newData})
   return data

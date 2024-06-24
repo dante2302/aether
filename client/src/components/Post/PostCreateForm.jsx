@@ -2,10 +2,8 @@ import { useContext, useEffect, useState } from "react"
 
 import * as formUtils from '../../utils/formUtils.js'
 
-import * as postApi from '../../services/postService.js'
-import {getChannelData} from '../../services/channelService.js'
-
 import { useNavigate } from "react-router-dom"
+import { getUserChannels } from "../../services/userService.js"
 
 import UserDataContext from "../../contexts/UserDataContext"
 
@@ -24,26 +22,24 @@ const PostCreateForm = () => {
   const navigate = useNavigate()
   const [channels,setChannels] = useState([])
   const [selectedChannel,setSelectedChannel] = useState({})
-  const {userData} = useContext(UserDataContext)
+  const { userData } = useContext(UserDataContext)
 
   useEffect(() => {
-    if (!userData){navigate('../');return}
+    if (!userData) { navigate('../'); return }
     const asyncFunc = async () => {
-      let availableChannels = []
-      for(const channel of userData.channels){
-        const data = await  getChannelData(channel)
-        availableChannels.push(data)
-      }
-      if(availableChannels.length>0){
+      const response = await getUserChannels(userData.id);
+
+      if (!response.ok) navigate('../');
+
+      availableChannels = await response.json();
+      if (availableChannels.length > 0) {
         setChannels(availableChannels)
-        setSelectedChannel(availableChannels[0]._id)
+        setSelectedChannel(availableChannels[0].id)
       }
       else {alert('You need a channel');navigate('../')}
     }
     asyncFunc()
   },[userData])
-
-
 
   const [formState,setFormState] = useState(initialFormState)
 
@@ -62,9 +58,7 @@ const PostCreateForm = () => {
   const submitHandler = async (e) => {
     e.preventDefault()
     if(formState.title && await checkImgUrl(formState.imgUrl)){
-      const channelData = await getChannelData(selectedChannel)
-      const channelName = channelData.name
-      await postApi.createPost(userData,{...formState , channelId: selectedChannel, channelName})
+      await postApi.createPost(userData,{...formState , channelId: selectedChannel})
       navigate('../')
     }
   }

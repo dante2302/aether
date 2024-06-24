@@ -13,11 +13,13 @@ import UilExclamationCircle from '@iconscout/react-unicons/icons/uil-exclamation
 import styles from './styles/LogInForm.module.css'
 import UilEyeSlash from '@iconscout/react-unicons/icons/uil-eye-slash.js'
 import UilEye from '@iconscout/react-unicons/icons/uil-eye.js'
+import { useNavigate } from 'react-router-dom'
 
 const LogInForm = ({setCurrentMode}) => {
 
   const {setUserData} = useContext(UserDataContext)
   const { toggleUserModal } = useContext(UserModalContext)
+  const navigate = useNavigate();
 
   const initialFormState = {
     email: '',
@@ -27,7 +29,8 @@ const LogInForm = ({setCurrentMode}) => {
   const [formState,setFormState] = useState(initialFormState)
   const [shownPassword,setShownPassword] = useState(false)
   const [isDisabled,setDisabled] = useState(true)
-  const [error, setError] = useState('')
+  const [authError, setAuthError] = useState("");
+
   useEffect(() => {
     (formState.email==='' || formState.password==='')
       ?
@@ -41,12 +44,22 @@ const LogInForm = ({setCurrentMode}) => {
     setDisabled(true)
     const response = await logIn(formState)
     if(!response.ok)
-      {
-        console.log(response);
+    {
+      if(response.status == 404){
+        let a = await response.json();
+        setAuthError(a.error);
+      }
+      else if(response.status == 401){
+        setAuthError("Wrong Password");
+      }
+      else{
+        navigate("/error");
+      }
     }
-    console.log(data);
-    setUserData(data)
-    toggleUserModal(false)
+    else{
+      setUserData(await response.json());
+      toggleUserModal(false)
+    }
   }
 
   const [Spinner,submitWithLoading,isLoading] = useLoading(submitHandler,undefined,15)
@@ -90,10 +103,10 @@ const LogInForm = ({setCurrentMode}) => {
         className={`${styles['log-in-btn']} ${!isDisabled && styles['enabled']}`}
       >{isLoading ? <Spinner size={15}/> : 'Log In'}</button>
 
-      {error && 
+      {authError && 
         <div className={styles['error-container']}>
         <UilExclamationCircle size={20}/>
-        <p>{error}!</p>
+        <p>{authError}</p>
         </div>}
 
       <p className={styles['link']}>New to Aether? </p>

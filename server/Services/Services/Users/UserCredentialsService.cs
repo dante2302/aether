@@ -14,7 +14,7 @@ public class UserCredentialsService(IConfiguration config) : DbService(config)
             MapUserCredentialsFromReader);
 
         if(!result.HasRecord)
-            throw new NotFoundException("User not found.");
+            throw new NotFoundException($"User with email: {email} not found.");
 
         return result.Record;
     }

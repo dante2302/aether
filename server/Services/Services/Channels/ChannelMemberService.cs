@@ -24,6 +24,18 @@ public class ChannelMemberService(IConfiguration config) : DbService(config)
         }
     }
 
+    public async Task<List<Channel>> GetUserChannels(Guid userId)
+    {
+        List<Channel> result = await ExecuteQueryListCommandAsync($@"
+            SELECT channels.*
+            FROM channels
+            JOIN channelmembers ON channel.id == channelmembers.channelId
+            WHERE channelmembers.userId = {userId}
+        ", ChannelService.MapChannelFromReader);
+
+        return result;
+    }
+
     public async Task Delete(ChannelMember channelMember)
     {
         if(!await ChannelMemberExists(channelMember))
