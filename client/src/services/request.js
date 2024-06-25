@@ -5,7 +5,7 @@ export const post = async ({url,accessToken,bodyData}) => {
     const response = await fetch(url,{
       method: 'POST',
       headers:{
-        'Bearer': accessToken,
+        'Authorization': `Bearer ${accessToken}`,
         'Content-Type':'application/json'
       },
       body: JSON.stringify(bodyData),

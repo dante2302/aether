@@ -11,6 +11,7 @@ const ChannelList = ({visibleChannels,children}) => {
         {visibleChannels.map(singleChannelData => 
           <li key={singleChannelData.id} onClick={() => navigate(`/c/${singleChannelData.name}`)}>
             <div> c/{singleChannelData.name}</div>
+            <div>Members: {singleChannelData.memberCount}</div>
           </li>)
         }
       </ul>

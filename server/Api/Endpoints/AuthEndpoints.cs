@@ -14,9 +14,9 @@ public class AuthEndpoints(WebApplication app) : EndpointMapper(app)
         ([FromBody] SignUpData signUpData,
          [FromServices] AuthService authService) =>
         {
-            User userData = await authService.SignUp(signUpData);
-            string authToken = authService.GenerateToken(userData.Id);
-            return Results.Ok(new { authToken, userData });
+            User data = await authService.SignUp(signUpData);
+            string accessToken = authService.GenerateToken(data.Id);
+            return Results.Ok(new { accessToken, data });
         }).AllowAnonymous();
         
         _app.MapPost("/auth/login", 
@@ -29,8 +29,8 @@ public class AuthEndpoints(WebApplication app) : EndpointMapper(app)
             if (!result.IsSuccessful)
                 return Results.Unauthorized();
 
-            string authToken = authService.GenerateToken(result.UserData.Id);
-            return Results.Ok(new { authToken, userData = result.UserData });
+            string accessToken = authService.GenerateToken(result.UserData.Id);
+            return Results.Ok(new { accessToken, data = result.UserData });
         }).AllowAnonymous();
     }
 }

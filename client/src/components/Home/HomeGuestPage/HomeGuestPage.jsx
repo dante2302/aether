@@ -7,7 +7,7 @@ const HomeGuest = () => {
   const [posts,setPosts] = useState()
   return(
     <div className={styles['container']}>
-      {posts&&
+      {posts &&
         <InfiniteScrollPosts />}
       <PopularChannels /> 
     </div>

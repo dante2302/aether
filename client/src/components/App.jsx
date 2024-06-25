@@ -20,6 +20,7 @@ import { Routes, Route} from 'react-router-dom'
 
 import { UserDataProvider } from '../contexts/UserDataContext.jsx'
 import { UserModalProvider } from '../contexts/UserModalContext.jsx'
+import { useEffect } from 'react'
 
 const App = () => {
   return (

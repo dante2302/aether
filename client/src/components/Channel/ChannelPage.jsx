@@ -31,9 +31,8 @@ const ChannelPage = ({isCompact}) => {
  //         {
   //          navigate("/error");
    //     }
-        console.log(response);
-        const channelData = response.channelData;
-        setChannelData(channelData);
+        const data = await response.json()
+        setChannelData(data.channelData);
       }
       catch{}
 //      catch(e){

@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom'
 
 const LogInForm = ({setCurrentMode}) => {
 
-  const {setUserData} = useContext(UserDataContext)
+  const { setUserData } = useContext(UserDataContext)
   const { toggleUserModal } = useContext(UserModalContext)
   const navigate = useNavigate();
 

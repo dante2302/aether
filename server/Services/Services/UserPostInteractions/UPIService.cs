@@ -45,9 +45,9 @@ where T : UserPostInteraction, new()
         return result.HasRecord;
     }
 
-    public async Task<int> GetCount(Guid postId)
+    public async Task<long> GetCount(Guid postId)
     {
-        int? result = (int?)await ExecuteScalarAsync($@"
+        long? result = (long?)await ExecuteScalarAsync($@"
             SELECT COUNT(*) FROM {_tableName}
             WHERE postid = '{postId}'::uuid");
         return result ?? 0;

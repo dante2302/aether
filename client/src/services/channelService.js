@@ -6,7 +6,7 @@ export const createChannel = async (userData,{name,description}) => {
   const bodyData = {
     name,
     description,
-    ownerId: userData.Id
+    ownerId: userData.data.id
   }
 
   const result = await request.post({
@@ -17,26 +17,17 @@ export const createChannel = async (userData,{name,description}) => {
   return result;
 }
 
-export const getChannelData = async (channelId) => {
-  const response = await request.get(`${baseUrl}/${channelId}`)
-  return response;
-}
+export const getChannelData = async (channelId) =>
+  await request.get(`${baseUrl}/${channelId}`)
 
-export const getChannelDataByName = async (name) => {
-  const response = await request.get(`${baseUrl}/${encodeURIComponent(name)}`)
-  return response;
-}
+export const getChannelDataByName = async (name) =>
+  await request.get(`${baseUrl}/${encodeURIComponent(name)}`)
 
-export async function getPopularChannels()
-{
-  const response = await request.get(`${baseUrl}/popular`)
-  return response;
-}
+export const getPopularChannels = async () =>
+  await request.get(`${baseUrl}/popular`)
 
-export async function getMemberCount()
-{
-  const response = await request.get(`${baseUrl}/`)
-}
+export const getMemberCount = async (id) =>
+  await request.get(`${baseUrl}/${id}/membercount`)
 
 export const updateChannelData = async (channelId,newData) => {
   const url = `${baseUrl}/${channelId}`
