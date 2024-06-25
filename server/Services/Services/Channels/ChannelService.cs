@@ -68,7 +68,16 @@ public class ChannelService(IConfiguration config) : DbService(config)
 
         return result.Record;
     }
+    public async Task<List<Channel>> GetAllByCriteria<T>(string columnName, T columnValue)
+    {
+        string command =
+            $@"SELECT * FROM channels WHERE {columnName} = 
+            {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'{columnValue}'" : columnValue)}
+            {ColumnTypeHelper.GetAnnotation<T>()}";
 
+        List<Channel> result = await ExecuteQueryListCommandAsync(command, MapChannelFromReader);
+        return result;
+    }
     public async Task<List<Channel>> GetPopularChannels()
     {
         List<Channel> popularChannels = await ExecuteQueryListCommandAsync($@"
@@ -106,6 +115,9 @@ public class ChannelService(IConfiguration config) : DbService(config)
     }
     public async Task Delete(Guid id, Guid ownerId)
     {
+        CleanupService cleanupService = new(_config);
+        await cleanupService.CleanupChannel(id,ownerId);
+
         int rowsAffected = await ExecuteNonQueryCommandAsync($@"
             DELETE FROM channels 
             WHERE id = '{id}'::uuid

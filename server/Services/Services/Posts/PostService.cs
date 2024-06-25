@@ -70,6 +70,37 @@ public class PostService(IConfiguration config) : DbService(config)
 
        return posts;
     }
+
+    public async Task<List<Post>> GetAllByOwner(Guid ownerId)
+    {
+       List<Post> posts = await ExecuteQueryListCommandAsync(
+        $@"SELECT * FROM posts
+           WHERE ownerId = '{ownerId}'::uuid"
+       ,MapPostFromReader);
+
+       return posts;
+    }
+
+    public async Task DeleteByUser(Guid userId)
+    {
+        await ExecuteNonQueryCommandAsync($@"
+            DELETE FROM posts
+            WHERE id = '{userId}'::uuid");
+
+        // await CleanupService.CleanupPost();
+    }
+
+    public async Task Delete(Guid postId, Guid ownerId)
+    {
+        int rowsAffected = await ExecuteNonQueryCommandAsync($@"
+            DELETE FROM channels 
+            WHERE id = '{postId}'::uuid
+            AND ownerid = '{ownerId}'::uuid
+       ");
+
+        if (rowsAffected <= 0)
+            throw new NotFoundException("No such channel exists.");
+    }
     private Post MapPostFromReader(NpgsqlDataReader reader)
     {
         return new Post 

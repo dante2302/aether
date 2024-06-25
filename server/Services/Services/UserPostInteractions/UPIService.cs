@@ -73,6 +73,13 @@ where T : UserPostInteraction, new()
         return result > 0;
     }
 
+    public async Task DeleteByOwner(Guid ownerId)
+    {
+        await ExecuteNonQueryCommandAsync($@"
+        DELETE FROM {_tableName}
+        WHERE ownerid = '{ownerId}'::uuid");
+    }
+
     public T MapInteractionFromReader(NpgsqlDataReader reader)
     {
         return new T 

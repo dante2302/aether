@@ -31,6 +31,13 @@ public class UserCredentialsService(IConfiguration config) : DbService(config)
         return result.Record;
     }
 
+    public async Task DeleteByUser(Guid userId)
+    {
+        await ExecuteNonQueryCommandAsync($@"
+            DELETE FROM usercredentials
+            WHERE ownerId = '{userId}'::uuid");
+    }
+
     private UserCredentials MapUserCredentialsFromReader(NpgsqlDataReader reader)
     {
         return new UserCredentials()

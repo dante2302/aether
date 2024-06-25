@@ -61,6 +61,21 @@ public class ChannelMemberService(IConfiguration config) : DbService(config)
         }
     }
 
+    public async Task DeleteByUser(Guid userId)
+    {
+        await ExecuteNonQueryCommandAsync(@$"
+            DELETE FROM ChannelMembers
+            WHERE userId = '{userId}'::uuid 
+        ");
+    }
+    public async Task DeleteByChannel(Guid channelId)
+    {
+        await ExecuteNonQueryCommandAsync(@$"
+            DELETE FROM ChannelMembers
+            WHERE channelId = '{channelId}'::uuid 
+        ");
+    }
+
     public async Task<bool> ChannelMemberExists(ChannelMember cm)
     {
         var result = await ExecuteQueryCommandAsync($@"
