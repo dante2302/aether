@@ -115,17 +115,16 @@ public class ChannelService(IConfiguration config) : DbService(config)
     }
     public async Task Delete(Guid id, Guid ownerId)
     {
-        CleanupService cleanupService = new(_config);
-        await cleanupService.CleanupChannel(id,ownerId);
+        if(! await RecordExistsAsync("channels","id", id))
+            throw new NotFoundException("No such channel");
 
-        int rowsAffected = await ExecuteNonQueryCommandAsync($@"
+        await CleanupService.CleanupChannel(id, ownerId, _config);
+
+        await ExecuteNonQueryCommandAsync($@"
             DELETE FROM channels 
             WHERE id = '{id}'::uuid
             AND ownerid = '{ownerId}'::uuid
        ");
-
-        if (rowsAffected <= 0)
-            throw new NotFoundException("No such channel exists.");
     }
 
     public static Channel MapChannelFromReader(NpgsqlDataReader reader)

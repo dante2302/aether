@@ -81,25 +81,18 @@ public class PostService(IConfiguration config) : DbService(config)
        return posts;
     }
 
-    public async Task DeleteByUser(Guid userId)
-    {
-        await ExecuteNonQueryCommandAsync($@"
-            DELETE FROM posts
-            WHERE id = '{userId}'::uuid");
-
-        // await CleanupService.CleanupPost();
-    }
-
     public async Task Delete(Guid postId, Guid ownerId)
     {
-        int rowsAffected = await ExecuteNonQueryCommandAsync($@"
+        if(!await RecordExistsAsync("posts", "id", postId))
+            throw new NotFoundException("No such post exists");
+
+        await CleanupService.CleanupPost(postId, ownerId, _config);
+
+        await ExecuteNonQueryCommandAsync($@"
             DELETE FROM channels 
             WHERE id = '{postId}'::uuid
             AND ownerid = '{ownerId}'::uuid
        ");
-
-        if (rowsAffected <= 0)
-            throw new NotFoundException("No such channel exists.");
     }
     private Post MapPostFromReader(NpgsqlDataReader reader)
     {

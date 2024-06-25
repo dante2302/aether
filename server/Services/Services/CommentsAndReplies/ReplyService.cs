@@ -61,15 +61,24 @@ public class ReplyService(IConfiguration config) : DbService(config)
         if (rowsAffected <= 0)
             throw new NotFoundException("No such reply exists.");
     }
-    public async Task Delete(Guid id)
+    public async Task Delete(Guid id, Guid ownerId)
     {
         int rowsAffected = await ExecuteNonQueryCommandAsync($@"
             DELETE FROM replies 
             WHERE id = '{id}'::uuid
+            AND ownerid = '{ownerId}'::uuid
        ");
 
         if (rowsAffected <= 0)
             throw new NotFoundException("No such reply exists.");
+    }
+
+    public async Task DeleteByComment(Guid commentId)
+    {
+        await ExecuteNonQueryCommandAsync($@"
+            DELETE FROM replies 
+            WHERE commentId = '{commentId}'::uuid
+       ");
     }
 
     private Reply MapReplyFromReader(NpgsqlDataReader reader)

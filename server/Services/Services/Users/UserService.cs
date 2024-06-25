@@ -52,6 +52,16 @@ public class UserService(IConfiguration config) : DbService(config)
         return result.Record;
     }
 
+    public async Task Delete(Guid id)
+    {
+        await CleanupService.CleanupUser(id, _config);
+
+        await ExecuteNonQueryCommandAsync($@"
+            DELETE FROM users
+            WHERE id = '{id}'::uuid
+        ");
+    }
+
     private User MapUserFromReader(NpgsqlDataReader reader)
     {
         return new User()

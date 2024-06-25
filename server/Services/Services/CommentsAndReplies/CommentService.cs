@@ -52,6 +52,16 @@ public class CommentService(IConfiguration config) : DbService(config)
        return comments;
     }
 
+    public async Task<List<Comment>> GetAllByOwner(Guid ownerId)
+    {
+       List<Comment> comments = await ExecuteQueryListCommandAsync(
+        $@"SELECT * FROM comments
+           WHERE ownerId = '{ownerId}'::uuid
+           ORDER BY dateofcreation DESC"
+       ,MapCommentFromReader);
+       return comments;
+    }
+
     public async Task Update(Comment updatedComment)
     {
         int rowsAffected = await ExecuteNonQueryCommandAsync($@"
@@ -68,14 +78,16 @@ public class CommentService(IConfiguration config) : DbService(config)
     }
     public async Task Delete(Guid id, Guid ownerId)
     {
-        int rowsAffected = await ExecuteNonQueryCommandAsync($@"
+        if(!await RecordExistsAsync("comments","id", id))
+            throw new NotFoundException("No such commentExists");
+
+        await CleanupService.CleanupComment(id, ownerId, _config);
+
+        await ExecuteNonQueryCommandAsync($@"
             DELETE FROM comments 
             WHERE id = '{id}'::uuid
             AND ownerId = '{ownerId}'::uuid
        ");
-
-        if (rowsAffected <= 0)
-            throw new NotFoundException("No such comment exists.");
     }
 
     private Comment MapCommentFromReader(NpgsqlDataReader reader)

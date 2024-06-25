@@ -2,48 +2,37 @@ using Microsoft.Extensions.Configuration;
 using Models;
 
 namespace Services;
-public class CleanupService(IConfiguration config) : DbService(config)
+public abstract class CleanupService
 {
-    private readonly IConfiguration config = config;
-    public async Task CleanupUser(User user)
+    public static async Task CleanupUser(Guid userId, IConfiguration config)
     {
-        await new UserCredentialsService(config).DeleteByUser(user.Id);
+        await new UserCredentialsService(config).DeleteByUser(userId);
 
-        await new ChannelMemberService(config).DeleteByUser(user.Id);
+        await new ChannelMemberService(config).DeleteByUser(userId);
 
         ChannelService channelService = new(config);
-        var userChannels = await channelService.GetAllByCriteria("ownerId", user.Id);
+        var userChannels = await channelService.GetAllByCriteria("ownerId", userId);
         foreach(Channel c in userChannels)
-        {
-            await channelService.Delete(c.Id, user.Id) ;
-        }
+            await channelService.Delete(c.Id, userId);
 
         PostService postService = new(config);
-        var userPosts = await postService.GetAllByOwner(user.Id);
+        var userPosts = await postService.GetAllByOwner(userId);
         foreach(Post p in userPosts)
-        {
-            await postService.Delete(p.Id, user.Id);
-        }
+            await postService.Delete(p.Id, userId);
 
         CommentService commentService = new(config);
-        var userComments = await commentService.GetAllByOwner(user.Id);
+        var userComments = await commentService.GetAllByOwner(userId);
         foreach(Comment c in userComments)
-        {
+           await commentService.Delete(c.Id, userId);
 
-        }
-        await new UPIService<Like>(config).DeleteByOwner(user.Id);
-        await new UPIService<Dislike>(config).DeleteByOwner(user.Id);
-        await new UPIService<Save>(config).DeleteByOwner(user.Id);
+        await new UPIService<Like>(config).DeleteByOwner(userId);
+        await new UPIService<Dislike>(config).DeleteByOwner(userId);
+        await new UPIService<Save>(config).DeleteByOwner(userId);
 
-
-        await ExecuteNonQueryCommandAsync($@"
-            BEGIN TRANSACTION;
-
-        ");
     }
 
 
-    public async Task CleanupChannel(Guid channelId, Guid userId)
+    public static async Task CleanupChannel(Guid channelId, Guid userId, IConfiguration config)
     {
         await new ChannelMemberService(config).DeleteByChannel(channelId);
 
@@ -55,13 +44,22 @@ public class CleanupService(IConfiguration config) : DbService(config)
         }
     }
 
-    public static async Task CleanupPost()
-    {
 
+    public static async Task CleanupPost(Guid postId, Guid userId, IConfiguration config)
+    {
+        await new UPIService<Like>(config).DeleteByPost(postId);
+        await new UPIService<Dislike>(config).DeleteByPost(postId);
+        await new UPIService<Save>(config).DeleteByPost(postId);
+
+        CommentService commentService = new(config);
+        List<Comment> commentList = await commentService.GetCommentsFromPost(postId);
+        foreach(Comment c in commentList)
+            await commentService.Delete(c.Id, userId);
     }
 
-    public async Task CleanupComment()
-    {
 
+    public static async Task CleanupComment(Guid commentId, Guid ownerId, IConfiguration config)
+    {
+        await new ReplyService(config).DeleteByComment(commentId);
     }
 }
