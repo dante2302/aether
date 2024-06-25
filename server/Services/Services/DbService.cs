@@ -100,6 +100,15 @@ public abstract class DbService
         return rowsAffected;
     }    
 
+    protected virtual async Task<object?> ExecuteScalarAsync(string command)
+    {
+        using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+        var tableCmd = connection.CreateCommand();
+        tableCmd.CommandText = command;
+        return await tableCmd.ExecuteScalarAsync();
+    }
+
     protected virtual async Task<bool> RecordExistsAsync<T>(string tableName, string columnName, T columnValue)
     {
         using var connection = new NpgsqlConnection(_connectionString);

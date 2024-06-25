@@ -36,6 +36,15 @@ public class ChannelMemberService(IConfiguration config) : DbService(config)
         return result;
     }
 
+    public async Task<int> GetMemberCount(Guid channelId)
+    {
+        int? result = (int?)await ExecuteScalarAsync($@"
+            SELECT COUNT(*) FROM channelmembers
+            WHERE channelId = '{channelId}'::uuid
+        ");
+        return result ?? 0;
+    }
+
     public async Task Delete(ChannelMember channelMember)
     {
         if(!await ChannelMemberExists(channelMember))

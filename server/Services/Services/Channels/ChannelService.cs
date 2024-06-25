@@ -69,6 +69,15 @@ public class ChannelService(IConfiguration config) : DbService(config)
         return result.Record;
     }
 
+    public async Task<List<Channel>> GetPopularChannels()
+    {
+        List<Channel> popularChannels = await ExecuteQueryListCommandAsync($@"
+        SELECT * FROM channels
+        WHERE isPopular"
+        , MapChannelFromReader);
+
+        return popularChannels;
+    }
     public async Task<string> GetName(Guid id)
     {
         QueryResult<string> result = await ExecuteQueryCommandAsync(

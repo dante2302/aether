@@ -18,13 +18,24 @@ export const createChannel = async (userData,{name,description}) => {
 }
 
 export const getChannelData = async (channelId) => {
-  const data = await request.get(`${baseUrl}/${channelId}`)
-  return data
+  const response = await request.get(`${baseUrl}/${channelId}`)
+  return response;
 }
 
 export const getChannelDataByName = async (name) => {
   const response = await request.get(`${baseUrl}/${encodeURIComponent(name)}`)
   return response;
+}
+
+export async function getPopularChannels()
+{
+  const response = await request.get(`${baseUrl}/popular`)
+  return response;
+}
+
+export async function getMemberCount()
+{
+  const response = await request.get(`${baseUrl}/`)
 }
 
 export const updateChannelData = async (channelId,newData) => {

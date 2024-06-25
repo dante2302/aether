@@ -15,9 +15,14 @@ export const post = async ({url,accessToken,bodyData}) => {
 }
 
 export const get = async (url) => {
-    const response = await fetch(url,{method: 'GET',mode:'cors'})
-    const data = await response.json()
-    return data
+  const response = await fetch(url, {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      "Content-Type" : "application/json"
+    }
+  })
+  return response
 }
 
 export const search = async ({url,prop,value}) => {

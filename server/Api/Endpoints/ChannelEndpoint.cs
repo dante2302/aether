@@ -24,6 +24,15 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
             return Results.Ok(new { channelData });
         }).AllowAnonymous();
 
+        _app.MapGet("/channels/popular", 
+        async 
+        (
+            [FromServices] ChannelService channelService
+        ) => 
+        {
+            return await channelService.GetPopularChannels();
+        }).AllowAnonymous();
+
         _app.MapGet("/channels/{id:guid}",
         async
         ([FromRoute] Guid id,
@@ -119,6 +128,15 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
             return Results.NoContent();
         });
 
+        _app.MapGet("/channels/{id:guid}/membercount", 
+        async 
+        (
+            [FromServices] ChannelMemberService cmService,
+            [FromRoute] Guid id
+        ) => 
+        {
+            return await cmService.GetMemberCount(id);
+        }).AllowAnonymous();
     }
     private void MapPostEndpoints()
     {

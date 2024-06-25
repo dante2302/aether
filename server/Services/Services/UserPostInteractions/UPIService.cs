@@ -45,15 +45,12 @@ where T : UserPostInteraction, new()
         return result.HasRecord;
     }
 
-    public async Task<long> GetCount(Guid postId)
+    public async Task<int> GetCount(Guid postId)
     {
-        using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
-        var command = connection.CreateCommand();
-        command.CommandText = $@"
+        int? result = (int?)await ExecuteScalarAsync($@"
             SELECT COUNT(*) FROM {_tableName}
-            WHERE postid = '{postId}'::uuid";
-        return (long)await command.ExecuteScalarAsync();
+            WHERE postid = '{postId}'::uuid");
+        return result ?? 0;
     }
 
     public async Task<List<T>> GetByUser(Guid userId)

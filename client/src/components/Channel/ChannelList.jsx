@@ -9,9 +9,8 @@ const ChannelList = ({visibleChannels,children}) => {
       {children}
       <ul className={styles['list']}>
         {visibleChannels.map(singleChannelData => 
-          <li key={singleChannelData._id} onClick={() => navigate(`/c/${singleChannelData.name}`)}>
+          <li key={singleChannelData.id} onClick={() => navigate(`/c/${singleChannelData.name}`)}>
             <div> c/{singleChannelData.name}</div>
-            <div> {singleChannelData.members.length} members</div>
           </li>)
         }
       </ul>
