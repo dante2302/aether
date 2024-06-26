@@ -26,6 +26,18 @@ public class PostEndpoints(WebApplication app) : EndpointMapper(app)
             Post postData = await postService.Create(newPost);
             return Results.Ok(new { postData });
         });
+
+        _app.MapGet("/posts/popular", 
+        async 
+        (
+            [FromServices] PostService postService,
+            [FromQuery] int? limit,
+            [FromQuery] int? offset
+        ) => 
+        {
+            List<Post> popularPostList = await postService.GetPopularPosts(limit, offset);
+            return Results.Ok(new {popularPostList});
+        }).AllowAnonymous();
     }
 
     private void MapUPIEndpoints()

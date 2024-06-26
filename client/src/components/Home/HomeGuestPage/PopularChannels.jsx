@@ -26,10 +26,8 @@ const PopularChannels = () => {
         if(!response.ok)
           navigate("/error");
         const memberCount = await response.json();
-        console.log(memberCount);
         channels[i] = {...channels[i], memberCount};
     }
-    console.log(channels)
     setVisibleChannels(channels);
   }
   useEffect(() => {

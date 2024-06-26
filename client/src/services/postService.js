@@ -18,6 +18,9 @@ export const getPostData = async (id) => {
   return data
 }
 
+export const getPopularPosts = async (limit, offset) => 
+  await request.get(`${baseUrl}/popular?limit=${limit}&offset=${offset}`)
+
 export const getPostDataByProp = async (prop,value) => {
   const data = await request.search({url:baseUrl,prop,value})
   return data

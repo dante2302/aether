@@ -13,7 +13,6 @@ const ChannelCreateForm = ({toggleChannelModal}) => {
   const { userData } = useContext(UserDataContext) 
   const [isDisabled,setDisabled] = useState(true)
   const navigate = useNavigate()
-  console.log(userData);
   const initialFormState = {
     'name': '',
     'description': ''
@@ -29,9 +28,8 @@ const ChannelCreateForm = ({toggleChannelModal}) => {
   const submitHandler = async (e) => {
     e.preventDefault()
     const response = await createChannel(userData,formState)
-    console.log(response);
     toggleChannelModal(false)
-    // navigate(`/c/${formState.name}`)
+    navigate(`/c/${formState.name}`)
   }
 
   return (

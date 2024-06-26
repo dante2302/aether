@@ -27,7 +27,7 @@ const InfiniteScrollPosts = ({fetchFunction, limit}) => {
 
   async function fetchPosts()
   {
-    let dataList = await fetchFunction();
+    let dataList = await fetchFunction(limit, offset);
     if(dataList.length < offset)
     {
       setEndOfPosts(true);
@@ -48,7 +48,7 @@ const InfiniteScrollPosts = ({fetchFunction, limit}) => {
   return (
     <div className={styles['container']}>
       <ul className={styles['post-container']}> 
-      {visiblePosts.map(postData =>
+      {postDataList.map(postData =>
         <li key={postData._id}> <PostRender postData={postData} isCompact={true} />
       </li>)}
       </ul>

@@ -6,7 +6,7 @@ export const createChannel = async (userData,{name,description}) => {
   const bodyData = {
     name,
     description,
-    ownerId: userData.data.id
+    ownerId: userData.id
   }
 
   const result = await request.post({

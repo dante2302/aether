@@ -7,7 +7,7 @@ export const getUserDataByProp = async (prop,value) => {
 
 export async function getUserChannels(userId)
 {
-  const response = await request.get(`${baseUrl}/userId/channels`)
+  const response = await request.get(`${baseUrl}/${userId}/channels`)
   return response;
 }
 export const updateUserData = async (userData,newData) => {

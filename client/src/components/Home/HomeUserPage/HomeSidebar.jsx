@@ -4,25 +4,24 @@ import ChannelList from '../../Channel/ChannelList.jsx'
 import { getChannelData } from '../../../services/channelService.js'
 
 import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import useLoading from '../../../hooks/useLoading.jsx'
 
 import UilHouseUser from '@iconscout/react-unicons/icons/uil-house-user.js'
 import styles from './styles/HomeSidebar.module.css'
+import UserDataContext from '../../../contexts/UserDataContext.jsx'
+import { getUserChannels } from '../../../services/userService.js'
 
-const HomeSidebar = ({userData}) => {
+const HomeSidebar = () => {
 
   const [channelModal,setChannelModal] = useState()
   const [visibleChannels,setVisibleChannels] = useState([])
   const navigate = useNavigate()
+  const {userData} = useContext(UserDataContext);
 
   const fetchChannels = async () => {
-    const channels = []
-    for(let channelId of userData.channels) {
-      channels.push(await getChannelData(channelId))
-    }
-    setVisibleChannels(channels)
+    getUserChannels(userData.id);
   }
 
   const [Spinner, fetchChannelsWithLoading,isLoading] = useLoading(fetchChannels)
@@ -53,14 +52,11 @@ const HomeSidebar = ({userData}) => {
         {channelModal&&
           <ChannelCreateModal userData={userData} toggleChannelModal={toggleChannelModal}/>}
       </div>
-      {isLoading 
-        ? 
         <Spinner />
-        :
-        <ChannelList visibleChannels={visibleChannels}> 
+      {!isLoading &&
+        <ChannelList visibleChannels={visibleChannels}>
           <h1 className={styles['channel-h1']}> Your Channels: </h1>
-        </ChannelList>
-      }
+        </ChannelList>}
     </div>
   )
 }

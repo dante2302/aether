@@ -1,6 +1,3 @@
-
-import { equalSign, inEncodedQuotes } from '../utils/encodeUtils.js'
-
 export const post = async ({url,accessToken,bodyData}) => {
     const response = await fetch(url,{
       method: 'POST',
@@ -19,7 +16,7 @@ export const get = async (url) => {
     method: 'GET',
     mode: 'cors',
     headers: {
-      "Content-Type" : "application/json"
+      "Content-Type": "application/json"
     }
   })
   return response
@@ -31,34 +28,6 @@ export const search = async ({url,prop,value}) => {
     {method: 'GET'}
   )
   return response;
-}
-
-export const searchContent = async ({url,prop,value,pageSize,offset}) => {
-  const searchParam = `${prop}LIKE${inEncodedQuotes(value)}`
-  const searchUrl = `${url}?pageSize=${pageSize}&offset=${offset}?where=${searchParam}`
-  const response = await fetch(searchUrl,{method: 'GET'})
-  const data = await response.json()
-  return data
-}
-
-export const searchWithUnion = async ({url,firstProp,firstValue,secondProp,secondValue}) => {
-  const encodeFirst = (typeof(firstValue) === 'string')
-  const encodeSecond = (typeof(secondValue) === 'string')
-  const firstParam = `${firstProp}${equalSign}${encodeFirst ? inEncodedQuotes(firstValue) : firstValue}`
-  const secondParam = `${secondProp}${equalSign}${encodeSecond ? inEncodedQuotes(secondValue): secondValue}`
-  const searchUrl = `${url}?where=${firstParam} AND ${secondParam}`
-
-  const response = await fetch(searchUrl, {method: 'GET'})
-  const data = await response.json()
-  return data
-}
-
-export const searchContentWithUnion = async ({url,firstProp,secondProp,value,offset}) => {
-  const firstParam = `${firstProp} LIKE ${inEncodedQuotes(value)}`
-  const secondParam = `${secondProp} LIKE ${inEncodedQuotes(value)}`
-  const searchUrl = `${url}?pageSize=1&offset=${offset}?where=${firstParam} OR ${secondParam}`
-  const response = await fetch(searchUrl,{method: 'GET'})
-  return await response.json()
 }
 
 export const patchWithoutAuth = async ({url,newData}) => {
@@ -88,7 +57,7 @@ export const patchWithAuth = async ({url,accessToken,newData}) => {
 export const Delete = async ({url,accessToken}) => {
   let response = await fetch(url,{
     'method': 'DELETE',
-    'headers':{'X-Authorization': accessToken},
+    'headers':{'Authorization': `Bearer ${accessToken}`},
   })
   return response.json()
 }
