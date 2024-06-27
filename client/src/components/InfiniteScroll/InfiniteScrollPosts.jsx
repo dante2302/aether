@@ -7,12 +7,14 @@ import { useState, useEffect } from "react"
 import useLoading from '../../hooks/useLoading.jsx'
 
 import styles from './InfiniteScrollPosts.module.css'
+import { useNavigate } from 'react-router-dom'
 
 
 const InfiniteScrollPosts = ({fetchFunction, limit}) => {
   const [postDataList,setPostDataList] = useState([])
   const [offset, setOffset] = useState(0);
   const [endOfPosts, setEndOfPosts] = useState(false);
+  const navigate = useNavigate();
 
   const scrollHandler = async () => {
     const { clientHeight, scrollTop, scrollHeight } = document.documentElement
@@ -21,19 +23,24 @@ const InfiniteScrollPosts = ({fetchFunction, limit}) => {
     if(!isBottom || isLoading || endOfPosts){
       return
     }
-
-    fetchWithLoading(posts)
   }
 
   async function fetchPosts()
   {
-    let dataList = await fetchFunction(limit, offset);
-    if(dataList.length < offset)
-    {
-      setEndOfPosts(true);
+    try{
+      let response = await fetchFunction(limit, offset);
+      const deserialized = await response.json();
+      const dataList = deserialized.postList;
+      if(dataList.length < offset)
+      {
+        setEndOfPosts(true);
+      }
+      setPostDataList(curr => [...curr,...dataList]);
+      setOffset(o => o+limit);
     }
-    setPostDataList(curr => [...curr,dataList]);
-    setOffset(o => o+limit);
+    catch(e){
+      navigate("/error");
+    }
   }
 
   const [Spinner,fetchWithLoading,isLoading] = useLoading(fetchPosts)

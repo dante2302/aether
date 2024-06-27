@@ -36,7 +36,7 @@ public class PostEndpoints(WebApplication app) : EndpointMapper(app)
         ) => 
         {
             List<Post> popularPostList = await postService.GetPopularPosts(limit, offset);
-            return Results.Ok(new {popularPostList});
+            return Results.Ok(new {postList = popularPostList});
         }).AllowAnonymous();
     }
 

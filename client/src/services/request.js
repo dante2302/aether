@@ -11,12 +11,13 @@ export const post = async ({url,accessToken,bodyData}) => {
     return response;
 }
 
-export const get = async (url) => {
+export const get = async (url, accessToken) => {
   const response = await fetch(url, {
     method: 'GET',
     mode: 'cors',
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${accessToken}`
     }
   })
   return response

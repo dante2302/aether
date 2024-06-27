@@ -5,11 +5,25 @@ export const getUserDataByProp = async (prop,value) => {
   return data[0]
 }
 
-export async function getUserChannels(userId)
+export async function getRelatedChannels(userData)
 {
-  const response = await request.get(`${baseUrl}/${userId}/channels`)
+  console.log(userData.id);
+  const response = await request.get(
+    `${baseUrl}/${userData.id}/related/channels`,
+    userData.accessToken
+  )
   return response;
 }
+
+export async function getRelatedPosts(userData, limit, offset)
+{
+  const response = await request.get(
+    encodeURI(`${baseUrl}/${userData.id}/related/posts?limit=${limit}&offset=${offset}`),
+    userData.accessToken
+  );
+  return response;
+}
+
 export const updateUserData = async (userData,newData) => {
   const url = `${dataUrl}/${userData._id}`
   const data = await request.patchWithAuth({url, accessToken:userData.accessToken, newData})

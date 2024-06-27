@@ -17,8 +17,6 @@ const PopularChannels = () => {
     if (!response.ok)
       navigate("/error");
 
-    console.log("a");
-
     const channels = await response.json();
     for(let i = 0; i < channels.length; i++)
     {

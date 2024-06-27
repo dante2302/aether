@@ -10,14 +10,13 @@ import styles from './styles/HomeUserPage.module.css'
 
 const HomeUserPage = () => {
   const windowSize = useWindowSize()
-  const {userData} = useContext(UserDataContext)
 
   return(
     <div className={styles['container']}>
-      <HomeFeed userData={userData}/>
+      <HomeFeed />
       {windowSize.width>900&&
         <div className={styles['content']}>
-          <HomeSidebar userData={userData}/>
+          <HomeSidebar />
         </div>
       }
     </div>

@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react"
 import * as formUtils from '../../utils/formUtils.js'
 
 import { useNavigate } from "react-router-dom"
-import { getUserChannels } from "../../services/userService.js"
+import { getRelatedChannels } from "../../services/userService.js"
 
 import UserDataContext from "../../contexts/UserDataContext"
 
@@ -27,7 +27,7 @@ const PostCreateForm = () => {
   useEffect(() => {
     if (!userData) { navigate('../'); return }
     const asyncFunc = async () => {
-      const response = await getUserChannels(userData.id);
+      const response = await getRelatedChannels(userData.id);
 
       if (!response.ok) navigate('../');
 

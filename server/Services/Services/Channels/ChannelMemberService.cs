@@ -29,8 +29,8 @@ public class ChannelMemberService(IConfiguration config) : DbService(config)
         List<Channel> result = await ExecuteQueryListCommandAsync($@"
             SELECT channels.*
             FROM channels
-            JOIN channelmembers ON channel.id == channelmembers.channelId
-            WHERE channelmembers.userId = {userId}
+            JOIN channelmembers ON channels.id = channelmembers.channelId
+            WHERE channelmembers.userId = '{userId}'::uuid
         ", ChannelService.MapChannelFromReader);
 
         return result;

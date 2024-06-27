@@ -20,7 +20,7 @@ import { Routes, Route} from 'react-router-dom'
 
 import { UserDataProvider } from '../contexts/UserDataContext.jsx'
 import { UserModalProvider } from '../contexts/UserModalContext.jsx'
-import { useEffect } from 'react'
+import ErrorPage from './ErrorBoundary/ErrorPage.jsx'
 
 const App = () => {
   return (
@@ -50,7 +50,7 @@ const App = () => {
                 <Route path='disliked' element={<UserPageFeed key={'disliked'} type='disliked'/>} />
               
               <Route path='/*' element={<Page404 />} /> */}
-              <Route path="/error" element={<Page404 />}/>
+            <Route path="/error" element={<ErrorPage />}/>
             </Routes>
           </div>
         </ UserModalProvider> 

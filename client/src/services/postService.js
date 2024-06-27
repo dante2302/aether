@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:3030/data/posts'
+const baseUrl = 'http://localhost:5155/posts'
 
 import * as request from './request.js'
 
@@ -19,7 +19,8 @@ export const getPostData = async (id) => {
 }
 
 export const getPopularPosts = async (limit, offset) => 
-  await request.get(`${baseUrl}/popular?limit=${limit}&offset=${offset}`)
+  await request.get(
+    `${baseUrl}/popular?limit=${encodeURIComponent(limit)}&offset=${encodeURIComponent(offset)}`)
 
 export const getPostDataByProp = async (prop,value) => {
   const data = await request.search({url:baseUrl,prop,value})
