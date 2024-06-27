@@ -128,6 +128,22 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
             return Results.NoContent();
         });
 
+        _app.MapGet("/channels/{channelId:guid}/isjoinedby/{userId:guid}",
+                async
+                (
+                    [FromServices] ChannelMemberService cmService,
+                    [FromRoute] Guid channelId,
+                    [FromRoute] Guid userId
+                ) =>
+                {
+                    return Results.Ok(
+                        await cmService.ChannelMemberExists(new ChannelMember
+                        {
+                            ChannelId = channelId,
+                            UserId = userId
+                        }));
+        }).AllowAnonymous();
+
         _app.MapGet("/channels/{id:guid}/membercount", 
         async 
         (

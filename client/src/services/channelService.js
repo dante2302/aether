@@ -17,6 +17,27 @@ export const createChannel = async (userData,{name,description}) => {
   return result;
 }
 
+export async function isJoinedBy(channelId, userId) 
+{
+  return await request.get(`${baseUrl}/${channelId}/isjoinedby/${userId}`);
+}
+
+export async function joinChannel(channelId, userData)
+{
+  return await request.post({
+    url: `${baseUrl}/${channelId}/join`, 
+    accessToken: userData.accessToken,
+    bodyData: userData.id});
+}
+
+export async function leaveChannel(channelId, userData)
+{
+  return await request.Delete({
+    url: `${baseUrl}/${channelId}/leave`, 
+    accessToken: userData.accessToken,
+    bodyData: userData.id});
+}
+
 export const getChannelData = async (channelId) =>
   await request.get(`${baseUrl}/${channelId}`)
 

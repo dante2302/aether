@@ -1,9 +1,9 @@
 import ChannelSidebar from './ChannelSidebar.jsx'
-// import JoinButton from './JoinButton.jsx'
+import NewJoinButton from './NewJoinButton.jsx'
 // import InfiniteScrollPosts from '../InfiniteScroll/InfiniteScrollPosts.jsx'
 // import CreatePostBar from '../Post/CreatePostBar.jsx'
 
-import { getChannelDataByName } from '../../services/channelService.js' 
+import { getChannelDataByName, isJoinedBy } from '../../services/channelService.js' 
 
 import { useState, useEffect, useContext } from "react"
 import { useNavigate, useParams } from "react-router-dom"
@@ -18,34 +18,47 @@ const ChannelPage = ({isCompact}) => {
   const [channelData,setChannelData] = useState({})
   const navigate = useNavigate()
   const {channelName} = useParams()
-
-
   const {userData} = useContext(UserDataContext)
-  const {toggleUserModal} = useContext(UserModalContext)
+  const {userModal, toggleUserModal} = useContext(UserModalContext)
+
+  async function handleChannelMembership(channelId)
+  {
+    let response2 = await isJoinedBy(channelId, userData.id);
+    const isJoinedData = await response2.json();
+    setJoined(isJoinedData);
+  }
+
+  useEffect(() => {
+    if (userData && Object.keys(channelData).length !== 0) {
+      console.log(channelData);
+      handleChannelMembership(channelData.id)
+    }
+  }, [userModal]);
 
   useEffect(() => {
     (async () => {
       try{
         const response = await getChannelDataByName(channelName);
-//        if(Object.keys(response).findIndex("error") == -1)
- //         {
-  //          navigate("/error");
-   //     }
         const data = await response.json()
         setChannelData(data.channelData);
+        if(userData){
+          handleChannelMembership(data.channelData.id);
+        }
       }
       catch{}
-//      catch(e){
- //       navigate("/error");
-  //    }
-      
     })();
     return(() => {
       document.title = 'Aether'
     })
   },[])
-
-  const createPostHandler = () => userData && isJoined ? navigate('/submit') :  toggleUserModal()
+  function createPostHandler()
+  {
+    if(!userData){
+      toggleUserModal();
+      return;
+    }
+    navigate("/submit");
+  }
 
   return(
     // isCompact
@@ -69,12 +82,12 @@ const ChannelPage = ({isCompact}) => {
                 <h1>{channelData.name}</h1>
                 <h6>c/{channelData.name}</h6>
               </div>
-              {/* <JoinButton 
+              <NewJoinButton 
                 channelData={channelData} 
                 setChannelData={setChannelData} 
                 isJoined={isJoined} 
                 setJoined={setJoined}
-              /> */}
+              />
             </div>
           </header>
           <main className={styles['main']} >
@@ -93,7 +106,7 @@ const ChannelPage = ({isCompact}) => {
         </main>
       </div>
         <ChannelSidebar channelData={channelData}> 
-          <button onClick={createPostHandler} className={styles['create-btn']}>Create Post</button>
+          {isJoined && <button onClick={createPostHandler} className={styles['create-btn']}>Create Post</button>}
         </ChannelSidebar>
     </div>
   )

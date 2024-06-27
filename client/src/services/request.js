@@ -55,10 +55,14 @@ export const patchWithAuth = async ({url,accessToken,newData}) => {
   return await response.json()
 }
 
-export const Delete = async ({url,accessToken}) => {
+export const Delete = async ({url,accessToken, bodyData}) => {
   let response = await fetch(url,{
     'method': 'DELETE',
-    'headers':{'Authorization': `Bearer ${accessToken}`},
+    'headers':{
+      'Authorization': `Bearer ${accessToken}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(bodyData)
   })
-  return response.json()
+  return response
 }

@@ -20,10 +20,11 @@
   gap:6px;
   background: white;
   width:100%;
-  padding-left:15px;
-  padding-block: 10px;
 }
 
 .list>*{
   cursor: pointer;
+  padding-block: 10px;
+  padding-left:15px;
+  border-top: 1px solid black;
 }
