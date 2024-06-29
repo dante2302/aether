@@ -52,7 +52,7 @@ public class PostService(IConfiguration config) : DbService(config)
 
         if(!result.HasRecord)
         {
-            throw new NotFoundException("Channel not found.");
+            throw new NotFoundException("Post not found.");
         }
         return result.Record;
     }
@@ -83,6 +83,19 @@ public class PostService(IConfiguration config) : DbService(config)
        ,MapPostFromReader);
 
        return posts;
+    }
+    public async Task<List<Post>> GetRelatedPosts(Guid userId, int? limit, int? offset)
+    {
+        List<Post> result = await ExecuteQueryListCommandAsync($@"
+           SELECT p.* 
+           FROM posts p
+           JOIN channelmembers cm ON p.channelId = cm.channelId
+           WHERE cm.userId = '{userId}'::uuid
+           ORDER BY p.dateOfCreation DESC
+           LIMIT {(limit is null ? "ALL" : limit)}
+           OFFSET {offset ?? 0}" 
+            , MapPostFromReader);
+       return result; 
     }
 
     public async Task<List<Post>> GetAllByOwner(Guid ownerId)

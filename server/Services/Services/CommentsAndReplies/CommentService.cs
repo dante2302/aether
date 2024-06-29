@@ -52,6 +52,15 @@ public class CommentService(IConfiguration config) : DbService(config)
        return comments;
     }
 
+    public async Task<int> GetCommentCountFromPost(Guid postId)
+    {
+        int? result = (int?)await ExecuteScalarAsync($@"
+            SELECT COUNT(*)
+            FROM comments
+            WHERE postId = '{postId}'::uuid");
+        return result ?? 0;
+    }
+
     public async Task<List<Comment>> GetAllByOwner(Guid ownerId)
     {
        List<Comment> comments = await ExecuteQueryListCommandAsync(

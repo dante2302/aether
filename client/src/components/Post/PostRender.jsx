@@ -18,18 +18,20 @@ import styles from './styles/PostRender.module.css'
 
 const PostRender = ({
   postData, 
+  additionalPostData,
   isCompact, 
   isRedirect
 }) => {
 
   const [postDataState,setPostDataState] = useState(postData)
+  const [additionalPostDataState, setAdditionalPostDataState] = useState(additionalPostData);
   //In case the post data changes
   const {userData} = useContext(UserDataContext)
   const navigate = useNavigate()
 
   const redirectToPage = (e) =>{ 
     e.stopPropagation()
-    navigate(`/c/${postData.channelName}/${postData._id}`)
+    navigate(`/c/${postData.channelName}/${postData.id}`)
   }
 
   return(
@@ -52,7 +54,7 @@ const PostRender = ({
             className={styles['channel-name']} 
             onClick={(e) => {
             e.stopPropagation();
-            navigate(`/c/${postData.channelName}`)
+            navigate(`/c/${additionalPostData.channelName}`)
             }}
           >c/{postData.channelName} </span> 
 
@@ -61,7 +63,7 @@ const PostRender = ({
           <span className={styles['username']} 
             onClick={(e) => {
               e.stopPropagation();
-              navigate(`/u/${postData.ownerUsername}`)
+              navigate(`/u/${additionalPostData.ownerUsername}`)
             }}
           >u\{postData.ownerUsername}</span> 
 
@@ -89,7 +91,7 @@ const PostRender = ({
                 ${isRedirect ? styles['redirect'] : ''}`
             }>
               <UilComment size={25}/> 
-              <span>{postData.commentCount} {postData.commentCount>1?'comment':'comments'}</span>
+              <span>{additionalPostData.commentCount} Comments</span>
             </button>
 
           <PostSharing postData={postData}/>

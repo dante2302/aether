@@ -7,7 +7,7 @@ import { getPopularPosts } from '../../../services/postService.js'
 const HomeGuest = () => {
   return(
     <div className={styles['container']}>
-        <InfiniteScrollPosts fetchFunction={getPopularPosts} limit={3}/>
+        <InfiniteScrollPosts fetchFunction={getPopularPosts} limit={3} Fallback={() => <></>}/>
       <PopularChannels /> 
     </div>
   )

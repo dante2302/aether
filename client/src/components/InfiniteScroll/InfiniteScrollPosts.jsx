@@ -39,6 +39,7 @@ const InfiniteScrollPosts = ({fetchFunction, limit, Fallback}) => {
       setOffset(o => o+limit);
     }
     catch(e){
+      console.log(e);
       navigate("/error");
     }
   }
@@ -51,14 +52,15 @@ const InfiniteScrollPosts = ({fetchFunction, limit, Fallback}) => {
   },[isLoading])
 
   useEffect(() => {fetchWithLoading()},[])
-
+console.log("asd", postDataList);
   return (
     postDataList.length > 0
     ?
     <div className={styles['container']}>
       <ul className={styles['post-container']}> 
-      {postDataList.map(postData =>
-        <li key={postData._id}> <PostRender postData={postData} isCompact={true} />
+      {
+      postDataList.map(postData =>
+        <li key={postData.id}> <PostRender postData={postData} isCompact={true} />
       </li>)}
       </ul>
       <Spinner size={50}/>

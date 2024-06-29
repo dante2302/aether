@@ -14,8 +14,8 @@ const PostSaving = ({postData}) => {
   const {toggleUserModal} = useContext(UserModalContext)
 
   const checkSaved = () => {
-    if(!userData || Object.keys(userData).length === 0){setSaved(false) ; return}
-    if(userData.savedPosts.includes(postData._id))setSaved(true);
+    // if(!userData || Object.keys(userData).length === 0){setSaved(false) ; return}
+    // if(userData.savedPosts.includes(postData._id))setSaved(true);
   }
 
   useEffect(() => {checkSaved()},[])
@@ -41,13 +41,13 @@ const PostSaving = ({postData}) => {
   }
 
   return(
-    <div onClick={e => saveHandler(e)} className={
+    <button onClick={e => saveHandler(e)} className={
       `${isSaved && styles['saved']} 
        ${styles['save-container']}`}
     >
       <UilBookmark className={isSaved ? styles['saved'] : ''} size={23}/>
       <span>{isSaved ? 'Saved' : 'Save'}</span>
-    </div>
+    </button>
   )
 }
 

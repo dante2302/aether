@@ -28,6 +28,13 @@ export const getPostDataByProp = async (prop,value) => {
   return data
 }
 
+export async function getPostCommentCount(postId)
+{
+  const response = await request.get(`${baseUrl}/${postId}/commentCount`)
+  return response;
+}
+
+
 export const getPersonalPosts = async(postId,userId) => {
   const data = await request.search({url:`${baseUrl}/${postId}`, prop:'_ownerId', value:userId})
   return data

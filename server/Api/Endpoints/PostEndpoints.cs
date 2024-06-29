@@ -21,13 +21,18 @@ public class PostEndpoints(WebApplication app) : EndpointMapper(app)
         (HttpContext context,
          [FromBody] Post newPost,
          [FromServices] PostService postService
-        ) =>
-        {
-            Post postData = await postService.Create(newPost);
-            return Results.Ok(new { postData });
-        });
+        ) => Results.Ok(new { postData = await postService.Create(newPost) })
+        );
 
-        _app.MapGet("/posts/popular", 
+        _app.MapGet("/posts/{postId:guid}",
+        async
+        (
+            [FromServices] PostService postService,
+            [FromRoute] Guid postId
+        ) => Results.Ok(new { postData = await postService.GetOne(postId) })
+        ).AllowAnonymous();
+
+        _app.MapGet("/posts/popular",
         async 
         (
             [FromServices] PostService postService,
@@ -47,24 +52,18 @@ public class PostEndpoints(WebApplication app) : EndpointMapper(app)
         (
             [FromServices] IUserPostInteractionService<Like> likeService,
             [FromRoute] Guid postId
-        ) =>
-        {
-            long count = await likeService.GetCount(postId);
-            return Results.Ok(count);
-        }).AllowAnonymous();
+        ) => Results.Ok(await likeService.GetCount(postId))
+        ).AllowAnonymous();
 
         _app.MapGet("posts/{postId:guid}/dislikescount",
         async
         (
             [FromServices] IUserPostInteractionService<Dislike> dislikeService,
             [FromRoute] Guid postId
-        ) =>
-        {
-            long count = await dislikeService.GetCount(postId);
-            return Results.Ok(count);
-        }).AllowAnonymous();
+        ) => Results.Ok(await dislikeService.GetCount(postId))
+        ).AllowAnonymous();
     }
-    
+
     private void MapCommentEndpoints()
     {
         _app.MapGet("/posts/{postId:guid}/comments",
@@ -72,10 +71,18 @@ public class PostEndpoints(WebApplication app) : EndpointMapper(app)
         (
             [FromServices] CommentService commentService,
             [FromRoute] Guid postId
-        ) =>
+        ) => Results.Ok(new
         {
-            List<Comment> commentList = await commentService.GetCommentsFromPost(postId);
-            return Results.Ok(new { commentList });
-        }).AllowAnonymous();
+            commentList = await commentService.GetCommentsFromPost(postId)
+        })
+        ).AllowAnonymous();
+
+        _app.MapGet("/posts/{postId:guid}/commentCount", 
+        async
+        (
+            [FromServices] CommentService commentService,
+            [FromRoute] Guid postId
+        ) => Results.Ok(await commentService.GetCommentsFromPost(postId))
+        ).AllowAnonymous();
     }
 }

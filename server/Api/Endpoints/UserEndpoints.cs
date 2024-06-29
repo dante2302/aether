@@ -13,38 +13,22 @@ public class UserEndpoints(WebApplication app) : EndpointMapper(app)
         (
             [FromServices] ChannelMemberService cmService,
             [FromRoute] Guid id
-        ) => 
-        {
-            return new { channelList = await cmService.GetUserChannels(id) };
-        });
+        ) => Results.Ok(new { channelList = await cmService.GetRelatedChannels(id) }));
 
         _app.MapGet("/users/{id:guid}/related/posts", 
         async 
         (
             [FromServices] PostService postService,
-            [FromServices] ChannelMemberService cmService,
             [FromQuery] int? limit,
             [FromQuery] int? offset,
             [FromRoute] Guid id
-        ) => 
-        {
-            List<Channel> userChannels = await cmService.GetUserChannels(id);
-            List<Post> result = [];
-            foreach(Channel c in userChannels)
-            {
-                List<Post> posts  = await postService.GetPostsFromChannel(c.Id, limit, offset);
-                result.AddRange(posts);
-            }
+        ) => Results.Ok(new { postList = await postService.GetRelatedPosts(id, limit, offset) }));
 
-            result.Sort((a,b) => DateTime.Compare(a.DateOfCreation, b.DateOfCreation));
-
-            if(limit is not null && offset is not null)
-                result.Slice(
-                    (int)offset > result.Count + 1 ? 0 : (int)offset,
-                    (int)limit > result.Count ? result.Count : (int)limit
-                );
-
-            return Results.Ok(new {postList = result});
-        });
+        _app.MapGet("/users/{id:guid}/username", 
+        async
+        (
+            [FromServices] UserService userService,
+            [FromRoute] Guid id
+        ) => Results.Ok(await userService.GetName(id)));
     }
 }

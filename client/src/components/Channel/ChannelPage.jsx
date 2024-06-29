@@ -61,17 +61,17 @@ const ChannelPage = ({isCompact}) => {
   }
 
   return(
-    // isCompact
-    //   ? 
-    //   <ChannelSidebar channelData={channelData}>
-    //     <JoinButton 
-    //       channelData={channelData} 
-    //       setChannelData= {setChannelData} 
-    //       isJoined={isJoined} 
-    //       setJoined={setJoined}
-    //     />
-    //   </ChannelSidebar>
-    //   :
+    isCompact
+      ? 
+      <ChannelSidebar channelData={channelData}>
+        <JoinButton 
+          channelData={channelData} 
+          setChannelData= {setChannelData} 
+          isJoined={isJoined} 
+          setJoined={setJoined}
+        />
+      </ChannelSidebar>
+      :
       <div className={styles['container']} >
         <div className={styles['content']}>
           <header className={styles['header']}>
@@ -97,6 +97,7 @@ const ChannelPage = ({isCompact}) => {
               fetchFunction={(limit, offset) => getChannelPosts(channelData.id, limit, offset)}
               limit={5}
               Fallback={              
+                () => 
                 <div className={styles['noposts']}>
                   <h1>There are no posts in this channel</h1>
                   <h3>Be the chosen one</h3>

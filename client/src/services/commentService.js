@@ -8,9 +8,6 @@ export const createComment = async (userData,{replyTo,parentCommentId,postId,tex
     postId,
     text,
     edited:false,
-    parentCommentId,
-    replyTo,
-    ownerUsername:userData.username
   }
   const data = await request.post({url:baseUrl, accessToken: userData.accessToken, bodyData}) 
   const a = await updateUserData(userData,{comments:[...userData.comments,data._id]})

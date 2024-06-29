@@ -21,9 +21,9 @@ const PostRating = ({postDataState,setPostDataState}) => {
   const [isDisliked,setDisliked] = useState(false) 
 
   const checkRating = () => {
-    if(!userData || Object.keys(userData).length === 0){setLiked(false) ; setDisliked(false) ; return}
-    if(userData.likedPosts.includes(postDataState._id))setLiked(true);
-    else if(userData.dislikedPosts.includes(postDataState._id))setDisliked(true);
+    // if(!userData || Object.keys(userData).length === 0){setLiked(false) ; setDisliked(false) ; return}
+    // if(userData.likedPosts.includes(postDataState._id))setLiked(true);
+    // else if(userData.dislikedPosts.includes(postDataState._id))setDisliked(true);
   }
 
   useEffect(() => {checkRating()},[])

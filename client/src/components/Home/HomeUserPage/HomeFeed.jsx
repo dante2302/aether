@@ -10,7 +10,11 @@ const HomeFeed = () => {
   return (
     <div className={styles['container']}>
       <CreatePostBar />
-      <InfiniteScrollPosts fetchFunction={(limit, offset) => getRelatedPosts(userData, limit, offset)} limit={5}/>
+      <InfiniteScrollPosts 
+        fetchFunction={(limit, offset) => getRelatedPosts(userData, limit, offset)} 
+        limit={5}
+        Fallback={() => <></>}
+      />
       <div>
         Welcome
       </div>

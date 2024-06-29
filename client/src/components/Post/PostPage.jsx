@@ -6,7 +6,7 @@ import { getPostData } from "../../services/postService"
 import { getPostComments } from "../../services/commentService"
 import useLoading from "../../hooks/useLoading"
 import { useContext, useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import styles from './styles/PostPage.module.css'
 import ChannelPage from "../Channel/ChannelPage"
 import UserDataContext from "../../contexts/UserDataContext"
@@ -14,21 +14,30 @@ import UserDataContext from "../../contexts/UserDataContext"
 const PostPage = () => {
   const [postData,setPostData] = useState()
   const [comments,setComments] = useState([])
-
+  const navigate = useNavigate()
   const {userData} = useContext(UserDataContext)
 
   const postId = useParams().postId
   
   const fetchPost = async () => {
-    const data = await getPostData(postId)
-    const commentList = await getPostComments(postId)
-    'code' in commentList
-      ? setComments([]) 
-      : setComments(commentList)
-    //check if the post has any comments
+    try{
+      const response = await getPostData(postId)
+      const deserialized = await response.json();
+      const data = deserialized.postData;
+      // const commentList = await getPostComments(postId)
+      // 'code' in commentList
+      //   ? setComments([]) 
+      //   : setComments(commentList)
+      //check if the post has any comments
 
-    document.title = `${data.title}`
-    setPostData(data)
+      document.title = `${data.title}`
+      setPostData(data)
+    }
+    catch(e)
+    {
+      console.log(e);
+      navigate("/error");
+    }
   }
 
   const [Spinner,fetchWithLoading] = useLoading(fetchPost)

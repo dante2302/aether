@@ -24,7 +24,7 @@ public class ChannelMemberService(IConfiguration config) : DbService(config)
         }
     }
 
-    public async Task<List<Channel>> GetUserChannels(Guid userId)
+    public async Task<List<Channel>> GetRelatedChannels(Guid userId)
     {
         List<Channel> result = await ExecuteQueryListCommandAsync($@"
             SELECT channels.*
