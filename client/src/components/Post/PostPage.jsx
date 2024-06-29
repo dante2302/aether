@@ -13,7 +13,7 @@ import UserDataContext from "../../contexts/UserDataContext"
 
 const PostPage = () => {
   const [postData,setPostData] = useState()
-  const [comments,setComments] = useState()
+  const [comments,setComments] = useState([])
 
   const {userData} = useContext(UserDataContext)
 

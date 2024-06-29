@@ -10,6 +10,7 @@ import UserDataContext from "../../contexts/UserDataContext"
 import UilImage from "@iconscout/react-unicons/icons/uil-image.js"
 import UilLink from "@iconscout/react-unicons/icons/uil-link.js"
 import styles from './styles/PostCreateForm.module.css'
+import { createPost } from "../../services/postService.js"
 
 const PostCreateForm = () => {
   const initialFormState = {
@@ -27,11 +28,13 @@ const PostCreateForm = () => {
   useEffect(() => {
     if (!userData) { navigate('../'); return }
     const asyncFunc = async () => {
-      const response = await getRelatedChannels(userData.id);
+      const response = await getRelatedChannels(userData);
+      console.log(response);
 
       if (!response.ok) navigate('../');
 
-      availableChannels = await response.json();
+      let availableChannels = (await response.json()).channelList;
+      console.log(availableChannels);
       if (availableChannels.length > 0) {
         setChannels(availableChannels)
         setSelectedChannel(availableChannels[0].id)
@@ -58,7 +61,7 @@ const PostCreateForm = () => {
   const submitHandler = async (e) => {
     e.preventDefault()
     if(formState.title && await checkImgUrl(formState.imgUrl)){
-      await postApi.createPost(userData,{...formState , channelId: selectedChannel})
+      await createPost(userData,{...formState , channelId: selectedChannel})
       navigate('../')
     }
   }
@@ -74,7 +77,7 @@ const PostCreateForm = () => {
       >
         {channels && 
           channels.map((channelData) => 
-            <option key={channelData._id} value={channelData._id}>{channelData.name}</option>)
+            <option key={channelData.id} value={channelData.id}>{channelData.name}</option>)
         }
       </select>
       <div className={styles['input-container']}>

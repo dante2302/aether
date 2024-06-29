@@ -8,7 +8,7 @@ import {getTimeDifference} from '../../utils/dateUtils.js'
 
 import { useContext, useState } from 'react'
 
-import { useNavigate } from 'react-router-dom'
+import { redirect, useNavigate } from 'react-router-dom'
 
 import UserDataContext from '../../contexts/UserDataContext'
 
@@ -16,7 +16,11 @@ import UilComment from '@iconscout/react-unicons/icons/uil-comment.js'
 
 import styles from './styles/PostRender.module.css'
 
-const PostRender = ({postData, isCompact, isRedirect}) => {
+const PostRender = ({
+  postData, 
+  isCompact, 
+  isRedirect
+}) => {
 
   const [postDataState,setPostDataState] = useState(postData)
   //In case the post data changes
@@ -40,7 +44,7 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
         className={
          `${styles['inner-content']} 
           ${isRedirect ? styles['redirect'] : ''}`} 
-        onClick={() => navigate(`/c/${postData.channelName}/${postData._id}`)}
+        onClick={(e) => redirectToPage(e)}
       >
         <div>
 
@@ -61,7 +65,7 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
             }}
           >u\{postData.ownerUsername}</span> 
 
-          <span> {getTimeDifference(postData._createdOn)} ago</span>
+          <span> {getTimeDifference(postData.dateOfCreation)} ago</span>
         </div>
 
         <h1>{postData.title}</h1>
@@ -70,7 +74,6 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
         {postData.imgUrl && 
           <img src={postData.imgUrl} className={styles['post-image']}/>
         }
-
         {postData.text &&(
          isCompact 
           ? 
@@ -78,12 +81,6 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
           :
           <p>{postData.text}</p>)
         }
-        
-
-
-        
-
-
 
         <div className={styles['options-container']}>
             <button 
@@ -100,16 +97,13 @@ const PostRender = ({postData, isCompact, isRedirect}) => {
           {userData && 
             <PostSaving postData={postData}/>
           }
-
         </div>
       </div>
     </div>
   )
 }
-
         // 
         // {postData.linkUrl && 
         //   <LinkPreview url={postData.linkUrl} isCompact={isCompact}/>
         // }
-
 export default PostRender

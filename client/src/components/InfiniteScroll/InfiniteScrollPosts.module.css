@@ -1,5 +1,4 @@
 .post-container,.container{
-  margin-block:1em;
   display:flex;
   flex-direction:column;
   gap:1em;

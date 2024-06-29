@@ -33,23 +33,19 @@ const App = () => {
               <Route path='/' element={<Home />} />
               <Route path='popular' element={<HomeGuest />} />
               <Route path='search' element={<SearchResults />} />
-
               <Route path={'c/:channelName'}>
                 <Route index element={<ChannelPage />} />
-              </Route>
-                {/* <Route path='submit' element={<PostCreateForm />} />
+                <Route path='submit' element={<PostCreateForm />} />
                 <Route path={':postId'} element={<PostPage />} />
               </Route>
-
               <Route path='submit' element={<PostCreateForm />} />
-
               <Route path='/u/:username' element={<UserPage />}>
                 <Route path='submitted' element={<UserPageFeed key={'posted'} type='posted' />} />
                 <Route path='saved' element={<UserPageFeed key={'saved'} type='saved' />} />
                 <Route path='liked' element={<UserPageFeed key={'liked'} type='liked'/>} />
                 <Route path='disliked' element={<UserPageFeed key={'disliked'} type='disliked'/>} />
-              
-              <Route path='/*' element={<Page404 />} /> */}
+              </Route>
+              <Route path='/*' element={<Page404 />} />
             <Route path="/error" element={<ErrorPage />}/>
             </Routes>
           </div>

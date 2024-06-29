@@ -10,7 +10,7 @@ import styles from './InfiniteScrollPosts.module.css'
 import { useNavigate } from 'react-router-dom'
 
 
-const InfiniteScrollPosts = ({fetchFunction, limit}) => {
+const InfiniteScrollPosts = ({fetchFunction, limit, Fallback}) => {
   const [postDataList,setPostDataList] = useState([])
   const [offset, setOffset] = useState(0);
   const [endOfPosts, setEndOfPosts] = useState(false);
@@ -53,6 +53,8 @@ const InfiniteScrollPosts = ({fetchFunction, limit}) => {
   useEffect(() => {fetchWithLoading()},[])
 
   return (
+    postDataList.length > 0
+    ?
     <div className={styles['container']}>
       <ul className={styles['post-container']}> 
       {postDataList.map(postData =>
@@ -61,6 +63,8 @@ const InfiniteScrollPosts = ({fetchFunction, limit}) => {
       </ul>
       <Spinner size={50}/>
     </div>
+    :
+    <Fallback />
   )
 }
 export default InfiniteScrollPosts

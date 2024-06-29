@@ -1,9 +1,9 @@
 import ChannelSidebar from './ChannelSidebar.jsx'
-import NewJoinButton from './NewJoinButton.jsx'
-// import InfiniteScrollPosts from '../InfiniteScroll/InfiniteScrollPosts.jsx'
+import JoinButton from './JoinButton.jsx'
+import InfiniteScrollPosts from '../InfiniteScroll/InfiniteScrollPosts.jsx'
 // import CreatePostBar from '../Post/CreatePostBar.jsx'
 
-import { getChannelDataByName, isJoinedBy } from '../../services/channelService.js' 
+import { getChannelDataByName, getChannelPosts, isJoinedBy } from '../../services/channelService.js' 
 
 import { useState, useEffect, useContext } from "react"
 import { useNavigate, useParams } from "react-router-dom"
@@ -82,7 +82,7 @@ const ChannelPage = ({isCompact}) => {
                 <h1>{channelData.name}</h1>
                 <h6>c/{channelData.name}</h6>
               </div>
-              <NewJoinButton 
+              <JoinButton 
                 channelData={channelData} 
                 setChannelData={setChannelData} 
                 isJoined={isJoined} 
@@ -92,17 +92,18 @@ const ChannelPage = ({isCompact}) => {
           </header>
           <main className={styles['main']} >
           {/* {isJoined && <CreatePostBar />} */}
-          {/* {channelData.posts?.length 
-            ? 
-            <InfiniteScrollPosts posts={channelData.posts}/>
-          : */}
-            <>
-              <div className={styles['noposts']}>
-                <h1>There are no posts in this channel</h1>
-                <h3>Be the chosen one</h3>
-              </div>
-            </>
-          {/* } */}
+          {Object.keys(channelData).length && 
+            <InfiniteScrollPosts 
+              fetchFunction={(limit, offset) => getChannelPosts(channelData.id, limit, offset)}
+              limit={5}
+              Fallback={              
+                <div className={styles['noposts']}>
+                  <h1>There are no posts in this channel</h1>
+                  <h3>Be the chosen one</h3>
+                </div>
+              }
+          />}
+
         </main>
       </div>
         <ChannelSidebar channelData={channelData}> 

@@ -50,6 +50,13 @@ export const getPopularChannels = async () =>
 export const getMemberCount = async (id) =>
   await request.get(`${baseUrl}/${id}/membercount`)
 
+
+
+export async function getChannelPosts(channelId, limit, offset)
+{
+  var a = await request.get(`${baseUrl}/${channelId}/posts?limit=${limit}&offset=${offset}`)
+  return a;
+}
 export const updateChannelData = async (channelId,newData) => {
   const url = `${baseUrl}/${channelId}`
   const data = await request.patchWithoutAuth({url,newData})

@@ -2,13 +2,14 @@ const baseUrl = 'http://localhost:5155/posts'
 
 import * as request from './request.js'
 
-export const createPost = async ({accessToken},formData) => {
+export const createPost = async (userData,formData) => {
   const { channelId } = formData
     const bodyData = {
         ...formData,
-        channelId
+        channelId,
+        ownerId: userData.id
       }
-    const data = await request.post({url: baseUrl,accessToken,bodyData})
+    const data = await request.post({url: baseUrl,accessToken: userData.accessToken,bodyData})
     return data
 }    
 

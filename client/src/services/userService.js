@@ -7,7 +7,6 @@ export const getUserDataByProp = async (prop,value) => {
 
 export async function getRelatedChannels(userData)
 {
-  console.log(userData.id);
   const response = await request.get(
     `${baseUrl}/${userData.id}/related/channels`,
     userData.accessToken

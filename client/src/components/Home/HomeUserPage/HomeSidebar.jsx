@@ -29,7 +29,6 @@ const HomeSidebar = () => {
     //   navigate("/error");
     // }
   }
-  useEffect(() => {console.log(visibleChannels)}, [visibleChannels])
 
   const [Spinner, fetchChannelsWithLoading,isLoading] = useLoading(fetchChannels)
 
