@@ -31,7 +31,7 @@ const PostRender = ({
 
   const redirectToPage = (e) =>{ 
     e.stopPropagation()
-    navigate(`/c/${postData.channelName}/${postData.id}`)
+    navigate(`/c/${additionalPostData.channelName}/${postData.id}`)
   }
 
   return(
@@ -40,7 +40,10 @@ const PostRender = ({
       ${isRedirect ? styles['redirect'] : ''}`} 
       onClick={e => redirectToPage(e)}
     >
-      <PostRating postDataState={postDataState} setPostDataState={setPostDataState} />
+      <PostRating 
+        postDataState={additionalPostDataState} 
+        setPostDataState={setAdditionalPostDataState} 
+      />
 
       <div 
         className={
@@ -56,7 +59,7 @@ const PostRender = ({
             e.stopPropagation();
             navigate(`/c/${additionalPostData.channelName}`)
             }}
-          >c/{postData.channelName} </span> 
+          >c/{additionalPostData.channelName} </span> 
 
           <span> Posted by </span> 
 
@@ -65,7 +68,7 @@ const PostRender = ({
               e.stopPropagation();
               navigate(`/u/${additionalPostData.ownerUsername}`)
             }}
-          >u\{postData.ownerUsername}</span> 
+          >u\{additionalPostData.ownerUsername}</span> 
 
           <span> {getTimeDifference(postData.dateOfCreation)} ago</span>
         </div>
@@ -94,7 +97,7 @@ const PostRender = ({
               <span>{additionalPostData.commentCount} Comments</span>
             </button>
 
-          <PostSharing postData={postData}/>
+          <PostSharing postId={postData.id} channelName={additionalPostData.channelName}/>
 
           {userData && 
             <PostSaving postData={postData}/>

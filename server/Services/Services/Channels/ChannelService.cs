@@ -91,7 +91,8 @@ public class ChannelService(IConfiguration config) : DbService(config)
     {
         QueryResult<string> result = await ExecuteQueryCommandAsync(
             @$"SELECT name FROM channels
-               WHERE id = {id}", (reader) => reader.GetString(0));
+               WHERE id = '{id}'::uuid", 
+            (reader) => reader.GetString(0));
 
         if (!result.HasRecord)
             throw new NotFoundException("No such channel");

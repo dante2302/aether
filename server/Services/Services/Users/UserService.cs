@@ -42,7 +42,7 @@ public class UserService(IConfiguration config) : DbService(config)
     {
 
         QueryResult<string> result = await ExecuteQueryCommandAsync(
-            $"SELECT * FROM Users WHERE Id = '{id}'::UUID",
+            $"SELECT username FROM Users WHERE Id = '{id}'::UUID",
             (reader) => reader.GetString(0)
         );
 

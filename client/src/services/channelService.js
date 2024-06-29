@@ -50,7 +50,8 @@ export const getPopularChannels = async () =>
 export const getMemberCount = async (id) =>
   await request.get(`${baseUrl}/${id}/membercount`)
 
-
+export const getChannelName = async (id) =>
+  await request.get(`${baseUrl}/${id}/name`)
 
 export async function getChannelPosts(channelId, limit, offset)
 {

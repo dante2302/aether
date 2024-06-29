@@ -52,9 +52,9 @@ public class CommentService(IConfiguration config) : DbService(config)
        return comments;
     }
 
-    public async Task<int> GetCommentCountFromPost(Guid postId)
+    public async Task<long> GetCommentCountFromPost(Guid postId)
     {
-        int? result = (int?)await ExecuteScalarAsync($@"
+        long? result = (long?)await ExecuteScalarAsync($@"
             SELECT COUNT(*)
             FROM comments
             WHERE postId = '{postId}'::uuid");

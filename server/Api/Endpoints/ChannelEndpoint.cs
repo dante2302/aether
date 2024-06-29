@@ -43,6 +43,13 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
             return Results.Ok(new {channelData});
         }).AllowAnonymous();
 
+        _app.MapGet("/channels/{id:guid}/name",
+        async
+        ([FromRoute] Guid id,
+         [FromServices] ChannelService channelService
+        ) => Results.Ok(await channelService.GetName(id))
+        ).AllowAnonymous();
+
         _app.MapPost("/channels",
         async
         (HttpContext context,

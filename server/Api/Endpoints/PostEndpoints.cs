@@ -82,7 +82,7 @@ public class PostEndpoints(WebApplication app) : EndpointMapper(app)
         (
             [FromServices] CommentService commentService,
             [FromRoute] Guid postId
-        ) => Results.Ok(await commentService.GetCommentsFromPost(postId))
+        ) => Results.Ok(await commentService.GetCommentCountFromPost(postId))
         ).AllowAnonymous();
     }
 }

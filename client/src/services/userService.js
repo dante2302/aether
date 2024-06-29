@@ -14,6 +14,9 @@ export async function getRelatedChannels(userData)
   return response;
 }
 
+export const getUsername = async (id) =>
+  await request.get(`${baseUrl}/${id}/username`)
+
 export async function getRelatedPosts(userData, limit, offset)
 {
   const response = await request.get(

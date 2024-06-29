@@ -17,6 +17,7 @@ const PostRating = ({postDataState,setPostDataState}) => {
   const {toggleUserModal} = useContext(UserModalContext)
 
   const [likesCount,setLikesCount] = useState(postDataState.likesCount)
+  const [dislikesCount, setDislikesCount] = useState(postDataState.dislikesCount);
   const [isLiked,setLiked] = useState(false)
   const [isDisliked,setDisliked] = useState(false) 
 
@@ -133,7 +134,7 @@ const PostRating = ({postDataState,setPostDataState}) => {
           `${styles['likes-count']} 
             ${styles[(isDisliked && 'disliked')]} 
             ${styles[(isLiked && 'liked')]}`
-        }>{likesCount}</div>
+        }>{likesCount - dislikesCount}</div>
 
         <UilArrowDown 
           onClick = {e => dislikeHandler(e)} 

@@ -29,6 +29,7 @@ public class UserEndpoints(WebApplication app) : EndpointMapper(app)
         (
             [FromServices] UserService userService,
             [FromRoute] Guid id
-        ) => Results.Ok(await userService.GetName(id)));
+        ) => Results.Ok(await userService.GetName(id))
+        ).AllowAnonymous();
     }
 }

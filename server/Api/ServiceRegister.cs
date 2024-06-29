@@ -18,6 +18,7 @@ public class ServiceRegistry(WebApplicationBuilder builder, IConfiguration Confi
         Builder.Services.AddScoped<PostService, PostService>();
         Builder.Services.AddScoped<CommentService, CommentService>();
         Builder.Services.AddScoped<ReplyService, ReplyService>();
+        Builder.Services.AddScoped<UserService, UserService>();
 
         Builder.Services.AddScoped<IUserPostInteractionService<Like>, UPIService<Like>>
             (serviceProvider => new UPIService<Like>(Config));

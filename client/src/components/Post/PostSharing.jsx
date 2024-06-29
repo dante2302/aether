@@ -2,13 +2,13 @@ import UilShare from '@iconscout/react-unicons/icons/uil-share.js'
 import styles from './styles/PostSharing.module.css/'
 import { useState } from 'react'
 
-const PostSharing = ({postData}) => {
+const PostSharing = ({postId, channelName}) => {
   const [copied,setCopied] = useState(false)
 
   const shareHandler = (e) => {
     e.stopPropagation()
     navigator.clipboard.writeText(
-      `http://localhost:5173/c/${postData.channelName}/${postData._id}/`)
+      `http://localhost:5173/c/${channelName}/${postId}/`)
     setCopied(true)
   }
 

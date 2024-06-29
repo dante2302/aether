@@ -12,6 +12,7 @@ import UserModalContext from "../../contexts/UserModalContext"
 import UserDataContext from "../../contexts/UserDataContext"
 
 import styles from './styles/ChannelPage.module.css' 
+import { getAdditionalPostData } from '../../services/postService.js'
 
 const ChannelPage = ({isCompact}) => {
   const [isJoined,setJoined] = useState(false)
@@ -95,6 +96,7 @@ const ChannelPage = ({isCompact}) => {
           {Object.keys(channelData).length && 
             <InfiniteScrollPosts 
               fetchFunction={(limit, offset) => getChannelPosts(channelData.id, limit, offset)}
+              fetchAdditionalFunction={getAdditionalPostData}
               limit={5}
               Fallback={              
                 () => 

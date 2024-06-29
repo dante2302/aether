@@ -10,7 +10,7 @@ import styles from './InfiniteScrollPosts.module.css'
 import { useNavigate } from 'react-router-dom'
 
 
-const InfiniteScrollPosts = ({fetchFunction, limit, Fallback}) => {
+const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fallback }) => {
   const [postDataList,setPostDataList] = useState([])
   const [offset, setOffset] = useState(0);
   const [endOfPosts, setEndOfPosts] = useState(false);
@@ -35,7 +35,19 @@ const InfiniteScrollPosts = ({fetchFunction, limit, Fallback}) => {
       {
         setEndOfPosts(true);
       }
-      setPostDataList(curr => [...curr,...dataList]);
+      const resultList = [];
+      console.log(dataList);
+      for(let i = 0; i < dataList.length; i++)
+      {
+        resultList.push(
+          {
+            postData: dataList[i],
+            additionalData: (await fetchAdditionalFunction(dataList[i]))
+          }
+        )
+      }
+      setPostDataList(curr => [...curr,...resultList]);
+      console.log(resultList);
       setOffset(o => o+limit);
     }
     catch(e){
@@ -52,16 +64,21 @@ const InfiniteScrollPosts = ({fetchFunction, limit, Fallback}) => {
   },[isLoading])
 
   useEffect(() => {fetchWithLoading()},[])
-console.log("asd", postDataList);
+
   return (
     postDataList.length > 0
     ?
     <div className={styles['container']}>
       <ul className={styles['post-container']}> 
       {
-      postDataList.map(postData =>
-        <li key={postData.id}> <PostRender postData={postData} isCompact={true} />
-      </li>)}
+      postDataList.map(postDataContainer =>
+        <li key={postDataContainer.postData.id}> 
+          <PostRender 
+            postData={postDataContainer.postData} 
+            additionalPostData={postDataContainer.additionalData} 
+            isCompact={true} 
+          />
+        </li>)}
       </ul>
       <Spinner size={50}/>
     </div>
