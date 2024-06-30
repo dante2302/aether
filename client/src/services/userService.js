@@ -25,10 +25,3 @@ export async function getRelatedPosts(userData, limit, offset)
   );
   return response;
 }
-
-export const updateUserData = async (userData,newData) => {
-  const url = `${dataUrl}/${userData._id}`
-  const data = await request.patchWithAuth({url, accessToken:userData.accessToken, newData})
-  return {...userData,...data}
-}
-

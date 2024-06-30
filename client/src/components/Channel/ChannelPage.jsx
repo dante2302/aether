@@ -31,7 +31,6 @@ const ChannelPage = ({isCompact}) => {
 
   useEffect(() => {
     if (userData && Object.keys(channelData).length !== 0) {
-      console.log(channelData);
       handleChannelMembership(channelData.id)
     }
   }, [userModal]);

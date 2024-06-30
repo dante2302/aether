@@ -41,8 +41,7 @@ const PostRender = ({
       onClick={e => redirectToPage(e)}
     >
       <PostRating 
-        postDataState={additionalPostDataState} 
-        setPostDataState={setAdditionalPostDataState} 
+        postData={{...additionalPostDataState, id: postDataState.id}} 
       />
 
       <div 

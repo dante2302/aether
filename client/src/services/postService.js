@@ -23,18 +23,23 @@ export const getPostData = async (id) => {
 
 export const getAdditionalPostData = async (postData) => 
 {
-  const commentCount = await (await getCommentCount(postData.id)).json();
-  const likesCount = await (await getLikesCount(postData.id)).json();
-  const dislikesCount = await (await getDislikesCount(postData.id)).json();
-  const ownerUsername = await (await getUsername(postData.ownerId)).json();
-  const channelName = await (await getChannelName(postData.channelId)).json();
+  try{
+    const commentCount = await (await getCommentCount(postData.id)).json();
+    const likesCount = await (await getLikesCount(postData.id)).json();
+    const dislikesCount = await (await getDislikesCount(postData.id)).json();
+    const ownerUsername = await (await getUsername(postData.ownerId)).json();
+    const channelName = await (await getChannelName(postData.channelId)).json();
 
-  return {
-    commentCount,
-    likesCount,
-    dislikesCount,
-    ownerUsername,
-    channelName
+    return {
+      commentCount,
+      likesCount,
+      dislikesCount,
+      ownerUsername,
+      channelName
+    }
+  }
+  catch{
+    return null;
   }
 }
 

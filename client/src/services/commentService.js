@@ -1,7 +1,6 @@
 
 const baseUrl = 'http://localhost:3030/data/comments'
 import * as request from './request.js'
-import { updateUserData } from './userService.js'
 
 export const createComment = async (userData,{replyTo,parentCommentId,postId,text}) => {
   const bodyData = {
@@ -10,7 +9,6 @@ export const createComment = async (userData,{replyTo,parentCommentId,postId,tex
     edited:false,
   }
   const data = await request.post({url:baseUrl, accessToken: userData.accessToken, bodyData}) 
-  const a = await updateUserData(userData,{comments:[...userData.comments,data._id]})
   return data
 }
 

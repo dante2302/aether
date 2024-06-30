@@ -23,9 +23,9 @@ public class UserPostInteractionEndpoints(WebApplication app) : EndpointMapper(a
             [FromRoute] Guid userId
         ) =>
         {
-            List<Like> likes = await likeService.GetByUser(userId);
-            return Results.Ok(likes);
-        });
+            List<Like> likeList = await likeService.GetByUser(userId);
+            return Results.Ok(new { likeList });
+        }).AllowAnonymous();
 
         _app.MapPost("/likes",
         async
@@ -46,15 +46,16 @@ public class UserPostInteractionEndpoints(WebApplication app) : EndpointMapper(a
         async
         (   HttpContext context,
             [FromServices] IUserPostInteractionService<Like> likeService,
-            [FromBody] Like like
+            [FromQuery] Guid postId,
+            [FromQuery] Guid userId
         ) =>
         {
             Guid jwtUserId = JwtClaimHelper.GetUserId(context);
-            if(jwtUserId != like.OwnerId)
+            if(jwtUserId != userId)
                 return Results.Forbid();
 
-            var success = await likeService.Delete(like);
-            return success ? Results.NoContent() : Results.Problem("Internal Problem.");
+            var success = await likeService.Delete(new Like() { PostId = postId, OwnerId = userId });
+            return success ? Results.NoContent() : Results.NotFound();
         });
     }
 
@@ -83,25 +84,24 @@ public class UserPostInteractionEndpoints(WebApplication app) : EndpointMapper(a
             [FromRoute] Guid userId
         ) =>
         {
-            List<Dislike> dislikes = await dislikeService.GetByUser(userId);
-            return Results.Ok(new { dislikes });
-        });
+            List<Dislike> dislikeList = await dislikeService.GetByUser(userId);
+            return Results.Ok(new { dislikeList });
+        }).AllowAnonymous();
 
         _app.MapDelete("/dislikes",
         async
         (   HttpContext context,
             [FromServices] IUserPostInteractionService<Dislike> dislikeService,
-            [FromBody] Dislike dislike
+            [FromQuery] Guid postId,
+            [FromQuery] Guid userId
         ) =>
         {
             Guid jwtUserId = JwtClaimHelper.GetUserId(context);
-            if(jwtUserId != dislike.OwnerId)
+            if(jwtUserId != userId)
                 return Results.Forbid();
-            var success = await dislikeService.Delete(dislike);
-            return success ? Results.NoContent() : Results.Problem("Internal Problem.");
+            var success = await dislikeService.Delete(new Dislike() { PostId = postId, OwnerId = userId });
+            return success ? Results.NoContent() : Results.NotFound();
         });
-
-
     }
 
     private void MapSaveEndpoints()
@@ -124,19 +124,23 @@ public class UserPostInteractionEndpoints(WebApplication app) : EndpointMapper(a
             [FromRoute] Guid userId
         ) =>
         {
-            List<Save> saves = await saveService.GetByUser(userId);
-            return Results.Ok(new { saves });
+            List<Save> saveList = await saveService.GetByUser(userId);
+            return Results.Ok(new { saveList });
         });
 
         _app.MapDelete("/saves",
         async
-        (
+        (   HttpContext context,
             [FromServices] IUserPostInteractionService<Save> saveService,
-            [FromBody] Save save
+            [FromQuery] Guid postId,
+            [FromQuery] Guid userId
         ) =>
         {
-            var success = await saveService.Delete(save);
-            return success ? Results.NoContent() : Results.Problem("Internal Problem.");
+            Guid jwtUserId = JwtClaimHelper.GetUserId(context);
+            if(jwtUserId != userId)
+                return Results.Forbid();
+            var success = await saveService.Delete(new Save { PostId = postId, OwnerId = userId });
+            return success ? Results.NoContent() : Results.NotFound();
         });
     }
 }

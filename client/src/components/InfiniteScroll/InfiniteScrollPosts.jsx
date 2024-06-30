@@ -36,18 +36,20 @@ const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fa
         setEndOfPosts(true);
       }
       const resultList = [];
-      console.log(dataList);
       for(let i = 0; i < dataList.length; i++)
       {
+        const additionalData = await fetchAdditionalFunction(dataList[i])
+        if(!additionalData)
+          throw("INTERNAL ERROR");
+
         resultList.push(
           {
             postData: dataList[i],
-            additionalData: (await fetchAdditionalFunction(dataList[i]))
+            additionalData
           }
         )
       }
       setPostDataList(curr => [...curr,...resultList]);
-      console.log(resultList);
       setOffset(o => o+limit);
     }
     catch(e){

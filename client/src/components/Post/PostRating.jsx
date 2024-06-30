@@ -1,6 +1,3 @@
-import { updatePostData } from '../../services/postService.js'
-import { updateUserData } from '../../services/userService'
-
 import { useState, useEffect, useContext } from "react"
 
 import UserDataContext from '../../contexts/UserDataContext'
@@ -10,118 +7,98 @@ import UilArrowUp from '@iconscout/react-unicons/icons/uil-arrow-up'
 import UilArrowDown from '@iconscout/react-unicons/icons/uil-arrow-down'
 
 import styles from './styles/PostRating.module.css'
+import { useNavigate } from "react-router-dom"
+import { dislikePost, getUserDislikes, getUserLikes, likePost, removeDislike, removeLike } from "../../services/userInteractionService"
 
-const PostRating = ({postDataState,setPostDataState}) => {
+const PostRating = ({postData}) => {
+  const { userData } = useContext(UserDataContext)
+  const { toggleUserModal } = useContext(UserModalContext)
+  const [likesCount, setLikesCount] = useState(postData.likesCount)
+  const [dislikesCount, setDislikesCount] = useState(postData.dislikesCount);
+  const [isLiked, setLiked] = useState(false)
+  const [isDisliked, setDisliked] = useState(false) 
+  const navigate = useNavigate();
 
-  const {userData, setUserData} = useContext(UserDataContext)
-  const {toggleUserModal} = useContext(UserModalContext)
+  useEffect(() => {
+    (async () => checkInitialRating())();
+  }, [userData])
 
-  const [likesCount,setLikesCount] = useState(postDataState.likesCount)
-  const [dislikesCount, setDislikesCount] = useState(postDataState.dislikesCount);
-  const [isLiked,setLiked] = useState(false)
-  const [isDisliked,setDisliked] = useState(false) 
+  useEffect(() => {
+    (async () => checkInitialRating())();
+  }, [])
 
-  const checkRating = () => {
-    // if(!userData || Object.keys(userData).length === 0){setLiked(false) ; setDisliked(false) ; return}
-    // if(userData.likedPosts.includes(postDataState._id))setLiked(true);
-    // else if(userData.dislikedPosts.includes(postDataState._id))setDisliked(true);
+  async function checkInitialRating()
+  {
+    if (!userData) return;
+    try{
+      const responseLikes = await getUserLikes(userData.id)
+      const responseDislikes = await getUserDislikes(userData.id)
+      const likes = (await responseLikes.json()).likeList;
+      const dislikes = (await responseDislikes.json()).dislikeList;
+      if (likes.some(el => el.postId == postData.id && el.ownerId == userData.id))
+        setLiked(true);
+
+      else if(dislikes.some(el => el.postId == postData.id && el.ownerId == userData.id))
+        setDisliked(true)
+    }
+    catch(e){
+      console.log(e);
+      // navigate("/error");
+    }
   }
 
-  useEffect(() => {checkRating()},[])
-
-  useEffect(() => {checkRating()},[userData]) 
-
-
-  const likeHandler = (e) => {
+  const likeHandler = async (e) => {
     e.stopPropagation()
-    if(!userData){toggleUserModal();return}
-
-    let likedPosts = []
-    let dislikedPosts = []
+    if (!userData) { toggleUserModal(); return }
 
     if(isLiked){
-      setLikesCount(likes => likes - 1)
-      setLiked(false)
-      likedPosts = userData.likedPosts.filter((_id) => _id !== postDataState._id)
-      updateUserData(userData,{likedPosts})
-        .then((result) => {setUserData({...userData,...result})})
-        .then(() => updatePostData(postDataState._id,{likesCount:likesCount-1})
-          .then((data) =>{
-            setPostDataState(data)
-          }))
+      setLiked(false);
+      setLikesCount(likes => likes - 1);
+      await removeLike(userData, postData.id)
     }
 
     else if(isDisliked){
-      setDisliked(false)
-      setLiked(true)
-      setLikesCount(likes => likes + 2)
-      likedPosts = [...userData.likedPosts,postDataState._id]
-      dislikedPosts = userData.dislikedPosts.filter((posts) => posts !== postDataState._id)
-      updateUserData(userData,{dislikedPosts,likedPosts})
-        .then(result => setUserData(result))
-        .then(() => updatePostData(postDataState._id,{likesCount:likesCount+2})
-          .then((data) =>{
-            setPostDataState(data)
-          }))
+      setDisliked(false);
+      setDislikesCount(dislikes => dislikes - 1);
+      setLiked(true);
+      setLikesCount(likes => likes + 1)
+      await removeDislike(userData, postData.id)
+      await likePost(userData, postData.id)
     }
 
     else {
-      setLiked(true)
-      setLikesCount( likes => likes + 1)
-      likedPosts = [...userData.likedPosts,postDataState._id]
-      updateUserData(userData,{likedPosts})
-        .then((result) => {setUserData(result)})
-        .then(() => updatePostData(postDataState._id,{likesCount:likesCount+1})
-          .then((data) =>{
-            setPostDataState(data)
-          }))
+      setLiked(true);
+      setLikesCount(likes => likes + 1);
+      await likePost(userData, postData.id)
     }
-  
   }
 
-  const dislikeHandler = (e) => {
+  const dislikeHandler = async (e) => {
     e.stopPropagation()
-    if(!userData){toggleUserModal();return}
+    if (!userData) { toggleUserModal(); return }
 
-    let likedPosts = []
-    let dislikedPosts = []
-
-    if(isDisliked){
-      setLikesCount(likes => likes + 1)
-      setDisliked(false)
-      dislikedPosts = userData.dislikedPosts.filter((_id) => _id !== postDataState._id)
-      updateUserData(userData,{dislikedPosts})
-        .then((result) => {setUserData(result)})
-        .then(() => updatePostData(postDataState._id,{likesCount:likesCount+1})
-          .then((data) =>{
-            setPostDataState(data)
-          }))
+    if (isDisliked) {
+      setDisliked(false);
+      setDislikesCount(dislikes => dislikes - 1);
+      await removeDislike(userData, postData.id)
     }
 
-    else if(isLiked){
-      setLiked(false)
-      setDisliked(true)
-      setLikesCount(likes => likes - 2)
-      dislikedPosts = [...userData.dislikedPosts,postDataState._id]
-      likedPosts = userData.likedPosts.filter((posts) => posts !== postDataState._id)
-      updateUserData(userData,{dislikedPosts,likedPosts})
-        .then(result => setUserData(result))
-        .then(() => updatePostData(postDataState._id,{likesCount:likesCount-2})
-          .then((data) => setPostDataState(data)))
+    else if (isLiked) {
+        setLiked(false);
+        setLikesCount(likes => likes - 1);
+        setDisliked(true)
+        setDislikesCount(dislikes => dislikes + 1);
+        await removeLike(userData, postData.id)
+        await dislikePost(userData, postData.id)
     }
 
-    else{
-      setDisliked(true)
-      setLikesCount(likes => likes - 1)
-      dislikedPosts = [...userData.dislikedPosts,postDataState._id]
-      updateUserData(userData,{dislikedPosts}).then()
-        .then((result) => {setUserData(result)})
-        .then(() => updatePostData(postDataState._id,{likesCount:likesCount-1})
-          .then((data) =>{
-            setPostDataState(data)
-          }))
+    else {
+      setDisliked(true);
+      setDislikesCount(dislikes => dislikes + 1);
+      await dislikePost(userData, postData.id)
     }
   }
+
   return(
       <div className={styles['rating']}>
 

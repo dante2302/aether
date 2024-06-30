@@ -1,5 +1,3 @@
-import { updateUserData } from '../../services/userService.js'
-
 import { useState, useEffect, useContext } from 'react'
 
 import UserDataContext from '../../contexts/UserDataContext'
@@ -14,8 +12,6 @@ const PostSaving = ({postData}) => {
   const {toggleUserModal} = useContext(UserModalContext)
 
   const checkSaved = () => {
-    // if(!userData || Object.keys(userData).length === 0){setSaved(false) ; return}
-    // if(userData.savedPosts.includes(postData._id))setSaved(true);
   }
 
   useEffect(() => {checkSaved()},[])
@@ -33,10 +29,10 @@ const PostSaving = ({postData}) => {
         :
         [...userData.savedPosts,postData._id]
 
-    updateUserData(userData,{...userData,savedPosts})
-      .then(result => {
-        setUserData(result)
-      })
+    // updateUserData(userData,{...userData,savedPosts})
+    //   .then(result => {
+    //     setUserData(result)
+    //   })
     setSaved(!isSaved)
   }
 

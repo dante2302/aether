@@ -2,7 +2,7 @@ import CommentBlockRender from "../Comment/CommentBlockRender"
 import PostRender from "./PostRender"
 import CommentCreateForm from "../Comment/CommentCreateForm"
 
-import { getPostData } from "../../services/postService"
+import { getAdditionalPostData, getPostData } from "../../services/postService"
 import { getPostComments } from "../../services/commentService"
 import useLoading from "../../hooks/useLoading"
 import { useContext, useEffect, useState } from "react"
@@ -13,17 +13,20 @@ import UserDataContext from "../../contexts/UserDataContext"
 
 const PostPage = () => {
   const [postData,setPostData] = useState()
+  const [additionalPostData, setAdditionalPostData] = useState();
   const [comments,setComments] = useState([])
   const navigate = useNavigate()
-  const {userData} = useContext(UserDataContext)
+  const { userData } = useContext(UserDataContext)
 
-  const postId = useParams().postId
-  
+  const { postId } = useParams()
+
   const fetchPost = async () => {
     try{
       const response = await getPostData(postId)
       const deserialized = await response.json();
       const data = deserialized.postData;
+      const additionalData = await getAdditionalPostData(data);
+      setAdditionalPostData(additionalData);
       // const commentList = await getPostComments(postId)
       // 'code' in commentList
       //   ? setComments([]) 
@@ -40,20 +43,26 @@ const PostPage = () => {
     }
   }
 
-  const [Spinner,fetchWithLoading] = useLoading(fetchPost)
+  const [Spinner,fetchWithLoading, isLoading] = useLoading(fetchPost)
   useEffect(() => {
     fetchWithLoading()
     return () => document.title = 'Aether'
   },[])
 
   return (
-    <>
+    isLoading ? 
     <Spinner size={35} />
-    {postData && 
+    :
+    postData && 
       <div className={styles['outer-container']}>
         <div className={styles['inner-container']}>
           <div className={styles['post-container']}>
-          <PostRender postData={postData} isRedirect={true} isCompact={false}/>
+          <PostRender 
+            postData={postData} 
+            additionalPostData={additionalPostData}
+            isRedirect={true} 
+            isCompact={false}
+          />
               {comments.length > 0 &&
               <CommentCreateForm 
                 postId={postId}
@@ -91,8 +100,6 @@ const PostPage = () => {
           <ChannelPage isCompact={true} />
         </div>
       </div>
-      }
-    </>
   ) 
 }
 
