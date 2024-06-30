@@ -27,6 +27,17 @@ export async function dislikePost(userData, postId)
     });
 }
 
+export async function savePost(userData, postId){
+    return await request.post({
+        url: `${saveUrl}`,
+        accessToken: userData.accessToken,
+        bodyData: {
+            ownerId: userData.id,
+            postId
+        }
+    });
+}
+
 export async function removeDislike(userData, postId)
 {
   return await request.Delete({
@@ -43,10 +54,22 @@ export async function removeLike(userData, postId)
   });
 }
 
+export async function removeSave(userData, postId)
+{
+  return await request.Delete({
+    url: `${saveUrl}?postId=${postId}&userId=${userData.id}`,
+    accessToken: userData.accessToken
+  });
+}
+
 export async function getUserLikes(id){
   return await request.get(`${likeUrl}/${id}`);
 }
 
 export async function getUserDislikes(id){
   return await request.get(`${dislikeUrl}/${id}`);
+}
+
+export async function getUserSaves(userData){
+  return await request.get(`${saveUrl}/${userData.id}`, userData.accessToken);
 }

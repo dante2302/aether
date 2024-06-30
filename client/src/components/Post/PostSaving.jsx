@@ -5,35 +5,31 @@ import UserModalContext from '../../contexts/UserModalContext'
 
 import styles from './styles/PostSaving.module.css'
 import UilBookmark from '@iconscout/react-unicons/icons/uil-bookmark.js'
+import { getUserSaves, removeSave, savePost } from '../../services/userInteractionService'
 
 const PostSaving = ({postData}) => {
-  const [isSaved,setSaved] = useState()
+  const [isSaved,setSaved] = useState(false)
   const {userData, setUserData} = useContext(UserDataContext)
   const {toggleUserModal} = useContext(UserModalContext)
 
-  const checkSaved = () => {
+  const checkSaved = async () => {
+    const response = await getUserSaves(userData);
+    const userSaves = (await response.json()).saveList;
+    if(userSaves.some(s => s.postId == postData.id))
+      setSaved(true);
   }
 
-  useEffect(() => {checkSaved()},[])
+  useEffect(() => {(async () => await checkSaved())()},[])
 
-  useEffect(() => {checkSaved()},[userData]) 
+  useEffect(() => {(async () => await checkSaved())()},[userData])
 
-  const saveHandler = (e) => {
-    if(!userData){toggleUserModal();return}
+  const saveHandler = async (e) => {
+    if (!userData) { toggleUserModal(); return }
     e.stopPropagation()
-
-    const savedPosts =
-      isSaved  
-        ?
-        userData.savedPosts.filter((postId) => postId !== postData._id)
-        :
-        [...userData.savedPosts,postData._id]
-
-    // updateUserData(userData,{...userData,savedPosts})
-    //   .then(result => {
-    //     setUserData(result)
-    //   })
-    setSaved(!isSaved)
+    setSaved(!isSaved);
+    isSaved ?
+      await removeSave(userData, postData.id) :
+      await savePost(userData, postData.id);
   }
 
   return(

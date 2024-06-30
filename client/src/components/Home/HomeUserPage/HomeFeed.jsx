@@ -15,11 +15,8 @@ const HomeFeed = () => {
         fetchFunction={(limit, offset) => getRelatedPosts(userData, limit, offset)} 
         fetchAdditionalFunction={getAdditionalPostData}
         limit={5}
-        Fallback={() => <></>}
+        Fallback={() => <div>Welcome</div>}
       />
-      <div>
-        Welcome
-      </div>
     </div>
   )
 }
