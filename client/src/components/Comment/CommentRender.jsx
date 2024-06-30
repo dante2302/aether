@@ -1,6 +1,5 @@
 import CommentCreateForm from "./CommentCreateForm"
 import CommentEditForm from "./CommentEditForm"
-import DumbCommentRender from "./DumbCommentRender"
 import DeleteConfirmation from "../DeleteConfirmation/DeleteConfirmation"
 
 import { useContext, useState, useEffect } from "react"
@@ -12,13 +11,12 @@ import UilX from '@iconscout/react-unicons/icons/uil-x'
 
 import styles from './styles/CommentRender.module.css'
 
-const CommentRender = ({data, setCommentReplies,setComments}) => {
+const CommentRender = ({data, setComments}) => {
   const [commentData,setCommentData] = useState(data)
   const [isReplying,setReplying] = useState(false)
   const [isEditing,setEditing] = useState(false)
   const [isDeleting,setDeleting] = useState(false)
   const [isOwner,setIsOwner] = useState(false)
-
 
   const {userData} = useContext(UserDataContext)
 
@@ -29,13 +27,14 @@ const CommentRender = ({data, setCommentReplies,setComments}) => {
   }
 
   useEffect(() => {
-    if(userData && commentData._ownerId === userData._ownerId)setIsOwner(true)
-    else setIsOwner(false)
+    setIsOwner(userData && commentData.ownerId === userData.id)
   },[userData])
 
   return (
     <div>
-      <DumbCommentRender data={commentData} />
+      <h6 className={styles['username']}>{data.ownerUsername}</h6>
+      <p>{data.text}</p>
+
       {isOwner && 
         <div className={styles['container']}>
 
@@ -45,7 +44,7 @@ const CommentRender = ({data, setCommentReplies,setComments}) => {
           }}
           className={styles['btn']}
           >
-            {!isEditing ? <UilPen size={15}/> : 'Cancle'}
+            {!isEditing ? <UilPen size={15}/> : 'Cancel'}
           </button>
 
           {!isEditing &&

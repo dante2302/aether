@@ -10,6 +10,8 @@ public class ReplyService(IConfiguration config) : DbService(config)
     public async Task<Reply> Create(Reply newReply)
     {
         newReply.Id = Guid.NewGuid();
+        newReply.IsEdited = false;
+        newReply.DateOfCreation = DateTime.Now;
         QueryResult<Reply> result = await ExecuteQueryCommandAsync(@$"
             INSERT INTO replies 
             VALUES(

@@ -2,6 +2,7 @@ import {  useEffect, useState } from "react"
 import CommentRender from "./CommentRender"
 import { getCommentReplies } from "../../services/commentService"
 import styles from './styles/CommentBlockRender.module.css'
+import ReplyRender from "./ReplyRender"
 
 
 const CommentBlockRender = ({commentData,setComments}) => {
@@ -9,7 +10,7 @@ const CommentBlockRender = ({commentData,setComments}) => {
 
   useEffect(() => {
     const asyncFunc = async () => {        
-      const replies = await getCommentReplies(commentData._id)
+      const replies = await getCommentReplies(commentData.id)
       setCommentReplies(replies)
     }
     asyncFunc()
@@ -28,8 +29,8 @@ const CommentBlockRender = ({commentData,setComments}) => {
         
         <ul className={styles['replies']}>
           {commentReplies.map((replyData) => 
-            <li key={replyData._id}>
-              <CommentRender 
+            <li key={replyData.id}>
+              <ReplyRender
                 data={replyData} 
                 isReply={true}
                 setCommentReplies={setCommentReplies}

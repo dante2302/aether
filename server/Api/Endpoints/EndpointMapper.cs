@@ -1,5 +1,5 @@
 namespace Api;
-public class EndpointMapper(WebApplication app)
+public abstract class EndpointMapper(WebApplication app)
 {
     protected readonly WebApplication _app = app;
 }
