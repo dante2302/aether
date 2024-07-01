@@ -1,8 +1,9 @@
 import {  useEffect, useState } from "react"
 import CommentRender from "./CommentRender"
-import { getCommentReplies } from "../../services/commentService"
+import { getCommentReplies } from "../../services/replyService"
 import styles from './styles/CommentBlockRender.module.css'
 import ReplyRender from "./ReplyRender"
+import { getUsername } from "../../services/userService"
 
 
 const CommentBlockRender = ({commentData,setComments}) => {
@@ -10,7 +11,16 @@ const CommentBlockRender = ({commentData,setComments}) => {
 
   useEffect(() => {
     const asyncFunc = async () => {        
+      // console.log(commentData);
       const replies = await getCommentReplies(commentData.id)
+      for(let i = 0; i < replies.length; i++)
+        {
+          const ownerUsername = await getUsername(replies[i].ownerId)  ;
+          replies[i] = {
+            ...replies[i],
+            ownerUsername
+          }
+      }
       setCommentReplies(replies)
     }
     asyncFunc()

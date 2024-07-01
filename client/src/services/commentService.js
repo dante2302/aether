@@ -1,5 +1,5 @@
-const baseUrl = 'http://localhost:5155/replies'
-const commentUrl = "http://localhost:5155/comments"
+const baseUrl = 'http://localhost:5155/comments'
+const postUrl = "http://localhost:5155/posts"
 
 import * as request from './request.js'
 
@@ -18,8 +18,8 @@ export const createComment = async (userData,{postId,text}) => {
   return response
 }
 
-export const getCommentReplies = async (commentId) => {
-  return await request.get(`${commentUrl}/${commentId}/replies`)
+export async function getPostComments(postId){
+  return await request.get(`${postUrl}/${postId}/comments`)
 }
 
 export const getCommentData = async (commentId) => {
@@ -28,16 +28,15 @@ export const getCommentData = async (commentId) => {
 }
 
 export const updateCommentData = async ({accessToken},commentId,newData) => {
-  const data = await request.patchWithAuth({
-    url:`${baseUrl}/${commentId}`,
-    accessToken,
-    newData
-  }) 
-  return data
+  // const data = await request.patchWithAuth({
+  //   url:`${baseUrl}/${commentId}`,
+  //   accessToken,
+  //   newData
+  // }) 
+  // return data
 }
 
 export const deleteComment = async ({accessToken},id) => {
   const url = `${baseUrl}/${id}`
   return await request.Delete({url,accessToken})
 }
-

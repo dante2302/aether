@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import styles from './styles/PostPage.module.css'
 import ChannelPage from "../Channel/ChannelPage"
 import UserDataContext from "../../contexts/UserDataContext"
+import { getUsername } from "../../services/userService"
 
 const PostPage = () => {
   const [postData,setPostData] = useState()
@@ -25,16 +26,25 @@ const PostPage = () => {
       const response = await getPostData(postId)
       const deserialized = await response.json();
       const data = deserialized.postData;
+      setPostData(data)
+
       const additionalData = await getAdditionalPostData(data);
       setAdditionalPostData(additionalData);
-      // const commentList = await getPostComments(postId)
-      // 'code' in commentList
-      //   ? setComments([]) 
-      //   : setComments(commentList)
-      //check if the post has any comments
+
+      const commentResponse = await getPostComments(postId)
+      const commentList = (await commentResponse.json()).commentList;
+      for(let i = 0;i < commentList.length; i++)
+      {
+        const response = await getUsername(commentList[i].ownerId);
+        const ownerUsername = await response.json();
+          commentList[i] = {
+            ...commentList[i], 
+            ownerUsername 
+          }
+      }
+      setComments(commentList)
 
       document.title = `${data.title}`
-      setPostData(data)
     }
     catch(e)
     {
@@ -63,12 +73,9 @@ const PostPage = () => {
             isRedirect={true} 
             isCompact={false}
           />
-              {comments.length > 0 &&
+              {(comments.length > 0 && userData) &&
               <CommentCreateForm 
                 postId={postId}
-                parentCommentId={''}
-                isReply={false}
-                replyTo={''}
                 setComments={setComments}
               />
               }
@@ -76,7 +83,7 @@ const PostPage = () => {
             {comments.length > 0 
               ? 
               comments.map((commentData) => 
-                <li key={commentData._id}>
+                <li key={commentData.id}>
                   <CommentBlockRender 
                         commentData={commentData} 
                         setComments={setComments}

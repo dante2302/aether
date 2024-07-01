@@ -88,12 +88,12 @@ public class ReplyService(IConfiguration config) : DbService(config)
         return new Reply()
         {
             Id = reader.GetGuid(0),
-            ParentCommentId = reader.GetGuid(2),
-            OwnerId = reader.GetGuid(3),
-            ReplyToComment = reader.GetGuid(4),
-            Text = reader.GetString(3),
-            IsEdited = reader.GetBoolean(4),
-            DateOfCreation = reader.GetDateTime(5)
+            ParentCommentId = reader.GetGuid(1),
+            OwnerId = reader.GetGuid(2),
+            ReplyToComment = reader.GetGuid(3),
+            Text = reader.GetString(4),
+            IsEdited = reader.GetBoolean(5),
+            DateOfCreation = reader.GetDateTime(6)
         };
     }
 }

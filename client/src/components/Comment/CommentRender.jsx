@@ -10,8 +10,9 @@ import UilPen from '@iconscout/react-unicons/icons/uil-pen'
 import UilX from '@iconscout/react-unicons/icons/uil-x'
 
 import styles from './styles/CommentRender.module.css'
+import ReplyCreateForm from "./ReplyCreateForm"
 
-const CommentRender = ({data, setComments}) => {
+const CommentRender = ({data, setComments, setCommentReplies}) => {
   const [commentData,setCommentData] = useState(data)
   const [isReplying,setReplying] = useState(false)
   const [isEditing,setEditing] = useState(false)
@@ -70,11 +71,9 @@ const CommentRender = ({data, setComments}) => {
       } 
 
       {isReplying && 
-        <CommentCreateForm 
-          postId={commentData.postId}
-          parentCommentId={commentData.parentCommentId }
-          isReply={true}
-          replyTo={commentData.ownerUsername}
+        <ReplyCreateForm 
+          parentCommentData={commentData}
+          replyData={commentData}
           setReplying={setReplying}
           setCommentReplies={setCommentReplies}
         />

@@ -1,15 +1,16 @@
-
 import { useContext, useEffect, useState } from 'react'
-
 import { createComment } from '../../services/commentService'
 import useDisabled from '../../hooks/useDisabled'
 import userDataContext from '../../contexts/UserDataContext'
 import styles from './styles/CommentCreateForm.module.css'
 import UserModalContext from '../../contexts/UserModalContext'
+import { createReply } from '../../services/replyService'
 
-const CommentCreateForm = ({
-  postId,
-  setComments
+const ReplyCreateForm = ({
+  parentCommentData,
+  replyData,
+  setReplies,
+  setReplying
 }) => {
   const { userData } = useContext(userDataContext)
   const { toggleUserModal } = useContext(UserModalContext)
@@ -24,9 +25,15 @@ const CommentCreateForm = ({
       return;
     }
     try{
-      const response = await createComment(userData, { postId, text })
+      const response = await createReply(userData, { 
+        parentCommentId: parentCommentData.id,
+        replyToComment: replyData.id,
+        text 
+    })
+    console.log(response);
       const commentData = await response.json()
-      setComments(comments => [...comments, commentData]);
+      setReplies(comments => [...comments, commentData]);
+      setReplying(false);
     }
     catch(e){
       console.log(e)
@@ -44,11 +51,11 @@ const CommentCreateForm = ({
     >
       <div className={styles['input-container']}>
         <textarea id='text' name='text' onChange={(e) => changeHandler(e)} />
-        {!text && <label htmlFor='text'>What are your thoughts?</label>}
+        {!text && <label htmlFor='text'>Reply to {replyData.ownerUsername}</label>}
       </div>
-      <button disabled={disabled}>Comment</button>
+      <button disabled={disabled}>Reply</button>
     </form>
   )
 }
 
-export default CommentCreateForm
+export default ReplyCreateForm
