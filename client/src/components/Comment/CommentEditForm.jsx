@@ -12,8 +12,9 @@ const CommentEditForm = ({commentData,setCommentData,setEditing}) => {
   const submitHandler = async (e) => {
     e.preventDefault()
     if (text == commentData.text) return
-    setCommentData(...commentData, text);
-    updateComment()
+    await updateComment({ accessToken: userData.accessToken, newData: { ...commentData, text } })
+    setCommentData({...commentData, text});
+    setEditing(false);
   } 
 
   const [disabled,submitHandlerWithDisable] = useDisabled(submitHandler)

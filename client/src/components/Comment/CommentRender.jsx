@@ -21,10 +21,9 @@ const CommentRender = ({data, setComments, setCommentReplies}) => {
   const [isOwner,setIsOwner] = useState(false)
 
   const {userData} = useContext(UserDataContext)
-
-  const cleanupComment = () => {
-    setComments(comments => comments.filter(c => c.id != commentData.id)
-    )
+  async function handleDelete(){
+    await deleteComment(userData.accessToken, commentData.id);
+    setComments(comments => comments.filter(c => c.id != commentData.id))
   }
 
   useEffect(() => {
@@ -63,13 +62,14 @@ const CommentRender = ({data, setComments, setCommentReplies}) => {
       }
       </div>
 
-      <p>{data.text}</p>
-      {isEditing && 
+      {isEditing ?
         <CommentEditForm 
           commentData={commentData} 
           setCommentData={setCommentData} 
           setEditing={setEditing}
         />
+        :
+        <p>{commentData.text}</p>
       } 
 
       {isReplying && 
@@ -82,13 +82,12 @@ const CommentRender = ({data, setComments, setCommentReplies}) => {
       }
       {isDeleting &&
         <DeleteConfirmation 
-          id={commentData.id}  
           setDeleting={setDeleting} 
-          setAsset={cleanupComment}
-          deleteRequest={() => deleteComment(userData.accessToken, commentData.id)}
+          deleteRequest={handleDelete}
+          message={`Are you sure you want to delete this comment: ${commentData.text}`}
           />
       }
-      {userData && 
+      {(userData && !isEditing) &&
         <button onClick={() => 
           setReplying(!isReplying)}
           className={styles['btn']}

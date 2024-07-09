@@ -31,28 +31,16 @@ export const search = async ({url,prop,value}) => {
   return response;
 }
 
-export const patchWithoutAuth = async ({url,newData}) => {
-  let response = await fetch(url,{
-    method:'PATCH',
-    headers:{
+export const put = async (url, accessToken, updatedData) => {
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: {
       'Content-Type':'application/json',
-      'X-Admin':''
+      'Authorization': `Bearer ${accessToken}`
     },
-    'body':JSON.stringify(newData)
+    body: JSON.stringify(updatedData)
   })
-  return await response.json()
-}
-
-export const patchWithAuth = async ({url,accessToken,newData}) => {
-  const response = await fetch(url,{
-    method:'PATCH',
-    headers:{
-      'X-Authorization': accessToken,
-      'Content-Type':'application/json'
-    },
-   body:JSON.stringify(newData)
-  })
-  return await response.json()
+  return response;
 }
 
 export const Delete = async ({url,accessToken, bodyData}) => {

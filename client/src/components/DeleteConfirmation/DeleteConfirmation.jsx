@@ -9,18 +9,17 @@ import UserDataContext from '../../contexts/UserDataContext'
 import styles from './DeleteConfirmation.module.css'
 
 
-const DeleteConfirmation = ({id,deleteRequest, setDeleting, setAsset}) => {
+const DeleteConfirmation = ({deleteRequest, setDeleting, message}) => {
 
-  const deleteHandler = () => {
-    deleteRequest();
+  const deleteHandler = async  () => {
+    await deleteRequest();
     setDeleting(false)
-    setAsset((assets) => assets.filter(id))
   }
 
   return(
     <ModalPrototype>
       <div className={styles['container']}>
-      <div>Are you sure you want to delete this?</div>
+      <div>{message}</div>
       <button onClick={deleteHandler}>Yes</button>
       <button onClick={() => setDeleting(false)}>No</button>
       </div>
