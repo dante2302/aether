@@ -11,6 +11,7 @@ const CommentBlockRender = ({commentData,setComments}) => {
 
   useEffect(() => {
     const asyncFunc = async () => {        
+      console.log(commentData)
       const response = await getCommentReplies(commentData.id)
       const replies = await response.json();
       for(let i = 0; i < replies.length; i++)

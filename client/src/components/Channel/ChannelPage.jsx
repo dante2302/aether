@@ -24,16 +24,21 @@ const ChannelPage = ({isCompact}) => {
 
   async function handleChannelMembership(channelId)
   {
+    if(userData == undefined) 
+    {
+      setJoined(false);
+      return;
+    }
     let response2 = await isJoinedBy(channelId, userData.id);
     const isJoinedData = await response2.json();
     setJoined(isJoinedData);
   }
 
   useEffect(() => {
-    if (userData && Object.keys(channelData).length !== 0) {
+    if (Object.keys(channelData).length !== 0) {
       handleChannelMembership(channelData.id)
     }
-  }, [userModal]);
+  }, [userModal, userData]);
 
   useEffect(() => {
     (async () => {

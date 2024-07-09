@@ -27,16 +27,10 @@ export const getCommentData = async (commentId) => {
   return data
 }
 
-export const updateCommentData = async ({accessToken},commentId,newData) => {
-  // const data = await request.patchWithAuth({
-  //   url:`${baseUrl}/${commentId}`,
-  //   accessToken,
-  //   newData
-  // }) 
-  // return data
+export const updateComment = async ({accessToken},commentId,newData) => {
 }
 
-export const deleteComment = async ({accessToken},id) => {
+export const deleteComment = async (accessToken,id) => {
   const url = `${baseUrl}/${id}`
   return await request.Delete({url,accessToken})
 }

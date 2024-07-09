@@ -1,5 +1,5 @@
 import useDisabled from "../../hooks/useDisabled"
-import { updateCommentData } from "../../services/commentService"
+import { updateComment } from "../../services/commentService"
 import userDataContext from '../../contexts/UserDataContext'
 import { useContext, useState } from "react"
 
@@ -11,13 +11,9 @@ const CommentEditForm = ({commentData,setCommentData,setEditing}) => {
   const changeHandler = e => setText(e.target.value)
   const submitHandler = async (e) => {
     e.preventDefault()
-    if(text == commentData.text)return
-    updateCommentData(
-      userData,
-      commentData._id,
-      {text,edited:true}
-    ).then((data) => setCommentData(data))
-     .finally(setEditing(false))
+    if (text == commentData.text) return
+    setCommentData(...commentData, text);
+    updateComment()
   } 
 
   const [disabled,submitHandlerWithDisable] = useDisabled(submitHandler)

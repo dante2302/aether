@@ -11,6 +11,7 @@ import UilX from '@iconscout/react-unicons/icons/uil-x'
 
 import styles from './styles/CommentRender.module.css'
 import ReplyCreateForm from "./ReplyCreateForm"
+import { deleteComment } from "../../services/commentService"
 
 const CommentRender = ({data, setComments, setCommentReplies}) => {
   const [commentData,setCommentData] = useState(data)
@@ -21,10 +22,9 @@ const CommentRender = ({data, setComments, setCommentReplies}) => {
 
   const {userData} = useContext(UserDataContext)
 
-  const deleteComment = () => {
-    setComments(comments => 
-      comments.filter(comment => 
-        comment === commentData._id))
+  const cleanupComment = () => {
+    setComments(comments => comments.filter(c => c.id != commentData.id)
+    )
   }
 
   useEffect(() => {
@@ -81,7 +81,12 @@ const CommentRender = ({data, setComments, setCommentReplies}) => {
         />
       }
       {isDeleting &&
-        <DeleteConfirmation id={commentData._id} type={'comment'} setDeleting={setDeleting} setAsset={deleteComment}/>
+        <DeleteConfirmation 
+          id={commentData.id}  
+          setDeleting={setDeleting} 
+          setAsset={cleanupComment}
+          deleteRequest={() => deleteComment(userData.accessToken, commentData.id)}
+          />
       }
       {userData && 
         <button onClick={() => 

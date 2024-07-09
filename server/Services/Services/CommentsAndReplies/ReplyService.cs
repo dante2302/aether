@@ -79,7 +79,7 @@ public class ReplyService(IConfiguration config) : DbService(config)
     {
         await ExecuteNonQueryCommandAsync($@"
             DELETE FROM replies 
-            WHERE commentId = '{commentId}'::uuid
+            WHERE parentcommentId = '{commentId}'::uuid
        ");
     }
 

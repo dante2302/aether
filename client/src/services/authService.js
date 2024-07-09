@@ -3,7 +3,6 @@ import * as request from './request.js'
 
 export const signUp = async (bodyData) => {
     try{
-        console.log(await fetch(`http://localhost:5155/channels/225edfba-a7d4-4c62-a795-2275848821ad`))
         const response = await fetch(`${baseUrl}/signup`, {
             method: 'POST',
             headers:{
