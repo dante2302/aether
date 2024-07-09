@@ -39,7 +39,6 @@ const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fa
       for(let i = 0; i < dataList.length; i++)
       {
         const additionalData = await fetchAdditionalFunction(dataList[i])
-        console.log(additionalData)
         if(!additionalData)
           throw("INTERNAL ERROR");
 

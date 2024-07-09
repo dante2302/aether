@@ -11,11 +11,11 @@ const CommentBlockRender = ({commentData,setComments}) => {
 
   useEffect(() => {
     const asyncFunc = async () => {        
-      // console.log(commentData);
-      const replies = await getCommentReplies(commentData.id)
+      const response = await getCommentReplies(commentData.id)
+      const replies = await response.json();
       for(let i = 0; i < replies.length; i++)
         {
-          const ownerUsername = await getUsername(replies[i].ownerId)  ;
+          const ownerUsername = await(await getUsername(replies[i].ownerId)).json()  ;
           replies[i] = {
             ...replies[i],
             ownerUsername
@@ -42,9 +42,8 @@ const CommentBlockRender = ({commentData,setComments}) => {
             <li key={replyData.id}>
               <ReplyRender
                 data={replyData} 
-                isReply={true}
-                setCommentReplies={setCommentReplies}
-                setComments={setComments}
+                parentCommentData={commentData}
+                setReplies={setCommentReplies}
               />
             </li> 
           )}

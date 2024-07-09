@@ -30,9 +30,9 @@ const ReplyCreateForm = ({
         replyToComment: replyData.id,
         text 
     })
-    console.log(response);
-      const commentData = await response.json()
-      setReplies(comments => [...comments, commentData]);
+      const replyd = (await response.json()).replyData
+      console.log(replyd)
+      setReplies(reply => [...reply, replyd]);
       setReplying(false);
     }
     catch(e){

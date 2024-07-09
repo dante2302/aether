@@ -81,8 +81,8 @@ public class CommentEndpoints(WebApplication app) : EndpointMapper(app)
             if (jwtUserId != newReply.OwnerId)
                 return Results.Forbid();
 
-            Reply commentData = await replyService.Create(newReply);
-            return Results.Ok(new { commentData });
+            Reply replyData = await replyService.Create(newReply);
+            return Results.Ok(new { replyData });
         });
 
         _app.MapPut("/replies",

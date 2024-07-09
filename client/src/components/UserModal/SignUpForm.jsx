@@ -40,7 +40,7 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
   const [submissionError, setSubmissionError] = useState("");
 
   useEffect(() => {
-    if(formState === initialFormState){
+    if(Object.entries(formState).some(e => e[0] != 'username' && e[1] == '')){
       setDisabled(true)
       return
     }
@@ -51,6 +51,7 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
         return
       }
     }
+    console.log(Object.values(formErrors));
 
     setDisabled(false)
 

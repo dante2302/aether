@@ -3,6 +3,10 @@
   background:red;
 }
 
+.top-container{
+  display: flex;
+  flex-direction: row;
+}
 .btn{
   font-size: var(--fs-sm);
   background: var(--background-grey);
@@ -18,5 +22,6 @@
 }
 
 .username{
+  margin-right: 10px;
   font-size: calc(var(--fs-reg) - 3px);
 }

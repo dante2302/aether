@@ -9,20 +9,10 @@ import UserDataContext from '../../contexts/UserDataContext'
 import styles from './DeleteConfirmation.module.css'
 
 
-const DeleteConfirmation = ({id,type,setDeleting, setAsset}) => {
+const DeleteConfirmation = ({id,deleteRequest, setDeleting, setAsset}) => {
 
-  const {userData} = useContext(UserDataContext)
   const deleteHandler = () => {
-    switch(type){
-      case 'comment':{ 
-        deleteComment(userData,id);
-        break;
-      }
-      case 'post':{
-        deletePost(userData,id);
-        break;
-      }
-    }
+    deleteRequest();
     setDeleting(false)
     setAsset((assets) => assets.filter(id))
   }
@@ -30,7 +20,7 @@ const DeleteConfirmation = ({id,type,setDeleting, setAsset}) => {
   return(
     <ModalPrototype>
       <div className={styles['container']}>
-      <div>Are you sure you want to delete this {type}</div>
+      <div>Are you sure you want to delete this?</div>
       <button onClick={deleteHandler}>Yes</button>
       <button onClick={() => setDeleting(false)}>No</button>
       </div>

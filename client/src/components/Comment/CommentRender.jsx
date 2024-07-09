@@ -33,8 +33,9 @@ const CommentRender = ({data, setComments, setCommentReplies}) => {
 
   return (
     <div>
+      <div className={styles['top-container']}>
+
       <h6 className={styles['username']}>{data.ownerUsername}</h6>
-      <p>{data.text}</p>
 
       {isOwner && 
         <div className={styles['container']}>
@@ -60,8 +61,9 @@ const CommentRender = ({data, setComments, setCommentReplies}) => {
           }
         </div>
       }
+      </div>
 
-
+      <p>{data.text}</p>
       {isEditing && 
         <CommentEditForm 
           commentData={commentData} 
@@ -75,7 +77,7 @@ const CommentRender = ({data, setComments, setCommentReplies}) => {
           parentCommentData={commentData}
           replyData={commentData}
           setReplying={setReplying}
-          setCommentReplies={setCommentReplies}
+          setReplies={setCommentReplies}
         />
       }
       {isDeleting &&
