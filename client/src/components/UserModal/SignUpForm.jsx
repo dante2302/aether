@@ -40,7 +40,7 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
   const [submissionError, setSubmissionError] = useState("");
 
   useEffect(() => {
-    if(Object.entries(formState).some(e => e[0] != 'username' && e[1] == '')){
+    if(Object.entries(formState).some(e => e[0] != 'username' && e[1] == '') || formState.password != formState.passwordCopy){
       setDisabled(true)
       return
     }

@@ -1,6 +1,6 @@
 import {  useEffect, useState } from "react"
 import CommentRender from "./CommentRender"
-import { getCommentReplies } from "../../services/replyService"
+import { getAdditionalReplyListData, getCommentReplies } from "../../services/replyService"
 import styles from './styles/CommentBlockRender.module.css'
 import ReplyRender from "./ReplyRender"
 import { getUsername } from "../../services/userService"
@@ -12,20 +12,13 @@ const CommentBlockRender = ({commentData,setComments}) => {
   useEffect(() => {
     const asyncFunc = async () => {        
       const response = await getCommentReplies(commentData.id)
-      const replies = await response.json();
-      for(let i = 0; i < replies.length; i++)
-        {
-          const ownerUsername = await(await getUsername(replies[i].ownerId)).json()  ;
-          replies[i] = {
-            ...replies[i],
-            ownerUsername
-          }
-      }
+      let replies = await response.json();
+      replies = await getAdditionalReplyListData(replies, commentData);
       setCommentReplies(replies)
     }
     asyncFunc()
   },[])
-
+  useEffect(() => console.log(commentReplies), [commentReplies]);
   return(
     commentReplies.length > 0 
     ? 
@@ -41,6 +34,7 @@ const CommentBlockRender = ({commentData,setComments}) => {
           {commentReplies.map((replyData) => 
             <li key={replyData.id}>
               <ReplyRender
+                replies={commentReplies}
                 data={replyData} 
                 parentCommentData={commentData}
                 setReplies={setCommentReplies}

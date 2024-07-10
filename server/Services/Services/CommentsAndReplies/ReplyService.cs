@@ -45,7 +45,7 @@ public class ReplyService(IConfiguration config) : DbService(config)
        List<Reply> replies = await ExecuteQueryListCommandAsync(
         $@"SELECT * FROM replies
            WHERE parentCommentId = '{commentId}'::uuid
-           ORDER BY dateofcreation DESC
+           ORDER BY dateofcreation ASC 
         "
        ,MapReplyFromReader);
        return replies;

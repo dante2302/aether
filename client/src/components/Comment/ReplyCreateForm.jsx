@@ -4,11 +4,12 @@ import useDisabled from '../../hooks/useDisabled'
 import userDataContext from '../../contexts/UserDataContext'
 import styles from './styles/CommentCreateForm.module.css'
 import UserModalContext from '../../contexts/UserModalContext'
-import { createReply } from '../../services/replyService'
+import { createReply, getAdditionalReplyData } from '../../services/replyService'
 
 const ReplyCreateForm = ({
   parentCommentData,
   replyData,
+  replies,
   setReplies,
   setReplying
 }) => {
@@ -30,9 +31,9 @@ const ReplyCreateForm = ({
         replyToComment: replyData.id,
         text 
     })
-      const replyd = (await response.json()).replyData
-      console.log(replyd)
-      setReplies(reply => [...reply, replyd]);
+      let replyd = (await response.json()).replyData;
+      replyd =  await getAdditionalReplyData(replyd, replies, parentCommentData)
+      setReplies(replies => [...replies, replyd])
       setReplying(false);
     }
     catch(e){

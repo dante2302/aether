@@ -2,6 +2,7 @@ const baseUrl = 'http://localhost:5155/replies'
 const commentUrl = "http://localhost:5155/comments";
 
 import * as request from './request.js'
+import { getUsername } from './userService.js';
 
 export const createReply = async (userData,{parentCommentId,replyToComment,text}) => {
   const bodyData = {
@@ -11,7 +12,6 @@ export const createReply = async (userData,{parentCommentId,replyToComment,text}
     text,
   }
 
-  console.log(bodyData);
   const response = await request.post({
     url:baseUrl, 
     accessToken: userData.accessToken, 
@@ -33,7 +33,50 @@ export const updateReply = async ({accessToken},commentId,newData) => {
   return data
 }
 
-export const deleteReply = async ({accessToken},id) => {
+export const deleteReply = async (accessToken,id) => {
   const url = `${baseUrl}/${id}`
   await request.Delete({url,accessToken})
+}
+
+export async function getAdditionalReplyListData(replies, commentData)
+{
+  for (let i = 0; i < replies.length; i++) {
+    const ownerUsername = await (await getUsername(replies[i].ownerId)).json();
+    const replyToUsername =
+      commentData.id == replies[i].replyToComment
+        ?
+        commentData.ownerUsername
+        :
+        await (await getUsername(
+          replies.find(r =>
+            r.id == replies[i].replyToComment).ownerId
+        )
+        ).json()
+    replies[i] = {
+      ...replies[i],
+      ownerUsername,
+      replyToUsername
+    }
+  }
+  return replies;
+}
+
+export async function getAdditionalReplyData(reply, replies, commentData) {
+  const ownerUsername = await (await getUsername(reply.ownerId)).json();
+  const replyToUsername =
+    commentData.id == reply.replyToComment
+      ?
+      commentData.ownerUsername
+      :
+      await (await getUsername(
+        replies.find(r =>
+          r.id == reply.replyToComment).ownerId)
+      ).json()
+
+  reply = {
+    ...reply,
+    ownerUsername,
+    replyToUsername
+  }
+  return reply;
 }

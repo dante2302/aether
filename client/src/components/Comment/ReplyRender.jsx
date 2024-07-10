@@ -12,7 +12,7 @@ import UilX from '@iconscout/react-unicons/icons/uil-x'
 import styles from './styles/CommentRender.module.css'
 import ReplyCreateForm from "./ReplyCreateForm"
 import { deleteReply } from "../../services/replyService"
-export default function ReplyRender({data, parentCommentData, setReplies}){
+export default function ReplyRender({replies, data, parentCommentData, setReplies}){
 
   const [replyData,setReplyData] = useState(data)
   const [isReplying,setReplying] = useState(false)
@@ -22,10 +22,9 @@ export default function ReplyRender({data, parentCommentData, setReplies}){
 
   const {userData} = useContext(UserDataContext)
 
-    const deleteReplyAsset = () => {
-    setReplies(replies => 
-      replies.filter(reply => 
-        reply.id !== replyData.id))
+  async function handleDelete(){
+    await deleteReply(userData.accessToken, replyData.id);
+    setReplies(replies => replies.filter(r => r.id != replyData.id))
   }
 
   useEffect(() => {
@@ -63,7 +62,7 @@ export default function ReplyRender({data, parentCommentData, setReplies}){
       }
       </div>
 
-      <p>{replyData.text}</p>
+      <p>{`@${replyData.replyToUsername} ${replyData.text}`}</p>
 
       {isEditing && 
         <CommentEditForm 
@@ -78,15 +77,15 @@ export default function ReplyRender({data, parentCommentData, setReplies}){
           parentCommentData={parentCommentData}
           replyData={replyData}
           setReplying={setReplying}
-          settReplies={setReplies}
+          replies={replies}
+          setReplies={setReplies}
         />
       }
       {isDeleting &&
         <DeleteConfirmation 
-            id={replyData.id}  
             setDeleting={setDeleting} 
-            setAsset={deleteReplyAsset}
-            deleteRequest={() => deleteReply(userData, replyData.id)}
+            message={"Are you sure you want to delete this reply?"}
+            deleteRequest={handleDelete}
         />
       }
       {(userData && !isEditing) && 
