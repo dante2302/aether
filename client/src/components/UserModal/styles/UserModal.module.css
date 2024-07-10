@@ -9,7 +9,6 @@
     left:50%;
     transform: translateX(-50%);
     flex-direction:column;
-    justify-content:center;
     background: white;
 }
 
@@ -21,6 +20,7 @@
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
+    justify-content:center;
   }
   .inner-content{
     padding:3em;

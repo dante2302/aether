@@ -64,7 +64,6 @@ const PostPage = () => {
     <Spinner size={35} />
     :
     postData && 
-      <div className={styles['outer-container']}>
         <div className={styles['inner-container']}>
           <div className={styles['post-container']}>
           <PostRender 
@@ -106,7 +105,6 @@ const PostPage = () => {
           </div>
           <ChannelPage isCompact={true} />
         </div>
-      </div>
   ) 
 }
 

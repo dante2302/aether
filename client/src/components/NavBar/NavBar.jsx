@@ -8,6 +8,8 @@ import UserModalContext from '../../contexts/UserModalContext'
 import styles from './Navbar.module.css'
 import UilStar from '@iconscout/react-unicons/icons/uil-star'
 import UilUser from '@iconscout/react-unicons/icons/uil-user'
+import logo from "/images/logo.svg";
+import logoSmall from "/images/logo_small.png";
 
 const NavBar = () => {
   const navigate = useNavigate()
@@ -18,7 +20,7 @@ const NavBar = () => {
     <div className={styles["nav-container"]}>
       <img 
         className={styles['logo']} 
-        src={size>768 ? '/images/logo.svg' : 'images/logo_small.png'} 
+        src={size>768 ? logo : logoSmall} 
         onClick={()=>navigate('/')}
       />
 

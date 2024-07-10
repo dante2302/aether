@@ -1,12 +1,13 @@
 .post-container,.container{
-  margin-top: 8px;
   display:flex;
   flex-direction:column;
   gap:1em;
   align-items: center;
 }
-.container{
-    max-width:80vw;
+@media(min-width: 800px) {
+  .container {
+    max-width: 80vw;
+  }
 }
 .post-container,.post-container>li{
     width:100%;
