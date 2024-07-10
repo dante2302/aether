@@ -63,7 +63,7 @@ const Searchbar = () => {
     <div className={styles['outer-container']}>
       <div className={styles['search-container']}>
       <form onSubmit={(e) => submitHandler(e)}>
-        <button className={styles['search-btn']}><UilSearch /></button>
+        <button className={styles['search-btn']}><UilSearch size={23}/></button>
         <input type='search'
           value={searchState}
           className={styles['search-bar']}

@@ -2,8 +2,9 @@ import ChannelCreateModal from '../../Channel/ChannelCreateModal'
 import ChannelList from '../../Channel/ChannelList.jsx'
 
 import { getChannelData } from '../../../services/channelService.js'
+import info from "/images/info.svg"
 
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
 
 import useLoading from '../../../hooks/useLoading.jsx'
@@ -47,9 +48,18 @@ const HomeSidebar = ({fetchChannels, visibleChannels}) => {
       </div>
         <Spinner />
       {!isLoading &&
+        visibleChannels.length > 0 
+        ?
         <ChannelList visibleChannels={visibleChannels}>
           <h1 className={styles['channel-h1']}> Your Channels: </h1>
-        </ChannelList>}
+        </ChannelList>
+        :
+        <div className={styles['no-channel-div']}>
+          <img src={info} />
+          <p>You do <span className={styles['red-span']}>not</span> seem to have joined a channel.</p>
+          <p>Check out our <Link to="/popular">Popular Page</Link>!</p>
+        </div>
+        }
     </div>
   )
 }

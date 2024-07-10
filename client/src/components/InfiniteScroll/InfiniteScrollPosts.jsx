@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom'
 
 const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fallback }) => {
   const [postDataList,setPostDataList] = useState([])
+  const [initialized, setInitialized] = useState(false);
   const [offset, setOffset] = useState(0);
   const [endOfPosts, setEndOfPosts] = useState(false);
   const navigate = useNavigate();
@@ -65,27 +66,34 @@ const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fa
     return () => window.removeEventListener('scroll',scrollHandler)
   },[isLoading])
 
-  useEffect(() => {fetchWithLoading()},[])
+  useEffect(() => {
+    setInitialized(true)
+    fetchWithLoading()
+  },[])
 
   return (
-    postDataList.length > 0
-    ?
-    <div className={styles['container']}>
-      <ul className={styles['post-container']}> 
-      {
-      postDataList.map(postDataContainer =>
-        <li key={postDataContainer.postData.id}> 
-          <PostRender 
-            postData={postDataContainer.postData} 
-            additionalPostData={postDataContainer.additionalData} 
-            isCompact={true} 
-          />
-        </li>)}
-      </ul>
-      <Spinner size={50}/>
-    </div>
-    :
-    <Fallback />
+    initialized &&
+    (
+      isLoading ? <Spinner size={50} />
+        :
+        postDataList.length > 0
+          ?
+          <div className={styles['container']}>
+            <ul className={styles['post-container']}>
+              {
+                postDataList.map(postDataContainer =>
+                  <li key={postDataContainer.postData.id}>
+                    <PostRender
+                      postData={postDataContainer.postData}
+                      additionalPostData={postDataContainer.additionalData}
+                      isCompact={true}
+                    />
+                  </li>)}
+            </ul>
+          </div>
+          :
+          <Fallback />
+    )
   )
 }
 export default InfiniteScrollPosts

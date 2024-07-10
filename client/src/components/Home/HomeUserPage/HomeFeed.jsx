@@ -5,6 +5,7 @@ import CreatePostBar from '../../Post/CreatePostBar'
 import styles from './styles/HomeFeed.module.css'
 import UserDataContext from '../../../contexts/UserDataContext'
 import { getAdditionalPostData } from '../../../services/postService'
+import welcome from "/images/welcome.png";
 
 const HomeFeed = () => {
   const { userData } = useContext(UserDataContext);
@@ -15,7 +16,7 @@ const HomeFeed = () => {
         fetchFunction={(limit, offset) => getRelatedPosts(userData, limit, offset)} 
         fetchAdditionalFunction={getAdditionalPostData}
         limit={5}
-        Fallback={() => <div>Welcome</div>}
+        Fallback={() => <div className={styles['welcome-div']}><img src={welcome}></img></div>}
       />
     </div>
   )

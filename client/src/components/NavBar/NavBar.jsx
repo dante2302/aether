@@ -1,5 +1,5 @@
 import Searchbar from '../Search/Searchbar'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 
 import UserDataContext from '../../contexts/UserDataContext'
@@ -25,7 +25,7 @@ const NavBar = () => {
       />
 
       {userData &&
-        <div onClick={() => navigate('/popular')}><UilStar size={35}/></div>
+        <Link to="/popular" className={styles['popular-btn']}><UilStar size={35}/></Link>
       }
 
       <Searchbar />  
@@ -34,10 +34,10 @@ const NavBar = () => {
         userData
           ?
           <div className={styles['log-in-container']}>
-            <div onClick={() => navigate(`./u/${userData.username}`)}>
+            <Link to={`/u/${userData.username}`}>
               <UilUser size={30} />
               {size > 800 && <p>{userData.username}</p>}
-            </div>
+            </Link>
             <button 
               className={styles['log-out-btn']} 
               onClick={()=>setUserData(undefined)}

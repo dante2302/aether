@@ -11,7 +11,10 @@
   height: fit-content;
   padding:1rem;
 }
-
+.popular-btn:hover>svg>path{
+  transition: .2s ease;
+  color: blue;
+}
 .logo{
   width:9em;
   cursor:pointer;
@@ -23,7 +26,7 @@
   }
 }
 
-.log-in-container,.log-in-container>div{
+.log-in-container,.log-in-container>a{
   display:flex;
   flex-direction:row;
   place-items: center;
@@ -31,13 +34,13 @@
   cursor: pointer;
 }
 
-.log-in-container>div{
+.log-in-container>a{
   gap:5px;
   margin-right: 10px;
   font-size: var(--fs-reg);
 }
 
-.log-in-container>div:hover{
+.log-in-container>a:hover{
   color: var(--accent-blue);
 }
 
