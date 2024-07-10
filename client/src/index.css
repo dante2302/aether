@@ -81,7 +81,7 @@ textarea{
   background:var(--background-grey);
   display:flex;
   justify-content:center;
-  min-height: 90vh;
+  min-height: 87vh;
 }
 
 .disabled{

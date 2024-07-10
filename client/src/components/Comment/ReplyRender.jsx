@@ -24,7 +24,7 @@ export default function ReplyRender({replies, data, parentCommentData, setReplie
 
   async function handleDelete(){
     await deleteReply(userData.accessToken, replyData.id);
-    setReplies(replies => replies.filter(r => r.id != replyData.id))
+    setReplies(replies => replies.filter(r => r.id != replyData.id && r.replyToComment != replyData.id))
   }
 
   useEffect(() => {

@@ -36,7 +36,7 @@ const NavBar = () => {
           <div className={styles['log-in-container']}>
             <div onClick={() => navigate(`./u/${userData.username}`)}>
               <UilUser size={30} />
-              <p>{userData.username}</p>
+              {size > 800 && <p>{userData.username}</p>}
             </div>
             <button 
               className={styles['log-out-btn']} 

@@ -2,7 +2,7 @@
     margin-top:30px;
     width:85%;
 }
-@media (min-width:900px){
+@media (min-width:800px){
   .container{
       display:grid;
       grid-template-columns:70% 30%;

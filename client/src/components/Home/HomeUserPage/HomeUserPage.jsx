@@ -14,7 +14,7 @@ const HomeUserPage = () => {
   return(
     <div className={styles['container']}>
       <HomeFeed />
-      {windowSize.width>900&&
+      {windowSize.width>800&&
         <div className={styles['content']}>
           <HomeSidebar />
         </div>

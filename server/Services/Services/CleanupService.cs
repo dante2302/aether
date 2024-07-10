@@ -62,4 +62,9 @@ public abstract class CleanupService
     {
         await new ReplyService(config).DeleteByComment(commentId);
     }
+
+    public static async Task CleanupReply(Guid replyId, IConfiguration config)
+    {
+        await new ReplyService(config).DeleteByReplyToComment(replyId);
+    }
 }

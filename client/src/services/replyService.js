@@ -40,6 +40,8 @@ export const deleteReply = async (accessToken,id) => {
 
 export async function getAdditionalReplyListData(replies, commentData)
 {
+  console.log(replies)
+  console.log(commentData.id);
   for (let i = 0; i < replies.length; i++) {
     const ownerUsername = await (await getUsername(replies[i].ownerId)).json();
     const replyToUsername =
@@ -63,6 +65,8 @@ export async function getAdditionalReplyListData(replies, commentData)
 
 export async function getAdditionalReplyData(reply, replies, commentData) {
   const ownerUsername = await (await getUsername(reply.ownerId)).json();
+  console.log(commentData.id);
+  console.log(reply.replyToComment)
   const replyToUsername =
     commentData.id == reply.replyToComment
       ?

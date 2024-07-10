@@ -78,7 +78,7 @@ public class ReplyService(IConfiguration config) : DbService(config)
             WHERE id = '{id}'::uuid
             AND ownerid = '{ownerId}'::uuid
        ");
-
+        await CleanupService.CleanupReply(id, _config);
         if (rowsAffected <= 0)
             throw new NotFoundException("No such reply exists.");
     }
@@ -88,6 +88,13 @@ public class ReplyService(IConfiguration config) : DbService(config)
         await ExecuteNonQueryCommandAsync($@"
             DELETE FROM replies 
             WHERE parentcommentId = '{commentId}'::uuid
+       ");
+    }
+    public async Task DeleteByReplyToComment(Guid replyToComment)
+    {
+        await ExecuteNonQueryCommandAsync($@"
+            DELETE FROM replies 
+            WHERE replyToComment = '{replyToComment}'::uuid
        ");
     }
 
