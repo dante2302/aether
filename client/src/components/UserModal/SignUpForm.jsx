@@ -31,31 +31,45 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
     email: '',
     password: '',
     passwordCopy: '',
+    submissionError: ''
   }
 
   const [formState,setFormState] = useState(initialFormState)
   const [formErrors,setFormErrors] = useState(initialFormErrors)
   const [shownPassword,setShownPassword] = useState(false)
   const [chooseUsername,setChooseUsername] = useState(false)
-  const [submissionError, setSubmissionError] = useState("");
+  const [submissionError, setSubmissionError] = useState({});
 
   useEffect(() => {
+    let hasError = false;
+    if(formErrors.submissionError || formState.email == submissionError.email)
+    {
+        if(formState.email == submissionError.email)
+        {
+          setFormErrors({...formErrors, submissionError: submissionError.message})
+          setDisabled(true)
+          hasError = true
+        }
+        else{
+          setFormErrors({...formErrors, submissionError: ""})
+          hasError = false;
+        }
+    }
+
     if(Object.entries(formState).some(e => e[0] != 'username' && e[1] == '') || formState.password != formState.passwordCopy){
       setDisabled(true)
-      return
+      hasError = true;
     }
 
     for(let error of Object.values(formErrors)){
       if(error){
         setDisabled(true) 
-        return
+        hasError = true;
       }
     }
-    console.log(Object.values(formErrors));
-
-    setDisabled(false)
-
-  },[formState])
+    !hasError && setDisabled(false);
+    return;
+  },[formState, formErrors])
 
   const blurHandler = (e) => {
     e.preventDefault()
@@ -96,7 +110,10 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
       const response = await signUp(formState)
       if (!response.ok) {
         if (response.status == 409) {
-          setSubmissionError((await response.json()).error);
+          const errorMessage = (await response.json()).error
+          setSubmissionError({email: formState.email, message: errorMessage})
+          setFormErrors({...formErrors, submissionError: errorMessage})
+          setChooseUsername(false);
         }
         else {
           navigate("/error");
@@ -118,7 +135,6 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
 
   return(
     <form className={styles['input-form']} onSubmit={(e) => submitWithLoading(e,formState)}>
-
       {
       chooseUsername 
         ?
@@ -150,7 +166,11 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
         :
 
         <>
-        <h1>{submissionError}</h1>
+          {formErrors.submissionError &&
+            <div className={styles['error-container']}>
+              <UilSad size={20} color={'red'}/>
+              <p className={styles['error']}>{formErrors.submissionError}</p>
+            </div>}
           <div className={styles['input-container']}>
             <input 
               type='email'
@@ -266,20 +286,10 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
       {
       chooseUsername 
         ? 
-
-        <>
         <button 
           disabled={formState.username===''}
           className={styles['sign-up-btn']}
         >{isLoading ? <LoadingSpinner size="20px"/> : "Sign Up" }</button>
-          {
-          submissionError &&
-            <div className={styles['error-container']}>
-              <UilSad size={20} color={'red'}/>
-              <p className={styles['error']}>{submissionError}</p>
-            </div>
-          }
-          </>
         :
 
         <>
