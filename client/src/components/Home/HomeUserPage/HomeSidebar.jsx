@@ -11,24 +11,11 @@ import useLoading from '../../../hooks/useLoading.jsx'
 import UilHouseUser from '@iconscout/react-unicons/icons/uil-house-user.js'
 import styles from './styles/HomeSidebar.module.css'
 import UserDataContext from '../../../contexts/UserDataContext.jsx'
-import { getRelatedChannels } from '../../../services/userService.js'
 
-const HomeSidebar = () => {
-
-  const [channelModal,setChannelModal] = useState()
-  const [visibleChannels,setVisibleChannels] = useState([])
+const HomeSidebar = ({fetchChannels, visibleChannels}) => {
   const navigate = useNavigate()
+  const [channelModal,setChannelModal] = useState()
   const {userData} = useContext(UserDataContext);
-
-  const fetchChannels = async () => {
-    // try{
-      const response  = await getRelatedChannels(userData);
-      setVisibleChannels((await response.json()).channelList);
-    // }
-    // catch{
-    //   navigate("/error");
-    // }
-  }
 
   const [Spinner, fetchChannelsWithLoading,isLoading] = useLoading(fetchChannels)
 

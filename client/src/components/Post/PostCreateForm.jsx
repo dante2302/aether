@@ -2,14 +2,15 @@ import { useContext, useEffect, useState } from "react"
 
 import * as formUtils from '../../utils/formUtils.js'
 
-import { useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { getRelatedChannels } from "../../services/userService.js"
 
 import UserDataContext from "../../contexts/UserDataContext"
-
+import useLoading from "../../hooks/useLoading.jsx"
 import UilImage from "@iconscout/react-unicons/icons/uil-image.js"
 import UilLink from "@iconscout/react-unicons/icons/uil-link.js"
 import styles from './styles/PostCreateForm.module.css'
+import noChannelImg from "/images/nochannelimg.png"
 import { createPost } from "../../services/postService.js"
 
 const PostCreateForm = () => {
@@ -19,30 +20,26 @@ const PostCreateForm = () => {
     imgUrl: '',
     link: '',
   }
-
+  const userChannels = useLocation().state?.userChannels
   const navigate = useNavigate()
-  const [channels,setChannels] = useState([])
+  const [channels,setChannels] = useState(userChannels || [])
   const [selectedChannel,setSelectedChannel] = useState({})
   const { userData } = useContext(UserDataContext)
 
-  useEffect(() => {
+  async function fetchChannels() {
     if (!userData) { navigate('../'); return }
-    const asyncFunc = async () => {
-      const response = await getRelatedChannels(userData);
-      console.log(response);
+    const response = await getRelatedChannels(userData);
 
-      if (!response.ok) navigate('../');
+    if (!response.ok) navigate('../');
 
-      let availableChannels = (await response.json()).channelList;
-      console.log(availableChannels);
-      if (availableChannels.length > 0) {
-        setChannels(availableChannels)
-        setSelectedChannel(availableChannels[0].id)
-      }
-      else {alert('You need a channel');navigate('../')}
+    let availableChannels = (await response.json()).channelList;
+    if (availableChannels.length > 0) {
+      setChannels(availableChannels)
+      setSelectedChannel(availableChannels[0].id)
     }
-    asyncFunc()
-  },[userData])
+  }
+  const [LoadingSpinner, fetchWithLoading, isLoading ] = useLoading(fetchChannels)
+  useEffect(() => {fetchWithLoading()},[userData])
 
   const [formState,setFormState] = useState(initialFormState)
 
@@ -67,6 +64,10 @@ const PostCreateForm = () => {
   }
 
   return(
+    isLoading ?
+    <LoadingSpinner size={50} />
+    :
+    channels.length > 0 ?
     <form onSubmit={(e) => submitHandler(e)} className={styles['form']}>
       <label htmlFor="channel">Choose a channel</label>
       <select
@@ -122,6 +123,14 @@ const PostCreateForm = () => {
       <button>Post</button>
 
     </form>
+    :
+    <div className={styles["no-channel-container"]}>
+    <img src={noChannelImg} />
+    <p>
+       To create a post you need to join a channel.
+       You can have a look at some channels at our {<Link to="/popular">Popular Page</Link>}
+    </p>
+    </div>
   )
 }
 
