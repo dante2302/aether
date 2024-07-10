@@ -33,6 +33,16 @@ public class ChannelEndpoints(WebApplication app) : EndpointMapper(app)
             return await channelService.GetPopularChannels();
         }).AllowAnonymous();
 
+        _app.MapGet("/channels/search", 
+        async
+        (
+            [FromServices] ChannelService channelService,
+            [FromQuery] string name
+        ) => 
+        {
+            return await channelService.SearchChannels(name);
+        }).AllowAnonymous();
+
         _app.MapGet("/channels/{id:guid}",
         async
         ([FromRoute] Guid id,

@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.Data.SqlClient;
 using Microsoft.IdentityModel.Protocols.Configuration;
 using Models;
 using Npgsql;
+using Microsoft.Data.SqlClient;
 
 namespace Services;
 
@@ -44,16 +46,17 @@ public abstract class DbService
         return rowsAffected;
     }    
 
-    protected virtual bool RecordExists<T>(string tableName, string columnName, T columnValue)
+    protected virtual bool RecordExists<T>(string tableName, SqlParameter columnName, SqlParameter columnValue)
     {
         using var connection = new NpgsqlConnection(_connectionString);
         connection.Open();
 
         var tableCmd = connection.CreateCommand();
         tableCmd.CommandText = @$"
-            SELECT * FROM {tableName} WHERE {columnName} = 
-            {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'{columnValue}'" : columnValue)}
+            SELECT * FROM {tableName} WHERE @ColumnName = @ColumnValue
             {ColumnTypeHelper.GetAnnotation<T>()}";
+        tableCmd.Parameters.Add(columnName);
+        tableCmd.Parameters.Add(columnValue);
         var reader = tableCmd.ExecuteReader();
         return reader.HasRows;
     }
@@ -90,6 +93,25 @@ public abstract class DbService
         }
         return records; 
     }
+
+    protected virtual async Task<List<T>> ExecuteQueryListCommandAsync<T>
+        (string query, Func<NpgsqlDataReader, T> GetColumnValues, SqlParameter[] parameters)
+    {
+        using var connection = new NpgsqlConnection(_config.GetConnectionString("aether"));
+        await connection.OpenAsync();
+        var tableCmd = connection.CreateCommand();
+        tableCmd.CommandText = query;
+        if(parameters.Length > 0)
+            tableCmd.Parameters.AddRange(parameters);
+
+        var reader = await tableCmd.ExecuteReaderAsync();
+        List<T> records = [];
+        while(await reader.ReadAsync())
+        {
+            records.Add(GetColumnValues(reader));
+        }
+        return records; 
+    }
     protected virtual async Task<int> ExecuteNonQueryCommandAsync(string command)
     {
         using var connection = new NpgsqlConnection(_connectionString);
@@ -109,21 +131,29 @@ public abstract class DbService
         return await tableCmd.ExecuteScalarAsync();
     }
 
-    protected virtual async Task<bool> RecordExistsAsync<T>(string tableName, string columnName, T columnValue)
+    protected virtual async Task<bool> RecordExistsAsync<T>(string tableName, SqlParameter columnName, SqlParameter columnValue)
     {
         using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
 
         var tableCmd = connection.CreateCommand();
         tableCmd.CommandText = @$"
-            SELECT * FROM {tableName} WHERE {columnName} = 
-            {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'{columnValue}'" : columnValue)}
+            SELECT * FROM {tableName} WHERE @ColumnName = 
+            {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'@ColumnValue'" : "@ColumnValue")}
             {ColumnTypeHelper.GetAnnotation<T>()}";
+        tableCmd.Parameters.Add(columnName);
+        tableCmd.Parameters.Add(columnValue);
         var reader = await tableCmd.ExecuteReaderAsync();
         return reader.HasRows;
     }
 
-    protected virtual async Task<bool> RecordExistsUnionAsync<T,F>(string tableName, string columnName, T columnValue, string secondColumnName, F secondColumnValue)
+    protected virtual async Task<bool> RecordExistsUnionAsync<T,F>(
+        string tableName,
+        SqlParameter columnName,
+        SqlParameter columnValue,
+        SqlParameter secondColumnName,
+        SqlParameter secondColumnValue
+    )
     {
         using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -132,11 +162,15 @@ public abstract class DbService
         tableCmd.CommandText = @$"
             SELECT * FROM {tableName} 
 
-            WHERE {columnName} = {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'{columnValue}'" : columnValue)}
+            WHERE @ColumnName = {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'@ColumnValue'" : "@ColumnValue")}
             {ColumnTypeHelper.GetAnnotation<T>()}
 
-            AND {secondColumnName} = {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'{secondColumnValue}'" : secondColumnValue)}
+            AND @SecondColumnName = {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'@SecondColumnValue'" : "@SecondColumnValue")}
             {ColumnTypeHelper.GetAnnotation<T>()}";
+        tableCmd.Parameters.Add(columnName);
+        tableCmd.Parameters.Add(columnValue);
+        tableCmd.Parameters.Add(secondColumnName);
+        tableCmd.Parameters.Add(secondColumnValue);
         var reader = await tableCmd.ExecuteReaderAsync();
         return reader.HasRows;
     }

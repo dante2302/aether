@@ -1,4 +1,5 @@
 ﻿using Exceptions;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Models;
 using Npgsql;
@@ -10,7 +11,9 @@ public class ChannelService(IConfiguration config) : DbService(config)
 
     public async Task<Channel> Create(Channel newChannel)
     {
-        if (await RecordExistsAsync("Channels", "name", newChannel.Name))
+        SqlParameter column = new("ColumnName", "name");
+        SqlParameter value = new("ColumnValue", newChannel.Name);
+        if (await RecordExistsAsync<string>("Channels", column, value))
         {
             throw new ConflictException($"Channel with name {newChannel.Name} already exists.");
         }
@@ -71,11 +74,25 @@ public class ChannelService(IConfiguration config) : DbService(config)
     public async Task<List<Channel>> GetAllByCriteria<T>(string columnName, T columnValue)
     {
         string command =
-            $@"SELECT * FROM channels WHERE {columnName} = 
-            {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'{columnValue}'" : columnValue)}
-            {ColumnTypeHelper.GetAnnotation<T>()}";
+            $@"SELECT * FROM channels WHERE @ColumnName = @ColumnValue{ColumnTypeHelper.GetAnnotation<T>()}";
+        SqlParameter[] parameters =
+        [
+            new SqlParameter("@ColumnName", columnName),
+            new SqlParameter("@ColumnValue", columnValue)
+        ];
+        List<Channel> result = await ExecuteQueryListCommandAsync(command, MapChannelFromReader, parameters);
+        return result;
+    }
 
-        List<Channel> result = await ExecuteQueryListCommandAsync(command, MapChannelFromReader);
+    public async Task<List<Channel>> SearchChannels(string name)
+    {
+        string command =
+            $@"SELECT * FROM channels WHERE name LIKE @Name";
+        SqlParameter[] parameters = 
+        [
+            new SqlParameter("@Name", name)
+        ];
+        List<Channel> result = await ExecuteQueryListCommandAsync(command, MapChannelFromReader, parameters);
         return result;
     }
     public async Task<List<Channel>> GetPopularChannels()
@@ -116,7 +133,7 @@ public class ChannelService(IConfiguration config) : DbService(config)
     }
     public async Task Delete(Guid id, Guid ownerId)
     {
-        if(! await RecordExistsAsync("channels","id", id))
+        if(! await RecordExistsAsync<int>("channels","id", id))
             throw new NotFoundException("No such channel");
 
         await CleanupService.CleanupChannel(id, ownerId, _config);
