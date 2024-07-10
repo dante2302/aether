@@ -1,4 +1,5 @@
 using Exceptions;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Models;
 using Npgsql;
@@ -12,6 +13,9 @@ public class ReplyService(IConfiguration config) : DbService(config)
         newReply.Id = Guid.NewGuid();
         newReply.IsEdited = false;
         newReply.DateOfCreation = DateTime.Now;
+        NpgsqlParameter[] parameters = [
+            new NpgsqlParameter("@Text", newReply.Text)
+        ];
         QueryResult<Reply> result = await ExecuteQueryCommandAsync(@$"
             INSERT INTO replies 
             VALUES(
@@ -19,12 +23,12 @@ public class ReplyService(IConfiguration config) : DbService(config)
                 '{newReply.ParentCommentId}'::uuid,
                 '{newReply.OwnerId}'::uuid,
                 '{newReply.ReplyToComment}'::uuid,
-                '{newReply.Text}',
+                @Text,
                 {newReply.IsEdited},
                 '{newReply.DateOfCreation}'::TIMESTAMP
             )
             RETURNING *;"
-        , MapReplyFromReader);
+        , MapReplyFromReader, parameters);
         return result.Record;
     }
 
@@ -53,12 +57,16 @@ public class ReplyService(IConfiguration config) : DbService(config)
 
     public async Task Update(Reply updatedReply)
     {
-        int rowsAffected = await ExecuteNonQueryCommandAsync($@"
+        string command = $@"
             UPDATE replies
-            SET Text = {updatedReply.Text},
+            SET Text = @UpdatedText,
                 IsEdited = true
             WHERE id = '{updatedReply.Id}'::uuid
-        ");
+            ";
+        NpgsqlParameter[] parameters = [
+            new NpgsqlParameter("@UpdatedText", updatedReply.Text),
+        ];
+        int rowsAffected = await ExecuteNonQueryCommandAsync(command, parameters);
 
         if (rowsAffected <= 0)
             throw new NotFoundException("No such reply exists.");

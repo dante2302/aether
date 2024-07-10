@@ -1,4 +1,5 @@
 using Exceptions;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Models;
 using Npgsql;
@@ -26,20 +27,26 @@ public class PostService(IConfiguration config) : DbService(config)
                 @$"Post with the title ""{newPost.Title}"" already exists in channel!"
             );
 
+        NpgsqlParameter[] parameters = [
+            new NpgsqlParameter("@Title", newPost.Title),
+            new NpgsqlParameter("@Text", newPost.Text),
+            new NpgsqlParameter("@LinkUrl", newPost.LinkUrl),
+            new NpgsqlParameter("@ImgUrl", newPost.ImgUrl)
+        ];
         QueryResult<Post> result = await ExecuteQueryCommandAsync(@$"
             INSERT INTO posts 
             VALUES(
                 '{newPost.Id}'::uuid, 
                 '{newPost.OwnerId}'::uuid, 
                 '{newPost.ChannelId}'::uuid,
-                '{newPost.Title}', 
-                '{newPost.Text}',
-                '{newPost.LinkUrl}',
-                '{newPost.ImgUrl}',
+                @Title, 
+                @Text,
+                @LinkUrl,
+                @ImgUrl,
                 {newPost.IsPopular},
                 '{newPost.DateOfCreation}'::TIMESTAMP)
             RETURNING *;"
-        , MapPostFromReader);
+        , MapPostFromReader, parameters);
 
         return result.Record;
     }

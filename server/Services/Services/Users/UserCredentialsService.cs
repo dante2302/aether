@@ -1,4 +1,5 @@
 ﻿using Exceptions;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Models;
 using Npgsql;
@@ -9,9 +10,12 @@ public class UserCredentialsService(IConfiguration config) : DbService(config)
 {
     public async Task<UserCredentials> GetOne(string email)
     {
+        NpgsqlParameter[] parameters = [
+            new NpgsqlParameter("@Email", email)
+        ];
         QueryResult<UserCredentials> result = await ExecuteQueryCommandAsync(
-            $"SELECT * FROM UserCredentials WHERE Email = '{email}'",
-            MapUserCredentialsFromReader);
+            $"SELECT * FROM UserCredentials WHERE Email = @Email",
+            MapUserCredentialsFromReader, parameters);
 
         if(!result.HasRecord)
             throw new NotFoundException($"User with email: {email} not found.");
@@ -21,13 +25,17 @@ public class UserCredentialsService(IConfiguration config) : DbService(config)
     public async Task<UserCredentials> Create(UserCredentials newUserCredentials)
     {
         await CheckEmailExistence(newUserCredentials.Email);
+        NpgsqlParameter[] parameters = [
+            new NpgsqlParameter("@Email", newUserCredentials.Email),
+            new NpgsqlParameter("@Password", newUserCredentials.Password)
+        ];
         var result = await ExecuteQueryCommandAsync(@$"
             INSERT INTO UserCredentials
-            VALUES( '{newUserCredentials.Email}',
-                    '{newUserCredentials.Password}',
+            VALUES(@Email,
+                    @Password,
                     '{newUserCredentials.OwnerId}'::UUID)
             RETURNING *;",
-            MapUserCredentialsFromReader);
+            MapUserCredentialsFromReader, parameters);
         return result.Record;
     }
 
@@ -49,7 +57,8 @@ public class UserCredentialsService(IConfiguration config) : DbService(config)
     }
 
     public async Task CheckEmailExistence(string email){
-        if (await RecordExistsAsync("UserCredentials", "Email", email))
+        NpgsqlParameter value = new("@ColumnValue", email);
+        if (await RecordExistsAsync<string>("UserCredentials", "Email", value))
         {
             throw new ConflictException("A user with this email already exists.");
         }

@@ -1,5 +1,6 @@
 
 using Exceptions;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Models;
 using Npgsql;
@@ -14,18 +15,22 @@ public class CommentService(IConfiguration config) : DbService(config)
         newComment.Id = Guid.NewGuid();
         newComment.IsEdited = false;
         newComment.DateOfCreation = DateTime.Now;
+        NpgsqlParameter[] parameters = [
+            new NpgsqlParameter("Text", newComment.Text)
+        ];
+
         QueryResult<Comment> result = await ExecuteQueryCommandAsync(@$"
             INSERT INTO comments
             VALUES(
                 '{newComment.Id}':: uuid,
                 '{newComment.PostId}'::uuid,
                 '{newComment.OwnerId}'::uuid,
-                '{newComment.Text}',
+                @Text,
                 {newComment.IsEdited},
                 '{newComment.DateOfCreation}'::TIMESTAMP
             )
             RETURNING *;"
-        , MapCommentFromReader);
+        , MapCommentFromReader, parameters);
         return result.Record;
     }
 
@@ -80,21 +85,24 @@ public class CommentService(IConfiguration config) : DbService(config)
 
     public async Task Update(Comment updatedComment)
     {
+        NpgsqlParameter[] parameters = [
+            new NpgsqlParameter("@UpdatedText", updatedComment.Text)
+        ];
         int rowsAffected = await ExecuteNonQueryCommandAsync($@"
             UPDATE comments
             SET
-                Text = '{updatedComment.Text}',
+                Text = @UpdatedText,
                 IsEdited = true
             WHERE id = '{updatedComment.Id}'::uuid
             AND ownerId = '{updatedComment.OwnerId}'::uuid
-        ");
+        ", parameters);
 
         if (rowsAffected <= 0)
             throw new NotFoundException("No such comment exists.");
     }
     public async Task Delete(Guid id, Guid ownerId)
     {
-        if(!await RecordExistsAsync("comments","id", id))
+        if(! await RecordExistsAsync("comments", "id",id))
             throw new NotFoundException("No such commentExists");
 
         await CleanupService.CleanupComment(id, ownerId, _config);

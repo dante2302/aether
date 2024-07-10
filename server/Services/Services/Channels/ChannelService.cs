@@ -11,9 +11,8 @@ public class ChannelService(IConfiguration config) : DbService(config)
 
     public async Task<Channel> Create(Channel newChannel)
     {
-        SqlParameter column = new("ColumnName", "name");
-        SqlParameter value = new("ColumnValue", newChannel.Name);
-        if (await RecordExistsAsync<string>("Channels", column, value))
+        NpgsqlParameter value = new("@ColumnValue", newChannel.Name);
+        if (await RecordExistsAsync<string>("Channels", "name", value))
         {
             throw new ConflictException($"Channel with name {newChannel.Name} already exists.");
         }
@@ -21,14 +20,17 @@ public class ChannelService(IConfiguration config) : DbService(config)
         newChannel.Id = Guid.NewGuid();
         newChannel.IsPopular = false;
         newChannel.DateOfCreation = DateTime.Now;
-
+        NpgsqlParameter[] parameters = [
+            new NpgsqlParameter("@Name", newChannel.Name),
+            new NpgsqlParameter("@Description", newChannel.Description),
+        ];
         QueryResult<Channel> result = await ExecuteQueryCommandAsync(@$"
             INSERT INTO channels
             VALUES(
                 '{newChannel.Id}'::uuid, 
                 '{newChannel.OwnerId}'::uuid, 
-                '{newChannel.Name}', 
-                '{newChannel.Description}', 
+                @Name, 
+                @Description, 
                 false,
                 '{newChannel.DateOfCreation}'::TIMESTAMP
             )
@@ -60,11 +62,13 @@ public class ChannelService(IConfiguration config) : DbService(config)
     public async Task<Channel> GetOneByCriteria<T>(string columnName, T columnValue)
     {
         string command =
-            $@"SELECT * FROM channels WHERE {columnName} = 
-            {(ColumnTypeHelper.NeedsQuotation<T>() ? $"'{columnValue}'" : columnValue)}
-            {ColumnTypeHelper.GetAnnotation<T>()}";
+            $@"SELECT * FROM channels WHERE {columnName} = @ColumnValue{ColumnTypeHelper.GetAnnotation<T>()}";
 
-        QueryResult<Channel> result = await ExecuteQueryCommandAsync(command, MapChannelFromReader);
+        NpgsqlParameter[] parameters =
+        [
+            new NpgsqlParameter("@ColumnValue", columnValue)
+        ];
+        QueryResult<Channel> result = await ExecuteQueryCommandAsync(command, MapChannelFromReader, parameters);
 
         if (!result.HasRecord)
             throw new NotFoundException("Channel not found.");
@@ -74,11 +78,10 @@ public class ChannelService(IConfiguration config) : DbService(config)
     public async Task<List<Channel>> GetAllByCriteria<T>(string columnName, T columnValue)
     {
         string command =
-            $@"SELECT * FROM channels WHERE @ColumnName = @ColumnValue{ColumnTypeHelper.GetAnnotation<T>()}";
-        SqlParameter[] parameters =
+            $@"SELECT * FROM channels WHERE {columnName} = @ColumnValue{ColumnTypeHelper.GetAnnotation<T>()}";
+        NpgsqlParameter[] parameters =
         [
-            new SqlParameter("@ColumnName", columnName),
-            new SqlParameter("@ColumnValue", columnValue)
+            new NpgsqlParameter("@ColumnValue", columnValue)
         ];
         List<Channel> result = await ExecuteQueryListCommandAsync(command, MapChannelFromReader, parameters);
         return result;
@@ -88,9 +91,9 @@ public class ChannelService(IConfiguration config) : DbService(config)
     {
         string command =
             $@"SELECT * FROM channels WHERE name LIKE @Name";
-        SqlParameter[] parameters = 
+        NpgsqlParameter[] parameters = 
         [
-            new SqlParameter("@Name", name)
+            new NpgsqlParameter("@Name", name)
         ];
         List<Channel> result = await ExecuteQueryListCommandAsync(command, MapChannelFromReader, parameters);
         return result;
@@ -119,21 +122,26 @@ public class ChannelService(IConfiguration config) : DbService(config)
     public async Task Update(Channel updatedChannel)
     {
 
+        NpgsqlParameter[] parameters = [
+            new NpgsqlParameter("@UpdatedName", updatedChannel.Name),
+            new NpgsqlParameter("@UpdatedDescription", updatedChannel.Description),
+        ];
         int rowsAffected = await ExecuteNonQueryCommandAsync($@"
             UPDATE channels
-            SET name = '{updatedChannel.Name}',
-                description = '{updatedChannel.Description}',
+            SET name = @UpdatedName,
+                description = @UpdatedDescription,
                 ispopular = {updatedChannel.IsPopular}
             WHERE id = '{updatedChannel.Id}'::uuid
             AND ownerid = '{updatedChannel.OwnerId}'::uuid
-        ");
+        ", parameters);
 
         if (rowsAffected <= 0)
             throw new NotFoundException("No such channel exists.");
     }
     public async Task Delete(Guid id, Guid ownerId)
     {
-        if(! await RecordExistsAsync<int>("channels","id", id))
+        ;
+        if(! await RecordExistsAsync("channels","id", id))
             throw new NotFoundException("No such channel");
 
         await CleanupService.CleanupChannel(id, ownerId, _config);

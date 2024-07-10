@@ -9,7 +9,8 @@ public class UserService(IConfiguration config) : DbService(config)
 {
     public async Task<User> Create(User newUser)
     {
-        if (RecordExists("Users", "username", newUser.Username))
+        NpgsqlParameter value = new("@ColumnValue", newUser.Username);
+        if (await RecordExistsAsync<string>("Users", "username", value))
         {
             throw new ConflictException("Username is taken");
         }
