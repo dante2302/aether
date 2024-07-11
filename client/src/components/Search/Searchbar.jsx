@@ -36,7 +36,7 @@ const Searchbar = () => {
     setShowCompact(false);
   }
 
-  const debouncedSearchCompact = useDebounce(() => {setShowCompact(true);search()},999)
+  const debouncedSearchCompact = useDebounce(() => {setShowCompact(true);search()},200)
 
   useEffect(() => {debouncedSearchCompact()},[searchState])
 
@@ -45,8 +45,10 @@ const Searchbar = () => {
       <div className={styles['search-container']}>
       <form onSubmit={(e) => submitHandler(e)}>
         <button className={styles['search-btn']}><UilSearch size={23}/></button>
-        <label>{searchState ? "" : "Search for channels"}</label>
+        <label htmlFor='searchbar'>{searchState ? "" : "Search for channels"}</label>
         <input type='search'
+          name='searchbar'
+          id='searchbar'
           value={searchState}
           className={styles['search-bar']}
           onChange={async (e) => {setSearchState(e.target.value)}}

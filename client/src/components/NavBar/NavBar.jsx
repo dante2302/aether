@@ -29,8 +29,8 @@ const NavBar = () => {
           <Link to="/popular" className={styles['popular-btn']}><UilStar size={35}/></Link>
         }
       </div>
-
-      <Searchbar />  
+      {size>=800 &&
+      <Searchbar /> }
 
       {
         userData
@@ -49,6 +49,8 @@ const NavBar = () => {
           <button className={styles['log-in-btn']} onClick={toggleUserModal}>Log In</button>
       }
 
+      {size<800 &&
+      <Searchbar /> }
     </div>
   )
 

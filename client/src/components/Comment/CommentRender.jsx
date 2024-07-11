@@ -44,15 +44,14 @@ const CommentRender = ({data, setComments, setCommentReplies, setCommentCount}) 
 
       <h6 className={styles['username']}>{data.ownerUsername}</h6>
 
-      {isOwner && 
+      {(isOwner && !isEditing) &&
         <>
           <button onClick={() => {
             if(isReplying) setReplying(false)
             setEditing(!isEditing)
           }}
           className={styles['edit-btn']}
-          >
-            {!isEditing ? <UilPen size={15}/> : 'Cancel'}
+          ><UilPen size={15}/>
           </button>
 
           {!isEditing &&
@@ -74,7 +73,14 @@ const CommentRender = ({data, setComments, setCommentReplies, setCommentCount}) 
           commentData={commentData} 
           setCommentData={setCommentData} 
           setEditing={setEditing}
-        />
+        >
+          <button onClick={() => {
+            setEditing(false)
+          }}
+          className={styles['cancel-btn']}
+          >Cancle
+          </button>
+        </CommentEditForm>
         :
         <p>{commentData.text}</p>
       } 

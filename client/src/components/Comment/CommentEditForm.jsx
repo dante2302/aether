@@ -1,13 +1,20 @@
 import useDisabled from "../../hooks/useDisabled"
 import { updateComment } from "../../services/commentService"
 import userDataContext from '../../contexts/UserDataContext'
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { updateReply } from "../../services/replyService"
+import styles from "./styles/CommentEditForm.module.css"
 
-const CommentEditForm = ({commentData,setCommentData,setEditing, isReply}) => {
+const CommentEditForm = ({commentData,setCommentData,setEditing, isReply, children}) => {
 
   const { userData } = useContext(userDataContext)
   const [text,setText] = useState(commentData.text)
+  useEffect(() => {
+    if(text == commentData.text || text == "") 
+      setDisabled(true) 
+    else
+      setDisabled(false)
+    }, [text])
 
   const changeHandler = e => setText(e.target.value)
   const submitHandler = async (e) => {
@@ -20,17 +27,20 @@ const CommentEditForm = ({commentData,setCommentData,setEditing, isReply}) => {
     setCommentData({...commentData, text});
     setEditing(false);
   } 
-  const [disabled,submitHandlerWithDisable] = useDisabled(submitHandler)
+  const [disabled,submitHandlerWithDisable, setDisabled] = useDisabled(submitHandler)
 
 return (
-    <form onSubmit={submitHandlerWithDisable}>
+    <form onSubmit={submitHandlerWithDisable} className={styles['form']}>
       <textarea 
         id='text' 
         name='text' 
         value={text}
         onChange={(e) => changeHandler(e)}
       />
-      <button disabled={disabled}>Edit</button>
+      <div className={styles['button-container']}>
+        <button disabled={disabled} className={styles['edit-btn']}>Edit</button>
+        {children}
+      </div>
     </form>
   )
 }

@@ -4,8 +4,9 @@
 }
 
 .search-container{
-  width:100%;
+  width:60%;
   height:100%;
+  margin: auto;
   border-radius:60px;
   background-color:#0000001a;
 }
@@ -24,6 +25,14 @@
   background:none;
 }
 
+@media(max-width: 768px){
+  .search-container{
+    width: 90%;}
+    .outer-container{
+      width: 100%;
+    }
+}
+
 .search-container label{
   position: absolute;
   color: grey;
@@ -37,6 +46,10 @@ font-size: calc(var(--fs-sm) + 4px)
   cursor: pointer;
 }
 
+.search-btn:hover>svg>path{
+  transition: .2s;
+  color: blue;
+}
 .search-results{
   position:absolute;
 }

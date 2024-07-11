@@ -25,7 +25,9 @@
     --fs-xl:22px;
   }
 }
-
+html{
+  background:var(--background-grey);
+}
 *,button{
   font-family: var(--ff);
   box-sizing: border-box;
