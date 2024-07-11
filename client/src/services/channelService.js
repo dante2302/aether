@@ -64,7 +64,7 @@ export const updateChannelData = async (channelId,newData) => {
   return data
 }
 
-export const searchChannels = async (value,pageSize,offset) => {
-  const data = await request.search({url:baseUrl,prop:'name',value,pageSize:5,offset:0})
-  return data  
+export const searchChannels = async (name) => 
+{
+  return await request.get(`${baseUrl}/search?name=${name}`)
 }

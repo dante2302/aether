@@ -1,8 +1,4 @@
 import SearchResultsCompact from './SearchResultsCompact'
-
-import { searchPosts } from '../../services/postService.js' 
-import { searchChannels } from '../../services/channelService.js'
-
 import { useState, useEffect } from 'react'
 
 import { useNavigate } from 'react-router-dom'
@@ -11,52 +7,38 @@ import useDebounce from '../../hooks/useDebounce.jsx'
 
 import styles from './styles/Searchbar.module.css'
 import  UilSearch from '@iconscout/react-unicons/icons/uil-search.js'
+import { searchChannels } from '../../services/channelService.js'
 
 
 
 const Searchbar = () => {
-  const initialResults = {
-    postResults:[],
-    channelResults:[]
-  }
-
-
   const [searchState,setSearchState] = useState('')
-  const [searchResults,setSearchResults] = useState(initialResults)
+  const [searchResults,setSearchResults] = useState([])
+  const [showCompact, setShowCompact] = useState(false);
   const navigate = useNavigate()
 
-
-  const searchCompact = (value) => {
-    // This function is responsible for the search results shown under the searchbar
-    //
-    search(value,5,0).then((results) => {
-    // 5 and 0 respectively being pageSize and offset
-      let {channelResults,postResults} = results;
-      if(channelResults.length > 0)results = {...results,channelResults}
-      if(postResults.length > 0) results = {...results,postResults}
-      setSearchResults(results)
-    })
-  }
-
-  const search = async (value,pageSize,offset) => {
-    let channelResults = await searchChannels(value,pageSize,offset)
-    return {channelResults,postResults}
-  }
-
-  const submitHandler = (e) => {
-    e.preventDefault()
-    if(searchState){
-      search(searchState,10,0)
-        .then((results) => {navigate('/search',{state:results})})
+  async function search(){
+    if (searchState && searchState.length > 2) {
+      const response = await searchChannels(searchState);
+      const result = await response.json();
+      setSearchResults(result)
+      return result
     }
+    setSearchResults([])
+    return [];
+  }
+  const submitHandler = async (e) => {
+    e.preventDefault()
+    const results = await search()
+    navigate("/search", {
+      state: results
+    })
+    setShowCompact(false);
   }
 
-  const debouncedSearchCompact = useDebounce(searchCompact,1000)
+  const debouncedSearchCompact = useDebounce(() => {setShowCompact(true);search()},999)
 
-  useEffect(() => {
-    searchState && 
-      debouncedSearchCompact(searchState,initialResults)
-  },[searchState])
+  useEffect(() => {debouncedSearchCompact()},[searchState])
 
   return(
     <div className={styles['outer-container']}>
@@ -67,16 +49,22 @@ const Searchbar = () => {
         <input type='search'
           value={searchState}
           className={styles['search-bar']}
-          onChange={(e) => setSearchState(e.target.value)}
-          onBlur={() => {
-              setSearchResults(initialResults);
-          }}
+          onChange={async (e) => {setSearchState(e.target.value)}}
+          onBlur={() =>
+              setTimeout(() => {
+                setSearchResults([]);
+              }, 200)
+          }
+          onFocus={() => debouncedSearchCompact()}
         />
       </form>
       </div>
+      {
+        showCompact && 
       <div className={styles['search-results']}>
-        <SearchResultsCompact postResults={searchResults.postResults} channelResults={searchResults.channelResults}/>
+        <SearchResultsCompact results={searchResults}/>
       </div>
+      }
     </div>
   )
 }

@@ -87,11 +87,6 @@ export const updatePostData = async (id,newData) => {
   return data
 }
 
-export const searchPosts = async (value,pageSize,offset) => {
-  const data = await request.search({url:baseUrl,prop:'title',value,pageSize,offset})
-  return data
-}
-
 export const deletePost = async (accessToken,id) => {
   const url = `${baseUrl}/${_id}`
   const data = await request.Delete({url,accessToken})

@@ -1,13 +1,12 @@
-import { useLocation} from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 const SearchResults = () => {
   const location = useLocation()
+  const navigate = useNavigate();
   let results = location.state
-
   return(
       !results ||
-      (results.channelResults.length == 0 
-        && results.postResults.length == 0 )
+      results.length == 0 
       ? 
       <div>
         <img src='./images/noresults.svg' />
@@ -16,22 +15,16 @@ const SearchResults = () => {
       </div>
       :
       <ul>
-
-        {results.channelResults.map((resultData) => 
-          <li>
+        {results.map((resultData) => 
+          <li 
+            key={resultData.id}
+            onClick={() => navigate(`/c/${resultData.name}`)}
+          >
           <div>
             <h1>c/{resultData.name}</h1>
           </div>
           </li>
           )
-        }
-
-        {results.postResults.map((resultData) => 
-          <li>
-          <div>
-            <h1>{resultData.title}</h1>
-          </div>
-          </li>)
         }
       </ul>
   )

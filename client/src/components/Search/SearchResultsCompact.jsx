@@ -1,32 +1,22 @@
 import { memo } from "react"
+import { useNavigate } from "react-router-dom"
+import styles from "./styles/SearchResultsCompact.module.css";
 
-const SearchResulstCompact = memo(({postResults,channelResults}) => {
+const SearchResulstCompact = memo(({results}) => {
+  const navigate = useNavigate();
   return (
     <div>
-        {channelResults.length > 0 &&
-      <div>
-        <h5>Channels:</h5>
+      {results && results.length > 0 &&
         <ul>
-          {channelResults.map((channelData) => 
-            <li key={`${channelData._id}res`}>
+          {results.map((channelData) =>
+            <li
+              key={`${channelData.id}res`}
+              onClick={() => navigate(`/c/${channelData.name}`)}
+              className={styles['result']}
+            >
               <h6>c/{channelData.name}</h6>
             </li>)}
         </ul>
-      </div>
-    }
-      {postResults.length > 0 &&
-        <div>
-          <h5>Posts:</h5>
-          <ul>
-            {postResults.map((postData) => 
-              <li key={`${postData._id}res`}>
-                <div>
-                  <h6>{postData.ownerUsername}</h6>
-                  <h6>{postData.title}</h6>
-                </div>
-              </li>)}
-          </ul>
-        </div>
       }
     </div>
   )

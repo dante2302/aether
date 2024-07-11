@@ -23,14 +23,6 @@ export const get = async (url, accessToken) => {
   return response
 }
 
-export const search = async ({url,prop,value}) => {
-  const response = await fetch(
-    `${url}?${encodeURIComponent(prop)}=${encodeURIComponent(value)}`,
-    {method: 'GET'}
-  )
-  return response;
-}
-
 export const put = async (url, accessToken, updatedData) => {
   const response = await fetch(url, {
     method: "PUT",
