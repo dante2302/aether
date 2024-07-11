@@ -57,16 +57,14 @@ const UserPageFeed = () => {
 
   return(
     (fetchFunction && pageUserData)  &&
-    <>
-      <h1>{type.charAt(0).toUpperCase() + type.slice(1)} Posts</h1>
       <div className={styles['container']}>
+      <h1>{type.charAt(0).toUpperCase() + type.slice(1)} Posts</h1>
         <InfiniteScrollPosts 
         fetchFunction={fetchFunction}
         fetchAdditionalFunction={getAdditionalPostData}
         Fallback={() => <div className={styles['nodata']}>hmmm you haven't {type} anything </div>}
         />  
       </div>
-    </>
   )
 }
 

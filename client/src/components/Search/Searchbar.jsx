@@ -39,7 +39,6 @@ const Searchbar = () => {
   }
 
   const search = async (value,pageSize,offset) => {
-    let postResults = await searchPosts(value,pageSize,offset)  
     let channelResults = await searchChannels(value,pageSize,offset)
     return {channelResults,postResults}
   }
@@ -64,12 +63,12 @@ const Searchbar = () => {
       <div className={styles['search-container']}>
       <form onSubmit={(e) => submitHandler(e)}>
         <button className={styles['search-btn']}><UilSearch size={23}/></button>
+        <label>{searchState ? "" : "Search for channels"}</label>
         <input type='search'
           value={searchState}
           className={styles['search-bar']}
           onChange={(e) => setSearchState(e.target.value)}
           onBlur={() => {
-              setSearchState("");
               setSearchResults(initialResults);
           }}
         />

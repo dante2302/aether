@@ -18,15 +18,17 @@ const NavBar = () => {
   const size = window.innerWidth
   return(
     <div className={styles["nav-container"]}>
-      <img 
-        className={styles['logo']} 
-        src={size>768 ? logo : logoSmall} 
-        onClick={()=>navigate('/')}
-      />
+      <div className={styles['logo-container']}>
+        <img 
+          className={styles['logo']} 
+          src={size>768 ? logo : logoSmall} 
+          onClick={()=>navigate('/')}
+        />
 
-      {userData &&
-        <Link to="/popular" className={styles['popular-btn']}><UilStar size={35}/></Link>
-      }
+        {userData &&
+          <Link to="/popular" className={styles['popular-btn']}><UilStar size={35}/></Link>
+        }
+      </div>
 
       <Searchbar />  
 

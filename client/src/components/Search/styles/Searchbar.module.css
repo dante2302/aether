@@ -24,9 +24,15 @@
   background:none;
 }
 
+.search-container label{
+  position: absolute;
+  color: grey;
+  pointer-events: none;
+font-size: calc(var(--fs-sm) + 4px)
+}
 .search-btn{
   margin-inline:.2em;
-  padding-left:1.2em;
+  padding-left: 1.2em;
   padding-right:.5em;
   cursor: pointer;
 }
@@ -42,6 +48,7 @@
 .search-bar{
   width:100%;
   padding:12px 20px;
+  padding-left: 5px;
   outline:none;
   font-size:16px;
   color:gray;
