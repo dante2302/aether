@@ -154,14 +154,19 @@ public abstract class DbService
         return await tableCmd.ExecuteScalarAsync();
     }
 
-    protected virtual async Task<bool> RecordExistsAsync<T>(string tableName, string columnName, NpgsqlParameter columnValue)
+    protected virtual async Task<bool> RecordExistsAsync<T>(
+        string tableName, 
+        string columnName, 
+        NpgsqlParameter columnValue
+    )
     {
         using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
 
         var tableCmd = connection.CreateCommand();
         tableCmd.CommandText = @$"
-            SELECT * FROM {tableName} WHERE {columnName} = @ColumnValue{ColumnTypeHelper.GetAnnotation<T>()}";
+            SELECT * FROM {tableName} 
+            WHERE {columnName} = @ColumnValue{ColumnTypeHelper.GetAnnotation<T>()}";
         tableCmd.Parameters.Add(columnValue);
         var reader = await tableCmd.ExecuteReaderAsync();
         return reader.HasRows;

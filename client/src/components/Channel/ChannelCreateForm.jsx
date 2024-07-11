@@ -28,6 +28,7 @@ const ChannelCreateForm = ({toggleChannelModal}) => {
   const submitHandler = async (e) => {
     e.preventDefault()
     const response = await createChannel(userData,formState)
+    console.log(await response.json())
     toggleChannelModal(false)
     navigate(`/c/${formState.name}`)
   }

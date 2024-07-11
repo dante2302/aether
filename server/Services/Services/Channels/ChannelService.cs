@@ -12,10 +12,10 @@ public class ChannelService(IConfiguration config) : DbService(config)
     public async Task<Channel> Create(Channel newChannel)
     {
         NpgsqlParameter value = new("@ColumnValue", newChannel.Name);
-        if (await RecordExistsAsync<string>("Channels", "name", value))
-        {
-            throw new ConflictException($"Channel with name {newChannel.Name} already exists.");
-        }
+        // if (await RecordExistsAsync<string>("Channels", "name", value))
+        // {
+        //     throw new ConflictException($"Channel with name {newChannel.Name} already exists.");
+        // }
 
         newChannel.Id = Guid.NewGuid();
         newChannel.IsPopular = false;
@@ -35,7 +35,7 @@ public class ChannelService(IConfiguration config) : DbService(config)
                 '{newChannel.DateOfCreation}'::TIMESTAMP
             )
             RETURNING *;"
-        , MapChannelFromReader);
+        , MapChannelFromReader, parameters);
 
         ChannelMemberService cmService = new(_config);
         await cmService.Create(new ChannelMember

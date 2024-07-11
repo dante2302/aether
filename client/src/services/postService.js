@@ -11,6 +11,7 @@ export const createPost = async (userData,formData) => {
         channelId,
         ownerId: userData.id
       }
+  console.log(JSON.stringify(bodyData))
     const data = await request.post({url: baseUrl,accessToken: userData.accessToken,bodyData})
     return data
 }    

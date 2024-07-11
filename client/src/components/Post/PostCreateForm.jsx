@@ -18,7 +18,7 @@ const PostCreateForm = () => {
     title: '',
     text: '',
     imgUrl: '',
-    link: '',
+    linkUrl: '',
   }
   const userChannels = useLocation().state?.userChannels
   const navigate = useNavigate()
@@ -42,13 +42,16 @@ const PostCreateForm = () => {
   useEffect(() => {fetchWithLoading()},[userData])
 
   const [formState,setFormState] = useState(initialFormState)
+  const [errorState, setErrorState] = useState({
+    "imgUrl": "",
+    "title": ""
+  })
 
   const checkImgUrl = async (imgUrl) => {
     if(imgUrl === '')return true
-    const httpRegex = new RegExp('^http://|^https://')
-    const formatRegex = new RegExp('(.jpg|.jpeg|.png|.svg|.webp|.gif)$')
-
-    if(httpRegex.test(imgUrl) && formatRegex.test(imgUrl)){
+    console.log(imgUrl)
+    const regex =/^https?:\/\/.*\.(png|jpg|jpeg|gif|bmp|webp)$/i;
+    if(regex.test(imgUrl)){
         const response = await fetch(imgUrl)
         return response.ok
     }
@@ -57,10 +60,17 @@ const PostCreateForm = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault()
-    if(formState.title && await checkImgUrl(formState.imgUrl)){
+    if(!await checkImgUrl(formState.imgUrl))
+    {
+      setErrorState(s => ({ ...s, imgUrl: "Invalid Img Url" }))
+      return;
+    }
+    if(!formState.title)
+      {
+      setErrorState(s => ({ ...s, title: "Your post needs a title" }))
+    }
       await createPost(userData,{...formState , channelId: selectedChannel})
       navigate('../')
-    }
   }
 
   return(
@@ -68,7 +78,7 @@ const PostCreateForm = () => {
     <LoadingSpinner size={50} />
     :
     channels.length > 0 ?
-    <form onSubmit={(e) => submitHandler(e)} className={styles['form']}>
+    <form className={styles['form']}>
       <label htmlFor="channel">Choose a channel</label>
       <select
         id='channel'
@@ -90,7 +100,14 @@ const PostCreateForm = () => {
           type='text'
           value={formState.title}
           onChange={(e) => formUtils.changeHandler(e,setFormState)} 
+          onBlur={(e) => { 
+            !formState.title && setErrorState(
+              s => ({ ...s, title: "Your post needs a title" })
+            ) 
+          }}
         />
+
+        {errorState.title && <div>{errorState.title}</div>}
 
         <label htmlFor="text">Text</label>
         <textarea
@@ -107,12 +124,19 @@ const PostCreateForm = () => {
           type='text'
           value={formState.imgUrl}
           onChange={(e) => formUtils.changeHandler(e,setFormState)} 
+          onBlur={async (e) => {
+              if(!await checkImgUrl(formState.imgUrl)) 
+                setErrorState(s => ({...s, imgUrl: "Invalid Img Url"}))
+              else
+                setErrorState(s => ({...s, imgUrl: ""}))
+          }}
         />
+        {errorState.imgUrl && <div>{errorState.imgUrl}</div>}
 
-        <label htmlFor="link"><UilLink size={15}/>Link</label>
+        <label htmlFor="linkUrl"><UilLink size={15}/>Link</label>
         <input
-          id='link'
-          name='link'
+          id='linkUrl'
+          name='linkUrl'
           type='text'
           value={formState.link}
           onChange={(e) => formUtils.changeHandler(e,setFormState)}
@@ -120,7 +144,7 @@ const PostCreateForm = () => {
 
       </div>
 
-      <button>Post</button>
+      <button onClick={(e) => submitHandler(e)}>Post</button>
 
     </form>
     :

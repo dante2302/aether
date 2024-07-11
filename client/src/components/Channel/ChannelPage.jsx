@@ -44,6 +44,8 @@ const ChannelPage = ({isCompact}) => {
     (async () => {
       try{
         const response = await getChannelDataByName(channelName);
+        if(response.status == 404)
+          navigate("/404")
         const data = await response.json()
         setChannelData(data.channelData);
         if(userData){
@@ -56,6 +58,7 @@ const ChannelPage = ({isCompact}) => {
       document.title = 'Aether'
     })
   },[])
+
   function createPostHandler()
   {
     if(!userData){
