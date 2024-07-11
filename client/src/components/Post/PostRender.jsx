@@ -85,7 +85,7 @@ const PostRender = ({
           :
           <p>{postData.text}</p>)
         }
-        <LinkPreview url={postData.linkUrl} isCompact={isCompact}/>
+        {!isCompact && <LinkPreview url={postData.linkUrl} isCompact={isCompact}/>}
 
         <div className={styles['options-container']}>
             <button 

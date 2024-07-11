@@ -39,7 +39,6 @@ export default function ReplyRender({replies, data, parentCommentData, setReplie
 
       {isOwner && 
         <>
-
           <button onClick={() => {
             if(isReplying) setReplying(false)
             setEditing(!isEditing)
@@ -72,7 +71,7 @@ export default function ReplyRender({replies, data, parentCommentData, setReplie
           isReply={true}
         />
           :
-          <p>{`@${replyData.replyToUsername} ${replyData.text}`}</p>
+          <p> <span className={styles['tag']}>{`@${replyData.replyToUsername}`}</span> {replyData.text}</p>
       } 
 
       {isReplying && 

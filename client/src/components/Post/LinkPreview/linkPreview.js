@@ -1,4 +1,5 @@
-const API_KEY = 'bc6ea2441d1823ef0959f759e1223a1f'
+// const API_KEY = 'bc6ea2441d1823ef0959f759e1223a1f'
+const API_KEY = "";
 const apiUrl = 'https://api.linkpreview.net'
 
 export const getLinkData = async (link) => {
@@ -13,9 +14,8 @@ export const getLinkData = async (link) => {
     mode: 'cors',
     body: JSON.stringify({q:link})
   })
-  let data = await response.json()
-  console.log(data);
   if(response.status != 200)return null
+  let data = await response.json()
   return data 
 } 
 

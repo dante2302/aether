@@ -29,7 +29,9 @@ const PostRating = ({postData}) => {
 
   async function checkInitialRating()
   {
-    if (!userData) return;
+    if (!userData) {
+      setDisliked(false)
+      setLiked(false);}
     try{
       const responseLikes = await getUserLikes(userData)
       const responseDislikes = await getUserDislikes(userData)

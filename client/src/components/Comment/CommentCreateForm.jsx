@@ -29,6 +29,7 @@ const CommentCreateForm = ({
       const commentData = (await response.json()).commentData
       setComments(comments => [{...commentData, ownerUsername: userData.username}, ...comments]);
       setCommentCount(count => count + 1);
+      setText("");
     }
     catch(e){
       console.log(e)
