@@ -3,10 +3,9 @@ import CommentRender from "./CommentRender"
 import { getAdditionalReplyListData, getCommentReplies } from "../../services/replyService"
 import styles from './styles/CommentBlockRender.module.css'
 import ReplyRender from "./ReplyRender"
-import { getUsername } from "../../services/userService"
 
 
-const CommentBlockRender = ({commentData,setComments}) => {
+const CommentBlockRender = ({commentData,setComments, setCommentCount}) => {
   const [commentReplies,setCommentReplies]  = useState([])
 
   useEffect(() => {
@@ -18,7 +17,6 @@ const CommentBlockRender = ({commentData,setComments}) => {
     }
     asyncFunc()
   },[])
-  useEffect(() => console.log(commentReplies), [commentReplies]);
   return(
     commentReplies.length > 0 
     ? 
@@ -28,6 +26,7 @@ const CommentBlockRender = ({commentData,setComments}) => {
           data={commentData}
           setCommentReplies={setCommentReplies}
           setComments={setComments}
+          setCommentCount={setCommentCount}
         />
         
         <ul className={styles['replies']}>
@@ -38,6 +37,7 @@ const CommentBlockRender = ({commentData,setComments}) => {
                 data={replyData} 
                 parentCommentData={commentData}
                 setReplies={setCommentReplies}
+                setCommentCount={setCommentCount}
               />
             </li> 
           )}
@@ -49,6 +49,7 @@ const CommentBlockRender = ({commentData,setComments}) => {
         data={commentData} 
         setCommentReplies={setCommentReplies}
         setComments={setComments}
+        setCommentCount={setCommentCount}
       />
   )
 }

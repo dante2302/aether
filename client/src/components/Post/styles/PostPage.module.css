@@ -2,13 +2,20 @@
   padding:3em 2em;
 }
 
-.inner-container{
+.outer-container{
   width: 100%;
-  height: 90vh;
+  min-height: 90vh;
+  background: linear-gradient(to top left, rgb(206, 206, 206) 50%, lightgrey);
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.inner-container{
+  width: 90%;
   display: grid; 
   grid-template-columns: 80% 20%;
   grid-gap:30px;
-  background: linear-gradient(to top left, rgb(206, 206, 206) 50%, lightgrey);
 }
 
 @media(max-width: 768px){
@@ -38,5 +45,7 @@
 
 .comments{
   margin-top:10px;
-  margin-left:10px;
+  margin-left:30px;
+  margin-bottom: 20px;
+  height: fit-content;
 }

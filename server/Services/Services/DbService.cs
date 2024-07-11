@@ -182,7 +182,7 @@ public abstract class DbService
         await connection.OpenAsync();
         var tableCmd = connection.CreateCommand();
         tableCmd.CommandText = @$"
-            SELECT * FROM {tableName} WHERE {columnName} = {columnValue}::uuid";
+            SELECT * FROM {tableName} WHERE {columnName} = '{columnValue}'::uuid";
         var reader = await tableCmd.ExecuteReaderAsync();
         return reader.HasRows;
     }

@@ -13,7 +13,7 @@ import styles from './styles/CommentRender.module.css'
 import ReplyCreateForm from "./ReplyCreateForm"
 import { deleteComment } from "../../services/commentService"
 
-const CommentRender = ({data, setComments, setCommentReplies}) => {
+const CommentRender = ({data, setComments, setCommentReplies, setCommentCount}) => {
   const [commentData,setCommentData] = useState(data)
   const [isReplying,setReplying] = useState(false)
   const [isEditing,setEditing] = useState(false)
@@ -24,6 +24,7 @@ const CommentRender = ({data, setComments, setCommentReplies}) => {
   async function handleDelete(){
     await deleteComment(userData.accessToken, commentData.id);
     setComments(comments => comments.filter(c => c.id != commentData.id))
+    setCommentCount(count => count-1);
   }
 
   useEffect(() => {
@@ -31,19 +32,18 @@ const CommentRender = ({data, setComments, setCommentReplies}) => {
   },[userData])
 
   return (
-    <div>
-      <div className={styles['top-container']}>
+    <div className={styles['outer']}>
+      <div className={styles['container']}>
 
       <h6 className={styles['username']}>{data.ownerUsername}</h6>
 
       {isOwner && 
-        <div className={styles['container']}>
-
+        <>
           <button onClick={() => {
             if(isReplying) setReplying(false)
             setEditing(!isEditing)
           }}
-          className={styles['btn']}
+          className={styles['edit-btn']}
           >
             {!isEditing ? <UilPen size={15}/> : 'Cancel'}
           </button>
@@ -55,13 +55,13 @@ const CommentRender = ({data, setComments, setCommentReplies}) => {
                 if(isEditing) setEditing(false)
                 setDeleting(true)
               }}
-          className={styles['btn']}
+          className={styles['del-btn']}
             > <UilX size={15} /> </button>
           }
-        </div>
+        </>
       }
       </div>
-
+    <div className={styles['bottom-container']}>
       {isEditing ?
         <CommentEditForm 
           commentData={commentData} 
@@ -75,10 +75,16 @@ const CommentRender = ({data, setComments, setCommentReplies}) => {
       {isReplying && 
         <ReplyCreateForm 
           parentCommentData={commentData}
+          setCommentCount={setCommentCount}
           replyData={commentData}
           setReplying={setReplying}
           setReplies={setCommentReplies}
-        />
+        >
+          <button onClick={() => 
+            setReplying(!isReplying)}
+            className={styles['cancel-btn']}
+          >Cancel</button> 
+        </ReplyCreateForm>
       }
       {isDeleting &&
         <DeleteConfirmation 
@@ -87,15 +93,13 @@ const CommentRender = ({data, setComments, setCommentReplies}) => {
           message={`Are you sure you want to delete this comment: ${commentData.text}`}
           />
       }
-      {(userData && !isEditing) &&
+      {(userData && !isEditing && !isReplying) &&
         <button onClick={() => 
           setReplying(!isReplying)}
-          className={styles['btn']}
-        >
-          {isReplying ? 'Cancle' : 'Reply'}
-        </button> 
+          className={styles['reply-btn']}
+        >Reply</button> 
       }
-
+    </div>
     </div>
   )
 }

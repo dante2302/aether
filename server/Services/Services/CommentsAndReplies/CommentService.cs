@@ -102,7 +102,7 @@ public class CommentService(IConfiguration config) : DbService(config)
     }
     public async Task Delete(Guid id, Guid ownerId)
     {
-        if(! await RecordExistsAsync("comments", "id",id))
+        if(! await RecordExistsAsync("comments", "id", id))
             throw new NotFoundException("No such commentExists");
 
         await CleanupService.CleanupComment(id, ownerId, _config);

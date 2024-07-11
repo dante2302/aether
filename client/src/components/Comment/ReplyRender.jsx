@@ -12,7 +12,7 @@ import UilX from '@iconscout/react-unicons/icons/uil-x'
 import styles from './styles/CommentRender.module.css'
 import ReplyCreateForm from "./ReplyCreateForm"
 import { deleteReply } from "../../services/replyService"
-export default function ReplyRender({replies, data, parentCommentData, setReplies}){
+export default function ReplyRender({replies, data, parentCommentData, setReplies, setCommentCount}){
 
   const [replyData,setReplyData] = useState(data)
   const [isReplying,setReplying] = useState(false)
@@ -25,6 +25,7 @@ export default function ReplyRender({replies, data, parentCommentData, setReplie
   async function handleDelete(){
     await deleteReply(userData.accessToken, replyData.id);
     setReplies(replies => replies.filter(r => r.id != replyData.id && r.replyToComment != replyData.id))
+    setCommentCount(count => count - 1);
   }
 
   useEffect(() => {
@@ -33,17 +34,17 @@ export default function ReplyRender({replies, data, parentCommentData, setReplie
 
   return (
     <div>
-      <div className={styles['top-container']}>
+      <div className={styles['container']}>
       <h6 className={styles['username']}>{replyData.ownerUsername}</h6>
 
       {isOwner && 
-        <div className={styles['container']}>
+        <>
 
           <button onClick={() => {
             if(isReplying) setReplying(false)
             setEditing(!isEditing)
           }}
-          className={styles['btn']}
+          className={styles['edit-btn']}
           >
             {!isEditing ? <UilPen size={15}/> : 'Cancel'}
           </button>
@@ -55,21 +56,22 @@ export default function ReplyRender({replies, data, parentCommentData, setReplie
                 if(isEditing) setEditing(false)
                 setDeleting(true)
               }}
-          className={styles['btn']}
+          className={styles['del-btn']}
             > <UilX size={15} /> </button>
           }
-        </div>
+        </>
       }
       </div>
+      <div className={styles['bottom-container']}>
 
-      <p>{`@${replyData.replyToUsername} ${replyData.text}`}</p>
-
-      {isEditing && 
+      {isEditing ? 
         <CommentEditForm 
           commentData={replyData} 
           setCommentData={setReplyData} 
           setEditing={setEditing}
         />
+          :
+          <p>{`@${replyData.replyToUsername} ${replyData.text}`}</p>
       } 
 
       {isReplying && 
@@ -79,7 +81,13 @@ export default function ReplyRender({replies, data, parentCommentData, setReplie
           setReplying={setReplying}
           replies={replies}
           setReplies={setReplies}
-        />
+          setCommentCount={setCommentCount}
+        >
+        <button onClick={() => 
+          setReplying(!isReplying)}
+          className={styles['cancel-btn']}
+        >Cancel</button> 
+        </ReplyCreateForm>
       }
       {isDeleting &&
         <DeleteConfirmation 
@@ -88,14 +96,13 @@ export default function ReplyRender({replies, data, parentCommentData, setReplie
             deleteRequest={handleDelete}
         />
       }
-      {(userData && !isEditing) && 
+      {(userData && !isEditing && !isReplying) && 
         <button onClick={() => 
           setReplying(!isReplying)}
-          className={styles['btn']}
-        >
-          {isReplying ? 'Cancle' : 'Reply'}
-        </button> 
+          className={styles['reply-btn']}
+        >Reply</button> 
       }
+      </div>
 
     </div>
   )

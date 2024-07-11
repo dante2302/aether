@@ -9,7 +9,8 @@ import UserModalContext from '../../contexts/UserModalContext'
 
 const CommentCreateForm = ({
   postId,
-  setComments
+  setComments,
+  setCommentCount
 }) => {
   const { userData } = useContext(userDataContext)
   const { toggleUserModal } = useContext(UserModalContext)
@@ -26,8 +27,8 @@ const CommentCreateForm = ({
     try{
       const response = await createComment(userData, { postId, text })
       const commentData = (await response.json()).commentData
-      console.log({...commentData, ownerUsername: userData.username});
       setComments(comments => [{...commentData, ownerUsername: userData.username}, ...comments]);
+      setCommentCount(count => count + 1);
     }
     catch(e){
       console.log(e)

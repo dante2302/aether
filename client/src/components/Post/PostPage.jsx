@@ -16,6 +16,7 @@ const PostPage = () => {
   const [postData,setPostData] = useState()
   const [additionalPostData, setAdditionalPostData] = useState();
   const [comments,setComments] = useState([])
+  const [commentCount, setCommentCount] = useState(0);
   const navigate = useNavigate()
   const { userData } = useContext(UserDataContext)
 
@@ -29,6 +30,7 @@ const PostPage = () => {
       setPostData(data)
 
       const additionalData = await getAdditionalPostData(data);
+      setCommentCount(additionalData.commentCount)
       setAdditionalPostData(additionalData);
 
       const commentResponse = await getPostComments(postId)
@@ -52,6 +54,10 @@ const PostPage = () => {
       navigate("/error");
     }
   }
+  useEffect(() => {
+    setAdditionalPostData({...additionalPostData, commentCount})
+    console.log(additionalPostData)
+  }, [commentCount])
 
   const [Spinner,fetchWithLoading, isLoading] = useLoading(fetchPost)
   useEffect(() => {
@@ -64,6 +70,7 @@ const PostPage = () => {
     <Spinner size={35} />
     :
     postData && 
+    <div className={styles['outer-container']}>
         <div className={styles['inner-container']}>
           <div className={styles['post-container']}>
           <PostRender 
@@ -76,6 +83,7 @@ const PostPage = () => {
               <CommentCreateForm 
                 postId={postId}
                 setComments={setComments}
+                setCommentCount={setCommentCount}
               />
               }
           <ul className={styles['comments']}>
@@ -86,6 +94,7 @@ const PostPage = () => {
                   <CommentBlockRender 
                         commentData={commentData} 
                         setComments={setComments}
+                        setCommentCount={setCommentCount}
                       />
                 </li>)
               :
@@ -98,12 +107,14 @@ const PostPage = () => {
                     isReply={false}
                     replyTo={''}
                     setComments={setComments}
+                    setCommentCount={setCommentCount}
                   />}
                 </div> 
             }
           </ul>
           </div>
           <ChannelPage isCompact={true} />
+        </div>
         </div>
   ) 
 }

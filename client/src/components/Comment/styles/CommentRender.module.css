@@ -1,27 +1,61 @@
 .container>button{
-  padding:.3em;
-  background:red;
+  cursor: pointer;
 }
-
-.top-container{
+.container{
   display: flex;
   flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
 }
-.btn{
+.container>.del-btn>svg{
+  color: black;
+}
+
+.container>.del-btn:hover>svg{
+  transition: .2s;
+  color: red;
+}
+.container>.edit-btn>svg{
+  color: black;
+}
+.container>.edit-btn:hover>svg{
+  color: orange;
+}
+
+.reply-btn{
   font-size: var(--fs-sm);
   background: var(--background-grey);
-  border: 1px solid black;
   border-radius: 3px;
   color: var(--text-grey);
   padding:.2em;
 }
 
-.btn:not(:disabled):hover{
+.reply-btn:hover{
     color:black;
     cursor: pointer;
 }
 
 .username{
-  margin-right: 10px;
   font-size: calc(var(--fs-reg) - 3px);
 }
+
+.bottom-container{
+  margin-left: 7px;
+}
+
+.bottom-container>p{
+  margin-bottom: 5px;
+}
+.reply-btn{
+  padding: 5px;
+}
+.outer{
+  margin-bottom: 15px;
+}
+.cancel-btn:hover{
+  transition: .3s;
+  color: red;
+  border-color: red;
+}
+

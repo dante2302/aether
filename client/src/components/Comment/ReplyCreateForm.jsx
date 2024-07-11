@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { createComment } from '../../services/commentService'
 import useDisabled from '../../hooks/useDisabled'
 import userDataContext from '../../contexts/UserDataContext'
-import styles from './styles/CommentCreateForm.module.css'
+import styles from './styles/ReplyCreateForm.module.css'
 import UserModalContext from '../../contexts/UserModalContext'
 import { createReply, getAdditionalReplyData } from '../../services/replyService'
 
@@ -11,7 +11,9 @@ const ReplyCreateForm = ({
   replyData,
   replies,
   setReplies,
-  setReplying
+  setReplying,
+  setCommentCount,
+  children
 }) => {
   const { userData } = useContext(userDataContext)
   const { toggleUserModal } = useContext(UserModalContext)
@@ -34,6 +36,7 @@ const ReplyCreateForm = ({
       let replyd = (await response.json()).replyData;
       replyd =  await getAdditionalReplyData(replyd, replies, parentCommentData)
       setReplies(replies => [...replies, replyd])
+      setCommentCount(count => count + 1);
       setReplying(false);
     }
     catch(e){
@@ -54,7 +57,10 @@ const ReplyCreateForm = ({
         <textarea id='text' name='text' onChange={(e) => changeHandler(e)} />
         {!text && <label htmlFor='text'>Reply to {replyData.ownerUsername}</label>}
       </div>
-      <button disabled={disabled}>Reply</button>
+      <div className={styles['button-container']}>
+        <button disabled={disabled} className={styles['reply-btn']}>Reply</button>
+        {children}
+      </div>
     </form>
   )
 }
