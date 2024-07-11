@@ -5,9 +5,8 @@ import styles from "./styles/SearchResultsCompact.module.css";
 const SearchResulstCompact = memo(({results}) => {
   const navigate = useNavigate();
   return (
-    <div>
-      {results && results.length > 0 &&
-        <ul>
+      results && results.length > 0 &&
+        <ul className={styles['result-list']}>
           {results.map((channelData) =>
             <li
               key={`${channelData.id}res`}
@@ -17,8 +16,7 @@ const SearchResulstCompact = memo(({results}) => {
               <h6>c/{channelData.name}</h6>
             </li>)}
         </ul>
-      }
-    </div>
+      
   )
 })
 

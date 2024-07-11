@@ -63,9 +63,7 @@ const Searchbar = () => {
       </div>
       {
         showCompact && 
-      <div className={styles['search-results']}>
         <SearchResultsCompact results={searchResults}/>
-      </div>
       }
     </div>
   )

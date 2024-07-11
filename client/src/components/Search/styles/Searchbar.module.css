@@ -1,6 +1,7 @@
 
 .outer-container{
   width:60%;
+  position: relative;
 }
 
 .search-container{
@@ -49,9 +50,6 @@ font-size: calc(var(--fs-sm) + 4px)
 .search-btn:hover>svg>path{
   transition: .2s;
   color: blue;
-}
-.search-results{
-  position:absolute;
 }
 .search-bar,.search-btn{
   border:none;

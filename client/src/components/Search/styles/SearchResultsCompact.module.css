@@ -1,3 +1,16 @@
 .result{
     cursor: pointer;
 }
+.result-list{
+    border: 1px solid lightslategrey;
+    padding: 10px;
+    background: white;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top: none;
+    background: white;
+    width: 50%;
+}
