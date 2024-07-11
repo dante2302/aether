@@ -54,11 +54,8 @@ const PostPage = () => {
       navigate("/error");
     }
   }
-  useEffect(() => {
-    setAdditionalPostData({...additionalPostData, commentCount})
-    console.log(additionalPostData)
-  }, [commentCount])
-
+  useEffect(() => setAdditionalPostData(d => ({...d, commentCount})),
+  [commentCount])
   const [Spinner,fetchWithLoading, isLoading] = useLoading(fetchPost)
   useEffect(() => {
     fetchWithLoading()

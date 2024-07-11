@@ -29,6 +29,7 @@
   border-radius: 3px;
   color: var(--text-grey);
   padding:.2em;
+  margin-top: 10px;
 }
 
 .reply-btn:hover{
