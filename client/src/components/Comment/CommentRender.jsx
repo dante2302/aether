@@ -6,6 +6,7 @@ import { useContext, useState, useEffect } from "react"
 
 import UserDataContext from "../../contexts/UserDataContext"
 
+import { getFullDateFormat } from '../../utils/dateUtils.js'
 import UilPen from '@iconscout/react-unicons/icons/uil-pen'
 import UilX from '@iconscout/react-unicons/icons/uil-x'
 
@@ -33,7 +34,6 @@ const CommentRender = ({data, setComments, setCommentReplies, setCommentCount}) 
       return replies;
     })
   }
-
   useEffect(() => {
     setIsOwner(userData && commentData.ownerId === userData.id)
   },[userData])
@@ -43,7 +43,7 @@ const CommentRender = ({data, setComments, setCommentReplies, setCommentCount}) 
       <div className={styles['container']}>
 
       <h6 className={styles['username']}>{data.ownerUsername}</h6>
-
+      <h6 className={styles['date']}>{getFullDateFormat(data.dateOfCreation)}</h6>
       {(isOwner && !isEditing) &&
         <>
           <button onClick={() => {

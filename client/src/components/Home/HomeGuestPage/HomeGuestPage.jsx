@@ -7,28 +7,28 @@ const HomeGuest = () => {
   const size = window.innerWidth
   return (
     <div className={styles['container']}>
-      {/* {size > 800
-        ? */}
+      {size > 800
+        ?
         <>
+          <InfiniteScrollPosts
+            fetchFunction={getPopularPosts}
+            fetchAdditionalFunction={getAdditionalPostData}
+            limit={5}
+            Fallback={() => <div></div>}
+          />
+          <PopularChannels />
+        </>
+         :
+        <>
+          <PopularChannels />
           <InfiniteScrollPosts
             fetchFunction={getPopularPosts}
             fetchAdditionalFunction={getAdditionalPostData}
             limit={3}
             Fallback={() => <div></div>}
           />
-          <PopularChannels />
         </>
-        {/* :
-        <>
-          <PopularChannels />
-          <InfiniteScrollPosts
-            fetchFunction={getPopularPosts}
-            fetchAdditionalFunction={getAdditionalPostData}
-            limit={3}
-            Fallback={() => <div></div>}
-          />
-        </>
-      } */}
+      } 
     </div>
   )
 }

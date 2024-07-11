@@ -37,7 +37,7 @@
     cursor: pointer;
 }
 
-.username{
+.username, .date{
   font-size: calc(var(--fs-reg) - 3px);
 }
 

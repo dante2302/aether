@@ -24,7 +24,7 @@
   }
 }
 
-.channel-name{
+.channel-name, .username{
   font-weight: var(--fw-b);
 }
 

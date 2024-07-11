@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 
 
 const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fallback }) => {
-  const [postDataList,setPostDataList] = useState([])
+  const [postDataList, setPostDataList] = useState([])
   const [initialized, setInitialized] = useState(false);
   const [offset, setOffset] = useState(0);
   const [endOfPosts, setEndOfPosts] = useState(false);
@@ -19,27 +19,26 @@ const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fa
     const { clientHeight, scrollTop, scrollHeight } = document.documentElement
     const isBottom = scrollTop + clientHeight >= scrollHeight
 
-    if(!isBottom || isLoading || endOfPosts){
+    if (!isBottom || isLoading || endOfPosts) {
       return
     }
+    fetchWithLoading();
   }
-
-  async function fetchPosts()
-  {
-    try{
+  useEffect(() => {console.log(postDataList)},[postDataList])
+  async function fetchPosts() {
+    try {
       let response = await fetchFunction(limit, offset);
       const deserialized = await response.json();
       const dataList = deserialized.postList;
-      if(dataList.length < offset)
-      {
+      console.log(dataList)
+      if (dataList.length < offset) {
         setEndOfPosts(true);
       }
       const resultList = [];
-      for(let i = 0; i < dataList.length; i++)
-      {
+      for (let i = 0; i < dataList.length; i++) {
         const additionalData = await fetchAdditionalFunction(dataList[i])
-        if(!additionalData)
-          throw("INTERNAL ERROR");
+        if (!additionalData)
+          throw ("INTERNAL ERROR");
 
         resultList.push(
           {
@@ -48,52 +47,70 @@ const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fa
           }
         )
       }
-      setPostDataList(curr => [...curr,...resultList]);
-      setOffset(o => o+limit);
+      setPostDataList(curr => [...curr, ...resultList]);
+      setOffset(o => o + limit);
     }
-    catch(e){
+    catch (e) {
       console.log(e);
       navigate("/error");
     }
   }
 
-  const [Spinner,fetchWithLoading,isLoading] = useLoading(fetchPosts)
+  const [Spinner, fetchWithLoading, isLoading] = useLoading(fetchPosts)
 
-  useEffect(() => { 
-    window.addEventListener('scroll',scrollHandler)
-    return () => window.removeEventListener('scroll',scrollHandler)
-  },[isLoading])
+  useEffect(() => {
+    window.addEventListener('scroll', scrollHandler)
+    return () => window.removeEventListener('scroll', scrollHandler)
+  }, [isLoading])
 
   useEffect(() => {
     setInitialized(true)
     fetchWithLoading()
-  },[])
+  }, [])
 
   return (
     initialized ?
-    (
-      isLoading ? <Spinner size={50} />
-        :
-        postDataList.length > 0
-          ?
-          <div className={styles['container']}>
-            <ul className={styles['post-container']}>
-              {
-                postDataList.map(postDataContainer =>
-                  <li key={postDataContainer.postData.id}>
-                    <PostRender
-                      postData={postDataContainer.postData}
-                      additionalPostData={postDataContainer.additionalData}
-                      isCompact={true}
-                    />
-                  </li>)}
-            </ul>
-          </div>
+      (
+        isLoading ?
+          postDataList.length > 0 &&
+          <>
+            <div className={styles['container']}>
+              <ul className={styles['post-container']}>
+                {
+                  postDataList.map(postDataContainer =>
+                    <li key={postDataContainer.postData.id}>
+                      <PostRender
+                        postData={postDataContainer.postData}
+                        additionalPostData={postDataContainer.additionalData}
+                        isCompact={true}
+                      />
+                    </li>)}
+              </ul>
+            </div>
+
+            <Spinner size={50} />
+          </>
           :
-          <Fallback />
-    )
-    :
-    <></>
+          postDataList.length > 0
+            ?
+            <div className={styles['container']}>
+              <ul className={styles['post-container']}>
+                {
+                  postDataList.map(postDataContainer =>
+                    <li key={postDataContainer.postData.id}>
+                      <PostRender
+                        postData={postDataContainer.postData}
+                        additionalPostData={postDataContainer.additionalData}
+                        isCompact={true}
+                      />
+                    </li>)}
+              </ul>
+            </div>
+            :
+            <Fallback />
+      )
+      :
+      <div></div>
   )
 }
 export default InfiniteScrollPosts

@@ -1,4 +1,5 @@
 import CommentCreateForm from "./CommentCreateForm"
+import {getFullDateFormat} from "../../utils/dateUtils";
 import CommentEditForm from "./CommentEditForm"
 import DeleteConfirmation from "../DeleteConfirmation/DeleteConfirmation"
 
@@ -36,6 +37,7 @@ export default function ReplyRender({replies, data, parentCommentData, setReplie
     <div>
       <div className={styles['container']}>
       <h6 className={styles['username']}>{replyData.ownerUsername}</h6>
+      <h6 className={styles['date']}>{getFullDateFormat(data.dateOfCreation)}</h6>
 
       {isOwner && 
         <>

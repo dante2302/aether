@@ -11,7 +11,6 @@ export const getLinkData = async (link) => {
   const response = await fetch(apiUrl,{
     method:'POST',
     headers,
-    mode: 'cors',
     body: JSON.stringify({q:link})
   })
   if(response.status != 200)return null

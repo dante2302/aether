@@ -99,7 +99,6 @@ const ChannelPage = ({isCompact}) => {
             </div>
           </header>
           <main className={styles['main']} >
-          {/* {isJoined && <CreatePostBar />} */}
           {Object.keys(channelData).length && 
             <InfiniteScrollPosts 
               fetchFunction={(limit, offset) => getChannelPosts(channelData.id, limit, offset)}

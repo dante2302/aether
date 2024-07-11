@@ -46,7 +46,7 @@ const CommentCreateForm = ({
       className={`${styles['form']}`}
     >
       <div className={styles['input-container']}>
-        <textarea id='text' name='text' onChange={(e) => changeHandler(e)} />
+        <textarea id='text' name='text' onChange={(e) => changeHandler(e)} value={text}/>
         {!text && <label htmlFor='text'>What are your thoughts?</label>}
       </div>
       <button disabled={disabled}>Comment</button>

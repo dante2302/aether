@@ -15,7 +15,7 @@ const HomeFeed = () => {
       <InfiniteScrollPosts 
         fetchFunction={(limit, offset) => getRelatedPosts(userData, limit, offset)} 
         fetchAdditionalFunction={getAdditionalPostData}
-        limit={5}
+        limit={3}
         Fallback={() => <div className={styles['welcome-div']}><img src={welcome}></img></div>}
       />
     </div>
