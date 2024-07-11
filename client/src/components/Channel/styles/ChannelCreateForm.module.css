@@ -13,7 +13,9 @@
     border-radius:7px;
     gap:5px;
 }
-
+.form>p{
+    color: red;
+}
 .form>input{
   width:80% 
 }

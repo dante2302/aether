@@ -6,14 +6,18 @@ import useLoading from '../../../hooks/useLoading.jsx'
 import styles from './LinkPreview.module.css'
 const LinkPreview = ({url, isCompact}) => {
   const [linkData,setLinkData] = useState({})
-  const getLinkDataWithState = () => getLinkData(url).then(data => setLinkData(data))
-  const [Spinner,getLinkWithLoading] = useLoading(getLinkDataWithState)
+  const getLinkDataWithState = () => {
+    if(url)
+      getLinkData(url).
+        then(data => setLinkData(data))}
+  const [Spinner,getLinkWithLoading, isLoading] = useLoading(getLinkDataWithState)
 
 
   useEffect(() => {getLinkWithLoading()},[])
 
   return (
-    linkData 
+    url &&
+    (linkData 
     ? 
     <a 
         href={isCompact ? "" : url} 
@@ -27,17 +31,17 @@ const LinkPreview = ({url, isCompact}) => {
       </div>
     </a>
     :
-      <>
-        <Spinner size={15}/>
-        <a 
-          href={url} 
-          target={'_blank'} 
+      isLoading ?
+        <Spinner size={15} />
+        :
+        <a
+          href={url}
+          target={'_blank'}
           className={`${styles['link']} ${isCompact ? 'disabled' : ''}`}
         >
-          {isCompact ? `${url.slice(0,15)}...` : url}
+          {isCompact ? `${url.slice(0, 15)}...` : url}
         </a>
-      </>
-  )
+    ))
 }
 
 export default LinkPreview
