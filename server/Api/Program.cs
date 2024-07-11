@@ -21,7 +21,6 @@ new ChannelEndpoints(app).Map();
 new PostEndpoints(app).Map();
 new UserPostInteractionEndpoints(app).Map();
 new CommentEndpoints(app).Map();
-new ReplyEndpoints(app).Map();
 new UserEndpoints(app).Map();
 
 app.Run();

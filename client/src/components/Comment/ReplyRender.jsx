@@ -69,6 +69,7 @@ export default function ReplyRender({replies, data, parentCommentData, setReplie
           commentData={replyData} 
           setCommentData={setReplyData} 
           setEditing={setEditing}
+          isReply={true}
         />
           :
           <p>{`@${replyData.replyToUsername} ${replyData.text}`}</p>

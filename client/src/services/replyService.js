@@ -24,14 +24,8 @@ export const getCommentReplies = async (commentId) => {
   return await request.get(`${commentUrl}/${commentId}/replies`)
 }
 
-export const updateReply = async ({accessToken},commentId,newData) => {
-  const data = await request.patchWithAuth({
-    url:`${baseUrl}/${commentId}`,
-    accessToken,
-    newData
-  }) 
-  return data
-}
+export const updateReply = async ({accessToken ,newData}) =>  
+  await request.put(baseUrl, accessToken, newData)
 
 export const deleteReply = async (accessToken,id) => {
   const url = `${baseUrl}/${id}`
