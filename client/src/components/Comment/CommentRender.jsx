@@ -103,7 +103,7 @@ const CommentRender = ({data, setComments, setCommentReplies, setCommentCount}) 
         <DeleteConfirmation 
           setDeleting={setDeleting} 
           deleteRequest={handleDelete}
-          message={`Are you sure you want to delete this comment: ${commentData.text}`}
+          message={`Are you sure you want to delete this comment: \n\n"${commentData.text}"?`}
           />
       }
       {(userData && !isEditing && !isReplying) &&

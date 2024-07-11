@@ -20,8 +20,10 @@ const DeleteConfirmation = ({deleteRequest, setDeleting, message}) => {
     <ModalPrototype>
       <div className={styles['container']}>
       <div>{message}</div>
-      <button onClick={deleteHandler}>Yes</button>
-      <button onClick={() => setDeleting(false)}>No</button>
+      <div className={styles['button-container']}>
+        <button onClick={deleteHandler} className={styles['yes-btn']}>Yes</button>
+        <button onClick={() => setDeleting(false)} className={styles['no-btn']}>No</button>
+      </div>
       </div>
     </ModalPrototype>
   )
