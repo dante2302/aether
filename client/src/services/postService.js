@@ -21,6 +21,18 @@ export const getPostData = async (id) => {
   return data
 }
 
+export const getPostDataByList = async (idList) => {
+  const postList = [];
+  for(let i = 0; i < idList.length; i++){
+    const id = idList[i];
+    const response = await request.get(`${baseUrl}/${id}`)
+    const data = await response.json();
+    postList.push(data.postData);
+  }
+  console.log(postList);
+  return new Response(JSON.stringify({postList}))
+}
+
 export const getAdditionalPostData = async (postData) => 
 {
   try{
@@ -67,12 +79,6 @@ export async function getLikesCount(postId)
 export async function getDislikesCount(postId)
 {
   return await request.get(`${baseUrl}/${postId}/dislikesCount`)
-}
-
-
-export const getPersonalPosts = async(postId,userId) => {
-  const data = await request.search({url:`${baseUrl}/${postId}`, prop:'_ownerId', value:userId})
-  return data
 }
 
 export const updatePostData = async (id,newData) => {

@@ -31,8 +31,8 @@ const PostRating = ({postData}) => {
   {
     if (!userData) return;
     try{
-      const responseLikes = await getUserLikes(userData.id)
-      const responseDislikes = await getUserDislikes(userData.id)
+      const responseLikes = await getUserLikes(userData)
+      const responseDislikes = await getUserDislikes(userData)
       const likes = (await responseLikes.json()).likeList;
       const dislikes = (await responseDislikes.json()).dislikeList;
       if (likes.some(el => el.postId == postData.id && el.ownerId == userData.id))

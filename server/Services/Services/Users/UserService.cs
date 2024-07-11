@@ -52,6 +52,22 @@ public class UserService(IConfiguration config) : DbService(config)
 
         return result.Record;
     }
+    public async Task<User> GetByUsername(string username)
+    {
+        NpgsqlParameter[] parameters = [
+            new NpgsqlParameter("@Username", username)
+        ];
+        QueryResult<User> result = await ExecuteQueryCommandAsync(
+            $"SELECT * FROM Users WHERE username = @Username",
+            MapUserFromReader,
+            parameters
+        );
+
+        if(!result.HasRecord)
+            throw new NotFoundException("User not found");
+
+        return result.Record;
+    }
 
     public async Task Delete(Guid id)
     {

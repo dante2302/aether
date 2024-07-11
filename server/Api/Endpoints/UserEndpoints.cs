@@ -31,5 +31,23 @@ public class UserEndpoints(WebApplication app) : EndpointMapper(app)
             [FromRoute] Guid id
         ) => Results.Ok(await userService.GetName(id))
         ).AllowAnonymous();
+
+        _app.MapGet("/users/{username}",
+        async
+        (
+            [FromServices] UserService userService,
+            [FromRoute] string username
+        ) => Results.Ok(await userService.GetByUsername(username))
+        ).AllowAnonymous();
+
+        _app.MapGet("/users/{id:guid}/posts",
+        async
+        (
+            [FromServices] PostService postService,
+            [FromRoute] Guid id 
+        ) => 
+        {
+            return Results.Ok(new {postList = await postService.GetPostsFromUser(id)});
+        }).AllowAnonymous();
     }
 }

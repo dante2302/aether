@@ -26,7 +26,7 @@ const PostRender = ({
   const [postDataState,setPostDataState] = useState(postData)
   const [additionalPostDataState, setAdditionalPostDataState] = useState(additionalPostData);
   //In case the post data changes
-  const {userData} = useContext(UserDataContext)
+  const { userData } = useContext(UserDataContext)
   const navigate = useNavigate()
 
   const redirectToPage = (e) =>{ 

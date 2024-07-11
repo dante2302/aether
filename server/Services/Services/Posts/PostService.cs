@@ -77,6 +77,18 @@ public class PostService(IConfiguration config) : DbService(config)
 
        return posts;
     }
+    public async Task<List<Post>> GetPostsFromUser(Guid userId)
+    {
+
+       List<Post> posts = await ExecuteQueryListCommandAsync(
+        $@"SELECT * FROM posts
+           WHERE ownerid = '{userId}'::uuid
+           ORDER BY dateofcreation DESC
+        "
+       ,MapPostFromReader);
+
+       return posts;
+    }
 
     public async Task<List<Post>> GetPopularPosts(int? limit=null, int? offset=null)
     {

@@ -40,10 +40,10 @@ const App = () => {
               </Route>
               <Route path='submit' element={<PostCreateForm />} />
               <Route path='/u/:username' element={<UserPage />}>
-                <Route path='submitted' element={<UserPageFeed key={'posted'} type='posted' />} />
-                <Route path='saved' element={<UserPageFeed key={'saved'} type='saved' />} />
-                <Route path='liked' element={<UserPageFeed key={'liked'} type='liked'/>} />
-                <Route path='disliked' element={<UserPageFeed key={'disliked'} type='disliked'/>} />
+                <Route path='submitted' element={<UserPageFeed key={'submitted'} />} />
+                <Route path='saved' element={<UserPageFeed key={'saved'} />} />
+                <Route path='liked' element={<UserPageFeed key={'liked'} />} />
+                <Route path='disliked' element={<UserPageFeed key={'disliked'} />} />
               </Route>
               <Route path='/*' element={<Page404 />} />
             <Route path="/error" element={<ErrorPage />}/>

@@ -62,12 +62,12 @@ export async function removeSave(userData, postId)
   });
 }
 
-export async function getUserLikes(id){
-  return await request.get(`${likeUrl}/${id}`);
+export async function getUserLikes(userData){
+  return await request.get(`${likeUrl}/${userData.id}`, userData.accessToken);
 }
 
-export async function getUserDislikes(id){
-  return await request.get(`${dislikeUrl}/${id}`);
+export async function getUserDislikes(userData){
+  return await request.get(`${dislikeUrl}/${userData.id}`, userData.accessToken);
 }
 
 export async function getUserSaves(userData){

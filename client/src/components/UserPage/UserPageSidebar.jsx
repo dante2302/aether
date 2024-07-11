@@ -11,7 +11,7 @@ const UserPageSidebar = ({pageUserData,isOwner}) => {
       </div>
       <div className={styles['date-c']}>
           <UilHospital size={25}/>
-          <div>Created {getFullDateFormat(pageUserData._createdOn)}</div>
+          <div>Created {getFullDateFormat(pageUserData.dateOfCreation)}</div>
       </div>
     </div>
   )

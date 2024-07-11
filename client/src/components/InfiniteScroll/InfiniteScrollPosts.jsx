@@ -1,7 +1,5 @@
 import PostRender from '../Post/PostRender.jsx'
 
-import { getPostData } from '../../services/postService.js'
-
 import { useState, useEffect } from "react"
 
 import useLoading from '../../hooks/useLoading.jsx'
@@ -32,6 +30,7 @@ const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fa
       let response = await fetchFunction(limit, offset);
       const deserialized = await response.json();
       const dataList = deserialized.postList;
+      console.log("DATA LIST",dataList)
       if(dataList.length < offset)
       {
         setEndOfPosts(true);
@@ -50,6 +49,7 @@ const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fa
           }
         )
       }
+      console.log("RESULT LIST",resultList)
       setPostDataList(curr => [...curr,...resultList]);
       setOffset(o => o+limit);
     }
@@ -72,7 +72,7 @@ const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fa
   },[])
 
   return (
-    initialized &&
+    initialized ?
     (
       isLoading ? <Spinner size={50} />
         :
@@ -94,6 +94,8 @@ const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fa
           :
           <Fallback />
     )
+    :
+    <></>
   )
 }
 export default InfiniteScrollPosts
