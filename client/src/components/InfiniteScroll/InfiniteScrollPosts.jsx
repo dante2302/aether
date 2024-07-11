@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom'
 
 const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fallback }) => {
   const [postDataList, setPostDataList] = useState([])
-  const [initialized, setInitialized] = useState(false);
   const [offset, setOffset] = useState(0);
   const [endOfPosts, setEndOfPosts] = useState(false);
   const navigate = useNavigate();
@@ -24,6 +23,7 @@ const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fa
     }
     fetchWithLoading();
   }
+
   useEffect(() => {console.log(postDataList)},[postDataList])
   async function fetchPosts() {
     try {
@@ -51,7 +51,6 @@ const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fa
       setOffset(o => o + limit);
     }
     catch (e) {
-      console.log(e);
       navigate("/error");
     }
   }
@@ -64,15 +63,14 @@ const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fa
   }, [isLoading])
 
   useEffect(() => {
-    setInitialized(true)
     fetchWithLoading()
   }, [])
 
   return (
-    initialized ?
-      (
-        isLoading ?
-          postDataList.length > 0 &&
+    isLoading ?
+    // if its loading and there are posts -> show spinner under posts
+      postDataList.length > 0 ?
+        (
           <>
             <div className={styles['container']}>
               <ul className={styles['post-container']}>
@@ -87,30 +85,34 @@ const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fa
                     </li>)}
               </ul>
             </div>
-
-            <Spinner size={50} />
+            <Spinner size={50} cssOverride={styles['spinner']}/>
           </>
-          :
-          postDataList.length > 0
-            ?
-            <div className={styles['container']}>
-              <ul className={styles['post-container']}>
-                {
-                  postDataList.map(postDataContainer =>
-                    <li key={postDataContainer.postData.id}>
-                      <PostRender
-                        postData={postDataContainer.postData}
-                        additionalPostData={postDataContainer.additionalData}
-                        isCompact={true}
-                      />
-                    </li>)}
-              </ul>
-            </div>
-            :
-            <Fallback />
-      )
+        )
+        // if its loading and there are still no posts, just show the spinner
+        :
+        <Spinner size={50} />
       :
-      <div></div>
+      //if its not loading and there are posts, just show them
+      postDataList.length > 0
+        ?
+        <div className={styles['container']}>
+          <ul className={styles['post-container']}>
+            {
+              postDataList.map(postDataContainer =>
+                <li key={postDataContainer.postData.id}>
+                  <PostRender
+                    postData={postDataContainer.postData}
+                    additionalPostData={postDataContainer.additionalData}
+                    isCompact={true}
+                  />
+                </li>)}
+          </ul>
+        </div>
+        :
+        //else render fallback
+        <>
+          <Fallback />
+        </>
   )
 }
 export default InfiniteScrollPosts

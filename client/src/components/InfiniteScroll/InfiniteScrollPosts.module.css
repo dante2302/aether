@@ -13,4 +13,12 @@
 .post-container,.post-container>li{
     width:100%;
 }
+.non-initialized{
+  width: 80vw;
+  display: block;
+  height: 100vh;
+}
+.post-container>span{
+  height: 100%;
+}
 

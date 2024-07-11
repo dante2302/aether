@@ -25,6 +25,9 @@
     --fs-xl:22px;
   }
 }
+.no-scroll{
+  /* overflow: hidden; */
+}
 html{
   background:var(--background-grey);
 }
