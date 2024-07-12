@@ -52,6 +52,10 @@ public class ExceptionHandler(RequestDelegate next)
             await context.Response.WriteAsJsonAsync(new
             {
                 error = e.Message,
+                config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .AddEnvironmentVariables()
+            .Build();
             });
         }
     }
