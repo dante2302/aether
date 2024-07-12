@@ -1,15 +1,11 @@
-# A forum SPA(reddit-like) built for the project defense of the React-October 2023 Softuni Course.
-## Project Architecture:
-  ### Client:
-    - General Components in the components dir(eg. App.jsx, ModalPrototype.jsx)
-    - Dirs based on relevant & similar features (/Channel, /Post /Comment)
-        - styles folders with css modules for each component(if needed)
-    - Helper directories - apis, utils, contexts
-    - Custom hooks dir with simiral hooks inside, main one being useLoading 
-  ### Server:
-    - data dir, needed for the server to operate
-    - server.js - Softni Practice Server
-  ### External Packages outside of react:
-    - react-spinners
-    - iconscout
-    
+# Production Deployment Branch (client-side)
+
+## Purpose
+This Git branch is dedicated exclusively to deploying client-side code to production using Vercel. Its sole purpose is to ensure that only verified and tested client-side code reaches the production environment.
+
+## Guidelines
+1. **Code Restrictions**: Only finalized, tested, and approved client-side code should be merged into this branch.
+   
+2. **Version Control**: Use this branch strictly for managing deployment-ready versions of your client-side application. It should reflect the current production state at all times.
+
+3. **Deployment Automation**: Vercel is configured to automatically deploy from this branch. Any push or merge into this branch triggers a deployment to the production environment.
