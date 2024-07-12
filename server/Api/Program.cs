@@ -6,7 +6,10 @@ IConfiguration config =  new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .AddEnvironmentVariables()
             .Build();
-Console.WriteLine(config.GetDebugView());
+
+    Console.WriteLine(config.GetSection("JwtSettings:SigningKey").Value);
+    Console.WriteLine(config.GetConnectionString("aether"));
+
 var serviceRegistry = new ServiceRegistry(builder, config);
 
 serviceRegistry.RegisterServices();

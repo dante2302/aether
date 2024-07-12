@@ -7,11 +7,17 @@ namespace Services;
 public abstract class DbService
 {
     public DbService(IConfiguration config){
+        try{
         _config = config;
         _connectionString = _config.GetConnectionString("aether");
         if(_connectionString is null)
         {
-            throw new InvalidConfigurationException();    
+            throw new InvalidConfigurationException(_config.GetConnectionString("aether"));    
+        }
+        }
+        catch
+        {
+            throw new InvalidConfigurationException(_config.GetConnectionString("aether"));    
         }
     }
     protected readonly IConfiguration _config;
