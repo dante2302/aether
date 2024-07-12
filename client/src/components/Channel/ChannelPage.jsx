@@ -89,15 +89,18 @@ const ChannelPage = ({isCompact}) => {
               <div className={styles['heading-div']}> 
                 <h1>{channelData.name}</h1>
                 <h6>c/{channelData.name}</h6>
+                <JoinButton
+                  channelData={channelData}
+                  setChannelData={setChannelData}
+                  isJoined={isJoined}
+                  setJoined={setJoined}
+                />
               </div>
-              <JoinButton 
-                channelData={channelData} 
-                setChannelData={setChannelData} 
-                isJoined={isJoined} 
-                setJoined={setJoined}
-              />
             </div>
           </header>
+          <ChannelSidebar channelData={channelData}>
+            {isJoined && <button onClick={createPostHandler} className={styles['create-btn']}>Create Post</button>}
+          </ChannelSidebar>
           <main className={styles['main']} >
           {Object.keys(channelData).length && 
             <InfiniteScrollPosts 
@@ -112,12 +115,8 @@ const ChannelPage = ({isCompact}) => {
                 </div>
               }
           />}
-
         </main>
       </div>
-        <ChannelSidebar channelData={channelData}> 
-          {isJoined && <button onClick={createPostHandler} className={styles['create-btn']}>Create Post</button>}
-        </ChannelSidebar>
     </div>
   )
 }
