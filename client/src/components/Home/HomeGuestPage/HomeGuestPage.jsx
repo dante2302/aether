@@ -6,37 +6,24 @@ import CreatePostBar from '../../Post/CreatePostBar.jsx'
 
 const HomeGuest = () => {
   const size = window.innerWidth
-  alert(size);
   return (
     <div className={styles['container']}>
-      {size > 800
-        ?
-        <>
-        <div className={styles['left-container']}>
-
+      <div className={styles['left-container']}>
         <CreatePostBar />
-          <InfiniteScrollPosts
-            fetchFunction={getPopularPosts}
-            fetchAdditionalFunction={getAdditionalPostData}
-            limit={5}
-            Fallback={() => <div className={styles['fallback']}>NO POSTS</div>}
-          />
-        </div>
-          <PopularChannels />
-        </>
-         :
-        <>
-
-        <CreatePostBar />
-          <PopularChannels />
-          <InfiniteScrollPosts
-            fetchFunction={getPopularPosts}
-            fetchAdditionalFunction={getAdditionalPostData}
-            limit={3}
-            Fallback={() => <div className={styles['fallback']}>NO POSTS</div>}
-          />
-        </>
-      } 
+        {size >= 800 && <InfiniteScrollPosts
+          fetchFunction={getPopularPosts}
+          fetchAdditionalFunction={getAdditionalPostData}
+          limit={5}
+          Fallback={() => <div className={styles['fallback']}>NO POSTS</div>}
+        />}
+      </div>
+      <PopularChannels />
+      {size < 800 && <InfiniteScrollPosts
+        fetchFunction={getPopularPosts}
+        fetchAdditionalFunction={getAdditionalPostData}
+        limit={3}
+        Fallback={() => <div className={styles['fallback']}>NO POSTS</div>}
+      />}
     </div>
   )
 }

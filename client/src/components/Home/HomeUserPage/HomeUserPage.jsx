@@ -1,11 +1,8 @@
 import HomeSidebar from "./HomeSidebar"
 import HomeFeed from "./HomeFeed"
-
 import { useWindowSize } from '@uidotdev/usehooks'
-
 import UserDataContext from '../../../contexts/UserDataContext'
 import { useContext, useState } from "react"
-
 import { getRelatedChannels } from '../../../services/userService.js'
 import styles from './styles/HomeUserPage.module.css'
 import { getMemberCount } from "../../../services/channelService.js"

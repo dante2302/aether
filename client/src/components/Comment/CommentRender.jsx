@@ -1,15 +1,11 @@
 import CommentCreateForm from "./CommentCreateForm"
 import CommentEditForm from "./CommentEditForm"
 import DeleteConfirmation from "../DeleteConfirmation/DeleteConfirmation"
-
 import { useContext, useState, useEffect } from "react"
-
 import UserDataContext from "../../contexts/UserDataContext"
-
 import { getFullDateFormat } from '../../utils/dateUtils.js'
 import UilPen from '@iconscout/react-unicons/icons/uil-pen'
 import UilX from '@iconscout/react-unicons/icons/uil-x'
-
 import styles from './styles/CommentRender.module.css'
 import ReplyCreateForm from "./ReplyCreateForm"
 import { deleteComment } from "../../services/commentService"
@@ -32,6 +28,7 @@ const CommentRender = ({data, setComments, setCommentReplies, setCommentCount}) 
       return replies;
     })
   }
+
   useEffect(() => {
     setIsOwner(userData && commentData.ownerId === userData.id)
   },[userData])

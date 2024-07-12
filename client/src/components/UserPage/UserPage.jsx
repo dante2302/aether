@@ -1,15 +1,9 @@
 import UserPageSidebar from './UserPageSidebar'
-
 import { getByUsername } from '../../services/userService'
-
 import { useState, useEffect, useContext } from 'react'
-
 import useLoading from '../../hooks/useLoading'
-
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
-
 import UserDataContext from '../../contexts/UserDataContext'
-
 import styles from './styles/UserPage.module.css'
 
 const UserPage = () => {

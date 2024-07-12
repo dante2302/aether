@@ -23,5 +23,4 @@ export default class GlobalErrorBoundary extends Component {
     }
     return this.props.children
   }
-  
 } 

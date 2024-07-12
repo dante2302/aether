@@ -27,6 +27,7 @@ const CommentEditForm = ({commentData,setCommentData,setEditing, isReply, childr
     setCommentData({...commentData, text});
     setEditing(false);
   } 
+
   const [disabled,submitHandlerWithDisable, setDisabled] = useDisabled(submitHandler)
 
 return (

@@ -1,7 +1,6 @@
 import CommentBlockRender from "../Comment/CommentBlockRender"
 import PostRender from "./PostRender"
 import CommentCreateForm from "../Comment/CommentCreateForm"
-
 import { getAdditionalPostData, getPostData } from "../../services/postService"
 import { getPostComments } from "../../services/commentService"
 import useLoading from "../../hooks/useLoading"

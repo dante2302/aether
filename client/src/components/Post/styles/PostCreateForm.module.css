@@ -23,16 +23,19 @@
   flex-direction: column;
   gap:10px;
 }
+
 .input-container>input,.input-container>textarea{
   padding:5px;
   border-radius:5px;
   border:1px solid grey;
 }
+
 .input-container>label{
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 .form>button{
     background: black;
     color:white;

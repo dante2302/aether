@@ -1,12 +1,9 @@
-import {useEffect, useContext} from 'react'
-
+import {  joinChannel, leaveChannel } from '../../services/channelService'
+import { useContext } from 'react'
 import UserDataContext from '../../contexts/UserDataContext'
 import UserModalContext from '../../contexts/UserModalContext'
-
 import  useDebounce  from '../../hooks/useDebounce'
-
 import styles from './styles/JoinButton.module.css'
-import {  joinChannel, leaveChannel } from '../../services/channelService'
 
 const JoinButton = ({ channelData, isJoined, setJoined }) => {
   const {userData} = useContext(UserDataContext)

@@ -1,4 +1,3 @@
-
 export const changeHandler = (e,setFormState,setErrorState) => {
   e.preventDefault()
 
@@ -51,4 +50,3 @@ export const validatePassword = (password) => {
     // - 1 Lowercase Letter (a-z)
     // - 7-16 characters
 }
-

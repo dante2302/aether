@@ -4,7 +4,6 @@ import { getAdditionalReplyListData, getCommentReplies } from "../../services/re
 import styles from './styles/CommentBlockRender.module.css'
 import ReplyRender from "./ReplyRender"
 
-
 const CommentBlockRender = ({commentData,setComments, setCommentCount}) => {
   const [commentReplies,setCommentReplies]  = useState([])
 
@@ -17,6 +16,7 @@ const CommentBlockRender = ({commentData,setComments, setCommentCount}) => {
     }
     asyncFunc()
   },[])
+
   return(
     commentReplies.length > 0 
     ? 

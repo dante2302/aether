@@ -1,5 +1,4 @@
 const baseUrl = "https://aether-backend-d.azurewebsites.net/auth"
-import * as request from './request.js'
 
 export const signUp = async (bodyData) => {
     try{

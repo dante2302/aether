@@ -3,17 +3,11 @@ import PostRating from './PostRating.jsx'
 import PostSaving from './PostSaving.jsx'
 import PostSharing from './PostSharing.jsx'
 import LinkPreview from './LinkPreview/LinkPreview.jsx'
-
 import {getTimeDifference} from '../../utils/dateUtils.js'
-
 import { useContext, useState } from 'react'
-
-import { redirect, useNavigate } from 'react-router-dom'
-
+import { useNavigate } from 'react-router-dom'
 import UserDataContext from '../../contexts/UserDataContext'
-
 import UilComment from '@iconscout/react-unicons/icons/uil-comment.js' 
-
 import styles from './styles/PostRender.module.css'
 
 const PostRender = ({
@@ -23,9 +17,9 @@ const PostRender = ({
   isRedirect
 }) => {
 
+  //In case the post data changes
   const [postDataState,setPostDataState] = useState(postData)
   const [additionalPostDataState, setAdditionalPostDataState] = useState(additionalPostData);
-  //In case the post data changes
   const { userData } = useContext(UserDataContext)
   const navigate = useNavigate()
 
@@ -107,8 +101,5 @@ const PostRender = ({
     </div>
   )
 }
-        // 
-        // {postData.linkUrl && 
-        //   <LinkPreview url={postData.linkUrl} isCompact={isCompact}/>
-        // }
+
 export default PostRender

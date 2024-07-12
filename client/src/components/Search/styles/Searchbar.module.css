@@ -38,8 +38,9 @@
   position: absolute;
   color: grey;
   pointer-events: none;
-font-size: calc(var(--fs-sm) + 4px)
+  font-size: calc(var(--fs-sm) + 4px)
 }
+
 .search-btn{
   margin-inline:.2em;
   padding-left: 1.2em;

@@ -1,11 +1,8 @@
 import { useState, useEffect, useContext } from "react"
-
 import UserDataContext from '../../contexts/UserDataContext'
 import UserModalContext from '../../contexts/UserModalContext'
-
 import UilArrowUp from '@iconscout/react-unicons/icons/uil-arrow-up'
 import UilArrowDown from '@iconscout/react-unicons/icons/uil-arrow-down'
-
 import styles from './styles/PostRating.module.css'
 import { useNavigate } from "react-router-dom"
 import { dislikePost, getUserDislikes, getUserLikes, likePost, removeDislike, removeLike } from "../../services/userInteractionService"

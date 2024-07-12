@@ -1,4 +1,3 @@
-
 const ModalPrototype = ({children,toggleModal}) => {
   return (     
     <div className='modal'>
@@ -7,7 +6,6 @@ const ModalPrototype = ({children,toggleModal}) => {
       {children}
     </div>
   )
-
 }
 
 export default ModalPrototype

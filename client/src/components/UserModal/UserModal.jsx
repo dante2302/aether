@@ -1,11 +1,8 @@
 import LogInForm from './LogInForm.jsx'
 import SignUpForm from './SignUpForm.jsx'
 import ModalPrototype from '../ModalPrototype.jsx'
-
 import { useState, useContext } from 'react'
-
 import UserModalContext from '../../contexts/UserModalContext'
-
 import UilX from '@iconscout/react-unicons/icons/uil-x'
 import styles from './styles/UserModal.module.css'
 

@@ -1,14 +1,9 @@
 import ChannelCreateModal from '../../Channel/ChannelCreateModal'
 import ChannelList from '../../Channel/ChannelList.jsx'
-
-import { getChannelData } from '../../../services/channelService.js'
 import info from "/images/info.svg"
-
 import { Link, useNavigate } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
-
 import useLoading from '../../../hooks/useLoading.jsx'
-
 import UilHouseUser from '@iconscout/react-unicons/icons/uil-house-user.js'
 import styles from './styles/HomeSidebar.module.css'
 import UserDataContext from '../../../contexts/UserDataContext.jsx'

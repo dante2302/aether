@@ -11,7 +11,6 @@
   }
 }
 
-
 .content, .header{
   display:flex;
   flex-direction:column;
@@ -86,4 +85,3 @@
   background: white;
   align-items: center;
 }
-

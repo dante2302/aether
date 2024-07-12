@@ -1,10 +1,7 @@
 import { Link } from "react-router-dom"
-
 import { useContext } from "react"
-
 import UserDataContext from "../../contexts/UserDataContext"
 import UserModalContext from "../../contexts/UserModalContext"
-
 import UilImage from '@iconscout/react-unicons/icons/uil-image'
 import UilLink from '@iconscout/react-unicons/icons/uil-link'
 import UilPen from '@iconscout/react-unicons/icons/uil-pen'

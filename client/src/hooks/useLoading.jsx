@@ -25,4 +25,3 @@ const useLoading = (callback, errorCallback) => {
 }
 
 export default useLoading
-

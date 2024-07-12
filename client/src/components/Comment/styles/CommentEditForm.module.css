@@ -4,18 +4,22 @@
     gap: 15px;
     width: 50%;
 }
+
 .form>textarea{
     border-radius: 5px;
     padding: 10px;
     border: 1px solid lightgrey;
 }
+
 .form>textarea:hover{
     border: 1px solid black;
 }
+
 .form>textarea:focus{
     outline: none;
     border: 1px solid black;
 }
+
 .button-container>button{
   border:1px solid black;
   padding: .5em;

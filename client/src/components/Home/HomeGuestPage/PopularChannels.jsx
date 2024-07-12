@@ -1,6 +1,4 @@
-
 import { useEffect, useState } from 'react'
-
 import ChannelList from '../../Channel/ChannelList'
 import useLoading from '../../../hooks/useLoading'
 import { getMemberCount, getPopularChannels } from '../../../services/channelService'
@@ -26,6 +24,7 @@ const PopularChannels = () => {
         const memberCount = await response.json();
         channels[i] = {...channels[i], memberCount};
     }
+
     setVisibleChannels(channels);
   }
   useEffect(() => {

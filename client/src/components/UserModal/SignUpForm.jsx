@@ -1,19 +1,16 @@
 import {changeHandler, validatePassword, validateUsername, validateEmail} from '../../utils/formUtils.js'
 import {signUp} from '../../services/authService.js'
-
 import { useState, useEffect, useContext } from "react"
-
 import useDisabled from '../../hooks/useDisabled.jsx'
 import UserDataContext from '../../contexts/UserDataContext'
-
+import { useNavigate } from 'react-router-dom'
+import useLoading from '../../hooks/useLoading.jsx'
 import UilArrowRight from '@iconscout/react-unicons/icons/uil-arrow-right'
 import UilArrowLeft from '@iconscout/react-unicons/icons/uil-arrow-left'
 import UilEye from '@iconscout/react-unicons/icons/uil-eye.js'
 import UilEyeSlash from '@iconscout/react-unicons/icons/uil-eye-slash.js'
 import UilSad from '@iconscout/react-unicons/icons/uil-sad.js'
 import styles from './styles/SignUpForm.module.css'
-import { useNavigate } from 'react-router-dom'
-import useLoading from '../../hooks/useLoading.jsx'
 
 const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
 

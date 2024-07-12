@@ -9,8 +9,8 @@ import { getUserSaves, removeSave, savePost } from '../../services/userInteracti
 
 const PostSaving = ({postData}) => {
   const [isSaved,setSaved] = useState(false)
-  const {userData, setUserData} = useContext(UserDataContext)
-  const {toggleUserModal} = useContext(UserModalContext)
+  const { userData } = useContext(UserDataContext)
+  const { toggleUserModal } = useContext(UserModalContext)
 
   const checkSaved = async () => {
     const response = await getUserSaves(userData);

@@ -4,21 +4,24 @@
   gap:1em;
   align-items: center;
 }
+
 @media(min-width: 800px) {
   .container {
     max-width: 80vw;
     padding-bottom: 20px;
   }
 }
+
 .post-container,.post-container>li{
     width:100%;
 }
+
 .non-initialized{
   width: 80vw;
   display: block;
   height: 100vh;
 }
+
 .post-container>span{
   height: 100%;
 }
-

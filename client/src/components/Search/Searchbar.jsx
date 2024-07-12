@@ -1,10 +1,7 @@
 import SearchResultsCompact from './SearchResultsCompact'
 import { useState, useEffect } from 'react'
-
 import { useNavigate } from 'react-router-dom'
-
 import useDebounce from '../../hooks/useDebounce.jsx'
-
 import styles from './styles/Searchbar.module.css'
 import  UilSearch from '@iconscout/react-unicons/icons/uil-search.js'
 import { searchChannels } from '../../services/channelService.js'

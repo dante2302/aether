@@ -12,10 +12,12 @@
     gap: 10px;
     border-radius: 10px;
 }
+
 .container>div{
   white-space: pre-wrap;
   text-align: center;
 }
+
 .button-container>button {
   font-size: var(--fs-reg);
   text-align: center;
@@ -25,6 +27,7 @@
   border-radius: 8px;
   cursor: pointer;
 }
+
 .button-container{
   display: flex;
   flex-direction: row;
@@ -32,16 +35,20 @@
   justify-content: center;
   gap: 15px;
 }
+
 .yes-btn:hover{
   background: green;
   color: white;
 }
+
 .yes-btn{
   color: green;
 }
+
 .no-btn{
   color: red;
 }
+
 .no-btn:hover{
   background: red;
   color: white;

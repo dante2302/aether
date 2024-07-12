@@ -1,4 +1,3 @@
-
 export const getTimeDifference = (timeOfCreation) => {
   const toc = new Date(timeOfCreation),
   diff = (Date.now() - toc.valueOf()),
@@ -29,5 +28,3 @@ export const getFullDateFormat = (ms) => {
   const date = new Date(ms)  
   return String(date).slice(4,15)
 } 
-
-

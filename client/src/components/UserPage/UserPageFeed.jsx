@@ -1,5 +1,4 @@
 import InfiniteScrollPosts from '../InfiniteScroll/InfiniteScrollPosts'
-
 import { useLocation, useNavigate, useOutletContext } from "react-router-dom"
 import styles from './styles/UserPageFeed.module.css'
 import { getUserDislikes, getUserLikes, getUserSaves } from '../../services/userInteractionService'

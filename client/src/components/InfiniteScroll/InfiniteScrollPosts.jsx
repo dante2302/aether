@@ -1,9 +1,6 @@
 import PostRender from '../Post/PostRender.jsx'
-
 import { useState, useEffect } from "react"
-
 import useLoading from '../../hooks/useLoading.jsx'
-
 import styles from './InfiniteScrollPosts.module.css'
 import { useNavigate } from 'react-router-dom'
 

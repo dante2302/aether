@@ -25,12 +25,11 @@
     --fs-xl:22px;
   }
 }
-.no-scroll{
-  /* overflow: hidden; */
-}
+
 html{
   background:var(--background-grey);
 }
+
 *,button{
   font-family: var(--ff);
   box-sizing: border-box;
@@ -77,6 +76,7 @@ textarea{
 .modal{
   z-index:5;
 }
+
 .overlay{
   background-color: var(--overlay-color);
   opacity:.4;
@@ -92,4 +92,3 @@ textarea{
 .disabled{
   pointer-events: none;
 }
-

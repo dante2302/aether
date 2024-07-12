@@ -3,9 +3,11 @@
     flex-direction: column;
     gap: 20px;
 }
+
 .container:has(.welcome-div){
     gap: 0;
 }
+
 .welcome-div{
     background: white;
     display: flex;

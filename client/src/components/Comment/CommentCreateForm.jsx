@@ -1,6 +1,5 @@
 
 import { useContext, useEffect, useState } from 'react'
-
 import { createComment } from '../../services/commentService'
 import useDisabled from '../../hooks/useDisabled'
 import userDataContext from '../../contexts/UserDataContext'
@@ -41,7 +40,6 @@ const CommentCreateForm = ({
   useEffect(() => { setDisabled(text === '') }, [text])
 
   const [disabled, submitHandlerWithDisable, setDisabled] = useDisabled(submitHandler)
-
 
   return (
     <form

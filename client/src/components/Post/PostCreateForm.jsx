@@ -1,10 +1,7 @@
 import { useContext, useEffect, useState } from "react"
-
 import * as formUtils from '../../utils/formUtils.js'
-
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { getRelatedChannels } from "../../services/userService.js"
-
 import UserDataContext from "../../contexts/UserDataContext"
 import useLoading from "../../hooks/useLoading.jsx"
 import UilImage from "@iconscout/react-unicons/icons/uil-image.js"

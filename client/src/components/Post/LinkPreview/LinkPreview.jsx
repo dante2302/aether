@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import {getLinkData} from './linkPreview.js'
 import useLoading from '../../../hooks/useLoading.jsx'
@@ -11,7 +10,6 @@ const LinkPreview = ({url, isCompact}) => {
       getLinkData(url).
         then(data => setLinkData(data))}
   const [Spinner,getLinkWithLoading, isLoading] = useLoading(getLinkDataWithState)
-
 
   useEffect(() => {getLinkWithLoading()},[])
 

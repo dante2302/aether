@@ -14,7 +14,7 @@
   background: linear-gradient(to bottom right, white 80%, lightgrey)
 }
 
-.link{
+.link, .link:link{
     color:blue;
 }
 

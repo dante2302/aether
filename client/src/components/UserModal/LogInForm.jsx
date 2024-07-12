@@ -2,13 +2,9 @@
 import { logIn } from '../../services/authService.js'
 import { changeHandler } from '../../utils/formUtils.js'
 import useLoading from '../../hooks/useLoading.jsx'
-
-
 import { useState, useEffect, useContext } from 'react'
-
 import UserDataContext from '../../contexts/UserDataContext.jsx'
 import UserModalContext from '../../contexts/UserModalContext.jsx'
-
 import UilExclamationCircle from '@iconscout/react-unicons/icons/uil-exclamation-circle.js'
 import styles from './styles/LogInForm.module.css'
 import UilEyeSlash from '@iconscout/react-unicons/icons/uil-eye-slash.js'
@@ -16,7 +12,6 @@ import UilEye from '@iconscout/react-unicons/icons/uil-eye.js'
 import { useNavigate } from 'react-router-dom'
 
 const LogInForm = ({setCurrentMode}) => {
-
   const { setUserData } = useContext(UserDataContext)
   const { toggleUserModal } = useContext(UserModalContext)
   const navigate = useNavigate();

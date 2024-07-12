@@ -7,16 +7,20 @@
     align-items: center;
     justify-content: start;
 }
+
 .no-results>img{
     width: 40%;
 }
+
 .spelling{
     color: blueviolet;
 }
+
 .no-results>h1{
     margin-bottom: 10px;
     font-size: var(--fs-xl)
 }
+
 .results{
     background: linear-gradient(to top, var(--background-grey) 10%, white);
     font-weight: bold;

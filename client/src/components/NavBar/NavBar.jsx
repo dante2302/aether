@@ -1,10 +1,8 @@
 import Searchbar from '../Search/Searchbar'
 import { Link, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
-
 import UserDataContext from '../../contexts/UserDataContext'
 import UserModalContext from '../../contexts/UserModalContext'
-
 import styles from './Navbar.module.css'
 import UilStar from '@iconscout/react-unicons/icons/uil-star'
 import UilUser from '@iconscout/react-unicons/icons/uil-user'

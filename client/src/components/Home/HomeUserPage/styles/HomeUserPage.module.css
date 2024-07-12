@@ -2,6 +2,7 @@
     margin-top:30px;
     width:85%;
 }
+
 @media (min-width:800px){
   .container{
       display:grid;

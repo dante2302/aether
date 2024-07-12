@@ -44,11 +44,13 @@
   border-radius:15px;
   width:85%;
 }
+
 .create-post-btn{
   margin-top:20px;
   color:white;
   background:var(--accent-red);
 }
+
 .create-post-btn:hover{
   background:#DB000E
 }
@@ -59,6 +61,7 @@
   border:1px solid #FF0010;
   margin-bottom:20px;
 }
+
 .create-channel-btn:hover{
   background:#f2f2f2;
 }
@@ -72,18 +75,22 @@
   background: linear-gradient(135deg, rgb(82, 229, 231) 10%, rgb(19, 12, 183) 100%);
   border-radius:5px 5px 0 0;
 }
+
 .no-channel-div{
   margin-top: 10px;
   background: white;
   padding: 20px;
 }
+
 .no-channel-div>img{
   width: 50px;
   height: 50px;
 }
+
 .no-channel-div a:link, .no-channel-div a:visited{
   color: blue;
 }
+
 .red-span{
   color: red;
 }

@@ -1,5 +1,4 @@
-// const API_KEY = 'bc6ea2441d1823ef0959f759e1223a1f'
-const API_KEY = "";
+const API_KEY = 'bc6ea2441d1823ef0959f759e1223a1f'
 const apiUrl = 'https://api.linkpreview.net'
 
 export const getLinkData = async (link) => {
@@ -17,5 +16,3 @@ export const getLinkData = async (link) => {
   let data = await response.json()
   return data 
 } 
-
-

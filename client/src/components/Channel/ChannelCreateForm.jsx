@@ -1,12 +1,8 @@
-
 import * as formUtils from '../../utils/formUtils.js'
 import { createChannel } from '../../services/channelService.js'
-
 import { useNavigate } from "react-router-dom"
 import { useState, useContext, useEffect } from "react"
-
 import UserDataContext from "../../contexts/UserDataContext.jsx"
-
 import styles from './styles/ChannelCreateForm.module.css'
 
 const ChannelCreateForm = ({toggleChannelModal}) => {
