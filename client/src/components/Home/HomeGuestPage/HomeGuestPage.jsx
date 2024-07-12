@@ -6,7 +6,7 @@ import CreatePostBar from '../../Post/CreatePostBar.jsx'
 
 const HomeGuest = () => {
   const size = window.innerWidth
-  console.log(size);
+  alert(size);
   return (
     <div className={styles['container']}>
       {size > 800
