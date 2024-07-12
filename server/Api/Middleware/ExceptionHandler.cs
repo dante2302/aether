@@ -34,8 +34,7 @@ public class ExceptionHandler(RequestDelegate next)
 
             await context.Response.WriteAsJsonAsync(new
             {
-                error = e,
-                conString = ConfigProvider.Config.GetConnectionString("aether")
+                error = e.Message,
             });
         }
 
@@ -52,8 +51,7 @@ public class ExceptionHandler(RequestDelegate next)
 
             await context.Response.WriteAsJsonAsync(new
             {
-                error = e,
-                conString = ConfigProvider.Config.GetConnectionString("aether")
+                error = e.Message,
             });
         }
     }

@@ -2,8 +2,12 @@ using Exceptions;
 using Api;
 
 var builder = WebApplication.CreateBuilder(args);
+IConfiguration config =  new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .AddEnvironmentVariables()
+            .Build();
 
-var serviceRegistry = new ServiceRegistry(builder);
+var serviceRegistry = new ServiceRegistry(builder, config);
 
 serviceRegistry.RegisterServices();
 serviceRegistry.RegisterAuth();
