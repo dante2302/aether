@@ -8,7 +8,7 @@
     - Custom hooks dir with simiral hooks inside, main one being useLoading 
   ### Server:
     - data dir, needed for the server to operate
-    - server.js - Softuni Practice Server
+    - server.js - Softni Practice Server
   ### External Packages outside of react:
     - react-spinners
     - iconscout
