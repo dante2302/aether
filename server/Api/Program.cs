@@ -3,12 +3,7 @@ using Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
-IConfiguration config = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
-    .AddEnvironmentVariables()
-    .Build();
-
-var serviceRegistry = new ServiceRegistry(builder, config);
+var serviceRegistry = new ServiceRegistry(builder);
 
 serviceRegistry.RegisterServices();
 serviceRegistry.RegisterAuth();

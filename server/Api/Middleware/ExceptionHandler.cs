@@ -1,3 +1,4 @@
+using Api;
 using Npgsql;
 
 namespace Exceptions;
@@ -33,12 +34,8 @@ public class ExceptionHandler(RequestDelegate next)
 
             await context.Response.WriteAsJsonAsync(new
             {
-                error = new {
-                    source = e.Source,
-                    message = e.Message,
-                    helpLink = e.HelpLink,
-                    data = e.Data
-                }
+                error = e,
+                config = ConfigProvider.Config.ToString()
             });
         }
 

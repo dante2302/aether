@@ -6,10 +6,9 @@ using Microsoft.IdentityModel.Tokens;
 using Models;
 using Services;
 namespace Api;
-public class ServiceRegistry(WebApplicationBuilder builder, IConfiguration Config)
+public class ServiceRegistry(WebApplicationBuilder builder)
 {
     private WebApplicationBuilder Builder { get; } = builder;
-    private IConfiguration Config { get; } = Config;
     public void RegisterServices()
     {
         Builder.Services.AddScoped<AuthService, AuthService>();
@@ -21,19 +20,19 @@ public class ServiceRegistry(WebApplicationBuilder builder, IConfiguration Confi
         Builder.Services.AddScoped<UserService, UserService>();
 
         Builder.Services.AddScoped<IUserPostInteractionService<Like>, UPIService<Like>>
-            (serviceProvider => new UPIService<Like>(Config));
+            (serviceProvider => new UPIService<Like>(ConfigProvider.Config));
 
         Builder.Services.AddScoped<IUserPostInteractionService<Dislike>, UPIService<Dislike>>
-            (serviceProvider => new UPIService<Dislike>(Config));
+            (serviceProvider => new UPIService<Dislike>(ConfigProvider.Config));
 
         Builder.Services.AddScoped<IUserPostInteractionService<Save>, UPIService<Save>>
-            (serviceProvider => new UPIService<Save>(Config));
+            (serviceProvider => new UPIService<Save>(ConfigProvider.Config));
 
         Builder.Services.AddScoped<AugmentedUPIService<Like>, AugmentedUPIService<Like>>
-            (serviceProvider => new AugmentedUPIService<Like>(Config));
+            (serviceProvider => new AugmentedUPIService<Like>(ConfigProvider.Config));
 
         Builder.Services.AddScoped<AugmentedUPIService<Dislike>, AugmentedUPIService<Dislike>>
-            (serviceProvider => new AugmentedUPIService<Dislike>(Config));
+            (serviceProvider => new AugmentedUPIService<Dislike>(ConfigProvider.Config));
     }
 
     public void RegisterAuth()
@@ -42,7 +41,7 @@ public class ServiceRegistry(WebApplicationBuilder builder, IConfiguration Confi
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(x =>
             {
-                JwtSettings? jwtSettings = Config.GetSection("JwtSettings").Get<JwtSettings>()
+                JwtSettings? jwtSettings = ConfigProvider.Config.GetSection("JwtSettings").Get<JwtSettings>()
                     ?? throw new InvalidConfigurationException();
 
                 x.TokenValidationParameters = new TokenValidationParameters()
