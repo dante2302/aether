@@ -1,6 +1,21 @@
 .preview>div>img{
-  max-width:40%;
+  max-width:60%;
   margin:.5em;
+}
+
+@media(max-width: 600px){
+  .preview, .preview>div>img{
+    max-width: 100%;
+  }
+}
+
+.preview>div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
 }
 
 .preview{
@@ -12,6 +27,10 @@
   border:1px solid grey;
   border-radius: 5px;
   background: linear-gradient(to bottom right, white 80%, lightgrey)
+}
+
+.preview h3{
+  font-size: var(--fs-reg);
 }
 
 .link, .link:link{

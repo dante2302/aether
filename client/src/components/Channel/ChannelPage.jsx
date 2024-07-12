@@ -13,6 +13,7 @@ import UserDataContext from "../../contexts/UserDataContext"
 
 import styles from './styles/ChannelPage.module.css' 
 import { getAdditionalPostData } from '../../services/postService.js'
+import { useWindowSize } from '@uidotdev/usehooks'
 
 const ChannelPage = ({isCompact}) => {
   const [isJoined,setJoined] = useState(false)
@@ -21,6 +22,7 @@ const ChannelPage = ({isCompact}) => {
   const {channelName} = useParams()
   const {userData} = useContext(UserDataContext)
   const {userModal, toggleUserModal} = useContext(UserModalContext)
+  const size = useWindowSize();
 
   async function handleChannelMembership(channelId)
   {
@@ -85,7 +87,7 @@ const ChannelPage = ({isCompact}) => {
           <header className={styles['header']}>
             <div></div>
             <div>
-              <img src='/images/channel.svg' />
+              <img src='/images/channel.svg' className={size.width < 500 ? 'no-display' : ''}/>
               <div className={styles['heading-div']}> 
                 <h1>{channelData.name}</h1>
                 <h6>c/{channelData.name}</h6>
@@ -98,9 +100,12 @@ const ChannelPage = ({isCompact}) => {
               </div>
             </div>
           </header>
+          {
+            size.width < 800 && 
           <ChannelSidebar channelData={channelData}>
             {isJoined && <button onClick={createPostHandler} className={styles['create-btn']}>Create Post</button>}
           </ChannelSidebar>
+          }
           <main className={styles['main']} >
           {Object.keys(channelData).length && 
             <InfiniteScrollPosts 
@@ -117,6 +122,12 @@ const ChannelPage = ({isCompact}) => {
           />}
         </main>
       </div>
+          {
+          size.width >= 800 &&
+          <ChannelSidebar channelData={channelData}>
+            {isJoined && <button onClick={createPostHandler} className={styles['create-btn']}>Create Post</button>}
+          </ChannelSidebar>
+          }
     </div>
   )
 }

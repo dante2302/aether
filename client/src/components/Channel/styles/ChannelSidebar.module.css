@@ -1,14 +1,16 @@
-.side>h6{
-  padding:1.3em;
-  font-weight: var(--fw-b);
-  font-size: calc(var(--fs-reg) - 2px);
-  color:white;
-  background: radial-gradient(circle at 12.3% 19.3%, rgb(85, 88, 218) 0%, rgb(95, 209, 249) 100.2%);
-  border-radius: 8px 8px 0 0;
-}
-
 .side>*{
   padding:1em;
+}
+
+.side>h6{
+  font-weight: var(--fw-b);
+  font-size: var(--fs-xl);
+  color:white;
+  background: radial-gradient(circle at 12.3% 19.3%, rgb(85, 88, 218) 0%, rgb(95, 209, 249) 100.2%);
+  border-radius: 15px 15px 0 0;
+  width: 100%;
+  height: calc(4.35em - var(--fs-xl) - 3px);
+  text-align: center;
 }
 
 .side{
@@ -16,5 +18,11 @@
   flex-direction: column;
   height:fit-content;
   background-color: white;
-  border-radius:8px;
+  border-radius:15px 15px 0 0 ;
+  place-self: start;
+}
+
+.side>p{
+  font-size: var(--fs-reg);
+  padding-inline: 1em;
 }

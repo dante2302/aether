@@ -41,7 +41,7 @@ const Searchbar = () => {
     <div className={styles['outer-container']}>
       <div className={styles['search-container']}>
       <form onSubmit={(e) => submitHandler(e)}>
-        <button className={styles['search-btn']}><UilSearch size={23}/></button>
+        <button className={styles['search-btn']}><UilSearch size={20}/></button>
         <label htmlFor='searchbar'>{searchState ? "" : "Search for channels"}</label>
         <input type='search'
           name='searchbar'

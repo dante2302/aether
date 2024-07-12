@@ -12,7 +12,8 @@ const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fa
   const navigate = useNavigate();
 
   const scrollHandler = async () => {
-    const { clientHeight, scrollTop, scrollHeight } = document.documentElement
+    const { scrollTop, scrollHeight } = document.documentElement
+    const clientHeight = window.innerHeight;
     const isBottom = scrollTop + clientHeight >= scrollHeight
 
     if (!isBottom || isLoading || endOfPosts) {

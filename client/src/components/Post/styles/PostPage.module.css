@@ -8,14 +8,15 @@
   background: linear-gradient(to top left, rgb(206, 206, 206) 50%, lightgrey);
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: center;
 }
 
 .inner-container{
-  width: 90%;
+  width: 100%;
   display: grid; 
-  grid-template-columns: 80% 20%;
+  grid-template-columns: 70% 30%;
   grid-gap:30px;
+  place-items: center;
 }
 
 @media(max-width: 768px){
@@ -23,12 +24,22 @@
     grid-template-rows: 1fr 1fr;
     grid-template-columns: 100%;
   }
+  .post-container{
+    width: 95%;
+  }
+  .outer-container, .inner-container{
+    padding: 2em 0;
+    place-content: center;
+  }
+  .outer-container{
+    justify-content: center;
+  }
 }
 
 .post-container{
     background:white;
     border-radius: 10px;
-    min-width: 55vw;
+    min-width: 95%;
 }
 
 .post-container>div{
@@ -41,7 +52,7 @@
   align-items: center;
   justify-content: center;
   margin-block:10px;
-  }
+}
 
 .comments{
   margin-top:10px;

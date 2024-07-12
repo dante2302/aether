@@ -33,16 +33,6 @@
   cursor:pointer;
 }
 
-@media(max-width: 768px){
-  .logo{
-    width:3.5em;
-  }
-  .nav-container{
-    flex-wrap: wrap;
-    gap: 15px;
-  }
-}
-
 .log-in-container,.log-in-container>a{
   display:flex;
   flex-direction:row;
@@ -84,4 +74,19 @@
 
 .log-in-btn:hover,.log-out-btn:hover{
   background-color: blue;
+}
+
+@media(max-width: 768px){
+  .logo{
+    width:3.5em;
+    margin-left: 0;
+  }
+  .nav-container{
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+  .log-in-container{
+    gap: 5px;
+  }
 }

@@ -30,8 +30,13 @@ const HomeUserPage = () => {
   }
   return(
     <div className={styles['container']}>
+      {windowSize.width<800&&
+        <div className={styles['content']}>
+          <HomeSidebar fetchChannels={fetchChannels} visibleChannels={visibleChannels}/>
+        </div>
+      }
       <HomeFeed userChannels={visibleChannels}/>
-      {windowSize.width>800&&
+      {windowSize.width>=800&&
         <div className={styles['content']}>
           <HomeSidebar fetchChannels={fetchChannels} visibleChannels={visibleChannels}/>
         </div>

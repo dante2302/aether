@@ -9,10 +9,13 @@
   border-radius: 7px 0 0 7px;
 }
 
-.rating>:first-child:hover,.rating>:last-child:hover{
-  background:#bfbfbf;
-  border-radius:5px;
+@media(min-width: 768px){
+.rating>:first-child:hover,
+  .rating>:last-child:hover {
+    background: #bfbfbf;
+    border-radius: 5px;
     cursor: pointer;
+  }
 }
 
 .likes-count.liked,

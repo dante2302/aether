@@ -51,6 +51,8 @@
 
 .bottom-container>p{
   margin-bottom: 5px;
+  padding-right: 1em;
+  font-size: var(--fs-reg);
 }
 
 .reply-btn{

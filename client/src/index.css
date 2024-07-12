@@ -11,9 +11,9 @@
   /* --white: */
   /* Typography */
   --ff: 'Ubuntu', sans-serif;
-  --fs-reg:16px;
+  --fs-reg:14px;
   --fs-sm:12px;
-  --fs-xl:20px;
+  --fs-xl:18px;
   --fw-reg:400;
   --fw-b:700;
 }
@@ -91,4 +91,8 @@ textarea{
 
 .disabled{
   pointer-events: none;
+}
+
+.no-display{
+  display: none;
 }

@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import UserDataContext from '../../contexts/UserDataContext'
 import UilComment from '@iconscout/react-unicons/icons/uil-comment.js' 
 import styles from './styles/PostRender.module.css'
+import { useWindowScroll, useWindowSize } from '@uidotdev/usehooks'
 
 const PostRender = ({
   postData, 
@@ -32,7 +33,7 @@ const PostRender = ({
     <div className={
      `${styles['content']} 
       ${isRedirect ? styles['redirect'] : ''}`} 
-      onClick={e => redirectToPage(e)}
+      // onClick={e => redirectToPage(e)}
     >
       <PostRating 
         postData={{...additionalPostDataState, id: postDataState.id}} 
@@ -82,14 +83,10 @@ const PostRender = ({
         {!isCompact && <LinkPreview url={postData.linkUrl} isCompact={isCompact}/>}
 
         <div className={styles['options-container']}>
-            <button 
-              onClick={e => redirectToPage(e)} 
-              className={`
-                ${isRedirect ? styles['redirect'] : ''}`
-            }>
-              <UilComment size={25}/> 
+            <div>
+              <UilComment size={20}/> 
               <span>{additionalPostData.commentCount} Comments</span>
-            </button>
+            </div>
 
           <PostSharing postId={postData.id} channelName={additionalPostData.channelName}/>
 

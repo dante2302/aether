@@ -26,19 +26,19 @@
   background:none;
 }
 
+.search-container label{
+  position: absolute;
+  color: grey;
+  pointer-events: none;
+  font-size: var(--fs-reg);
+}
+
 @media(max-width: 768px){
   .search-container{
     width: 90%;}
     .outer-container{
       width: 100%;
     }
-}
-
-.search-container label{
-  position: absolute;
-  color: grey;
-  pointer-events: none;
-  font-size: calc(var(--fs-sm) + 4px)
 }
 
 .search-btn{
@@ -58,10 +58,10 @@
 }
 
 .search-bar{
-  width:100%;
+  width:90%;
   padding:12px 20px;
   padding-left: 5px;
   outline:none;
-  font-size:16px;
+  font-size:var(--fs-reg);
   color:gray;
 }
