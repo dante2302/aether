@@ -35,7 +35,7 @@ public class ExceptionHandler(RequestDelegate next)
             await context.Response.WriteAsJsonAsync(new
             {
                 error = e,
-                config = ConfigProvider.Config.ToString()
+                conString = ConfigProvider.Config.GetConnectionString("aether")
             });
         }
 
