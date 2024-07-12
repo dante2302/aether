@@ -45,5 +45,16 @@ public class ExceptionHandler(RequestDelegate next)
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsJsonAsync(new { error = e.Message });
         }
+        catch(Exception e)
+        {
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            context.Response.ContentType = "application/json";
+
+            await context.Response.WriteAsJsonAsync(new
+            {
+                error = e,
+                conString = ConfigProvider.Config.GetConnectionString("aether")
+            });
+        }
     }
 }
