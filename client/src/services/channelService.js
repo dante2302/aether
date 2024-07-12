@@ -58,3 +58,8 @@ export async function getChannelPosts(channelId, limit, offset)
   var a = await request.get(`${baseUrl}/${channelId}/posts?limit=${limit}&offset=${offset}`)
   return a;
 }
+
+export const searchChannels = async (name) => 
+{
+  return await request.get(`${baseUrl}/search?name=${name}`)
+}

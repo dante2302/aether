@@ -1,7 +1,6 @@
 const baseUrl = 'https://aether-d.azurewebsites.net/comments'
 const postUrl = "https://aether-d.azurewebsites.net/posts"
 
-import { updatePostData } from './postService.js'
 import * as request from './request.js'
 
 export const createComment = async (userData,{postId,text}) => {

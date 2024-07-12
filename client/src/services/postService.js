@@ -11,7 +11,6 @@ export const createPost = async (userData,formData) => {
         channelId,
         ownerId: userData.id
       }
-  console.log(JSON.stringify(bodyData))
     const data = await request.post({url: baseUrl,accessToken: userData.accessToken,bodyData})
     return data
 }    
@@ -30,7 +29,6 @@ export const getPostDataByList = async (idList) => {
     const data = await response.json();
     postList.push(data.postData);
   }
-  console.log(postList);
   return new Response(JSON.stringify({postList}))
 }
 
@@ -75,12 +73,6 @@ export async function getLikesCount(postId)
 export async function getDislikesCount(postId)
 {
   return await request.get(`${baseUrl}/${postId}/dislikesCount`)
-}
-
-export const updatePostData = async (id,newData) => {
-  const url = `${baseUrl}/${id}`
-  const data = await request.patchWithoutAuth({url,newData})
-  return data
 }
 
 export const deletePost = async (accessToken,id) => {
