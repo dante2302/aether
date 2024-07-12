@@ -25,6 +25,7 @@ const UserPageFeed = () => {
       case "submitted":
         setFetchFunction(() => async () =>  await getPersonalPosts(pageUserData))
         break;
+
       case "saved":
         if(!userData) navigate("../")
         setFetchFunction(() => async () => {
@@ -34,6 +35,7 @@ const UserPageFeed = () => {
           return await getPostDataByList(postIds)
         })
         break;
+
       case "liked":
         if(!userData) navigate("../")
         setFetchFunction(() => async () => {
@@ -43,6 +45,7 @@ const UserPageFeed = () => {
           return await getPostDataByList(postIds)
         })
         break;
+
       case "disliked":
         if(!userData) navigate("../")
         setFetchFunction(() => async () => {

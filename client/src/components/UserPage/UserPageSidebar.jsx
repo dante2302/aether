@@ -2,7 +2,7 @@ import UilHospital from '@iconscout/react-unicons/icons/uil-hospital'
 import { getFullDateFormat } from '../../utils/dateUtils'
 import styles from './styles/UserPageSidebar.module.css'
 
-const UserPageSidebar = ({pageUserData,isOwner}) => {
+const UserPageSidebar = ({pageUserData}) => {
 
   return (
     <div>

@@ -1,9 +1,5 @@
 const baseUrl = "https://aether-d.azurewebsites.net/users"
 import * as request from "./request";
-export const getUserDataByProp = async (prop,value) => {
-  const data = await request.search({url:dataUrl,prop,value})
-  return data[0]
-}
 
 export async function getRelatedChannels(userData)
 {
@@ -31,7 +27,6 @@ export async function getRelatedPosts(userData, limit, offset)
 
 export async function getPersonalPosts(userData)
 {
-  console.log(userData)
   const response = await request.get(`${baseUrl}/${userData.id}/posts`)
   return response;
 }

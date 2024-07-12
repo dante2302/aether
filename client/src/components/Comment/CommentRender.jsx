@@ -28,8 +28,6 @@ const CommentRender = ({data, setComments, setCommentReplies, setCommentCount}) 
       setComments(comments => comments.filter(c => c.id != commentData.id));
       const replyCount = replies.filter(r => r.parentCommentId == commentData.id).length
       setCommentCount(count => {
-        console.log(count)
-      console.log(replyCount)
         return (count - replyCount - 1)});
       return replies;
     })

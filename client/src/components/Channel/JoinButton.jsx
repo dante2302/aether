@@ -15,12 +15,12 @@ const JoinButton = ({ channelData, isJoined, setJoined }) => {
   const joinHandler = async () => {
     if (!userData) { toggleUserModal(); return }
     if(!isJoined){
-      console.log(await joinChannel(channelData.id, userData));
+      await joinChannel(channelData.id, userData);
       setJoined(true)
     }
 
     else{
-      console.log(await leaveChannel(channelData.id, userData));
+      await leaveChannel(channelData.id, userData);
       setJoined(false);
     }
   } 

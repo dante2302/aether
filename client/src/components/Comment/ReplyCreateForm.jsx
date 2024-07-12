@@ -5,6 +5,7 @@ import userDataContext from '../../contexts/UserDataContext'
 import styles from './styles/ReplyCreateForm.module.css'
 import UserModalContext from '../../contexts/UserModalContext'
 import { createReply, getAdditionalReplyData } from '../../services/replyService'
+import { useNavigate } from 'react-router-dom'
 
 const ReplyCreateForm = ({
   parentCommentData,
@@ -18,6 +19,7 @@ const ReplyCreateForm = ({
   const { userData } = useContext(userDataContext)
   const { toggleUserModal } = useContext(UserModalContext)
   const [text, setText] = useState('')
+  const navigate = useNavigate();
 
   const changeHandler = e => setText(e.target.value)
 
@@ -41,6 +43,7 @@ const ReplyCreateForm = ({
     }
     catch(e){
       console.log(e)
+      navigate("/error")
     }
   }
   useEffect(() => { setDisabled(text === '') }, [text])

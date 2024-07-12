@@ -60,11 +60,6 @@ export const getPopularPosts = async (limit, offset) =>
   await request.get(
     `${baseUrl}/popular?limit=${encodeURIComponent(limit)}&offset=${encodeURIComponent(offset)}`)
 
-export const getPostDataByProp = async (prop,value) => {
-  const data = await request.search({url:baseUrl,prop,value})
-  return data
-}
-
 export async function getCommentCount(postId)
 {
   const response = await request.get(`${baseUrl}/${postId}/commentCount`)

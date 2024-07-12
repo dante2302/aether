@@ -25,8 +25,6 @@ const HomeUserPage = () => {
           const memberCount = await memberCountResponse.json();
           result.push({...channelList[i], memberCount})
       }
-      console.log(channelList)
-      console.log(result)
       setVisibleChannels(result);
     }
     catch{

@@ -58,13 +58,3 @@ export async function getChannelPosts(channelId, limit, offset)
   var a = await request.get(`${baseUrl}/${channelId}/posts?limit=${limit}&offset=${offset}`)
   return a;
 }
-export const updateChannelData = async (channelId,newData) => {
-  const url = `${baseUrl}/${channelId}`
-  const data = await request.patchWithoutAuth({url,newData})
-  return data
-}
-
-export const searchChannels = async (name) => 
-{
-  return await request.get(`${baseUrl}/search?name=${name}`)
-}

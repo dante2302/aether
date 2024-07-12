@@ -6,6 +6,7 @@ import useDisabled from '../../hooks/useDisabled'
 import userDataContext from '../../contexts/UserDataContext'
 import styles from './styles/CommentCreateForm.module.css'
 import UserModalContext from '../../contexts/UserModalContext'
+import { useNavigate } from 'react-router-dom'
 
 const CommentCreateForm = ({
   postId,
@@ -15,6 +16,7 @@ const CommentCreateForm = ({
   const { userData } = useContext(userDataContext)
   const { toggleUserModal } = useContext(UserModalContext)
   const [text, setText] = useState('')
+  const navigate = useNavigate();
 
   const changeHandler = e => setText(e.target.value)
 
@@ -33,6 +35,7 @@ const CommentCreateForm = ({
     }
     catch(e){
       console.log(e)
+      navigate("/error");
     }
   }
   useEffect(() => { setDisabled(text === '') }, [text])

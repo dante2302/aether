@@ -23,22 +23,20 @@ const UserPage = () => {
   const navigate = useNavigate()
 
   const fetchData = async () => {
-    // try{
+    try{
       const response = await getByUsername(username);
-      console.log(response)
       if(response.status == 404)
       {
         setNotFound(true)
         return;
       }
       const data = await response.json()
-      console.log(data)
       setPageUserData(data);
-    // }
-    // catch(err)
-    // {
-    //   navigate("/error")
-    // }
+    }
+    catch(err)
+    {
+      navigate("/error")
+    }
   }
 
   const [Spinner,fetchWithLoading,isLoading] = useLoading(fetchData)

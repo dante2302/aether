@@ -47,7 +47,7 @@ const PostRating = ({postData}) => {
     }
     catch(e){
       console.log(e);
-      // navigate("/error");
+      navigate("/error");
     }
   }
 
