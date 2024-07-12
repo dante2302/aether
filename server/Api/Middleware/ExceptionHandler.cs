@@ -49,12 +49,14 @@ public class ExceptionHandler(RequestDelegate next)
         catch(InvalidConfigurationException e){
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
             context.Response.ContentType = "application/json";
-            await context.Response.WriteAsJsonAsync(new {
-                error = e.Message,
-                connString = new ConfigurationBuilder()
+            var conf = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .AddEnvironmentVariables()
-            .Build().GetConnectionString("aether")
+            .Build();
+            await context.Response.WriteAsJsonAsync(new {
+                error = e.Message,
+                connstring = conf.GetConnectionString("aether"),
+                signingKey = conf.GetSection("JwtSettings:SigningKey").Value
             });
         }
         catch(Exception e)
