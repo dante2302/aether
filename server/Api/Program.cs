@@ -6,7 +6,7 @@ IConfiguration config =  new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .AddEnvironmentVariables()
             .Build();
-
+Console.WriteLine(config.GetDebugView());
 var serviceRegistry = new ServiceRegistry(builder, config);
 
 serviceRegistry.RegisterServices();
