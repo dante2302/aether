@@ -1,4 +1,4 @@
-const baseUrl = "https://aether-backend-d.azurewebsites.net/auth"
+const baseUrl = "https://aether-backend-d.azurewebsites.net/channels"
 import * as request from './request.js'
 
 export const createChannel = async (userData,{name,description}) => {
