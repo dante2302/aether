@@ -55,7 +55,7 @@ public class ExceptionHandler(RequestDelegate next)
                 config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .AddEnvironmentVariables()
-            .Build();
+            .Build()
             });
         }
     }
