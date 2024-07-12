@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:5155/users"
+const baseUrl = "https://aether-d.azurewebsites.net/users"
 import * as request from "./request";
 export const getUserDataByProp = async (prop,value) => {
   const data = await request.search({url:dataUrl,prop,value})

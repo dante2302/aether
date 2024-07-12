@@ -1,5 +1,5 @@
-const baseUrl = 'http://localhost:5155/comments'
-const postUrl = "http://localhost:5155/posts"
+const baseUrl = 'https://aether-d.azurewebsites.net/comments'
+const postUrl = "https://aether-d.azurewebsites.net/posts"
 
 import { updatePostData } from './postService.js'
 import * as request from './request.js'

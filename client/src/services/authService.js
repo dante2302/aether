@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:5155/auth"
+const baseUrl = "https://aether-d.azurewebsites.net/auth"
 import * as request from './request.js'
 
 export const signUp = async (bodyData) => {

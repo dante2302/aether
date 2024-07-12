@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:5155/posts'
+const baseUrl = 'https://aether-d.azurewebsites.net/posts'
 
 import { getChannelName } from './channelService.js'
 import * as request from './request.js'

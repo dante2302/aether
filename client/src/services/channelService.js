@@ -1,5 +1,5 @@
 
-const baseUrl = 'http://localhost:5155/channels'
+const baseUrl = 'https://aether-d.azurewebsites.net/channels'
 import * as request from './request.js'
 
 export const createChannel = async (userData,{name,description}) => {

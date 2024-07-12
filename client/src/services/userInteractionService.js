@@ -1,6 +1,6 @@
-const likeUrl = "http://localhost:5155/likes"
-const dislikeUrl = "http://localhost:5155/dislikes"
-const saveUrl = "http://localhost:5155/saves"
+const likeUrl = "https://aether-d.azurewebsites.net/likes"
+const dislikeUrl = "https://aether-d.azurewebsites.net/dislikes"
+const saveUrl = "https://aether-d.azurewebsites.net/saves"
 import * as request from "./request"
 
 export async function likePost(userData, postId)
