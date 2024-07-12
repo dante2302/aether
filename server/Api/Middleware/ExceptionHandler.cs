@@ -1,5 +1,7 @@
 using Api;
 using Npgsql;
+using Microsoft.IdentityModel.Protocols.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace Exceptions;
 public class ExceptionHandler(RequestDelegate next)
@@ -43,6 +45,17 @@ public class ExceptionHandler(RequestDelegate next)
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsJsonAsync(new { error = e.Message });
+        }
+        catch(InvalidConfigurationException e){
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsJsonAsync(new {
+                error = e.Message,
+                connString = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .AddEnvironmentVariables()
+            .Build().GetConnectionString("aether")
+            });
         }
         catch(Exception e)
         {
