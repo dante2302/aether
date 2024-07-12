@@ -1,4 +1,4 @@
-const baseUrl = "https://aether-d.azurewebsites.net/users"
+const baseUrl = "https://aether-backend-d.azurewebsites.net/users"
 import * as request from "./request";
 
 export async function getRelatedChannels(userData)

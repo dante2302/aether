@@ -1,5 +1,5 @@
-const baseUrl = 'https://aether-d.azurewebsites.net/replies'
-const commentUrl = "https://aether-d.azurewebsites.net/comments";
+const baseUrl = 'https://aether-backend-d.azurewebsites.net/replies'
+const commentUrl = "https://aether-backend-d.azurewebsites.net/comments";
 
 import * as request from './request.js'
 import { getUsername } from './userService.js';

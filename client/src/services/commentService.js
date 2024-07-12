@@ -1,5 +1,5 @@
-const baseUrl = 'https://aether-d.azurewebsites.net/comments'
-const postUrl = "https://aether-d.azurewebsites.net/posts"
+const baseUrl = 'https://aether-backend-d.azurewebsites.net/comments'
+const postUrl = "https://aether-backend-d.azurewebsites.net/posts"
 
 import * as request from './request.js'
 
