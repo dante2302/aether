@@ -29,6 +29,7 @@ const InfiniteScrollPosts = ({ fetchFunction, fetchAdditionalFunction, limit, Fa
       let response = await fetchFunction(limit, offset);
       const deserialized = await response.json();
       const dataList = deserialized.postList;
+      console.log(dataList);
       if (dataList.length < offset) {
         setEndOfPosts(true);
       }
