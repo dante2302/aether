@@ -1,6 +1,6 @@
 .join-btn{
   width:fit-content;
-  margin: 0 0 20px .5rem;
+  margin: 5px 5px 20px .5rem;
   padding: 5px 30px;
   font-size: calc(var(--fs-reg) - .1em);
   font-weight: var(--fw-b);
