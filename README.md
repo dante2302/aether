@@ -1,15 +1,7 @@
-# A forum SPA(reddit-like) built for the project defense of the React-October 2023 Softuni Course.
-## Project Architecture:
-  ### Client:
-    - General Components in the components dir(eg. App.jsx, ModalPrototype.jsx)
-    - Dirs based on relevant & similar features (/Channel, /Post /Comment)
-        - styles folders with css modules for each component(if needed)
-    - Helper directories - apis, utils, contexts
-    - Custom hooks dir with simiral hooks inside, main one being useLoading 
-  ### Server:
-    - data dir, needed for the server to operate
-    - server.js - Softuni Practice Server
-  ### External Packages outside of react:
-    - react-spinners
-    - iconscout
-    
+Production Deployment Branch - ASP.NET Web Api
+
+## Purpose
+This Git branch is dedicated exclusively to deploying server-side code to production using Azure and .NET. Its sole purpose is to ensure that only verified and tested server-side code reaches the production environment.
+
+## Guidelines   
+ **Version Control**: Use this branch strictly for managing deployment-ready versions of the Aether server-side application. It should reflect the current production state at all times.
