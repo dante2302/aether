@@ -1,5 +1,11 @@
 {
   "rewrites":  [
     {"source": "/(.*)", "destination": "/"}
-  ]
+  ],
+    "git": {
+    "deploymentEnabled": {
+      "main": false,
+      "server-production": false
+    }
+  }
 }
