@@ -1,5 +1,5 @@
 # [🌀 Aether](https://aether-zeta.vercel.app)
- ##### Aether is a fully-functioning website, deployed at [aether-zeta.vercel.app](aether-zeta.vercel.app).  
+ ##### Aether is a fully-functioning website, deployed at [aether-zeta.vercel.app](https://aether-zeta.vercel.app).  
  ##### The project consists of 2 parts - [React Frontend](#frontend) and [.NET backend](#backend).  
  ##### Aether was originally built as a frontend-only project for SoftUni ReactJS October 2023 project defense,  using the SoftUni Practice Server.  
  ##### The Practice Server can still be found in the jsServer folder. 
