@@ -8,8 +8,8 @@
 
 ## Table of Contents
 ### Frontend 
-  1. [File Structure](#file-structure) 📁
-  2. [Workflow](#workflow) 🔄
+  1. [Flow](#flow) 🔄
+  2. [File Structure](#file-structure) 📁
   3. [Routing](#routing) 🛣️
   4. [Error Handling](#error-handling) ⚠️ 
   5. [Custom Hooks](#custom-hooks) 🪝
@@ -29,7 +29,55 @@
 -----
 
 # Frontend ↓
-            
+
+<br>
+
+<br>
+    
+## Flow  
+
+<br>
+<h3>The home page features a clean, welcoming design with a central navigation bar, popular posts and a search bar for easy access to content.</h3>
+<img src="./readme_assets/home.png" >
+<br>
+
+---
+
+<br>
+<h3>Any user interaction( joining a channel, liking / creating a post, leaving a comment ) is limited and the user is prompted to login or create an account</h3>
+<img src="./readme_assets/login.png">
+<br>
+
+--- 
+
+<br>
+<h3>User input is properly validated </h3>
+<img src="./readme_assets/login_validation.png">
+<br>
+
+---
+
+<br>
+<h3>When the user logs in, they can see a personalized dashboard, or in the case of a new user - a welcoming screen</h3>
+<img src="./readme_assets/home_user.png">
+<br>
+
+---
+
+<br>
+<h3>From there on, users can interact with posts: Rate, Share, Save</h3>
+<img src="./readme_assets/like.png">
+<br>
+
+---
+
+<br>
+<h3>And they can also have discussions in the comment section  of a post</h3>
+<img src="./readme_assets/comments.png">
+<br>
+
+-----
+
 ### File Structure  
 📁
 - **components/**: Contains all the React components used in the application. Each component has its own directory for better modularization.
@@ -45,11 +93,6 @@
 
 - **utils/**: Utility functions and helpers.
 ----
-
-### Workflow  
-🔄
-
------
 
 ### Routing  
 🛣️
