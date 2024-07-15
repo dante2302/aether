@@ -39,21 +39,20 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
 
   useEffect(() => {
     let hasError = false;
-    if(formErrors.submissionError || formState.email == submissionError.email)
-    {
-        if(formState.email == submissionError.email)
-        {
-          setFormErrors({...formErrors, submissionError: submissionError.message})
-          setDisabled(true)
-          hasError = true
-        }
-        else{
-          setFormErrors({...formErrors, submissionError: ""})
-          hasError = false;
-        }
+    if (formState.email == submissionError.email) {
+      setDisabled(true)
+      hasError = true
+    }
+    else if (chooseUsername && (formState.username == submissionError.username)) {
+      setDisabled(true)
+      hasError = true
+    }
+    else {
+      setSubmissionError({});
+      hasError = false;
     }
 
-    if(Object.entries(formState).some(e => e[0] != 'username' && e[1] == '') || formState.password != formState.passwordCopy){
+    if((Object.entries(formState).some(e => e[0] != "username" && e[1] == '') )|| formState.password != formState.passwordCopy){
       setDisabled(true)
       hasError = true;
     }
@@ -108,9 +107,14 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
       if (!response.ok) {
         if (response.status == 409) {
           const errorMessage = (await response.json()).error
-          setSubmissionError({email: formState.email, message: errorMessage})
-          setFormErrors({...formErrors, submissionError: errorMessage})
-          setChooseUsername(false);
+          if(errorMessage == "Username is taken")
+          {
+            setSubmissionError({type: "username" , username: formState.username, message: errorMessage});
+          }
+          else {
+            setSubmissionError({type: "email", email: formState.email, message: errorMessage})
+            setChooseUsername(false);
+          }
         }
         else {
           navigate("/error");
@@ -137,7 +141,12 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
         ?
         <>
           <h3> Choose a Username </h3>
-          <div className={`${styles['input-container']} `}>
+            {submissionError.username &&
+              <div className={styles['error-container']}>
+                <UilSad size={20} color={'red'} />
+                <p className={styles['error']}>{submissionError.message}</p>
+              </div>}
+          <div className={`${styles['input-container']} ${styles['username-container']}`}>
             <input 
               type='text'
               id='username'
@@ -163,10 +172,10 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
         :
 
         <>
-          {formErrors.submissionError &&
+          {submissionError.email && 
             <div className={styles['error-container']}>
               <UilSad size={20} color={'red'}/>
-              <p className={styles['error']}>{formErrors.submissionError}</p>
+              <p className={styles['error']}>{submissionError.message}</p>
             </div>}
           <div className={styles['input-container']}>
             <input 
@@ -230,16 +239,16 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
             </div>
           }
 
-          <div className={styles['input-container']}>
-            <input 
-              type={shownPassword?'text':'password'}
-              id='password-copy'
-              name='passwordCopy'
-              value={formState.passwordCopy}
-              onChange={(e) => changeHandler(e,setFormState,setFormErrors)}
-              onBlur={(e) => {blurHandler(e)}}
-              className={`${styles['input']} ${formErrors.passwordCopy ? styles['error-input'] : ''}`}
-            />
+            <div className={styles['input-container']}>
+              <input
+                type={shownPassword ? 'text' : 'password'}
+                id='password-copy'
+                name='passwordCopy'
+                value={formState.passwordCopy}
+                onChange={(e) => changeHandler(e, setFormState, setFormErrors)}
+                onBlur={(e) => { blurHandler(e) }}
+                className={`${styles['input']} ${formErrors.passwordCopy ? styles['error-input'] : ''}`}
+              />
 
             {
             !formState.passwordCopy
@@ -274,7 +283,7 @@ const SignUpForm = ({toggleUserModal,setCurrentMode}) => {
 
       <button  
         type='button'
-        disabled={isDisabled}
+        disabled={chooseUsername ? false : isDisabled}
         onClick={() => setChooseUsername(!chooseUsername)}
         className={styles['arrow']} 
       >{chooseUsername ? <UilArrowLeft size={40} /> : <UilArrowRight size={40} />}

@@ -5,8 +5,20 @@
   place-self: center;
   display:flex;
   flex-direction:column;
+  gap: 10px;
   background: white;
   border-radius: 5px;
+}
+
+@media(max-width: 768px){
+  .form{
+    width: 80%;
+    align-self: start;
+    margin-top: 30px;
+  }
+}
+.input-container>div{
+  color: red;
 }
 
 .form>select{

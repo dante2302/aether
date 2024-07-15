@@ -65,6 +65,7 @@ const PostCreateForm = () => {
     if(!formState.title)
       {
       setErrorState(s => ({ ...s, title: "Your post needs a title" }))
+      return;
     }
       await createPost(userData,{...formState , channelId: selectedChannel})
       navigate('../')
