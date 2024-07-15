@@ -17,23 +17,23 @@
   8. [Context Handling with Context API](#context-handling) 🗂️
   9. [Styling](#styling) 🎨
   10. [Dependencies](#dependencies) 📦
-  11. [Deployment](#deployment) 🚀
-  12. [Future Optimizations](#future-optimizations) 🚀
+  11. [Deployment](#deployment---frontend) 🚀
 
 ### Backend
-  1. asd
-  2. sd
-  3. 
 
+1. [Introduction](#introduction) 🌟
+2. [Project Structure](#project-structure) 📁
+3. [Configuration](#configuration) ⚙️
+4. [Services](#services) 🛠️
+5. [Endpoints](#endpoints) 🔗
+6. [Auth](#auth) 🔒
+7. [Middleware](#middleware) 🌐
+8. [Deployment](#deployment---backend) 🚀
 
 -----
 
 # Frontend ↓
 
-<br>
-
-<br>
-    
 ## Flow  
 
 <br>
@@ -331,16 +331,163 @@ In every Component folder, there's a styles folder, containing the respective CS
 ```
 -----
 
-### Deployment
+### Deployment - Frontend
 🚀
 
-  Client-side code is deployed on Vercel, utilizing the `client-production` branch for production deployments.
+  Client-side code is deployed on Vercel, utilizing the `client-production` branch for production deployments.  
+  A live version is available at [aether-zeta.vercel.app](https://aether-zeta.vercel.app)
   
 ------
 
-### Future Optimizations
-🚀
-
-------
 # Frontend ↑
 # Backend  ↓ 
+
+-----
+
+### Introduction
+🌟
+The backend of Aether is a REST API, built with the following technologies:
+ - **.NET 8**
+   - **Minimal API**
+   - **ADO.NET**
+ - **PostgreSQL**
+ - 
+-----
+
+### Project Structure
+📁
+- **Api/**: Contains the main API logic and configurations.
+  - **Endpoints/**: Directory for API endpoint definitions.
+  - **Middleware/**: Custom middleware for error handling, authentication, etc.
+  - **ServiceRegister.cs**: Registers services and dependencies for dependency injection.
+  - **appsettings.json**: Configuration file for general application settings.
+
+- **Models/**: Contains the data models and related classes.
+  - **DbRecords/**: Classes representing database records.
+  - **Helpers/**: Helper classes for models.
+
+- **Services/**: Contains the business logic and service classes.
+  - **Exceptions/**: Custom exceptions used across the services.
+  - **Helpers/**: Helper classes for services.
+  - **Services/**: Directory containing various service implementations.
+
+-----
+
+### Configuration
+⚙️
+ ##### Configuration Sources
+
+   - Azure Environment Variables: Connection String, Token Signing Credentials.
+
+   - appsettings.json: Default application settings.
+ ##### Implementation
+ ```csharp
+ IConfiguration config =  new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .AddEnvironmentVariables()
+            .Build();
+ ```
+-----
+
+### Services
+🛠️
+ ###### DbService.cs
+  Any connection to the database is handled through this abstract class. Derived services do not access the db connection.  
+  
+ - **Configuration Initialization**
+   - Using Dependency Injection for the configuration itself
+   - Retrieves the connection string from the configuration.
+   - Handles potential configuration issues.
+ 
+ - **Methods**
+   - **`RecordExistsAsync<T>`**: Checks if a record exists asynchronously with various overloads to support different parameter types.
+   - **`RecordExistsUnionAsync<T,F>`**: Checks if a record exists based on two columns and their values asynchronously.
+   - **`ExecuteQueryCommandAsync<T>`**: Executes a query and retrieves a single record asynchronously.
+   - **`ExecuteQueryListCommandAsync<T>`**: Executes a query and retrieves a list of records asynchronously.
+   - **`ExecuteNonQueryCommandAsync`**: Executes commands asynchronously.
+   - **`ExecuteScalarAsync`**: Executes a scalar command and retrieves a single value.
+  
+  ##### DbService Derivatives
+   Any service derived from the DbService class can use all the listed methods  
+   Handles CRUD operations and any other SQL query , as well as data collision  
+   Default data for Db Records is handled by the service, but if not, the database is configured to handle it  
+   Error handling is done by thrown exceptions
+   
+
+-----
+
+### Endpoints
+More information about the API's endpoints can be found in
+<a href="./readme_assets/Endpoints.md">Endpoints.md</a>
+
+-----
+
+### Auth
+🔒
+ Aether user JWT for it's authentication. JWT signing credentials are passed down from azure environment variables.
+ Endpoints are authenticated by default, and those which aren't use `.AllowAnonymous()` method at the end of declaration.
+ 
+ Authentication is handled with the help of the following classes:
+   ##### AuthenticationResult
+   
+```csharp
+class AuthenticationResult
+{
+  bool IsSuccessful;
+   User UserData;
+}
+```
+
+   ##### AuthService.cs
+   
+```csharp
+class AuthService
+{
+   // Takes a newly generated user or a logged in user and returns the JWT used for authentication
+   string GenerateToken(Guid id);
+
+   // Veirifies hashed password and returns an AuthenticationResult that's handled in the endpoint method itself
+   AuthenticationResult Authenticate(UserCredentials u);
+
+   // Ensures user identity, hashes password and creates a db record of the user and his credentials
+   User SignUp(SignUpData s); 
+}
+```
+     
+ More information about the Auth Middleware in the [Middleware Section.](#middleware)
+ 
+-----
+
+### Middleware
+🌐
+
+ **Auth Middleware**
+  - GET Endpoints and "/auth" endpoints are not authenticated by the middleware
+    (Some Authentication for GET endpoints is handled inside the endpoints themselves - comparing jwt signing key with data provided)
+  - Returns 403 Forbidden If:
+    - User Identity is not authenticated in the http context
+    - userId JWT claim is null
+    - userId JWT claim is not a valid Guid
+
+      <br>
+      
+ **Exception Handler**  
+ Basic exception handler for catching exceptions thrown by services or internal exceptions. Returns an http response with a messsage(if passed).
+
+Catch clauses
+ - BadHttpRequestException => 400
+ - NotFoundException => 404
+ - ConflictException => 409
+ - InvalidConfigurationException => 500
+ - NpgsqlException => 500 + details ( non-sensitive )
+ - Exception => 500
+   
+-----
+
+### Deployment - Backend
+🚀
+
+ Aether Web Api, as well as the PostgreSQL database for the project,  
+ are deployed on Azure using the Free Tier for both App Services and Postgre Flexible Server.
+ 
+-----
