@@ -7,7 +7,7 @@ const PostSharing = ({postId, channelName}) => {
 
   const shareHandler = (e) => {
     e.stopPropagation()
-    navigator.clipboard.writeText(`http://azure-client.azurewebsites.net/c/${channelName}/${postId}/`)
+    navigator.clipboard.writeText(`https://aether-zeta.vercel.app/c/${channelName}/${postId}/`)
     setCopied(true)
   }
 
