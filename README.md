@@ -424,7 +424,7 @@ More information about the API's endpoints can be found in
 
 ### Auth
 🔒
- Aether user JWT for it's authentication. JWT signing credentials are passed down from azure environment variables.
+ Aether uses JWT for it's authentication. JWT signing credentials are passed down from azure environment variables.
  Endpoints are authenticated by default, and those which aren't use `.AllowAnonymous()` method at the end of declaration.
  
  Authentication is handled with the help of the following classes:
